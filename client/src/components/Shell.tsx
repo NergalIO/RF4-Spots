@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { cafeUrlForWaterbody, waterbodyIdFromCafeUrl } from "../cafe";
 import { ALL_WATERBODIES } from "../constants";
 import { MapView } from "./MapView";
 import { PostDetail } from "./PostDetail";
@@ -45,6 +46,16 @@ export function Shell() {
   const panels = useResizablePanels();
   const feedOnly = waterbodyId === ALL_WATERBODIES;
   const spotsTab = tab === "spots";
+  const cafeUrl = cafeUrlForWaterbody(waterbodyId);
+
+  const onCafeNavigate = useCallback(
+    (url: string) => {
+      const id = waterbodyIdFromCafeUrl(url);
+      if (!id || id === ALL_WATERBODIES || id === useStore.getState().waterbodyId) return;
+      void setWaterbody(id);
+    },
+    [setWaterbody],
+  );
 
   useEffect(() => {
     try {
@@ -209,10 +220,11 @@ export function Shell() {
         </div>
         <div className="site-host" hidden={tab !== "cafe"}>
           <SiteEmbed
-            url="https://rf4-cafe.ru/"
+            url={cafeUrl}
             title="RF4 Cafe"
             partition="persist:rf4cafe"
             active={tab === "cafe"}
+            onNavigate={onCafeNavigate}
           />
         </div>
       </div>
