@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage, session } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, session, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -37,6 +37,62 @@ function writeStore(data) {
   fs.writeFileSync(configPath(), JSON.stringify(out, null, 2));
 }
 
+function updatesUrl(serverUrl) {
+  return `${(serverUrl || DEFAULT_SERVER_URL).replace(/\/$/, "")}/updates`;
+}
+
+let updaterReady = false;
+let installPrompted = false;
+
+function configureUpdater(serverUrl) {
+  if (isDev) return;
+  const { autoUpdater } = require("electron-updater");
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+  autoUpdater.allowDowngrade = false;
+  autoUpdater.verifyUpdateCodeSignature = false;
+  autoUpdater.setFeedURL({
+    provider: "generic",
+    url: updatesUrl(serverUrl),
+  });
+  if (updaterReady) return;
+  updaterReady = true;
+  autoUpdater.on("error", (err) => {
+    console.error("auto-update:", err == null ? "unknown" : err.message || err);
+  });
+  autoUpdater.on("update-downloaded", (info) => {
+    if (installPrompted) return;
+    installPrompted = true;
+    const version = info && info.version ? info.version : "";
+    dialog
+      .showMessageBox({
+        type: "info",
+        title: "RF4 Spots",
+        message: version ? `Загружена версия ${version}` : "Загружено обновление",
+        detail: "Перезапустить приложение и установить сейчас? Иначе обновление встанет при следующем выходе.",
+        buttons: ["Перезапустить", "Позже"],
+        defaultId: 0,
+        cancelId: 1,
+        noLink: true,
+      })
+      .then(({ response }) => {
+        if (response === 0) autoUpdater.quitAndInstall(false, true);
+      })
+      .catch(() => {});
+  });
+}
+
+function checkForUpdates() {
+  if (isDev) return;
+  try {
+    const { autoUpdater } = require("electron-updater");
+    configureUpdater(readStore().serverUrl || DEFAULT_SERVER_URL);
+    void autoUpdater.checkForUpdates();
+  } catch (err) {
+    console.error("auto-update:", err);
+  }
+}
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1440,
@@ -59,14 +115,18 @@ function createWindow() {
   }
 }
 
+app.setAppUserModelId("com.rf4spots.app");
+
 app.whenReady().then(async () => {
   ipcMain.handle("store:get", () => readStore());
   ipcMain.handle("store:set", (_e, data) => {
     writeStore(data);
+    configureUpdater(data.serverUrl || DEFAULT_SERVER_URL);
     return true;
   });
   await session.defaultSession.clearCache();
   createWindow();
+  checkForUpdates();
 });
 
 app.on("window-all-closed", () => {

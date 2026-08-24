@@ -28,6 +28,7 @@ services:
       - uploads:/app/uploads
       - ./server/assets/maps:/app/assets/maps:ro
       - ./server/prisma/seeds:/app/prisma/seeds:ro
+      - ./server/updates:/app/updates
     depends_on:
       db:
         condition: service_healthy

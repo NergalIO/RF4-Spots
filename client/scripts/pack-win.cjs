@@ -1,4 +1,5 @@
 const { spawnSync } = require("child_process");
+const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 
@@ -49,6 +50,48 @@ cleanRelease();
 const buildStatus = run("npm", ["run", "build"]);
 if (buildStatus !== 0) process.exit(buildStatus);
 
+function sha512File(filePath) {
+  const hash = crypto.createHash("sha512");
+  hash.update(fs.readFileSync(filePath));
+  return hash.digest("base64");
+}
+
+function publishUpdates() {
+  const pkg = JSON.parse(fs.readFileSync(path.join(clientDir, "package.json"), "utf8"));
+  const version = pkg.version;
+  const exeName = `RF4Spots-Setup-${version}.exe`;
+  const exePath = path.join(releaseDir, exeName);
+  if (!fs.existsSync(exePath)) {
+    console.warn(`Нет установщика ${exeName}, папка обновлений не заполнена.`);
+    return;
+  }
+  const sha = sha512File(exePath);
+  const size = fs.statSync(exePath).size;
+  const yml = [
+    `version: ${version}`,
+    "files:",
+    `  - url: ${exeName}`,
+    `    sha512: ${sha}`,
+    `    size: ${size}`,
+    `path: ${exeName}`,
+    `sha512: ${sha}`,
+    `releaseDate: ${new Date().toISOString()}`,
+    "",
+  ].join("\n");
+  fs.writeFileSync(path.join(releaseDir, "latest.yml"), yml);
+
+  const dest = path.join(clientDir, "..", "server", "updates");
+  fs.mkdirSync(dest, { recursive: true });
+  const copyNames = [exeName, "latest.yml", `${exeName}.blockmap`].filter((name) =>
+    fs.existsSync(path.join(releaseDir, name)),
+  );
+  for (const name of copyNames) {
+    fs.copyFileSync(path.join(releaseDir, name), path.join(dest, name));
+    console.log("server/updates ←", name);
+  }
+  console.log("Залейте server/updates на VPS (scp или git не подходит — файлы большие).");
+}
+
 let packStatus = 1;
 for (let attempt = 1; attempt <= 4; attempt++) {
   packStatus = run("npx", ["electron-builder", "--win", "nsis"]);
@@ -58,4 +101,5 @@ for (let attempt = 1; attempt <= 4; attempt++) {
   sleep(2000 * attempt);
 }
 
+if (packStatus === 0) publishUpdates();
 process.exit(packStatus);
