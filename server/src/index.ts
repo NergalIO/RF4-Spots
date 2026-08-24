@@ -17,6 +17,7 @@ const mapsDir = existsSync(join(process.cwd(), "assets", "maps"))
 
 const app = express();
 const port = Number(process.env.PORT || 3780);
+const host = process.env.HOST || "0.0.0.0";
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: "2mb" }));
@@ -38,6 +39,6 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
   res.status(500).json({ error: message });
 });
 
-app.listen(port, () => {
-  console.log(`RF4 Spots API http://localhost:${port}`);
+app.listen(port, host, () => {
+  console.log(`RF4 Spots API http://${host}:${port}`);
 });

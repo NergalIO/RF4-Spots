@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import { ALL_WATERBODIES } from "./constants";
 import { Api } from "./api";
-import { loadSession, saveSession } from "./session";
+import { DEFAULT_SERVER_URL, loadSession, saveSession } from "./session";
 import type { Filters, Fish, Post, User, Waterbody } from "./types";
 
 const emptyFilters = (): Filters => ({
@@ -41,7 +42,7 @@ type Store = {
 
 export const useStore = create<Store>((set, get) => ({
   ready: false,
-  api: new Api("http://localhost:3780", ""),
+  api: new Api(DEFAULT_SERVER_URL, ""),
   user: null,
   error: "",
   fish: [],
@@ -104,7 +105,12 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   setWaterbody: async (id) => {
-    set({ waterbodyId: id, selectedId: null, detail: null });
+    set({
+      waterbodyId: id,
+      selectedId: null,
+      detail: null,
+      rulerOn: id === ALL_WATERBODIES ? false : get().rulerOn,
+    });
     await get().refreshPosts();
   },
 
@@ -128,7 +134,7 @@ export const useStore = create<Store>((set, get) => ({
     const { api, waterbodyId, filters, selectedId } = get();
     if (!waterbodyId) return;
     const { posts } = await api.posts({
-      waterbodyId,
+      waterbodyId: waterbodyId === ALL_WATERBODIES ? "" : waterbodyId,
       fishId: filters.fishId,
       catchType: filters.catchType,
       catchFrom: filters.catchFrom,
@@ -155,9 +161,10 @@ export const useStore = create<Store>((set, get) => ({
 async function loadCatalogAndPosts() {
   const { api, waterbodyId } = useStore.getState();
   const [{ fish }, { waterbodies }] = await Promise.all([api.fish(), api.waterbodies()]);
-  const nextId = waterbodyId && waterbodies.some((w) => w.id === waterbodyId)
-    ? waterbodyId
-    : waterbodies[0]?.id || "";
+  const nextId =
+    waterbodyId && (waterbodyId === ALL_WATERBODIES || waterbodies.some((w) => w.id === waterbodyId))
+      ? waterbodyId
+      : ALL_WATERBODIES;
   useStore.setState({ fish, waterbodies, waterbodyId: nextId });
   await useStore.getState().refreshPosts();
 }

@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, safeStorage } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
+const DEFAULT_SERVER_URL = "http://2.26.113.22:3780";
 const isDev = !app.isPackaged;
 
 function configPath() {
@@ -21,12 +22,12 @@ function readStore() {
     delete raw.tokenEnc;
     return raw;
   } catch {
-    return { serverUrl: "http://localhost:3780" };
+    return { serverUrl: DEFAULT_SERVER_URL };
   }
 }
 
 function writeStore(data) {
-  const out = { serverUrl: data.serverUrl || "http://localhost:3780" };
+  const out = { serverUrl: data.serverUrl || DEFAULT_SERVER_URL };
   if (data.token && safeStorage.isEncryptionAvailable()) {
     out.tokenEnc = safeStorage.encryptString(data.token).toString("base64");
   } else {

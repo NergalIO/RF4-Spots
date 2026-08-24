@@ -124,7 +124,7 @@ export function MapView({ onCreate }: Props) {
   return (
     <div className="map-wrap">
         <MapContainer
-        key={wb.id}
+        key={`${wb.id}-${wb.imageWidth}x${wb.imageHeight}-${wb.mapUrl}`}
         crs={L.CRS.Simple}
         center={[wb.imageHeight / 2, wb.imageWidth / 2]}
         zoom={-1}

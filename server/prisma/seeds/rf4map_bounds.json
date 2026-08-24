@@ -1,0 +1,155 @@
+{
+  "1": {
+    "id": 1,
+    "name": "р. Яма",
+    "startPositionX": -8,
+    "startPositionY": -10,
+    "endPositionX": 307,
+    "endPositionY": 312,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/5820a88f387f07935e5a4e420ed524153ff142ccabd4418a7689ad547de0774d.jpg"
+  },
+  "2": {
+    "id": 2,
+    "name": "р. Сура",
+    "startPositionX": -4,
+    "startPositionY": -4,
+    "endPositionX": 162,
+    "endPositionY": 163,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/53ff9268044bd39660e4d8fa9e5b00461d6468feab4f98098dc00e01978b7835.jpg"
+  },
+  "3": {
+    "id": 3,
+    "name": "р. Вьюнок",
+    "startPositionX": 48,
+    "startPositionY": 58,
+    "endPositionX": 138,
+    "endPositionY": 146,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/a3ad4cee60947d57b35f93a465c5a9368ef114c70b5a68ab058d921d5f54e1dc.jpg"
+  },
+  "4": {
+    "id": 4,
+    "name": "оз. Янтарное",
+    "startPositionX": 1,
+    "startPositionY": 19,
+    "endPositionX": 192,
+    "endPositionY": 212,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/b563550909d055378e90e29a4bfa888fd62fcd2cbcbc3cc4b0d174aa86da4531.jpg"
+  },
+  "5": {
+    "id": 5,
+    "name": "р. Белая",
+    "startPositionX": -1,
+    "startPositionY": -3,
+    "endPositionX": 112,
+    "endPositionY": 101,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/44e4babde8075c7b6d6cf69f97adb4874c7cb7c5f28e658ec189c714b6b471c8.jpg"
+  },
+  "6": {
+    "id": 6,
+    "name": "р. Ахтуба",
+    "startPositionX": -4,
+    "startPositionY": -9,
+    "endPositionX": 207,
+    "endPositionY": 207,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/dadacd0527db44ad62d5716acfc89f811d86960e48013e544e854675beaad01d.jpg"
+  },
+  "7": {
+    "id": 7,
+    "name": "оз. Медное",
+    "startPositionX": 27,
+    "startPositionY": 27,
+    "endPositionX": 77,
+    "endPositionY": 77,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/fbcc646dd7afa166df07cefe826e411eb5d7547280aa6878c22f37f643ce224e.jpg"
+  },
+  "9": {
+    "id": 9,
+    "name": "р. Северский Донец",
+    "startPositionX": 7,
+    "startPositionY": 7,
+    "endPositionX": 195,
+    "endPositionY": 195,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/dd8290e723f45746cae51319d8dac37ae6ce2c2f8ff10b7cbfacf1c86ec45572.jpg"
+  },
+  "10": {
+    "id": 10,
+    "name": "оз. Медвежье",
+    "startPositionX": 10,
+    "startPositionY": 7,
+    "endPositionX": 90,
+    "endPositionY": 90,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/452fc02ffc3a7cf1e851fb30569ca29e674fa0633f9ca223201b8008fbc61cd3.jpg"
+  },
+  "11": {
+    "id": 11,
+    "name": "оз. Куори",
+    "startPositionX": 57,
+    "startPositionY": 56,
+    "endPositionX": 145,
+    "endPositionY": 145,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/3bc3a0d54c67a8010c4e8cd8f47f776a46d3aaa9aaca6f9ff8bfc726bae515d3.jpg"
+  },
+  "12": {
+    "id": 12,
+    "name": "р. Нижняя Тунгуска",
+    "startPositionX": -8,
+    "startPositionY": -6,
+    "endPositionX": 248,
+    "endPositionY": 244,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/1e0d47e4553da374a72d56e134d47b7ac34a61a52ba998c91441bd716bbf1c00.jpg"
+  },
+  "13": {
+    "id": 13,
+    "name": "оз. Старый Острог",
+    "startPositionX": 0,
+    "startPositionY": 2,
+    "endPositionX": 80,
+    "endPositionY": 80,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/6ebd6222ca55316187beb0f7c0e7a045edebdaa6a0116092f78c24b2e2c4a849.jpg"
+  },
+  "15": {
+    "id": 15,
+    "name": "р. Волхов",
+    "startPositionX": -3,
+    "startPositionY": -3,
+    "endPositionX": 202,
+    "endPositionY": 202,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/2647e337ecd96e79e98633fff23df3f2a238fa2d56b89eb4490d47a3842eda8f.jpg"
+  },
+  "16": {
+    "id": 16,
+    "name": "оз. Комариное",
+    "startPositionX": 33,
+    "startPositionY": 37,
+    "endPositionX": 108,
+    "endPositionY": 112,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/03216f0c2cd9473636df25bd61b41957f36c29973660fc6d88af18451cc2d0a0.jpg"
+  },
+  "18": {
+    "id": 18,
+    "name": "Ладожское оз.",
+    "startPositionX": 9,
+    "startPositionY": 3,
+    "endPositionX": 98,
+    "endPositionY": 93,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/131b5ae50d723dcadb12efce49705363de094f3a687b3afeea47392bf3473214.jpg"
+  },
+  "19": {
+    "id": 19,
+    "name": "оз. Лосиное",
+    "startPositionX": 32,
+    "startPositionY": 32,
+    "endPositionX": 162,
+    "endPositionY": 162,
+    "imageUrl": "https://hb.ru-msk.vkcloud-storage.ru/fisher.bucket/location/9707f55d33ce58cdd83a6b25b69ec09585037e4761eef33c6aea971d79b13211.jpg"
+  },
+  "14": {
+    "id": 14,
+    "name": "Ладожский архипелаг",
+    "startPositionX": -21,
+    "startPositionY": -24,
+    "endPositionX": 624,
+    "endPositionY": 627,
+    "imageUrl": "https://rufish4.ru/images/maps/map_ladoga_02.jpg"
+  }
+}

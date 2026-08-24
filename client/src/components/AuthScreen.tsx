@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { ApiError } from "../api";
-import { loadSession } from "../session";
+import { DEFAULT_SERVER_URL, loadSession } from "../session";
 import { useStore } from "../store";
 
 export function AuthScreen() {
@@ -9,7 +9,7 @@ export function AuthScreen() {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
-  const [serverUrl, setServerUrl] = useState("http://localhost:3780");
+  const [serverUrl, setServerUrl] = useState(DEFAULT_SERVER_URL);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 

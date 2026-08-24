@@ -1,0 +1,325 @@
+[
+    {
+        "id": "komarinoe",
+        "name": "Комариное",
+        "waterbody": "комариное",
+        "src": "/data/img/map-komarinoe.webp",
+        "distance_scale": 4.5,
+        "game_coords": {
+            "left_top": [
+                26.62,
+                118.38
+            ],
+            "right_bottom": [
+                115.38,
+                29.62
+            ]
+        }
+    },
+    {
+        "id": "losinoe",
+        "name": "Лосиное",
+        "waterbody": "лосиное",
+        "src": "/data/img/map-losinoe.webp",
+        "distance_scale": 4.9,
+        "game_coords": {
+            "left_top": [
+                32.89,
+                167.11
+            ],
+            "right_bottom": [
+                167.11,
+                32.89
+            ]
+        }
+    },
+    {
+        "id": "vyunok",
+        "name": "Вьюнок",
+        "waterbody": "вьюнок",
+        "src": "/data/img/map-vyunok.webp",
+        "distance_scale": 4.95,
+        "game_coords": {
+            "left_top": [
+                41,
+                154
+            ],
+            "right_bottom": [
+                146,
+                49
+            ]
+        }
+    },
+    {
+        "id": "old_burg",
+        "name": "Старый Острог",
+        "waterbody": "острог",
+        "src": "/data/img/map-ostrog.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -3.42,
+                86.42
+            ],
+            "right_bottom": [
+                86.42,
+                -3.42
+            ]
+        }
+    },
+    {
+        "id": "kama",
+        "name": "Кама",
+        "waterbody": "кама",
+        "src": "/data/img/map-kama.png",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                0.4,
+                99.98
+            ],
+            "right_bottom": [
+                99.58,
+                -0.13
+            ]
+        }
+    },
+    {
+        "id": "belaya",
+        "name": "Белая",
+        "waterbody": "белая",
+        "src": "/data/img/map-belaya.webp",
+        "distance_scale": 4.85,
+        "game_coords": {
+            "left_top": [
+                -5.74,
+                111.74
+            ],
+            "right_bottom": [
+                118.74,
+                -12.74
+            ]
+        }
+    },
+    {
+        "id": "kuori",
+        "name": "Куори",
+        "waterbody": "куори",
+        "src": "/data/img/map-kuori.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                49.05,
+                152.95
+            ],
+            "right_bottom": [
+                152.95,
+                49.05
+            ]
+        }
+    },
+    {
+        "id": "bear",
+        "name": "Медвежье",
+        "waterbody": "медвежье",
+        "src": "/data/img/map-medvezhye.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                1.29,
+                96.71
+            ],
+            "right_bottom": [
+                98.71,
+                -0.71
+            ]
+        }
+    },
+    {
+        "id": "volkhov",
+        "name": "Волхов",
+        "waterbody": "волхов",
+        "src": "/data/img/map-volhov.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -15.94,
+                216.94
+            ],
+            "right_bottom": [
+                218.94,
+                -17.94
+            ]
+        }
+    },
+    {
+        "id": "donets",
+        "name": "Северский Донец",
+        "waterbody": "донец",
+        "src": "/data/img/map-donets.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -2.87,
+                201.83
+            ],
+            "right_bottom": [
+                203.87,
+                -3.83
+            ]
+        }
+    },
+    {
+        "id": "sura",
+        "name": "Сура",
+        "waterbody": "сура",
+        "src": "/data/img/map-sura.webp",
+        "distance_scale": 5.3,
+        "game_coords": {
+            "left_top": [
+                -11.92,
+                171.88
+            ],
+            "right_bottom": [
+                169.92,
+                -8.88
+            ]
+        }
+    },
+    {
+        "id": "ladoga",
+        "name": "Ладожское озеро",
+        "waterbody": "ладожское",
+        "src": "/data/img/map-ladoga.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                1,
+                101
+            ],
+            "right_bottom": [
+                106,
+                -4.2
+            ]
+        }
+    },
+    {
+        "id": "amber",
+        "name": "Янтарное",
+        "waterbody": "янтарное",
+        "src": "/data/img/map-yantarnoe.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -10.07,
+                221.03
+            ],
+            "right_bottom": [
+                202.07,
+                9.97
+            ]
+        }
+    },
+    {
+        "id": "archipelago",
+        "name": "Ладожский Архипелаг",
+        "waterbody": "архипелаг",
+        "src": "/data/img/map-archipelag.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -50.73,
+                651.82
+            ],
+            "right_bottom": [
+                651.73,
+                -52.82
+            ]
+        }
+    },
+    {
+        "id": "ahtuba",
+        "name": "Ахтуба",
+        "waterbody": "ахтуба",
+        "src": "/data/img/map-akhtuba.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -14.81,
+                215.86
+            ],
+            "right_bottom": [
+                216.81,
+                -16.86
+            ]
+        }
+    },
+    {
+        "id": "copper",
+        "name": "Медное",
+        "waterbody": "медное",
+        "src": "/data/img/map-mednoe.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                21.78,
+                79.22
+            ],
+            "right_bottom": [
+                80.22,
+                20.78
+            ]
+        }
+    },
+    {
+        "id": "tunguska",
+        "name": "Нижняя Тунгуска",
+        "waterbody": "тунгуска",
+        "src": "/data/img/map-tunguska.webp",
+        "distance_scale": 5.3,
+        "game_coords": {
+            "left_top": [
+                -15.08,
+                251.96
+            ],
+            "right_bottom": [
+                255.52,
+                -18.64
+            ]
+        }
+    },
+    {
+        "id": "yama",
+        "name": "Яма",
+        "waterbody": "яма",
+        "src": "/data/img/map-yama.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -24.22,
+                324.3
+            ],
+            "right_bottom": [
+                323.22,
+                -25.3
+            ]
+        }
+    },
+    {
+        "id": "norway",
+        "name": "Норвежское море",
+        "waterbody": "норвежское",
+        "src": "/data/img/map-norwegian-sea.webp",
+        "distance_scale": 5,
+        "game_coords": {
+            "left_top": [
+                -83.32,
+                1081.4
+            ],
+            "right_bottom": [
+                1081.32,
+                -85.4
+            ]
+        }
+    }
+]

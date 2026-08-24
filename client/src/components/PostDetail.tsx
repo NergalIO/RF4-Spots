@@ -1,20 +1,23 @@
 import { FormEvent, useState } from "react";
 import { CATCH_LABEL, fmtCoord, fmtDate, fmtDateTime } from "../api";
+import { ALL_WATERBODIES } from "../constants";
 import { useStore } from "../store";
 import type { Screenshot } from "../types";
 
 type Props = {
   onEdit: () => void;
   onOpenShots: (shots: Screenshot[], index: number) => void;
+  onCollapse?: () => void;
 };
 
-export function PostDetail({ onEdit, onOpenShots }: Props) {
+export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
   const detail = useStore((s) => s.detail);
   const user = useStore((s) => s.user);
   const api = useStore((s) => s.api);
   const selectPost = useStore((s) => s.selectPost);
   const refreshPosts = useStore((s) => s.refreshPosts);
   const refreshDetail = useStore((s) => s.refreshDetail);
+  const waterbodyId = useStore((s) => s.waterbodyId);
   const [text, setText] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [fileKey, setFileKey] = useState(0);
@@ -25,8 +28,15 @@ export function PostDetail({ onEdit, onOpenShots }: Props) {
       <aside className="panel right">
         <div className="panel-head">
           <h2>Детали</h2>
+          {onCollapse && (
+            <button type="button" className="pane-toggle" onClick={onCollapse} title="Скрыть панель">
+              ›
+            </button>
+          )}
         </div>
-        <p className="empty">Выберите пост слева или точку на карте</p>
+        <p className="empty">
+          {waterbodyId === ALL_WATERBODIES ? "Выберите пост слева" : "Выберите пост слева или точку на карте"}
+        </p>
       </aside>
     );
   }
@@ -63,16 +73,23 @@ export function PostDetail({ onEdit, onOpenShots }: Props) {
     <aside className="panel right">
       <div className="panel-head">
         <h2>Детали</h2>
-        {canMod && (
-          <div className="head-actions">
-            <button type="button" className="btn ghost sm" onClick={onEdit}>
-              Изменить
+        <div className="head-actions">
+          {canMod && (
+            <>
+              <button type="button" className="btn ghost sm" onClick={onEdit}>
+                Изменить
+              </button>
+              <button type="button" className="btn danger sm" onClick={() => void removePost()}>
+                Удалить
+              </button>
+            </>
+          )}
+          {onCollapse && (
+            <button type="button" className="pane-toggle" onClick={onCollapse} title="Скрыть панель">
+              ›
             </button>
-            <button type="button" className="btn danger sm" onClick={() => void removePost()}>
-              Удалить
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <div className="detail-body">
         <h3>{detail.fish.name}</h3>

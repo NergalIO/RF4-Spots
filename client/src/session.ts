@@ -5,13 +5,23 @@ export type Session = {
   token: string;
 };
 
-const fallback: Session = { serverUrl: "http://localhost:3780", token: "" };
+export const DEFAULT_SERVER_URL = "http://2.26.113.22:3780";
+
+const fallback: Session = { serverUrl: DEFAULT_SERVER_URL, token: "" };
+
+function normalizeServerUrl(url: string | undefined): string {
+  const trimmed = (url || DEFAULT_SERVER_URL).replace(/\/$/, "");
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:3780)?$/i.test(trimmed)) {
+    return DEFAULT_SERVER_URL;
+  }
+  return trimmed;
+}
 
 export async function loadSession(): Promise<Session> {
   if (window.rf4?.storeGet) {
     const s = await window.rf4.storeGet();
     return {
-      serverUrl: (s.serverUrl || fallback.serverUrl).replace(/\/$/, ""),
+      serverUrl: normalizeServerUrl(s.serverUrl),
       token: s.token || "",
     };
   }
@@ -20,7 +30,7 @@ export async function loadSession(): Promise<Session> {
     if (!raw) return { ...fallback };
     const parsed = JSON.parse(raw) as Session;
     return {
-      serverUrl: (parsed.serverUrl || fallback.serverUrl).replace(/\/$/, ""),
+      serverUrl: normalizeServerUrl(parsed.serverUrl),
       token: parsed.token || "",
     };
   } catch {

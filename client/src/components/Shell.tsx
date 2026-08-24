@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { ALL_WATERBODIES } from "../constants";
 import { MapView } from "./MapView";
 import { PostDetail } from "./PostDetail";
 import { PostForm } from "./PostForm";
 import { PostList } from "./PostList";
 import { Lightbox } from "./Lightbox";
 import { useStore } from "../store";
+import { useResizablePanels } from "../useResizablePanels";
 import type { Post, Screenshot } from "../types";
 
 export function Shell() {
@@ -19,6 +21,8 @@ export function Shell() {
   const [createAt, setCreateAt] = useState<{ x: number; y: number } | null>(null);
   const [edit, setEdit] = useState<Post | null>(null);
   const [lb, setLb] = useState<{ shots: Screenshot[]; index: number } | null>(null);
+  const panels = useResizablePanels();
+  const feedOnly = waterbodyId === ALL_WATERBODIES;
 
   return (
     <div className="app-shell">
@@ -33,6 +37,7 @@ export function Shell() {
         <label className="wb-select">
           Водоём
           <select value={waterbodyId} onChange={(e) => void setWaterbody(e.target.value)}>
+            <option value={ALL_WATERBODIES}>Все водоёмы</option>
             {waterbodies.map((w) => (
               <option key={w.id} value={w.id}>
                 {w.name}
@@ -40,8 +45,24 @@ export function Shell() {
             ))}
           </select>
         </label>
-        <button type="button" className={`btn ghost ${rulerOn ? "on" : ""}`} onClick={toggleRuler}>
-          Линейка
+        {!feedOnly && (
+          <button type="button" className={`btn ghost ${rulerOn ? "on" : ""}`} onClick={toggleRuler}>
+            Линейка
+          </button>
+        )}
+        <button
+          type="button"
+          className={`btn ghost sm ${panels.leftOpen ? "on" : ""}`}
+          onClick={() => panels.setLeftOpen((v) => !v)}
+        >
+          Посты
+        </button>
+        <button
+          type="button"
+          className={`btn ghost sm ${panels.rightOpen ? "on" : ""}`}
+          onClick={() => panels.setRightOpen((v) => !v)}
+        >
+          Детали
         </button>
         <div className="spacer" />
         <span className={`role-pill ${user?.role}`}>
@@ -51,13 +72,68 @@ export function Shell() {
           Выход
         </button>
       </header>
-      <div className="workspace">
-        <PostList />
-        <MapView onCreate={setCreateAt} />
-        <PostDetail
-          onEdit={() => detail && setEdit(detail)}
-          onOpenShots={(shots, index) => setLb({ shots, index })}
-        />
+      <div className={`workspace ${feedOnly ? "feed-only" : ""}`}>
+        {panels.leftOpen ? (
+          <>
+            <div
+              className={`pane pane-left ${feedOnly ? "fill" : ""}`}
+              style={feedOnly ? undefined : { width: panels.leftWidth }}
+            >
+              <PostList onCollapse={() => panels.setLeftOpen(false)} />
+            </div>
+            {!feedOnly && (
+              <div
+                className="resize-handle"
+                onPointerDown={panels.onDrag("left")}
+                onDoubleClick={() => panels.resetWidth("left")}
+                title="Потяните, чтобы изменить ширину"
+              />
+            )}
+          </>
+        ) : (
+          <button
+            type="button"
+            className="pane-rail"
+            onClick={() => panels.setLeftOpen(true)}
+            title="Показать посты"
+          >
+            ›
+          </button>
+        )}
+        {!feedOnly && (
+          <div className="pane-center">
+            <MapView onCreate={setCreateAt} />
+          </div>
+        )}
+        {panels.rightOpen ? (
+          <>
+            <div
+              className="resize-handle"
+              onPointerDown={panels.onDrag("right")}
+              onDoubleClick={() => panels.resetWidth("right")}
+              title="Потяните, чтобы изменить ширину"
+            />
+            <div
+              className={`pane pane-right ${feedOnly && !panels.leftOpen ? "fill" : ""}`}
+              style={feedOnly && !panels.leftOpen ? undefined : { width: panels.rightWidth }}
+            >
+              <PostDetail
+                onEdit={() => detail && setEdit(detail)}
+                onOpenShots={(shots, index) => setLb({ shots, index })}
+                onCollapse={() => panels.setRightOpen(false)}
+              />
+            </div>
+          </>
+        ) : (
+          <button
+            type="button"
+            className="pane-rail"
+            onClick={() => panels.setRightOpen(true)}
+            title="Показать детали"
+          >
+            ‹
+          </button>
+        )}
       </div>
       {createAt && <PostForm coords={createAt} onClose={() => setCreateAt(null)} />}
       {edit && (

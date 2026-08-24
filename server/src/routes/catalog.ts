@@ -19,7 +19,7 @@ catalogRouter.get("/waterbodies", requireAuth, async (_req, res) => {
   res.json({
     waterbodies: waterbodies.map((w) => ({
       ...w,
-      mapUrl: `/maps/${w.imageFile}`,
+      mapUrl: `/maps/${w.imageFile}?v=${w.imageWidth}x${w.imageHeight}`,
     })),
   });
 });
