@@ -74,46 +74,11 @@ export type Filters = {
   sort: "createdAt" | "catchDate";
 };
 
-export type StatKind = "baits" | "fish";
-
-export type StatRow = {
-  location: string;
-  name: string;
-  catch: number | null;
-  posts: number | null;
-  maxWeightG: number | null;
-  avgWeightG: number | null;
-  fishSpecies: number | null;
-  fishSlug: string;
-  icon: string;
-};
-
-export type StatsPayload = {
-  source: string;
-  sourceUrl: string;
-  period: string;
-  fetchedAt: string;
-  cached: boolean;
-  kind: StatKind;
-  waterbodyId: string;
-  waterbody: string;
-  days: number;
-  bait: string;
-  fish: string;
-  rows: StatRow[];
-};
-
 declare global {
   interface Window {
     rf4?: {
       storeGet: () => Promise<{ serverUrl?: string; token?: string }>;
       storeSet: (data: { serverUrl: string; token?: string }) => Promise<boolean>;
-      statFetch?: (req: {
-        url: string;
-        method?: "GET" | "POST";
-        body?: string;
-        referer?: string;
-      }) => Promise<{ ok: boolean; status: number; url: string; html: string; error?: string }>;
     };
   }
 }

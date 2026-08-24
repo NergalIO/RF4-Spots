@@ -118,10 +118,8 @@ export function Shell() {
           Выход
         </button>
       </header>
-      {statsTab ? (
-        <StatsView />
-      ) : (
-        <div className={`workspace ${feedOnly ? "feed-only" : ""}`}>
+      <div className="app-main">
+        <div className={`workspace ${feedOnly ? "feed-only" : ""}`} hidden={statsTab}>
           {panels.leftOpen ? (
             <>
               <div
@@ -184,7 +182,10 @@ export function Shell() {
             </button>
           )}
         </div>
-      )}
+        <div className="stats-host" hidden={!statsTab}>
+          <StatsView active={statsTab} />
+        </div>
+      </div>
       {createAt && <PostForm coords={createAt} onClose={() => setCreateAt(null)} />}
       {edit && (
         <PostForm
