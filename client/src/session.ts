@@ -5,16 +5,12 @@ export type Session = {
   token: string;
 };
 
-export const DEFAULT_SERVER_URL = "http://2.26.113.22:3780";
+export const DEFAULT_SERVER_URL = "http://127.0.0.1:3780";
 
 const fallback: Session = { serverUrl: DEFAULT_SERVER_URL, token: "" };
 
 function normalizeServerUrl(url: string | undefined): string {
-  const trimmed = (url || DEFAULT_SERVER_URL).replace(/\/$/, "");
-  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:3780)?$/i.test(trimmed)) {
-    return DEFAULT_SERVER_URL;
-  }
-  return trimmed;
+  return (url || DEFAULT_SERVER_URL).replace(/\/$/, "");
 }
 
 export async function loadSession(): Promise<Session> {

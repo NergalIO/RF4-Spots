@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, safeStorage, session, dialog } = require("e
 const path = require("path");
 const fs = require("fs");
 
-const DEFAULT_SERVER_URL = "http://2.26.113.22:3780";
+const DEFAULT_SERVER_URL = "http://127.0.0.1:3780";
 const isDev = !app.isPackaged;
 
 function configPath() {
