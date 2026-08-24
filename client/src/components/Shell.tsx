@@ -5,20 +5,28 @@ import { PostDetail } from "./PostDetail";
 import { PostForm } from "./PostForm";
 import { PostList } from "./PostList";
 import { Lightbox } from "./Lightbox";
-import { StatsView } from "./StatsView";
+import { SiteEmbed } from "./SiteEmbed";
 import { useStore } from "../store";
 import { useResizablePanels } from "../useResizablePanels";
 import type { Post, Screenshot } from "../types";
 
 const TAB_KEY = "rf4spots-main-tab";
-type MainTab = "spots" | "stats";
+type MainTab = "spots" | "stats" | "cafe";
 
 function loadTab(): MainTab {
   try {
-    return localStorage.getItem(TAB_KEY) === "stats" ? "stats" : "spots";
+    const v = localStorage.getItem(TAB_KEY);
+    if (v === "stats" || v === "cafe") return v;
   } catch {
-    return "spots";
+    /* ignore */
   }
+  return "spots";
+}
+
+function tabCaption(tab: MainTab) {
+  if (tab === "stats") return "статистика улова";
+  if (tab === "cafe") return "заказы кафе";
+  return "точки ловли";
 }
 
 export function Shell() {
@@ -36,7 +44,7 @@ export function Shell() {
   const [tab, setTab] = useState<MainTab>(loadTab);
   const panels = useResizablePanels();
   const feedOnly = waterbodyId === ALL_WATERBODIES;
-  const statsTab = tab === "stats";
+  const spotsTab = tab === "spots";
 
   useEffect(() => {
     try {
@@ -53,15 +61,15 @@ export function Shell() {
           <span className="logo">RF4</span>
           <div>
             <strong>Spots</strong>
-            <small>{statsTab ? "статистика улова" : "точки ловли"}</small>
+            <small>{tabCaption(tab)}</small>
           </div>
         </div>
         <div className="nav-tabs" role="tablist" aria-label="Разделы">
           <button
             type="button"
             role="tab"
-            aria-selected={!statsTab}
-            className={!statsTab ? "on" : ""}
+            aria-selected={spotsTab}
+            className={spotsTab ? "on" : ""}
             onClick={() => setTab("spots")}
           >
             Споты
@@ -69,11 +77,20 @@ export function Shell() {
           <button
             type="button"
             role="tab"
-            aria-selected={statsTab}
-            className={statsTab ? "on" : ""}
+            aria-selected={tab === "stats"}
+            className={tab === "stats" ? "on" : ""}
             onClick={() => setTab("stats")}
           >
             Статистика
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === "cafe"}
+            className={tab === "cafe" ? "on" : ""}
+            onClick={() => setTab("cafe")}
+          >
+            Кафе
           </button>
         </div>
         <label className="wb-select">
@@ -87,12 +104,12 @@ export function Shell() {
             ))}
           </select>
         </label>
-        {!feedOnly && !statsTab && (
+        {!feedOnly && spotsTab && (
           <button type="button" className={`btn ghost ${rulerOn ? "on" : ""}`} onClick={toggleRuler}>
             Линейка
           </button>
         )}
-        {!statsTab && (
+        {spotsTab && (
           <>
             <button
               type="button"
@@ -119,7 +136,7 @@ export function Shell() {
         </button>
       </header>
       <div className="app-main">
-        <div className={`workspace ${feedOnly ? "feed-only" : ""}`} hidden={statsTab}>
+        <div className={`workspace ${feedOnly ? "feed-only" : ""}`} hidden={!spotsTab}>
           {panels.leftOpen ? (
             <>
               <div
@@ -182,8 +199,21 @@ export function Shell() {
             </button>
           )}
         </div>
-        <div className="stats-host" hidden={!statsTab}>
-          <StatsView active={statsTab} />
+        <div className="site-host" hidden={tab !== "stats"}>
+          <SiteEmbed
+            url="https://rf4-stat.ru/"
+            title="RF4-STAT"
+            partition="persist:rf4stat"
+            active={tab === "stats"}
+          />
+        </div>
+        <div className="site-host" hidden={tab !== "cafe"}>
+          <SiteEmbed
+            url="https://rf4-cafe.ru/"
+            title="RF4 Cafe"
+            partition="persist:rf4cafe"
+            active={tab === "cafe"}
+          />
         </div>
       </div>
       {createAt && <PostForm coords={createAt} onClose={() => setCreateAt(null)} />}
