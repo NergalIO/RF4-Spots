@@ -79,6 +79,7 @@ declare global {
     rf4?: {
       storeGet: () => Promise<{ serverUrl?: string; token?: string }>;
       storeSet: (data: { serverUrl: string; token?: string }) => Promise<boolean>;
+      checkUpdates?: () => Promise<boolean>;
     };
   }
 }

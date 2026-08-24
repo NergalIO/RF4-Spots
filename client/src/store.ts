@@ -190,6 +190,7 @@ async function tickSync() {
   pollBusy = true;
   try {
     const { stamp } = await api.sync();
+    void window.rf4?.checkUpdates?.();
     if (stamp === syncStamp) return;
     useStore.setState({ syncStamp: stamp });
     await useStore.getState().refreshPosts();

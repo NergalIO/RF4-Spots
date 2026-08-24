@@ -43,6 +43,8 @@ function updatesUrl(serverUrl) {
 
 let updaterReady = false;
 let installPrompted = false;
+let lastUpdateCheck = 0;
+const UPDATE_CHECK_MIN_MS = 5 * 60 * 1000;
 
 function configureUpdater(serverUrl) {
   if (isDev) return;
@@ -82,8 +84,11 @@ function configureUpdater(serverUrl) {
   });
 }
 
-function checkForUpdates() {
+function checkForUpdates(force) {
   if (isDev) return;
+  const now = Date.now();
+  if (!force && lastUpdateCheck && now - lastUpdateCheck < UPDATE_CHECK_MIN_MS) return;
+  lastUpdateCheck = now;
   try {
     const { autoUpdater } = require("electron-updater");
     configureUpdater(readStore().serverUrl || DEFAULT_SERVER_URL);
@@ -133,9 +138,13 @@ app.whenReady().then(async () => {
     configureUpdater(data.serverUrl || DEFAULT_SERVER_URL);
     return true;
   });
+  ipcMain.handle("updates:check", () => {
+    checkForUpdates(false);
+    return true;
+  });
   await session.defaultSession.clearCache();
   createWindow();
-  checkForUpdates();
+  checkForUpdates(true);
 });
 
 app.on("window-all-closed", () => {
