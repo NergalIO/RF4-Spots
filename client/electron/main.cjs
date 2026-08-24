@@ -71,14 +71,14 @@ function configureUpdater(serverUrl) {
         type: "info",
         title: "RF4 Spots",
         message: version ? `Загружена версия ${version}` : "Загружено обновление",
-        detail: "Перезапустить приложение и установить сейчас? Иначе обновление встанет при следующем выходе.",
+        detail: "Приложение закроется, обновление установится без окна установщика и запустится снова. Иначе обновление встанет при следующем выходе.",
         buttons: ["Перезапустить", "Позже"],
         defaultId: 0,
         cancelId: 1,
         noLink: true,
       })
       .then(({ response }) => {
-        if (response === 0) autoUpdater.quitAndInstall(false, true);
+        if (response === 0) autoUpdater.quitAndInstall(true, true);
       })
       .catch(() => {});
   });
