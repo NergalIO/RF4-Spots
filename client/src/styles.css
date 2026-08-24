@@ -54,16 +54,12 @@ button { cursor: pointer; }
   font-size: 11px;
   margin: 0 0 8px;
 }
-.auth-card h1, .modal h2 {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-weight: 400;
-  margin: 0 0 8px;
-}
-.panel-head h2, .detail-body h3 {
-  font-family: inherit;
+.auth-card h1, .modal h2, .panel-head h2, .detail-body h3 {
+  font-family: Manrope, "Segoe UI", sans-serif;
   font-weight: 600;
-  margin: 0;
 }
+.auth-card h1, .modal h2 { margin: 0 0 8px; }
+.panel-head h2, .detail-body h3 { margin: 0; }
 .lead, .hint, .muted { color: var(--muted); }
 .lead { margin: 0 0 20px; line-height: 1.45; }
 .hint { font-size: 13px; margin: 16px 0 0; }
