@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage, session, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, session, dialog, net } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -115,6 +115,49 @@ function createWindow() {
   }
 }
 
+function isRf4StatUrl(value) {
+  try {
+    const u = new URL(value);
+    return u.protocol === "https:" && u.hostname === "rf4-stat.ru";
+  } catch {
+    return false;
+  }
+}
+
+async function fetchRf4StatPage(req) {
+  try {
+    const url = typeof req?.url === "string" ? req.url : "";
+    if (!isRf4StatUrl(url)) {
+      return { ok: false, status: 0, url: "", html: "", error: "Некорректный адрес" };
+    }
+    const method = req.method === "POST" ? "POST" : "GET";
+    const headers = {
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "ru,en;q=0.8",
+    };
+    if (req.referer && isRf4StatUrl(req.referer)) headers.Referer = req.referer;
+    if (method === "POST") {
+      headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8";
+      headers["X-Requested-With"] = "XMLHttpRequest";
+    }
+    const ses = session.fromPartition("persist:rf4stat");
+    const init = {
+      method,
+      headers,
+      body: method === "POST" && req.body ? String(req.body) : undefined,
+    };
+    const res = typeof ses.fetch === "function" ? await ses.fetch(url, init) : await net.fetch(url, { ...init, session: ses });
+    const finalUrl = res.url || url;
+    if (!isRf4StatUrl(finalUrl)) {
+      return { ok: false, status: res.status, url: "", html: "", error: "Некорректный редирект" };
+    }
+    const html = await res.text();
+    return { ok: res.ok, status: res.status, url: finalUrl, html };
+  } catch (err) {
+    return { ok: false, status: 0, url: "", html: "", error: err && err.message ? err.message : "Сеть недоступна" };
+  }
+}
+
 app.setAppUserModelId("com.rf4spots.app");
 
 app.whenReady().then(async () => {
@@ -124,6 +167,7 @@ app.whenReady().then(async () => {
     configureUpdater(data.serverUrl || DEFAULT_SERVER_URL);
     return true;
   });
+  ipcMain.handle("rf4stat:fetch", (_e, req) => fetchRf4StatPage(req));
   await session.defaultSession.clearCache();
   createWindow();
   checkForUpdates();
