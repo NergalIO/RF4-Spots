@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, session } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -59,12 +59,13 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   ipcMain.handle("store:get", () => readStore());
   ipcMain.handle("store:set", (_e, data) => {
     writeStore(data);
     return true;
   });
+  await session.defaultSession.clearCache();
   createWindow();
 });
 

@@ -1290,6 +1290,29 @@
     ]
   },
   {
+    "name": "Разнорыбица",
+    "waterbodies": [
+      "mosquito",
+      "elk",
+      "rivulet",
+      "oldburg",
+      "belaya",
+      "kuori",
+      "bear",
+      "volkhov",
+      "donets",
+      "sura",
+      "ladoga",
+      "amber",
+      "archipelago",
+      "akhtuba",
+      "copper",
+      "tunguska",
+      "yama",
+      "norwegian"
+    ]
+  },
+  {
     "name": "Рак речной",
     "waterbodies": [
       "rivulet",

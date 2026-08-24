@@ -16,6 +16,7 @@ catalogRouter.get("/waterbodies", requireAuth, async (_req, res) => {
   const waterbodies = await prisma.waterbody.findMany({
     orderBy: { sortOrder: "asc" },
   });
+  res.setHeader("Cache-Control", "no-store");
   res.json({
     waterbodies: waterbodies.map((w) => ({
       ...w,

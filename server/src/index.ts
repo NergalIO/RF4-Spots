@@ -1,7 +1,7 @@
 import "./lib/loadEnv.js";
 import express from "express";
 import cors from "cors";
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { authRouter } from "./routes/auth.js";
@@ -22,10 +22,24 @@ const host = process.env.HOST || "0.0.0.0";
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: "2mb" }));
 app.use("/uploads", express.static(UPLOAD_DIR));
-app.use("/maps", express.static(mapsDir));
+app.use(
+  "/maps",
+  express.static(mapsDir, {
+    etag: true,
+    lastModified: true,
+    setHeaders(res) {
+      res.setHeader("Cache-Control", "no-store");
+    },
+  }),
+);
 
 app.get("/health", (_req, res) => {
-  res.json({ ok: true });
+  const elk = join(mapsDir, "elk.png");
+  res.json({
+    ok: true,
+    mapsDir,
+    elkBytes: existsSync(elk) ? statSync(elk).size : 0,
+  });
 });
 
 app.use("/auth", authRouter);

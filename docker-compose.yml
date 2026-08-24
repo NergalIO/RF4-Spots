@@ -26,6 +26,8 @@ services:
       HOST: 0.0.0.0
     volumes:
       - uploads:/app/uploads
+      - ./server/assets/maps:/app/assets/maps:ro
+      - ./server/prisma/seeds:/app/prisma/seeds:ro
     depends_on:
       db:
         condition: service_healthy
