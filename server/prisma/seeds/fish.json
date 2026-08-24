@@ -1,0 +1,1859 @@
+[
+  {
+    "name": "Акула гигантская",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Акула гренландская полярная",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Акула плащеносная",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Акула сельдевая атлантическая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Амур белый",
+    "waterbodies": [
+      "bear",
+      "amber",
+      "oldburg",
+      "akhtuba",
+      "donets"
+    ]
+  },
+  {
+    "name": "Амур белый альбинос",
+    "waterbodies": [
+      "bear"
+    ]
+  },
+  {
+    "name": "Амур чёрный",
+    "waterbodies": [
+      "bear",
+      "oldburg"
+    ]
+  },
+  {
+    "name": "Белоглазка",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Белорыбица",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Белуга каспийская",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Белуга черноморская",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Бельдюга европейская",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Берикс красный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Берш",
+    "waterbodies": [
+      "rivulet",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Буффало большеротый",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Буффало чёрный",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Валёк",
+    "waterbodies": [
+      "tunguska",
+      "yama"
+    ]
+  },
+  {
+    "name": "Вармоус",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Вобла",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Вырезуб",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Вьюн",
+    "waterbodies": [
+      "mosquito",
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Гимантолоф атлантический",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Голавль",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Голец арктический",
+    "waterbodies": [
+      "tunguska",
+      "kuori",
+      "yama"
+    ]
+  },
+  {
+    "name": "Голец Дрягина",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Голец Куорский",
+    "waterbodies": [
+      "kuori"
+    ]
+  },
+  {
+    "name": "Голец Леванидова",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Голец сибирский-усач",
+    "waterbodies": [
+      "tunguska",
+      "yama"
+    ]
+  },
+  {
+    "name": "Гольян",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "kuori"
+    ]
+  },
+  {
+    "name": "Гольян озёрный",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Горбуша",
+    "waterbodies": [
+      "tunguska",
+      "yama"
+    ]
+  },
+  {
+    "name": "Горбыль речной",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Горбыль серебристый",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Гребешок исландский",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Густера",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Доросома северная",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Дрейссена речная",
+    "waterbodies": [
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Елец",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Елец сибирский",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Ёрш",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Ёрш-носарь",
+    "waterbodies": [
+      "rivulet",
+      "donets"
+    ]
+  },
+  {
+    "name": "Жерех",
+    "waterbodies": [
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Зубатка полосатая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Зубатка пятнистая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Зубатка синяя",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Калуга",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Кальмар обыкновенный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Камбала морская",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Камбала палтусовидная",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Камбала хоботная",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Карасекарп",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карась золотой",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Карась серебряный",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Карп голый",
+    "waterbodies": [
+      "bear",
+      "amber",
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп голый — альбинос",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп голый — призрак",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп Динкенбюльский голый",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп Динкенбюльский зеркальный",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп Динкенбюльский линейный",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп зеркальный",
+    "waterbodies": [
+      "mosquito",
+      "bear",
+      "amber",
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп зеркальный — альбинос",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп зеркальный — призрак",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп Кои Ёцусиро",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп Кои Кохаку",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп Кои Мамэсибори Госики",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп Кои Мидори-гои",
+    "waterbodies": [
+      "mosquito"
+    ]
+  },
+  {
+    "name": "Карп Кои Наруми Асаги",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп Кои Орэндзи Огон",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп Кои Хи Уцури",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп красный Старвас — зеркальный",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп красный Старвас — чешуйчатый",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп линейный",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп линейный — альбинос",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп линейный — призрак",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп рамчатый",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп рамчатый — альбинос",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп рамчатый — призрак",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп Супер Фрикс",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Карп чешуйчатый",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Карп чешуйчатый — альбинос",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Карп чешуйчатый — призрак",
+    "waterbodies": [
+      "amber"
+    ]
+  },
+  {
+    "name": "Катран",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Керчак европейский",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Кета",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Кижуч",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Колюшка девятииглая",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Колюшка малая южная",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Колюшка трёхиглая",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Конгер",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Корюшка",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Корюшка азиатская",
+    "waterbodies": [
+      "tunguska",
+      "yama"
+    ]
+  },
+  {
+    "name": "Краб камчатский",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Краб съедобный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Краппи белый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Краппи чёрный",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Краснопёр монгольский",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Краснопёр-Угай крупночешуйчатый",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Краснопёрка",
+    "waterbodies": [
+      "akhtuba",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Кунджа",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Кутум",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Лаврак полосатый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Лаврак полосатый гибридный",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Ленок острорылый",
+    "waterbodies": [
+      "tunguska",
+      "yama"
+    ]
+  },
+  {
+    "name": "Ленок тупорылый",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Лещ",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Лещ восточный",
+    "waterbodies": [
+      "tunguska",
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Ликод полуголый",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Ликод Эсмарка",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Линь",
+    "waterbodies": [
+      "mosquito",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Линь золотистый",
+    "waterbodies": [
+      "mosquito",
+      "bear"
+    ]
+  },
+  {
+    "name": "Линь Квольсдорфский",
+    "waterbodies": [
+      "copper"
+    ]
+  },
+  {
+    "name": "Лосось атлантический",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "volkhov"
+    ]
+  },
+  {
+    "name": "Лосось каспийский",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Лосось ладожский",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "volkhov"
+    ]
+  },
+  {
+    "name": "Лягушка",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Макрель атлантическая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Макрурус северный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Мальма",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Менёк",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Мерланг",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Мерлуза",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Меч-рыба",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Мидия",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Микижа",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Минога дальневосточная ручьевая",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Минога каспийская",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Минога сибирская",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Минога трёхзубая",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Минога украинская",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Мольва голубая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Мольва обыкновенная",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Морской чёрт",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Муксун",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Налим",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura",
+      "yama"
+    ]
+  },
+  {
+    "name": "Нейва",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Нельма",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Нерка",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Окунь",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura",
+      "yama"
+    ]
+  },
+  {
+    "name": "Окунь белый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Окунь большеротый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Окунь каменный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Окунь малоротый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Окунь морской золотистый",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Окунь морской норвежский",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Окунь павлиний",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Окунь пятнистый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Окунь солнечный",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Окунь-клювач",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Омуль арктический",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Омуль байкальский",
+    "waterbodies": [
+      "archipelago",
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Опах краснопёрый",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Осётр балтийский",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Осётр восточносибирский",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Осётр ладожский",
+    "waterbodies": [
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Осётр персидский",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Осётр русский",
+    "waterbodies": [
+      "akhtuba",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Палия кряжевая",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Палия лудожная",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Палия обыкновенная",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "kuori"
+    ]
+  },
+  {
+    "name": "Палтус атлантический",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Палтус синекорый",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Панцирник пятнистый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Пелядь",
+    "waterbodies": [
+      "tunguska",
+      "kuori"
+    ]
+  },
+  {
+    "name": "Перловица",
+    "waterbodies": [
+      "bear",
+      "tunguska",
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Пескарь обыкновенный",
+    "waterbodies": [
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Пескарь сибирский",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Пикша",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Пинагор",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Плотва обыкновенная",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Плотва сибирская",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Подкаменщик сибирский",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Подуст",
+    "waterbodies": [
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Поллак",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Пузанок каспийский",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Путассу северная",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Рак речной",
+    "waterbodies": [
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Рипус",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Ротан",
+    "waterbodies": [
+      "mosquito",
+      "bear",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "copper",
+      "sura"
+    ]
+  },
+  {
+    "name": "Рыбец",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "volkhov",
+      "sura"
+    ]
+  },
+  {
+    "name": "Ряпушка",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "volkhov",
+      "kuori"
+    ]
+  },
+  {
+    "name": "Ряпушка сибирская",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Сазан",
+    "waterbodies": [
+      "akhtuba",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Сайда",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Сайра атлантическая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Сардина европейская",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Севрюга",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Сельдь атлантическая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Сельдь Бражникова",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Сельдь Кесслера",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Сельдь черноморская",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Сиг валаамский",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Сиг волховский",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Сиг вуоксинский",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Сиг куорский",
+    "waterbodies": [
+      "kuori"
+    ]
+  },
+  {
+    "name": "Сиг ладожский озёрный",
+    "waterbodies": [
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Сиг острожский",
+    "waterbodies": [
+      "oldburg"
+    ]
+  },
+  {
+    "name": "Сиг свирский",
+    "waterbodies": [
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Сиг чёрный",
+    "waterbodies": [
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Сиг-лудога",
+    "waterbodies": [
+      "ladoga",
+      "archipelago"
+    ]
+  },
+  {
+    "name": "Сиг-пыжьян",
+    "waterbodies": [
+      "tunguska",
+      "belaya"
+    ]
+  },
+  {
+    "name": "Сима",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Сима жилая",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Синец",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "sura"
+    ]
+  },
+  {
+    "name": "Скат колючий",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Скат полярный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Солнечник красноухий",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Солнечник синежаберный",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Сом",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Сом альбинос",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Сом амурский",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Сомик канальный",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Сомик оливковый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Стерлядь",
+    "waterbodies": [
+      "akhtuba",
+      "belaya",
+      "sura"
+    ]
+  },
+  {
+    "name": "Стерлядь сибирская",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Судак",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "rivulet",
+      "volkhov",
+      "akhtuba",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Судак светлопёрый",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Таймень",
+    "waterbodies": [
+      "tunguska",
+      "belaya"
+    ]
+  },
+  {
+    "name": "Тарань",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Толстолобик белый",
+    "waterbodies": [
+      "akhtuba",
+      "sura"
+    ]
+  },
+  {
+    "name": "Толстолобик пёстрый",
+    "waterbodies": [
+      "akhtuba",
+      "sura"
+    ]
+  },
+  {
+    "name": "Треска атлантическая",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Тугун",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Тунец голубой",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Тюлька черноморская",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Тюрбо",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Угольщик обыкновенный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Угорь",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "amber",
+      "oldburg",
+      "volkhov",
+      "sura"
+    ]
+  },
+  {
+    "name": "Уклейка",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Усач альбинос",
+    "waterbodies": [
+      "bear"
+    ]
+  },
+  {
+    "name": "Усач короткоголовый",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Усач обыкновенный",
+    "waterbodies": [
+      "bear",
+      "amber",
+      "copper"
+    ]
+  },
+  {
+    "name": "Устрица съедобная",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Форель озерная",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "kuori"
+    ]
+  },
+  {
+    "name": "Форель радужная",
+    "waterbodies": [
+      "kuori"
+    ]
+  },
+  {
+    "name": "Форель ручьевая",
+    "waterbodies": [
+      "tunguska",
+      "belaya",
+      "kuori"
+    ]
+  },
+  {
+    "name": "Форель севанская",
+    "waterbodies": [
+      "kuori"
+    ]
+  },
+  {
+    "name": "Хариус восточносибирский",
+    "waterbodies": [
+      "tunguska",
+      "yama"
+    ]
+  },
+  {
+    "name": "Хариус европейский",
+    "waterbodies": [
+      "ladoga",
+      "archipelago",
+      "belaya",
+      "kuori"
+    ]
+  },
+  {
+    "name": "Хариус западносибирский",
+    "waterbodies": [
+      "tunguska",
+      "belaya"
+    ]
+  },
+  {
+    "name": "Химера европейская",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Центролоф чёрный",
+    "waterbodies": [
+      "norwegian"
+    ]
+  },
+  {
+    "name": "Чавыча",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Чехонь",
+    "waterbodies": [
+      "akhtuba",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Чир",
+    "waterbodies": [
+      "tunguska"
+    ]
+  },
+  {
+    "name": "Чукучан",
+    "waterbodies": [
+      "yama"
+    ]
+  },
+  {
+    "name": "Шемая каспийская",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Шемая черноморская",
+    "waterbodies": [
+      "donets"
+    ]
+  },
+  {
+    "name": "Шип",
+    "waterbodies": [
+      "akhtuba"
+    ]
+  },
+  {
+    "name": "Щука обыкновенная",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  },
+  {
+    "name": "Щука панцирная",
+    "waterbodies": [
+      "elk"
+    ]
+  },
+  {
+    "name": "Язь",
+    "waterbodies": [
+      "mosquito",
+      "ladoga",
+      "archipelago",
+      "bear",
+      "amber",
+      "tunguska",
+      "rivulet",
+      "oldburg",
+      "volkhov",
+      "akhtuba",
+      "copper",
+      "belaya",
+      "kuori",
+      "donets",
+      "sura"
+    ]
+  }
+]

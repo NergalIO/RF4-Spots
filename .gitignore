@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-electron
+release
+uploads
+.env
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  player
+  admin
+}
+
+enum CatchType {
+  farm
+  trophy
+  farm_trophy
+}
+
+model User {
+  id           String    @id
+  nickname     String    @unique
+  passwordHash String
+  salt         String
+  role         Role      @default(player)
+  createdAt    DateTime  @default(now())
+  posts        Post[]
+  comments     Comment[]
+}
+
+model FishSpecies {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  waterbodies String[]
+  posts       Post[]
+}
+
+model Waterbody {
+  id               String  @id
+  name             String
+  metersPerCell    Float
+  xMin             Float
+  xMax             Float
+  yMin             Float
+  yMax             Float
+  yFlipped         Boolean @default(false)
+  imageFile        String
+  imageWidth       Int
+  imageHeight      Int
+  padLeft          Int
+  padTop           Int
+  padRight         Int
+  padBottom        Int
+  cellPx           Int
+  rf4mapLocationId Int?
+  sortOrder        Int
+  sourceUrl        String?
+  posts            Post[]
+}
+
+model Post {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  waterbodyId String
+  waterbody   Waterbody     @relation(fields: [waterbodyId], references: [id])
+  fishId      String
+  fish        FishSpecies   @relation(fields: [fishId], references: [id])
+  coordX      Float
+  coordY      Float
+  catchType   CatchType
+  catchDate   DateTime
+  comment     String        @default("")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  screenshots Screenshot[]
+  comments    Comment[]
+
+  @@index([waterbodyId, createdAt])
+  @@index([fishId])
+  @@index([catchDate])
+}
+
+model Comment {
+  id          String        @id @default(cuid())
+  postId      String
+  post        Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text        String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  screenshots Screenshot[]
+
+  @@index([postId, createdAt])
+}
+
+model Screenshot {
+  id        String   @id @default(cuid())
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  filename  String
+  sortOrder Int      @default(0)
+}
