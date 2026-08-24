@@ -37,9 +37,14 @@ function mapPost(post: {
   fish: { id: string; name: string };
   waterbody: { id: string; name: string };
   screenshots: { id: string; filename: string; sortOrder: number }[];
-  comments?: { id: string }[];
+  comments?: { id: string; createdAt: Date; userId: string }[];
   _count?: { comments: number };
 }) {
+  const commentsMeta = (post.comments ?? []).map((c) => ({
+    id: c.id,
+    createdAt: c.createdAt.toISOString(),
+    userId: c.userId,
+  }));
   return {
     id: post.id,
     coordX: post.coordX,
@@ -56,6 +61,7 @@ function mapPost(post: {
       .sort((a, b) => a.sortOrder - b.sortOrder)
       .map((s) => ({ id: s.id, url: screenshotUrl(s.filename) })),
     commentsCount: post._count?.comments ?? post.comments?.length ?? 0,
+    commentsMeta,
   };
 }
 
@@ -64,6 +70,7 @@ const includeList = {
   fish: { select: { id: true, name: true } },
   waterbody: { select: { id: true, name: true } },
   screenshots: true,
+  comments: { select: { id: true, createdAt: true, userId: true } },
   _count: { select: { comments: true } },
 } satisfies Prisma.PostInclude;
 
@@ -99,6 +106,7 @@ postsRouter.get("/", requireAuth, async (req, res) => {
     include: includeList,
     orderBy: { [sort]: "desc" },
   });
+  res.setHeader("Cache-Control", "no-store");
   res.json({ posts: posts.map(mapPost) });
 });
 

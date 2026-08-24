@@ -5,6 +5,7 @@ import { FishCombobox } from "./FishCombobox";
 import { DateRangePicker } from "./DateRangePicker";
 import { useStore } from "../store";
 import type { CatchType } from "../types";
+import { ruNewComments, unreadOf } from "../unread";
 
 type FilterKey = "fish" | "catchType" | "catchDate" | "uploadedDate" | "sort";
 
@@ -24,6 +25,8 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
   const selectedId = useStore((s) => s.selectedId);
   const selectPost = useStore((s) => s.selectPost);
   const waterbodyId = useStore((s) => s.waterbodyId);
+  const user = useStore((s) => s.user);
+  const seen = useStore((s) => s.seen);
   const allMaps = waterbodyId === ALL_WATERBODIES;
   const [open, setOpen] = useState(false);
   const [slots, setSlots] = useState<FilterKey[]>([]);
@@ -179,11 +182,15 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
         {posts.length === 0 && (
           <p className="empty">{allMaps ? "Пока нет постов" : "Пока нет постов на этом водоёме"}</p>
         )}
-        {posts.map((p) => (
+        {posts.map((p) => {
+          const unread = user ? unreadOf(p, seen, user.id) : { kind: "none" as const, count: 0 };
+          const unreadClass =
+            unread.kind === "comments" ? " unread-comments" : unread.kind === "post" ? " unread-post" : "";
+          return (
           <button
             key={p.id}
             type="button"
-            className={`spot-card ${p.id === selectedId ? "selected" : ""}`}
+            className={`spot-card ${p.id === selectedId ? "selected" : ""}${unreadClass}`}
             onClick={() => void selectPost(p.id === selectedId ? null : p.id)}
           >
             <strong>{p.fish.name}</strong>
@@ -194,8 +201,16 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
             <span className="meta">{fmtDate(p.catchDate)}</span>
             {p.comment && <p className="excerpt">{p.comment}</p>}
             <span className="nick">{p.author.nickname}</span>
+            {unread.kind === "post" && <span className="unread-line unread-post-label">Новый пост</span>}
+            {unread.kind === "comments" && (
+              <span className="unread-line unread-comments-label">
+                <span className="unread-count">{unread.count}</span>
+                {ruNewComments(unread.count)}
+              </span>
+            )}
           </button>
-        ))}
+          );
+        })}
       </div>
     </aside>
   );

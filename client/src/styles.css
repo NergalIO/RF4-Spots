@@ -388,8 +388,44 @@ body.resizing-panels .leaflet-host {
   display: grid;
   gap: 4px;
 }
-.spot-card:hover, .spot-card.selected { border-color: var(--gold-2); }
+.spot-card:hover { border-color: var(--gold-2); }
+.spot-card.unread-post {
+  border-color: #3b9be0;
+  box-shadow: inset 0 0 0 1px rgba(59, 155, 224, 0.45);
+}
+.spot-card.unread-comments {
+  border-color: #9b6bdb;
+  box-shadow: inset 0 0 0 1px rgba(155, 107, 219, 0.5);
+}
+.spot-card.unread-post:hover { border-color: #6eb8f0; }
+.spot-card.unread-comments:hover { border-color: #b892f0; }
+.spot-card.selected, .spot-card.selected:hover {
+  border-color: var(--gold-2);
+  box-shadow: none;
+}
 .spot-card .meta, .spot-card .nick { font-size: 12px; color: var(--muted); }
+.unread-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.unread-post-label { color: #6eb8f0; }
+.unread-comments-label { color: #c4a6f5; }
+.unread-count {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: #9b6bdb;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
 .spot-card .excerpt {
   margin: 4px 0 0;
   font-size: 13px;
@@ -487,6 +523,42 @@ body.resizing-panels .leaflet-host {
   white-space: nowrap;
   min-width: 0;
 }
+.file-pick.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.field-label { font-size: 13px; color: var(--muted); }
+.shot-picker { display: grid; gap: 8px; min-width: 0; }
+.shot-hint { margin: 0; font-size: 12px; color: var(--muted); }
+.shot-thumbs { margin: 0; }
+.shot-thumb {
+  position: relative;
+  background: #0a1820;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+.shot-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(8, 16, 22, 0.85);
+  color: var(--gold);
+  font-size: 16px;
+  line-height: 22px;
+}
+.shot-remove:hover { background: var(--danger); color: #fff; }
 
 .combo { position: relative; }
 .combo-input { width: 100%; padding-right: 28px; }
@@ -511,6 +583,8 @@ body.resizing-panels .leaflet-host {
 }
 .modal {
   width: min(480px, calc(100% - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
   background: #10232e;
   border: 1px solid var(--line);
   border-radius: 16px;

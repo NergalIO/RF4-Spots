@@ -3,6 +3,7 @@ import { CATCH_LABEL, fmtCoord, fmtDate, fmtDateTime } from "../api";
 import { ALL_WATERBODIES } from "../constants";
 import { useStore } from "../store";
 import type { Screenshot } from "../types";
+import { ShotPicker } from "./ShotPicker";
 
 type Props = {
   onEdit: () => void;
@@ -20,7 +21,6 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
   const waterbodyId = useStore((s) => s.waterbodyId);
   const [text, setText] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-  const [fileKey, setFileKey] = useState(0);
   const [busy, setBusy] = useState(false);
 
   if (!detail) {
@@ -62,7 +62,6 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
       await api.addComment(post.id, fd);
       setText("");
       setFiles([]);
-      setFileKey((k) => k + 1);
       await refreshDetail();
     } finally {
       setBusy(false);
@@ -161,20 +160,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
-            <label className="file-pick">
-              <input
-                key={fileKey}
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={(e) => setFiles(Array.from(e.target.files ?? []).slice(0, 8))}
-              />
-              <span>
-                {files.length > 0
-                  ? `Выбрано файлов: ${files.length}`
-                  : "Прикрепить скриншоты"}
-              </span>
-            </label>
+            <ShotPicker files={files} onChange={setFiles} onlyWhenFocused />
             <button className="btn primary" disabled={busy || !text.trim()} type="submit">
               Отправить
             </button>

@@ -3,6 +3,7 @@ import { ALL_WATERBODIES } from "./constants";
 import { Api } from "./api";
 import { DEFAULT_SERVER_URL, loadSession, saveSession } from "./session";
 import type { Filters, Fish, Post, User, Waterbody } from "./types";
+import { markPostSeen, seedSeen, type SeenMap } from "./unread";
 
 const emptyFilters = (): Filters => ({
   fishId: "",
@@ -13,6 +14,10 @@ const emptyFilters = (): Filters => ({
   uploadedTo: "",
   sort: "createdAt",
 });
+
+const POLL_MS = 4000;
+let pollTimer: ReturnType<typeof setInterval> | null = null;
+let pollBusy = false;
 
 type Store = {
   ready: boolean;
@@ -27,6 +32,8 @@ type Store = {
   detail: Post | null;
   filters: Filters;
   rulerOn: boolean;
+  seen: SeenMap;
+  syncStamp: string;
   boot: () => Promise<void>;
   login: (nickname: string, password: string, serverUrl: string) => Promise<void>;
   register: (nickname: string, password: string, serverUrl: string) => Promise<void>;
@@ -35,7 +42,8 @@ type Store = {
   setFilters: (patch: Partial<Filters>) => Promise<void>;
   selectPost: (id: string | null) => Promise<void>;
   refreshPosts: () => Promise<void>;
-  refreshDetail: () => Promise<void>;
+  refreshDetail: (opts?: { skipList?: boolean }) => Promise<void>;
+  markSeen: (post: Post) => void;
   toggleRuler: () => void;
   setError: (msg: string) => void;
 };
@@ -53,9 +61,17 @@ export const useStore = create<Store>((set, get) => ({
   detail: null,
   filters: emptyFilters(),
   rulerOn: false,
+  seen: {},
+  syncStamp: "",
 
   setError: (error) => set({ error }),
   toggleRuler: () => set({ rulerOn: !get().rulerOn }),
+
+  markSeen: (post) => {
+    const user = get().user;
+    if (!user) return;
+    set({ seen: markPostSeen(user.id, post) });
+  },
 
   boot: async () => {
     const session = await loadSession();
@@ -67,8 +83,9 @@ export const useStore = create<Store>((set, get) => ({
       set({ user });
       await loadCatalogAndPosts();
     } catch {
+      stopPoll();
       await saveSession({ serverUrl: session.serverUrl, token: "" });
-      set({ user: null, api: new Api(session.serverUrl, "") });
+      set({ user: null, api: new Api(session.serverUrl, ""), seen: {}, syncStamp: "" });
     }
   },
 
@@ -92,6 +109,7 @@ export const useStore = create<Store>((set, get) => ({
 
   logout: async () => {
     const { api } = get();
+    stopPoll();
     await saveSession({ serverUrl: api.baseUrl, token: "" });
     set({
       user: null,
@@ -101,6 +119,8 @@ export const useStore = create<Store>((set, get) => ({
       selectedId: null,
       fish: [],
       waterbodies: [],
+      seen: {},
+      syncStamp: "",
     });
   },
 
@@ -128,10 +148,11 @@ export const useStore = create<Store>((set, get) => ({
     const { api } = get();
     const { post } = await api.post(id);
     set({ detail: post });
+    get().markSeen(post);
   },
 
   refreshPosts: async () => {
-    const { api, waterbodyId, filters, selectedId } = get();
+    const { api, waterbodyId, filters, selectedId, user } = get();
     if (!waterbodyId) return;
     const { posts } = await api.posts({
       waterbodyId: waterbodyId === ALL_WATERBODIES ? "" : waterbodyId,
@@ -143,28 +164,73 @@ export const useStore = create<Store>((set, get) => ({
       uploadedTo: filters.uploadedTo,
       sort: filters.sort,
     });
-    set({ posts });
+    let seen = user ? seedSeen(user.id, posts) : get().seen;
+    const selected = selectedId ? posts.find((p) => p.id === selectedId) : undefined;
+    if (user && selected) seen = markPostSeen(user.id, selected);
+    set({ posts, seen });
     if (selectedId && !posts.some((p) => p.id === selectedId)) {
       set({ selectedId: null, detail: null });
     }
   },
 
-  refreshDetail: async () => {
+  refreshDetail: async (opts) => {
     const { selectedId, api } = get();
     if (!selectedId) return;
     const { post } = await api.post(selectedId);
     set({ detail: post });
-    await get().refreshPosts();
+    get().markSeen(post);
+    if (!opts?.skipList) await get().refreshPosts();
   },
 }));
 
+async function tickSync() {
+  if (pollBusy || document.hidden) return;
+  const { api, user, syncStamp } = useStore.getState();
+  if (!user) return;
+  pollBusy = true;
+  try {
+    const { stamp } = await api.sync();
+    if (stamp === syncStamp) return;
+    useStore.setState({ syncStamp: stamp });
+    await useStore.getState().refreshPosts();
+    if (useStore.getState().selectedId) await useStore.getState().refreshDetail({ skipList: true });
+  } catch {
+    /* offline / stale token */
+  } finally {
+    pollBusy = false;
+  }
+}
+
+function stopPoll() {
+  if (pollTimer) {
+    clearInterval(pollTimer);
+    pollTimer = null;
+  }
+  document.removeEventListener("visibilitychange", onVisibility);
+}
+
+function onVisibility() {
+  if (!document.hidden) void tickSync();
+}
+
+function startPoll() {
+  stopPoll();
+  pollTimer = setInterval(() => void tickSync(), POLL_MS);
+  document.addEventListener("visibilitychange", onVisibility);
+}
+
 async function loadCatalogAndPosts() {
   const { api, waterbodyId } = useStore.getState();
-  const [{ fish }, { waterbodies }] = await Promise.all([api.fish(), api.waterbodies()]);
+  const [{ fish }, { waterbodies }, { stamp }] = await Promise.all([
+    api.fish(),
+    api.waterbodies(),
+    api.sync(),
+  ]);
   const nextId =
     waterbodyId && (waterbodyId === ALL_WATERBODIES || waterbodies.some((w) => w.id === waterbodyId))
       ? waterbodyId
       : ALL_WATERBODIES;
-  useStore.setState({ fish, waterbodies, waterbodyId: nextId });
+  useStore.setState({ fish, waterbodies, waterbodyId: nextId, syncStamp: stamp });
   await useStore.getState().refreshPosts();
+  startPoll();
 }

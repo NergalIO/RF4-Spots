@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { CATCH_LABEL, fmtCoord } from "../api";
 import type { CatchType, Post } from "../types";
 import { FishCombobox } from "./FishCombobox";
+import { ShotPicker } from "./ShotPicker";
 import { useStore } from "../store";
 
 type Props = {
@@ -23,8 +24,11 @@ export function PostForm({ coords, post, onClose }: Props) {
   );
   const [comment, setComment] = useState(post?.comment ?? "");
   const [files, setFiles] = useState<File[]>([]);
+  const [keepIds, setKeepIds] = useState<string[]>(post?.screenshots.map((s) => s.id) ?? []);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+
+  const kept = post?.screenshots.filter((s) => keepIds.includes(s.id)) ?? [];
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -43,7 +47,7 @@ export function PostForm({ coords, post, onClose }: Props) {
     fd.set("catchDate", catchDate);
     fd.set("comment", comment);
     for (const f of files) fd.append("screenshots", f);
-    if (post) fd.set("keepScreenshots", JSON.stringify(post.screenshots.map((s) => s.id)));
+    if (post) fd.set("keepScreenshots", JSON.stringify(keepIds));
     try {
       const res = post ? await api.updatePost(post.id, fd) : await api.createPost(fd);
       await refreshPosts();
@@ -87,15 +91,16 @@ export function PostForm({ coords, post, onClose }: Props) {
           Комментарий
           <textarea rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
         </label>
-        <label>
-          Скриншоты
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => setFiles(Array.from(e.target.files ?? []).slice(0, 8))}
+        <div className="field">
+          <span className="field-label">Скриншоты</span>
+          <ShotPicker
+            files={files}
+            onChange={setFiles}
+            existing={kept}
+            onRemoveExisting={(id) => setKeepIds((ids) => ids.filter((x) => x !== id))}
+            fileUrl={(url) => api.fileUrl(url)}
           />
-        </label>
+        </div>
         {error && <p className="form-error">{error}</p>}
         <div className="row-actions">
           <button type="button" className="btn ghost" onClick={onClose}>

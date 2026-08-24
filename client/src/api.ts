@@ -59,6 +59,10 @@ export class Api {
     return this.req<{ waterbodies: Waterbody[] }>("/waterbodies");
   }
 
+  sync() {
+    return this.req<{ stamp: string }>("/sync");
+  }
+
   posts(params: Record<string, string>) {
     const q = new URLSearchParams();
     for (const [k, v] of Object.entries(params)) {

@@ -60,6 +60,7 @@ export type Post = {
   waterbody: { id: string; name: string };
   screenshots: Screenshot[];
   commentsCount: number;
+  commentsMeta: { id: string; createdAt: string; userId: string }[];
   comments?: CommentItem[];
 };
 
