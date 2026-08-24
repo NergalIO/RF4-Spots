@@ -7,3 +7,7 @@ uploads
 *.log
 .DS_Store
 Thumbs.db
+.update.lock
+.update-stamp
+.update-stamp-client
+

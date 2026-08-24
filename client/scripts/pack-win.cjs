@@ -89,12 +89,21 @@ function publishUpdates() {
     fs.copyFileSync(path.join(releaseDir, name), path.join(dest, name));
     console.log("server/updates ←", name);
   }
-  console.log("Залейте server/updates на VPS (scp или git не подходит — файлы большие).");
+  console.log(
+    process.env.PACK_ON_SERVER
+      ? "Установщик лежит в server/updates и отдаётся как /updates."
+      : "Скопируйте server/updates на Linux-сервер (файлы большие, в git их нет).",
+  );
 }
 
 let packStatus = 1;
 for (let attempt = 1; attempt <= 4; attempt++) {
-  packStatus = run("npx", ["electron-builder", "--win", "nsis"]);
+  packStatus = run(
+    "npx",
+    process.platform === "win32"
+      ? ["electron-builder", "--win", "nsis", "-c.electronDist=node_modules/electron/dist"]
+      : ["electron-builder", "--win", "nsis"],
+  );
   if (packStatus === 0) break;
   console.warn(`\nelectron-builder не смог упаковать приложение (попытка ${attempt}/4). Жду и пробую снова...\n`);
   cleanRelease();

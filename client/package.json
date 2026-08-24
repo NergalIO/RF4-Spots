@@ -59,7 +59,6 @@
       "node_modules/ms/**/*",
       "node_modules/sax/**/*"
     ],
-    "electronDist": "node_modules/electron/dist",
     "win": {
       "target": "nsis",
       "signAndEditExecutable": false,
