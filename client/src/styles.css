@@ -322,6 +322,8 @@ body.resizing-panels .leaflet-host {
   left: 0;
   top: calc(100% + 4px);
   min-width: 180px;
+  max-height: 280px;
+  overflow: auto;
   padding: 6px;
   background: #0c1c26;
   border: 1px solid var(--line);
@@ -722,6 +724,28 @@ body.resizing-panels .leaflet-host {
   overflow: hidden;
 }
 .guide-table { display: flex; flex-direction: column; min-height: 0; flex: 1; gap: 8px; }
+.guide-table .filters-block {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.guide-table .filters-toggle { padding: 8px 12px; }
+.guide-table .filters { padding: 0 12px 12px; }
+.guide-table .combo-list,
+.guide-table .filter-add-menu { z-index: 40; }
+.num-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  min-width: 0;
+}
+.num-range input {
+  width: 100%;
+  margin: 0;
+  min-width: 0;
+}
+.filters input,
+.filters .combo { width: 100%; }
 .guide-toolbar {
   display: flex;
   align-items: center;

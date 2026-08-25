@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { GuideRow } from "../types";
-import { asText, emptyGuideRow, type GuideField, type GuideKey } from "../guideSchema";
+import { asNum, asText, emptyGuideRow, type GuideField, type GuideKey } from "../guideSchema";
+import { ValueCombobox } from "./ValueCombobox";
 
 type Props = {
   datasetKey: GuideKey;
@@ -18,6 +19,43 @@ type Props = {
 const PICK_W = 44;
 const DEL_W = 40;
 const MIN_COL = 72;
+const SELECT_MAX = 48;
+
+type FilterValue = { text: string; from: string; to: string };
+
+function emptyFilter(): FilterValue {
+  return { text: "", from: "", to: "" };
+}
+
+function uniqueTexts(rows: GuideRow[], key: string) {
+  const set = new Set<string>();
+  for (const row of rows) {
+    const value = asText(row[key]).trim();
+    if (value) set.add(value);
+  }
+  return [...set].sort((a, b) => a.localeCompare(b, "ru"));
+}
+
+function filterActive(field: GuideField, value: FilterValue | undefined) {
+  if (!value) return false;
+  if (field.type === "number") return Boolean(value.from.trim() || value.to.trim());
+  return Boolean(value.text);
+}
+
+function rowPasses(row: GuideRow, field: GuideField, value: FilterValue) {
+  if (field.type === "number") {
+    const n = asNum(row[field.key]);
+    const from = asNum(value.from);
+    const to = asNum(value.to);
+    if (from == null && to == null) return true;
+    if (n == null) return false;
+    if (from != null && n < from) return false;
+    if (to != null && n > to) return false;
+    return true;
+  }
+  if (!value.text) return true;
+  return asText(row[field.key]) === value.text;
+}
 
 function cellText(value: unknown) {
   if (value == null || value === "") return "—";
@@ -67,7 +105,11 @@ export function GuideTable({
   const [q, setQ] = useState("");
   const [sortKey, setSortKey] = useState(fields[0]?.key ?? "name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
-  const [category, setCategory] = useState("");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [slots, setSlots] = useState<string[]>([]);
+  const [values, setValues] = useState<Record<string, FilterValue>>({});
+  const [addOpen, setAddOpen] = useState(false);
+  const addRef = useRef<HTMLDivElement>(null);
   const [widths, setWidths] = useState(() => loadWidths(datasetKey, fields));
   const widthsRef = useRef(widths);
   widthsRef.current = widths;
@@ -77,11 +119,22 @@ export function GuideTable({
   useEffect(() => {
     setDraft(null);
     setQ("");
-    setCategory("");
+    setSlots([]);
+    setValues({});
+    setFilterOpen(false);
+    setAddOpen(false);
     setSortKey(fields[0]?.key ?? "name");
     setSortDir("asc");
     setWidths(loadWidths(datasetKey, fields));
   }, [datasetKey]);
+
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (!addRef.current?.contains(e.target as Node)) setAddOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
 
   useEffect(() => {
     try {
@@ -91,20 +144,30 @@ export function GuideTable({
     }
   }, [datasetKey, widths]);
 
-  const categories = useMemo(() => {
-    const set = new Set<string>();
-    for (const row of rows) {
-      const value = asText(row.category);
-      if (value) set.add(value);
+  const unusedFields = useMemo(
+    () => fields.filter((field) => !slots.includes(field.key)),
+    [fields, slots],
+  );
+
+  const uniqueByField = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    for (const field of fields) {
+      if (field.type === "string") map[field.key] = uniqueTexts(data, field.key);
     }
-    return [...set].sort((a, b) => a.localeCompare(b, "ru"));
-  }, [rows]);
+    return map;
+  }, [data, fields]);
+
+  const activeCount = fields.filter((field) => slots.includes(field.key) && filterActive(field, values[field.key])).length;
 
   const indexed = useMemo(() => {
     const query = q.trim().toLowerCase();
     const list = data.map((row, index) => ({ row, index }));
     const filtered = list.filter(({ row }) => {
-      if (category && asText(row.category) !== category) return false;
+      for (const field of fields) {
+        if (!slots.includes(field.key)) continue;
+        const spec = values[field.key] ?? emptyFilter();
+        if (!rowPasses(row, field, spec)) return false;
+      }
       if (!query) return true;
       return fields.some((field) => asText(row[field.key]).toLowerCase().includes(query));
     });
@@ -118,7 +181,7 @@ export function GuideTable({
       return asText(av).localeCompare(asText(bv), "ru") * dir;
     });
     return filtered;
-  }, [data, q, category, fields, sortKey, sortDir]);
+  }, [data, q, slots, values, fields, sortKey, sortDir]);
 
   const tableWidth =
     (onSelect ? PICK_W : 0) +
@@ -165,8 +228,136 @@ export function GuideTable({
     };
   }
 
+  function addSlot(key: string) {
+    setSlots((prev) => (prev.includes(key) ? prev : [...prev, key]));
+    setValues((prev) => ({ ...prev, [key]: prev[key] ?? emptyFilter() }));
+    setAddOpen(false);
+    setFilterOpen(true);
+  }
+
+  function removeSlot(key: string) {
+    setSlots((prev) => prev.filter((k) => k !== key));
+    setValues((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }
+
+  function patchFilter(key: string, patch: Partial<FilterValue>) {
+    setValues((prev) => ({ ...prev, [key]: { ...(prev[key] ?? emptyFilter()), ...patch } }));
+  }
+
+  function renderFilterControl(field: GuideField) {
+    const spec = values[field.key] ?? emptyFilter();
+    if (field.type === "number") {
+      return (
+        <div className="num-range">
+          <input
+            type="number"
+            step="any"
+            value={spec.from}
+            placeholder="От"
+            onChange={(e) => patchFilter(field.key, { from: e.target.value })}
+            aria-label={`${field.label}, от`}
+          />
+          <input
+            type="number"
+            step="any"
+            value={spec.to}
+            placeholder="До"
+            onChange={(e) => patchFilter(field.key, { to: e.target.value })}
+            aria-label={`${field.label}, до`}
+          />
+        </div>
+      );
+    }
+    const options = uniqueByField[field.key] ?? [];
+    if (options.length <= SELECT_MAX) {
+      return (
+        <select
+          value={spec.text}
+          onChange={(e) => patchFilter(field.key, { text: e.target.value })}
+        >
+          <option value="">Все значения</option>
+          {options.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      );
+    }
+    return (
+      <ValueCombobox
+        options={options}
+        value={spec.text}
+        onChange={(text) => patchFilter(field.key, { text })}
+        placeholder="Все значения"
+        emptyLabel="Все значения"
+      />
+    );
+  }
+
   return (
     <div className="guide-table">
+      <div className="filters-block">
+        <button
+          type="button"
+          className={`filters-toggle ${filterOpen ? "open" : ""}`}
+          onClick={() => {
+            setFilterOpen((v) => !v);
+            setAddOpen(false);
+          }}
+        >
+          <span>Фильтры</span>
+          {activeCount > 0 && <span className="count">{activeCount}</span>}
+          <span className="filters-chevron">{filterOpen ? "▾" : "▸"}</span>
+        </button>
+        {filterOpen && (
+          <div className="filters">
+            {slots.map((key) => {
+              const field = fields.find((item) => item.key === key);
+              if (!field) return null;
+              return (
+                <div key={key} className="filter-row">
+                  <div className="filter-row-head">
+                    <span>{field.label}</span>
+                    <button type="button" className="filter-remove" onClick={() => removeSlot(key)} aria-label="Убрать">
+                      ×
+                    </button>
+                  </div>
+                  {renderFilterControl(field)}
+                </div>
+              );
+            })}
+            {unusedFields.length > 0 && (
+              <div className="filter-add-wrap" ref={addRef}>
+                <button
+                  type="button"
+                  className="filter-add"
+                  onClick={() => setAddOpen((v) => !v)}
+                  aria-label="Добавить фильтр"
+                >
+                  +
+                </button>
+                {addOpen && (
+                  <div className="filter-add-menu">
+                    {unusedFields.map((field) => (
+                      <button key={field.key} type="button" onClick={() => addSlot(field.key)}>
+                        {field.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {slots.length === 0 && unusedFields.length > 0 && (
+              <p className="filter-empty">Нажмите +, чтобы добавить фильтр</p>
+            )}
+          </div>
+        )}
+      </div>
       <div className="guide-toolbar">
         <input
           value={q}
@@ -174,16 +365,6 @@ export function GuideTable({
           placeholder="Поиск"
           aria-label="Поиск по таблице"
         />
-        {categories.length > 1 && (
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option value="">Все категории</option>
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        )}
         <span className="muted">
           {indexed.length} из {data.length}
         </span>
