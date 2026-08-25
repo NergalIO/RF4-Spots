@@ -1,6 +1,6 @@
 import "./lib/loadEnv.js";
-import { chmodSync, existsSync, mkdirSync } from "node:fs";
-import { dirname, extname, join } from "node:path";
+import { chmodSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { basename, dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import cors from "cors";
 import express from "express";
@@ -68,6 +68,42 @@ app.use((req, res, next) => {
 });
 
 app.use("/uploads", express.static(UPLOAD_DIR, { index: false, dotfiles: "deny" }));
+
+function latestInstaller() {
+  let name = "";
+  const ymlPath = join(updatesDir, "latest.yml");
+  if (existsSync(ymlPath)) {
+    const text = readFileSync(ymlPath, "utf8");
+    name = basename(
+      (text.match(/^path:\s*(\S+)/m)?.[1] || text.match(/^\s+-\s+url:\s*(\S+)/m)?.[1] || "").trim(),
+    );
+  }
+  const filePath = name ? join(updatesDir, name) : "";
+  if (!name || name.includes("..") || !name.toLowerCase().endsWith(".exe") || !existsSync(filePath)) {
+    const found = readdirSync(updatesDir)
+      .filter((item) => /^RF4Spots-Setup-.+\.exe$/i.test(item))
+      .map((item) => ({ item, mtime: statSync(join(updatesDir, item)).mtimeMs }))
+      .sort((a, b) => a.mtime - b.mtime)
+      .at(-1);
+    if (!found) return null;
+    name = found.item;
+  }
+  return { name, filePath: join(updatesDir, name) };
+}
+
+function sendLatestInstaller(_req: express.Request, res: express.Response) {
+  const installer = latestInstaller();
+  if (!installer) {
+    res.status(404).json({ error: "Установщик ещё не собран" });
+    return;
+  }
+  res.setHeader("Cache-Control", "no-store");
+  res.download(installer.filePath, installer.name);
+}
+
+app.get("/updates/installer", sendLatestInstaller);
+app.get("/updates/installer.exe", sendLatestInstaller);
+
 app.use("/updates", (req, res, next) => {
   const ext = extname(req.path).toLowerCase();
   if (!UPDATE_EXTS.has(ext)) {
