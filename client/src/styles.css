@@ -18,6 +18,28 @@
 
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; margin: 0; }
+html { color-scheme: dark; }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1a2c36 transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #16242c;
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #24363f;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
 body { background: radial-gradient(1200px 700px at 10% -10%, #143246, var(--bg)); }
 
 button, input, select, textarea {
