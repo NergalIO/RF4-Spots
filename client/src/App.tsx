@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AuthScreen } from "./components/AuthScreen";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Shell } from "./components/Shell";
 import { useStore } from "./store";
 
@@ -19,5 +20,10 @@ export function App() {
       </div>
     );
   }
-  return user ? <Shell /> : <AuthScreen />;
+  if (!user) return <AuthScreen />;
+  return (
+    <ErrorBoundary>
+      <Shell />
+    </ErrorBoundary>
+  );
 }

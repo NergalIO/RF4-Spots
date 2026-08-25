@@ -76,17 +76,24 @@ export const useStore = create<Store>((set, get) => ({
 
   boot: async () => {
     const session = await loadSession();
+    if (!session.token) {
+      set({ api: new Api(session.serverUrl, ""), ready: true, user: null });
+      return;
+    }
     const api = new Api(session.serverUrl, session.token);
-    set({ api, ready: true });
-    if (!session.token) return;
     try {
       const { user } = await api.me();
-      set({ user });
-      await loadCatalogAndPosts();
+      set({ api, user, ready: true });
     } catch {
       stopPoll();
       await saveSession({ serverUrl: session.serverUrl, token: "" });
-      set({ user: null, api: new Api(session.serverUrl, ""), seen: {}, syncStamp: "" });
+      set({ user: null, api: new Api(session.serverUrl, ""), ready: true, seen: {}, syncStamp: "" });
+      return;
+    }
+    try {
+      await loadCatalogAndPosts();
+    } catch {
+      set({ error: "Не удалось загрузить данные с сервера" });
     }
   },
 

@@ -3,13 +3,24 @@ import { useStore } from "../store";
 import type { GuideKey } from "../guideSchema";
 import { GUIDE_FIELDS } from "../guideSchema";
 import type { GuideRow } from "../types";
+import { EarningsCalc } from "./EarningsCalc";
 import { GearCompare } from "./GearCompare";
 import { GuideTable } from "./GuideTable";
 import { SpeedCalc } from "./SpeedCalc";
 import { WearCalc } from "./WearCalc";
 
 const TOOL_KEY = "rf4spots-tools-tab";
-type ToolId = "reels" | "rods" | "hooks" | "wear" | "speed" | "fishWeights" | "alcohol" | "shopPrices" | "levels";
+type ToolId =
+  | "reels"
+  | "rods"
+  | "hooks"
+  | "wear"
+  | "speed"
+  | "earnings"
+  | "fishWeights"
+  | "alcohol"
+  | "shopPrices"
+  | "levels";
 
 const TOOLS: { id: ToolId; label: string }[] = [
   { id: "reels", label: "Сравнение катушек" },
@@ -17,6 +28,7 @@ const TOOLS: { id: ToolId; label: string }[] = [
   { id: "hooks", label: "Крючки" },
   { id: "wear", label: "Калькулятор износа" },
   { id: "speed", label: "Калькулятор скорости" },
+  { id: "earnings", label: "Подсчёт заработка" },
   { id: "fishWeights", label: "Веса рыбы" },
   { id: "alcohol", label: "Алкоголь" },
   { id: "shopPrices", label: "Цены магазинов" },
@@ -99,6 +111,7 @@ export function ToolsView({ active }: { active: boolean }) {
   let body;
   if (tool === "wear") body = <WearCalc reels={reels} rods={rods} hooks={hooks} />;
   else if (tool === "speed") body = <SpeedCalc reels={reels} />;
+  else if (tool === "earnings") body = <EarningsCalc />;
   else if (tool === "reels") {
     body = (
       <GearCompare

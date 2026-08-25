@@ -240,9 +240,11 @@ export function Shell() {
             onNavigate={onCafeNavigate}
           />
         </div>
-        <div className="tools-shell" hidden={tab !== "tools"}>
-          <ToolsView active={tab === "tools"} />
-        </div>
+        {tab === "tools" && (
+          <div className="tools-shell">
+            <ToolsView active />
+          </div>
+        )}
       </div>
       {createAt && <PostForm coords={createAt} onClose={() => setCreateAt(null)} />}
       {edit && (
