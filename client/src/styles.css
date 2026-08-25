@@ -138,6 +138,31 @@ input:focus, select:focus, textarea:focus {
 .wb-select { display: flex; align-items: center; gap: 8px; margin: 0; }
 .wb-select select { min-width: 220px; }
 .spacer { flex: 1; }
+.game-clock {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  line-height: 1;
+}
+.game-clock-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.game-clock-time {
+  font-variant-numeric: tabular-nums;
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+}
+.game-clock.night .game-clock-time { color: #9ec4e8; }
 .role-pill {
   font-size: 12px;
   padding: 6px 10px;
@@ -642,7 +667,8 @@ body.resizing-panels .leaflet-host {
   grid-template-rows: 1fr;
 }
 .app-main > .workspace,
-.app-main > .site-host {
+.app-main > .site-host,
+.app-main > .tools-shell {
   grid-row: 1;
   grid-column: 1;
   min-height: 0;
@@ -659,5 +685,122 @@ body.resizing-panels .leaflet-host {
   height: 100%;
   border: 0;
   background: #fff;
+}
+
+.tools-shell { display: flex; background: #071018; min-height: 0; }
+.tools-host {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 0;
+}
+.tools-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+  overflow: auto;
+}
+.tools-nav button {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: var(--muted);
+}
+.tools-nav button.on,
+.tools-nav button:hover { background: #1b3a48; color: var(--gold); }
+.tools-body {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  overflow: hidden;
+}
+.guide-table { display: flex; flex-direction: column; min-height: 0; flex: 1; gap: 8px; }
+.guide-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.guide-toolbar input,
+.guide-toolbar select { margin: 0; width: auto; min-width: 180px; }
+.guide-toolbar .btn.primary { width: auto; }
+.guide-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.guide-scroll table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.guide-scroll th,
+.guide-scroll td {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+  text-align: left;
+}
+.guide-scroll thead th { position: sticky; top: 0; background: #16303d; z-index: 1; }
+.guide-scroll .sort { border: 0; background: transparent; color: var(--gold); padding: 0; }
+.guide-scroll td input {
+  width: 100%;
+  min-width: 72px;
+  padding: 6px 8px;
+  margin: 0;
+}
+.guide-scroll tr.picked { background: rgba(58, 168, 160, 0.12); }
+.guide-scroll td.empty { color: var(--muted); text-align: center; padding: 24px; }
+.guide-scroll .pick { width: 44px; }
+.guide-compare {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 320px);
+  gap: 12px;
+}
+.compare-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  padding: 14px;
+  overflow: auto;
+}
+.compare-card h3 { margin: 0 0 12px; font-size: 15px; }
+.compare-card h3 span { color: var(--muted); font-weight: 500; }
+.compare-card dl { margin: 0; display: grid; gap: 8px; }
+.compare-card dt { color: var(--muted); font-size: 12px; }
+.compare-card dd { margin: 0; display: flex; gap: 8px; align-items: center; }
+.compare-card dd span { color: var(--muted); }
+.compare-card .changed b { color: var(--gold); }
+.compare-card .up { color: #7dcea0; }
+.compare-card .down { color: var(--danger); }
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  overflow: auto;
+}
+.calc-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.calc-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  padding: 16px;
+}
+.calc-card h3 { margin: 0 0 12px; }
+.calc-card label { margin-bottom: 10px; }
+.calc-result { margin: 0; padding-left: 18px; }
+.calc-weak { margin: 12px 0 0; color: var(--gold); }
+@media (max-width: 1100px) {
+  .tools-host { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .tools-nav { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
+  .guide-compare, .calc-grid, .calc-grid.two { grid-template-columns: 1fr; }
 }
 

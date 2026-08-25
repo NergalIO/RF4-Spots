@@ -1,0 +1,4925 @@
+[
+  {
+    "name": "МАХОВОЕ - Aurora Pole",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Belmor Pole",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Comfort",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 5.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Crimson Star",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Crystal Pole",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Ethnic Pole",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Expression",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Falcon",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 21.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Genius",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Heritage",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Inferno",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 25.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Kontakt",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 7.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Linear",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Master",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 17.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Mechta",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Model One",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 11.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Model Two",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 9.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Razor",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Razor Ultra",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 5.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - RedStick",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Soul Pole",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 3.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Spirit",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 18.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - StarlingStick",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - TeleStick",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Trophy",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 2.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Ultra",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 2.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - WalrusStick",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 7.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - White Pole",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАХОВОЕ - Windmaster",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 7.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Crimson Star",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Ethnic",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Falcon",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 20.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Fortuna",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Genius",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Heritage",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Inferno",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 25.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - KingMaster",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Linear",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Master",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 17.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Mechta",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Model One",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Razor",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Rebellion",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - S-Eagle",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Sensiv",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 3.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Siren",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 5.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Spirit",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 18.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "БОЛОНСКОЕ - Windmaster",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 7.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Akkord Match 3.6-4.2",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 9.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Borray Match 390",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Borray Match 420, 450",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 23.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Elementary Match 390, 420",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 19.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Elite Match EM12, EM16",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Elite Match EM18, EM20",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 7.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Elite Match EM18XH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Ethnic Match 340MH, 380MH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 18.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Ethnic Match 420H",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Falcon Match 360, 390",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 42.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Falcon Match 390XH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 44.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Fortuna Match M130ML",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Fortuna Match M140MH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 16.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Genius Match M110M, M150M",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Harp Match HM12",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Harp Match HM16, HM20",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Inverter Match 300-360",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 12.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Karelia Match 320M, 360M",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Karelia Match 380MH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Katapulta 4.2",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Model One Match M140MH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 16.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Model One Match M140XH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 16.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Monster Match 320",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 31.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Monster Match 360",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Monster Match 400",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 58.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Monster Match 440",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 65.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Plasma Match 320",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 22.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Plasma Match 340",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 34.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Plasma Match 380",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 46.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Plasma Match 420",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 54.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Ranger Match RM13, RM16",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Raven Match 320",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 18.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Raven Match 340",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 36.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Raven Match 360",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 40.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Rebellion Match 390H, 420H",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 41.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Rebellion Match 450LC",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 15.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Shooting Match 420",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 52.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Shooting Match 450",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 58.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Sport Match 3.3-4.4",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Vertigo Match M130H, M140H",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 12.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МАТЧЕВОЕ - Vertigo Match M150MH",
+    "category": "Поплавочные",
+    "length": null,
+    "test": "",
+    "blankKg": 12.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Asteria FD110, FD130",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 7.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Blackwood FSL130H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 24.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Blackwood FSL140XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 25.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Bunessan FF120H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Bunessan FF120XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Bunessan FF130H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Bunessan FF140H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Coldstream FM120MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 33.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Coldstream FM130H, FM140H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 35.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Comfort FD330-390",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Fantazia FD350-410",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Fortuna Feeder FD390",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 17.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Fortuna Feeder FD420",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 19.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Impuls FD360-450",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Mechta FD360-440",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 25.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model One FD360M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 27.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model One FD390M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 27.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model One FD420H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 29.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model One FD450XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 29.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model Two FD360M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 23.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model Two FD360MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 25.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model Two FD390XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Model Two FD420H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 26.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Palmar FD120, FD150",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 12.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Persey FD110, FD140",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Royal FM120H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 33.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Royal FM130XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 33.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Royal FM130XXH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 30.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Sentense FD340MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 24.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Sorento FD100-130",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 4.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Wingate FF110H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 32.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Wingate FF120H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 33.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ФИДЕРНОЕ - Wingate FF130XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 33.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Blackwood Picker PSL98MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 18.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Bunessan Picker PF88H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 13.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Bunessan Picker PF98XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Bunessan Picker PXF88XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Fortuna Picker P300-MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 9.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Impuls P300",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 10.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Legacy Picker F98M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 32.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Legacy Picker F98MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 35.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Legacy Picker M98M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 32.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Mechta P240",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Mechta P270",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 15.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Mechta P300",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Model One Picker 240M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 15.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Model One Picker 270M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 22.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Model One Picker 300MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 25.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Model Two Picker 270M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Model Two Picker 300MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 11.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Palmar PCK78, PCK88",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 6.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Persey PCK98",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 8.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Royal Picker PF98H, PM88MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 29.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Royal Picker PM98H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 29.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Sage Picker M88M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 27.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Sage Picker M98M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 28.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Sage Picker M98MH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 31.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИКЕРНОЕ - Wingate Picker PF98H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Atlas 12-4.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 57.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Atlas 12-4.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 59.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Atlas 13-5.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 62.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Avalon 12-2.75",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 62.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Avalon 12-3.25",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 64.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Avalon 12-3.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 65.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Avalon 13-3.75",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 66.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Carp Dominator CF118XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 45.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Carp Dominator CF128XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 47.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Carp Dominator CM128XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 51.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Carp Dominator CSL118H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 49.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Classic Model Carp 360H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Classic Model Carp 360XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 27.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Fortuna Carp 360H",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 35.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Fortuna Carp 360M",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 31.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Fortuna Carp 360XH",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 39.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy 12-2.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 70.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy 12-3.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 72.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy 12-3.25",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 73.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy 12-3.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 75.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy 12-3.75",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 76.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy 13-4.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 78.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy 13-4.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 80.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy Ti 12-2.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 70.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy Ti 12-3.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 72.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy Ti 12-3.25",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 73.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy Ti 12-3.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 75.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy Ti 12-3.75",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 76.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy Ti 13-4.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 78.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Legacy Ti 13-4.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 80.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Mechta Carp 340",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 30.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Mechta Carp 360",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 33.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Mechta Carp 380",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 35.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Native 12-2.75",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Native 12-3.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 52.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Native 13-3.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 52.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Persey CP110",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 20.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Persey CP120",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 20.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Sage 12-2.75",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 56.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Sage 12-3.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 58.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Sage 12-3.25",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 59.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Sage 12-3.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 60.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Sage 13-3.00",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 58.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "КАРПОВОЕ - Sage 13-3.50",
+    "category": "Фидерные",
+    "length": null,
+    "test": "",
+    "blankKg": 60.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F100HHH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 57.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F66L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F66ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 31.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F70H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 45.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F70HH, S-F86HH, S-F93MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F70HHH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 53.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F70MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent S-F96H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 55.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aeros SP60ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aeros SP60UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 6.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aeros SP68MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 27.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aquilon S-M68ULL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aquilon S-M70UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aquilon S-M71L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Armada SPEF68H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Armada SPEF68M, SPF60M, SPF60MH, SPF78MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 22.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Armada SPF68XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 25.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Arrow S60L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Arrow S60UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 3.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Arrow S66M, S70M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda SPM68M, SPM88M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 78.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda SPM78M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 77.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda SPM88H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 95.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda SPSL88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 96.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor SPF78M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor SPF78MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor SPF88H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor SPXF88XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition SPF60MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 45.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition SPF78XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 51.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition SPM60ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 30.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition SPM68MH, SPM78MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition SPXF60H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 43.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition SPXF68H, SPXF68M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 45.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Cardena SPF60L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Cardena SPM68L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Cardena SPM68UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 8.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Cardena SPM78ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Comfort SF60MH, SF70MH, SF88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 10.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Comfort SF70XH, SF88XH, SF98XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Comfort SF78M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 9.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Comfort SXF68H, SXF78H, SXF88H, SXF98H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Corona S60L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 3.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Corona S60MH, S66MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 4.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Corona S66H, S70H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Dynamic S60MH, S70MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Dynamic S66H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 6.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic SPF66MH, SPF78MH, SPF88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic SPM68UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic SPM78L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 17.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic SPM88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 27.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic SPXF78H, SPXF98H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 36.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Evora SPM78ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Evora SPM98H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 39.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Evora SPSL88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 38.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Fortuna S60H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Fortuna S60MH, S66MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Fortuna S68MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Heavy S70H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Heavy S70XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Heavy S80XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Inspiration S60UL, S68UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 4.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Inspiration S68L, S78L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Inspiration S78ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra SPF66M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 31.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra SPF66MH, SPF70MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 33.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra SPF70M, SPF77M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra SPF70ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Karelia SPF78M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Karelia SPM66L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 10.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Karelia SPM68ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Lait SSL60UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 4.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Lait SSL70L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Lait SSL78ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF66L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF66M, SPF70M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 39.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF66UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 10.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF68ML, SPF77ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 29.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF70MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 42.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF77H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 41.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF77ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 29.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend SPF77XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 42.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear S60L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear S68ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear S78H, S88H, S98H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear S78MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear S88XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta SF60MH, SF78MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta SF68ML, SM88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 17.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta SM70L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta SM70UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta SXF70MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 19.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta SXF78XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta SXF88H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One S78L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One S78M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One S78ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One S88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 25.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One S98H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Palmera UL SPM68UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 10.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Palmera UL SPM78L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 31.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Premium Stick S60H, S70H, S80H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Premium Stick S60M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Premium Stick S60MH, S66MH, S70MH, S90MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse SPF60UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 9.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse SPF66L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse SPF66ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 25.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse SPF77H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse SPF77MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse SPXF70M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Super Duty S78H, S88H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 24.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Super Duty S78MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 24.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Super Duty S88XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 30.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master S-M60L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master S-M68L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 25.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master S-M71ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master S-M82M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 80.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M100HH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 142.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M60UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M61L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 36.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M68ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 60.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M75ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 62.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M78L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 38.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M87H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 125.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima S-M88HH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 136.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura SPF66ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 22.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura SPF70H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 34.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura SPF70MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 31.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura SPXF66MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 30.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura SPXF70M",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa SPF66M, SPF77M, SPF88MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 33.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa SPF66ML",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa SPF70UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 8.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa SPF77XH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa SPF88H",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa SPM70L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vexillar S-F66L",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 17.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vexillar S-F66MH",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 40.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vexillar S-F70UL",
+    "category": "Спиннинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F100HHH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 57.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F66L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F66ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 31.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 45.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F70HH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F70HHH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 53.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F70MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F86HH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F93MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Advent CST-F96H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 55.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aeros CST CSF66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 27.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aeros CST CSXF60H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aquilon CST-M68ULL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aquilon CST-M70UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aquilon CST-M71L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Armada CST CSF60M, CSF60MH, CSF68MH, CSXF68M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 22.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Armada CST CSF68XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 25.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Armada CST CSXF60H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Armada CST CSXF60UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Arrow CST C60M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Arrow CST C70M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aurora CSTF78M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aurora CSTXF78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Aurora CSTXF88H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda CST CSM68M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 78.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda CST CSM88H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 95.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda CST CSSL78M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 60.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Barracuda CST CSSL88MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 96.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor CSTF78M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor CSTF78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor CSTF88H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Belmor CSTXF88XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition CST CSF60MH, CSF78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 45.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition CST CSF68M, CSXF68M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 45.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition CST CSF68XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 51.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition CST CSM68MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Black Edition CST CSXF60H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 43.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Cardena CST CSF60L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Cardena CST CSM68UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 8.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Cardena CST CSM78ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 37.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Corona CST C60MH, C66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 4.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Corona CST C66H, C70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Dynamic CST C60H, C70M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 6.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Dynamic CST C60MH, C66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTF66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTF78ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTF88H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 36.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTM68UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTM78L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 17.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTM88MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 27.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTXF78H, CSTXF98H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 36.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ethnic CSTXF88XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Evora CST CSSL78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 38.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Evora CST CSSL98H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 49.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Fortuna CST 60MH, 68MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Fortuna CST 66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Heavy CST C66H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Heavy CST C70XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Heavy CST C80XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra CF66M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 31.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra CF70MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 33.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra CF70ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Integra CF77M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Karelia CSTF78M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Karelia CSTF78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 18.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Karelia CSTM68L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 10.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Karelia CSTM78ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Lait CSTSL60UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 4.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Lait CSTSL70L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 7.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Lait CSTSL78ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend CF66L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 16.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend CF66M, CF70M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 39.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend CF66UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 10.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend CF68ML, CF77ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 29.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend CF70MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 41.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Legend CF77H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 42.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear CST 78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear CST 98H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Linear CST68ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta CSTF60MH, CSTF78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 20.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta CSTF68ML, CSTM98MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 17.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta CSTM70L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta CSTM70UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 5.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta CSTXF78MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 19.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta CSTXF88H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Mechta CSTXF88XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One CST S68MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One CST S78L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One CST S78M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One CST S78ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Model One CST S88H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Premium Stick CST C60MH, C66MH, C70MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Premium Stick CST C66H, C70H, C80H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 12.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Premium Stick CST C70M, C80M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse CF60UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 9.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse CF66L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse CF66ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 25.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse CF70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse CF70MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse CF70XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Pulse CXF70M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Rocket CM77M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 78.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Rocket CM88H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 86.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Rocket CM88MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 84.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Rocket CM88XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 89.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Super Duty CST60MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 24.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Super Duty CST78H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 24.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Super Duty CST86XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 30.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master CST-M60L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master CST-M68L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 25.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master CST-M71ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master CST-M82M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 80.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Trout Master CST-M88MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 100.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M100HH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 142.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M60UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 14.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M61L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 36.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M68ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 60.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M75ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 62.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M77M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 106.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M87H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 125.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ultima CST-M88HH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 136.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura CF66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 31.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura CF66ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 22.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura CM77H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 34.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura CXF70M",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 26.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Ventura CXF70MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 30.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa CF66ML",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa CF70UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 8.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa CF77M, CF77XH, CM80H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa CM66MH, CM80MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Versa CM70L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 21.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vexillar CST-F66L",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 17.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vexillar CST-F66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 40.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vexillar CST-F70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 42.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vexillar CST-F70UL",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 11.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "Vision CST C66MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 9.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Advent J-F68H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 50.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Advent J-F68HH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 52.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Advent J-F70HHH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 54.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Barracuda JB JSF60MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 60.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Barracuda JB JSF68H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 61.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Barracuda JB JSF68XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 62.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Ethnic Jerk JF66H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 43.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Ethnic Jerk JXF70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 44.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Ethnic Jerk JXF70XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 45.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Fortuna Jerk J60H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.9,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Fortuna Jerk J60XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 30.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Hevy Jerk C70XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 15.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Hevy Jerk C80XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 13.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Karelia Jerk JXF66H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 32.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Karelia Jerk JXF70XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 34.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Legend JXF70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 46.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Legend JXF70XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 49.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Mechta JXF70XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 23.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Model One Jerk J60H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 35.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Model One Jerk J60XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 39.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Model One Jerk J68XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 40.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Muskie Strike JSF60H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 49.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Muskie Strike JSF60XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 54.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Muskie Strike JSXF68XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 48.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Super Duty Jerk JR60XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 27.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Super Duty Jerk JR68XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 28.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Ultima J-F68MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 72.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Ultima J-F70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 77.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Ultima J-F71HH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 84.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Ultima J-F72HHH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 88.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Versus JF70H",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 39.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Versus JF70MH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 38.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ДЖЕРК - Versus JF77XH",
+    "category": "Кастинговые",
+    "length": null,
+    "test": "",
+    "blankKg": 40.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - 7 Seas - 80-120420",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 52.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - 7 Seas - 80-30140",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 36.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - 7 Seas - 88-120420",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 54.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - 7 Seas - 88-50190",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 41.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Ocean Queen 86-100-300",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 61.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Ocean Queen 86-160-420",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 68.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Ocean Queen 86-50150",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 48.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Poseidon Jig &amp; Pilker 82-30130",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 45.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Poseidon Jig &amp; Pilker 92-40190",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 56.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Poseidon Jig &amp; Pilker 92-80210",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 75.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Poseidon Mega Jig 60260",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 88.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Poseidon Mega Pirk 90340",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 88.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Poseidon Sensi 80-20130",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 49.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Poseidon Sensi 88-50190",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 63.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Saltmaster - Fjord 88",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 28.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Saltmaster - Inshore 92",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 33.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Saltmaster - Offshore 88",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 38.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "ПИЛКЕР - Saltmaster - Ultra 88",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 25.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Arctic Special 70-030",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 125.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Coast Runner 70-025",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 76.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Coast Runner 70-040",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 78.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Coast Runner 70-050",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 83.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Deep Attack 70-095",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 159.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Dual Strike 60-040",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 59.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Dual Strike 70-015",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 55.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Dual Strike 70-025",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 57.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Dual Strike 70-040",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 62.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Fjordmaster 70-012",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 40.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Fjordmaster 70-020",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 43.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Fjordmaster 70-030",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 46.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Fjordmaster 70-050",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 48.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Nordmaster 70-030",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 95.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Polar Hunter 70-030",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 163.0,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon 70-050",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 188.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon 70-080",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 198.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon 70-100",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 214.7,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon 80-050",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 193.1,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon 80-080",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 206.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon 80-100",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 218.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon Ultra 70-100",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 232.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Poseidon Ultra 80-100",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 238.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Storm Rider 70-030",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 147.8,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Storm Rider 70-050",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 155.6,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Tristar Deep Jig 68-020",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 107.5,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Tristar Deep Jig 68-030",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 115.4,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Tristar Deep Jig 68-050",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 128.2,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Tristar Deep Jig 78-030",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 119.3,
+    "price": null,
+    "notes": ""
+  },
+  {
+    "name": "МОРСКОЕ ДОННОЕ - Tristar Deep Jig 78-050",
+    "category": "Морские",
+    "length": null,
+    "test": "",
+    "blankKg": 135.6,
+    "price": null,
+    "notes": ""
+  }
+]

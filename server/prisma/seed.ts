@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, readFileSync } from "node:fs";
+import { GUIDE_KEYS } from "../src/lib/guides.js";
 
 function loadEnv() {
   const path = resolve(process.cwd(), ".env");
@@ -111,7 +112,17 @@ async function main() {
     });
   }
 
-  console.log(`Seeded ${waterbodies.length} waterbodies and ${fish.length} fish.`);
+  let guides = 0;
+  for (const key of GUIDE_KEYS) {
+    const existing = await prisma.guideDataset.findUnique({ where: { key } });
+    if (existing) continue;
+    const file = join(here, "seeds", "guides", `${key}.json`);
+    const rows = existsSync(file) ? JSON.parse(await readFile(file, "utf8")) : [];
+    await prisma.guideDataset.create({ data: { key, rows } });
+    guides += 1;
+  }
+
+  console.log(`Seeded ${waterbodies.length} waterbodies, ${fish.length} fish and ${guides} guide datasets.`);
 }
 
 main()

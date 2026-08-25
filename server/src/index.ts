@@ -8,6 +8,7 @@ import { authRouter } from "./routes/auth.js";
 import { catalogRouter } from "./routes/catalog.js";
 import { postsRouter } from "./routes/posts.js";
 import { commentsRouter } from "./routes/comments.js";
+import { guidesRouter } from "./routes/guides.js";
 import { UPLOAD_DIR } from "./lib/upload.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -62,6 +63,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/auth", authRouter);
+app.use("/guides", guidesRouter);
 app.use(catalogRouter);
 app.use("/posts", postsRouter);
 app.use(commentsRouter);

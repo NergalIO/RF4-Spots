@@ -64,6 +64,14 @@ export type Post = {
   comments?: CommentItem[];
 };
 
+export type GuideValue = string | number | null;
+export type GuideRow = Record<string, GuideValue>;
+export type GuideDataset = {
+  key: string;
+  updatedAt: string;
+  rows: GuideRow[];
+};
+
 export type Filters = {
   fishId: string;
   catchType: "" | CatchType;

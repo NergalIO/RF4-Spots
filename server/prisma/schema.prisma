@@ -105,3 +105,9 @@ model Screenshot {
   filename  String
   sortOrder Int      @default(0)
 }
+
+model GuideDataset {
+  key       String   @id
+  updatedAt DateTime @updatedAt
+  rows      Json
+}

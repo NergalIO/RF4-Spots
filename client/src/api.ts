@@ -1,4 +1,4 @@
-import type { CatchType, CommentItem, Fish, Post, User, Waterbody } from "./types";
+import type { CatchType, CommentItem, Fish, GuideDataset, GuideRow, Post, User, Waterbody } from "./types";
 
 export class ApiError extends Error {
   status: number;
@@ -96,6 +96,39 @@ export class Api {
 
   deleteComment(id: string) {
     return this.req<{ ok: boolean }>(`/comments/${id}`, { method: "DELETE" });
+  }
+
+  guides() {
+    return this.req<{ datasets: GuideDataset[] }>("/guides");
+  }
+
+  guide(key: string) {
+    return this.req<GuideDataset>(`/guides/${key}`);
+  }
+
+  saveGuide(key: string, rows: GuideRow[]) {
+    return this.req<GuideDataset>(`/guides/${key}`, {
+      method: "PUT",
+      body: JSON.stringify({ rows }),
+    });
+  }
+
+  addGuideRow(key: string, row: GuideRow) {
+    return this.req<GuideDataset>(`/guides/${key}/row`, {
+      method: "POST",
+      body: JSON.stringify(row),
+    });
+  }
+
+  updateGuideRow(key: string, index: number, row: GuideRow) {
+    return this.req<GuideDataset>(`/guides/${key}/row/${index}`, {
+      method: "PUT",
+      body: JSON.stringify(row),
+    });
+  }
+
+  deleteGuideRow(key: string, index: number) {
+    return this.req<GuideDataset>(`/guides/${key}/row/${index}`, { method: "DELETE" });
   }
 }
 

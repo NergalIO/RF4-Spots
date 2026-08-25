@@ -1,0 +1,642 @@
+[
+  {
+    "level": 1,
+    "xp": 300.0,
+    "xpTotal": 300.0,
+    "points": 1.0,
+    "pointsTotal": 1.0,
+    "waterAccess": "Комариное, Лосиное, Вьюнок"
+  },
+  {
+    "level": 2,
+    "xp": 400.0,
+    "xpTotal": 700.0,
+    "points": 1.0,
+    "pointsTotal": 2.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 3,
+    "xp": 500.0,
+    "xpTotal": 1200.0,
+    "points": 1.0,
+    "pointsTotal": 3.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 4,
+    "xp": 800.0,
+    "xpTotal": 2000.0,
+    "points": 1.0,
+    "pointsTotal": 4.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 5,
+    "xp": 1000.0,
+    "xpTotal": 3000.0,
+    "points": 1.0,
+    "pointsTotal": 5.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 6,
+    "xp": 1500.0,
+    "xpTotal": 4500.0,
+    "points": 1.0,
+    "pointsTotal": 6.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 7,
+    "xp": 3000.0,
+    "xpTotal": 7500.0,
+    "points": 1.0,
+    "pointsTotal": 7.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 8,
+    "xp": 5000.0,
+    "xpTotal": 12500.0,
+    "points": 1.0,
+    "pointsTotal": 8.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 9,
+    "xp": 7500.0,
+    "xpTotal": 20000.0,
+    "points": 1.0,
+    "pointsTotal": 9.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 10,
+    "xp": 11000.0,
+    "xpTotal": 31000.0,
+    "points": 1.0,
+    "pointsTotal": 10.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 11,
+    "xp": 18000.0,
+    "xpTotal": 49000.0,
+    "points": 1.0,
+    "pointsTotal": 11.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 12,
+    "xp": 31000.0,
+    "xpTotal": 80000.0,
+    "points": 1.0,
+    "pointsTotal": 12.0,
+    "waterAccess": "Старый Острог, Белая"
+  },
+  {
+    "level": 13,
+    "xp": 45000.0,
+    "xpTotal": 125000.0,
+    "points": 1.0,
+    "pointsTotal": 13.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 14,
+    "xp": 55000.0,
+    "xpTotal": 180000.0,
+    "points": 1.0,
+    "pointsTotal": 14.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 15,
+    "xp": 80000.0,
+    "xpTotal": 260000.0,
+    "points": 1.0,
+    "pointsTotal": 15.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 16,
+    "xp": 90000.0,
+    "xpTotal": 350000.0,
+    "points": 1.0,
+    "pointsTotal": 16.0,
+    "waterAccess": "Куори"
+  },
+  {
+    "level": 17,
+    "xp": 100000.0,
+    "xpTotal": 450000.0,
+    "points": 1.0,
+    "pointsTotal": 17.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 18,
+    "xp": 150000.0,
+    "xpTotal": 600000.0,
+    "points": 1.0,
+    "pointsTotal": 18.0,
+    "waterAccess": "Медвежье"
+  },
+  {
+    "level": 19,
+    "xp": 200000.0,
+    "xpTotal": 800000.0,
+    "points": 2.0,
+    "pointsTotal": 20.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 20,
+    "xp": 400000.0,
+    "xpTotal": 1200000.0,
+    "points": 2.0,
+    "pointsTotal": 22.0,
+    "waterAccess": "Волхов"
+  },
+  {
+    "level": 21,
+    "xp": 600000.0,
+    "xpTotal": 1800000.0,
+    "points": 2.0,
+    "pointsTotal": 24.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 22,
+    "xp": 800000.0,
+    "xpTotal": 2600000.0,
+    "points": 2.0,
+    "pointsTotal": 26.0,
+    "waterAccess": "Северский Донец"
+  },
+  {
+    "level": 23,
+    "xp": 900000.0,
+    "xpTotal": 3500000.0,
+    "points": 2.0,
+    "pointsTotal": 28.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 24,
+    "xp": 1000000.0,
+    "xpTotal": 4500000.0,
+    "points": 2.0,
+    "pointsTotal": 30.0,
+    "waterAccess": "Сура"
+  },
+  {
+    "level": 25,
+    "xp": 1300000.0,
+    "xpTotal": 5800000.0,
+    "points": 2.0,
+    "pointsTotal": 32.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 26,
+    "xp": 1500000.0,
+    "xpTotal": 7300000.0,
+    "points": 2.0,
+    "pointsTotal": 34.0,
+    "waterAccess": "Ладога, Янтарное"
+  },
+  {
+    "level": 27,
+    "xp": 1900000.0,
+    "xpTotal": 9200000.0,
+    "points": 2.0,
+    "pointsTotal": 36.0,
+    "waterAccess": "Архипелаг"
+  },
+  {
+    "level": 28,
+    "xp": 2200000.0,
+    "xpTotal": 11400000.0,
+    "points": 2.0,
+    "pointsTotal": 38.0,
+    "waterAccess": "Ахтуба"
+  },
+  {
+    "level": 29,
+    "xp": 2500000.0,
+    "xpTotal": 13900000.0,
+    "points": 3.0,
+    "pointsTotal": 41.0,
+    "waterAccess": "Медное"
+  },
+  {
+    "level": 30,
+    "xp": 3000000.0,
+    "xpTotal": 16900000.0,
+    "points": 3.0,
+    "pointsTotal": 44.0,
+    "waterAccess": "Тунгуска"
+  },
+  {
+    "level": 31,
+    "xp": 4100000.0,
+    "xpTotal": 21000000.0,
+    "points": 3.0,
+    "pointsTotal": 47.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 32,
+    "xp": 5000000.0,
+    "xpTotal": 26000000.0,
+    "points": 3.0,
+    "pointsTotal": 50.0,
+    "waterAccess": "Яма"
+  },
+  {
+    "level": 33,
+    "xp": 6000000.0,
+    "xpTotal": 32000000.0,
+    "points": 3.0,
+    "pointsTotal": 53.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 34,
+    "xp": 7000000.0,
+    "xpTotal": 39000000.0,
+    "points": 3.0,
+    "pointsTotal": 56.0,
+    "waterAccess": "Норвегия"
+  },
+  {
+    "level": 35,
+    "xp": 9000000.0,
+    "xpTotal": 48000000.0,
+    "points": 3.0,
+    "pointsTotal": 59.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 36,
+    "xp": 11000000.0,
+    "xpTotal": 59000000.0,
+    "points": 3.0,
+    "pointsTotal": 62.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 37,
+    "xp": 13000000.0,
+    "xpTotal": 72000000.0,
+    "points": 3.0,
+    "pointsTotal": 65.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 38,
+    "xp": 15000000.0,
+    "xpTotal": 87000000.0,
+    "points": 3.0,
+    "pointsTotal": 68.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 39,
+    "xp": 19000000.0,
+    "xpTotal": 106000000.0,
+    "points": 4.0,
+    "pointsTotal": 72.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 40,
+    "xp": 90500000.0,
+    "xpTotal": 182600000.0,
+    "points": 4.0,
+    "pointsTotal": 76.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 41,
+    "xp": 45000000.0,
+    "xpTotal": 241500000.0,
+    "points": 4.0,
+    "pointsTotal": 80.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 42,
+    "xp": 58500000.0,
+    "xpTotal": 300000000.0,
+    "points": 4.0,
+    "pointsTotal": 84.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 43,
+    "xp": 67500000.0,
+    "xpTotal": 367500000.0,
+    "points": 4.0,
+    "pointsTotal": 88.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 44,
+    "xp": 75000000.0,
+    "xpTotal": 442500000.0,
+    "points": 4.0,
+    "pointsTotal": 92.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 45,
+    "xp": 90000000.0,
+    "xpTotal": 532500000.0,
+    "points": 4.0,
+    "pointsTotal": 96.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 46,
+    "xp": 112000000.0,
+    "xpTotal": 644500000.0,
+    "points": 4.0,
+    "pointsTotal": 100.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 47,
+    "xp": 135000000.0,
+    "xpTotal": 779500000.0,
+    "points": 4.0,
+    "pointsTotal": 104.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 48,
+    "xp": 180000000.0,
+    "xpTotal": 959500000.0,
+    "points": 4.0,
+    "pointsTotal": 108.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 49,
+    "xp": 240000000.0,
+    "xpTotal": 1199500000.0,
+    "points": 4.0,
+    "pointsTotal": 112.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 50,
+    "xp": 300000000.0,
+    "xpTotal": 1499500000.0,
+    "points": 5.0,
+    "pointsTotal": 117.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 51,
+    "xp": 380000000.0,
+    "xpTotal": 1879500000.0,
+    "points": 5.0,
+    "pointsTotal": 122.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 52,
+    "xp": 480000000.0,
+    "xpTotal": 2359500000.0,
+    "points": 5.0,
+    "pointsTotal": 127.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 53,
+    "xp": 600000000.0,
+    "xpTotal": 2959500000.0,
+    "points": 5.0,
+    "pointsTotal": 132.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 54,
+    "xp": 740000000.0,
+    "xpTotal": 3699500000.0,
+    "points": 5.0,
+    "pointsTotal": 137.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 55,
+    "xp": 890000000.0,
+    "xpTotal": 4589500000.0,
+    "points": 5.0,
+    "pointsTotal": 142.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 56,
+    "xp": 1060000000.0,
+    "xpTotal": 5649500000.0,
+    "points": 5.0,
+    "pointsTotal": 147.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 57,
+    "xp": 1250000000.0,
+    "xpTotal": 6899500000.0,
+    "points": 5.0,
+    "pointsTotal": 152.0,
+    "waterAccess": ""
+  },
+  {
+    "level": 58,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 59,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 60,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 61,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 62,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 63,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 64,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 65,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 66,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 67,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 68,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 69,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 70,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 71,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 72,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 73,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 74,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 75,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 76,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 77,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 78,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 79,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  },
+  {
+    "level": 80,
+    "xp": null,
+    "xpTotal": null,
+    "points": null,
+    "pointsTotal": null,
+    "waterAccess": ""
+  }
+]

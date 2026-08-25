@@ -6,18 +6,20 @@ import { PostDetail } from "./PostDetail";
 import { PostForm } from "./PostForm";
 import { PostList } from "./PostList";
 import { Lightbox } from "./Lightbox";
+import { GameClock } from "./GameClock";
 import { SiteEmbed } from "./SiteEmbed";
+import { ToolsView } from "./ToolsView";
 import { useStore } from "../store";
 import { useResizablePanels } from "../useResizablePanels";
 import type { Post, Screenshot } from "../types";
 
 const TAB_KEY = "rf4spots-main-tab";
-type MainTab = "spots" | "stats" | "cafe";
+type MainTab = "spots" | "stats" | "cafe" | "tools";
 
 function loadTab(): MainTab {
   try {
     const v = localStorage.getItem(TAB_KEY);
-    if (v === "stats" || v === "cafe") return v;
+    if (v === "stats" || v === "cafe" || v === "tools") return v;
   } catch {
     /* ignore */
   }
@@ -27,6 +29,7 @@ function loadTab(): MainTab {
 function tabCaption(tab: MainTab) {
   if (tab === "stats") return "статистика улова";
   if (tab === "cafe") return "заказы кафе";
+  if (tab === "tools") return "полезные функции";
   return "точки ловли";
 }
 
@@ -103,6 +106,15 @@ export function Shell() {
           >
             Кафе
           </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === "tools"}
+            className={tab === "tools" ? "on" : ""}
+            onClick={() => setTab("tools")}
+          >
+            Полезные функции
+          </button>
         </div>
         <label className="wb-select">
           Водоём
@@ -139,6 +151,7 @@ export function Shell() {
           </>
         )}
         <div className="spacer" />
+        <GameClock />
         <span className={`role-pill ${user?.role}`}>
           {user?.nickname} · {user?.role === "admin" ? "админ" : "игрок"}
         </span>
@@ -226,6 +239,9 @@ export function Shell() {
             active={tab === "cafe"}
             onNavigate={onCafeNavigate}
           />
+        </div>
+        <div className="tools-shell" hidden={tab !== "tools"}>
+          <ToolsView active={tab === "tools"} />
         </div>
       </div>
       {createAt && <PostForm coords={createAt} onClose={() => setCreateAt(null)} />}
