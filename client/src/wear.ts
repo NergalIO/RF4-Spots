@@ -8,14 +8,12 @@ export function remainLinear(maxKg: number, wearPct: number) {
   return maxKg * (1 - wear / 100);
 }
 
-/** Max wear % of a 30%-base part before remaining strength drops below targetKg. */
-export function maxWearBase(maxKg: number, targetKg: number) {
+/** Max wear % so stock strength does not fall below the weakest other part. */
+export function maxWearUntil(maxKg: number, targetKg: number) {
   if (!(maxKg > 0) || !Number.isFinite(targetKg)) return null;
-  const floor = maxKg * 0.3;
-  if (targetKg <= floor) return 100;
+  if (targetKg <= 0) return 100;
   if (targetKg >= maxKg) return 0;
-  const wear = (100 * (1 - targetKg / maxKg)) / 0.7;
-  return Math.min(100, Math.max(0, wear));
+  return Math.min(100, Math.max(0, 100 * (1 - targetKg / maxKg)));
 }
 
 export function convertRetrieve(speed1: number, retrieve1: number, retrieve2: number) {

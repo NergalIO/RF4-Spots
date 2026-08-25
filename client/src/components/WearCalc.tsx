@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { GuideRow } from "../types";
 import { asNum, asText } from "../guideSchema";
-import { fmtKg, fmtPct, maxWearBase, remainBase, remainLinear } from "../wear";
+import { fmtKg, fmtPct, maxWearUntil, remainBase, remainLinear } from "../wear";
 
 type Props = {
   reels: GuideRow[];
@@ -155,9 +155,10 @@ export function WearCalc({ reels, rods, hooks }: Props) {
   );
   const warn = Boolean(gearLeft && weakestOther?.left != null && weakestOther.left > gearLeft);
 
-  const consumableMin = minDefined([hookLeft, lineLeft, leaderLeft]);
-  const blankSafe = blankKg ? maxWearBase(blankKg, consumableMin ?? (gearKg || NaN)) : null;
-  const gearSafe = gearKg ? maxWearBase(gearKg, consumableMin ?? (blankKg || NaN)) : null;
+  const weakestExcept = (id: string) =>
+    minDefined(loadRows.filter((row) => row.id !== id).map((row) => row.left));
+  const blankSafe = blankKg ? maxWearUntil(blankKg, weakestExcept("blank") ?? NaN) : null;
+  const gearSafe = gearKg ? maxWearUntil(gearKg, weakestExcept("gear") ?? NaN) : null;
 
   return (
     <div className="wear-calc">
