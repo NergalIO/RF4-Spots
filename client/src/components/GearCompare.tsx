@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { GuideRow } from "../types";
-import { asNum, asText, GUIDE_FIELDS, type GuideKey } from "../guideSchema";
+import { asText, GUIDE_FIELDS, type GuideField, type GuideKey } from "../guideSchema";
 import { GuideTable } from "./GuideTable";
 
 type Props = {
@@ -16,7 +16,9 @@ type Props = {
 
 const MIN_PANEL = 220;
 const MAX_PANEL = 640;
-const DEFAULT_PANEL = 320;
+const DEFAULT_PANEL = 360;
+const SKIP_BEST = new Set(["name", "notes", "category"]);
+const LOWER_BETTER = new Set(["price", "weight"]);
 
 function loadPanel(datasetKey: string) {
   try {
@@ -26,6 +28,42 @@ function loadPanel(datasetKey: string) {
     /* ignore */
   }
   return DEFAULT_PANEL;
+}
+
+function parseCompareNum(value: unknown, key: string): number | null {
+  if (value == null || value === "") return null;
+  if (typeof value === "number") {
+    if (!Number.isFinite(value)) return null;
+    if ((key === "price" || key === "weight") && value === 0) return null;
+    return value;
+  }
+  const text = String(value).trim().replace(/\u00a0/g, " ").replace(",", ".");
+  if (!text) return null;
+  const direct = Number(text);
+  if (Number.isFinite(direct)) {
+    if ((key === "price" || key === "weight") && direct === 0) return null;
+    return direct;
+  }
+  const ratio = text.match(/(\d+(?:\.\d+)?)\s*:\s*\d/);
+  if (ratio) return Number(ratio[1]);
+  const nums = [...text.matchAll(/(\d+(?:\.\d+)?)/g)]
+    .map((m) => Number(m[1]))
+    .filter((n) => Number.isFinite(n));
+  if (!nums.length) return null;
+  return nums.length >= 2 ? Math.max(...nums) : nums[0];
+}
+
+function winningIndexes(values: unknown[], field: GuideField): Set<number> {
+  if (SKIP_BEST.has(field.key)) return new Set();
+  const nums = values.map((value) => parseCompareNum(value, field.key));
+  const filled = nums.flatMap((n, i) => (n == null ? [] : [{ n, i }]));
+  if (filled.length < 2) return new Set();
+  const best = LOWER_BETTER.has(field.key)
+    ? Math.min(...filled.map((x) => x.n))
+    : Math.max(...filled.map((x) => x.n));
+  const winners = filled.filter((x) => x.n === best).map((x) => x.i);
+  if (winners.length === values.length) return new Set();
+  return new Set(winners);
 }
 
 export function GearCompare({ datasetKey, rows, canEdit, saving, error, selected, onSelect, onSave }: Props) {
@@ -48,21 +86,23 @@ export function GearCompare({ datasetKey, rows, canEdit, saving, error, selected
     }
   }, [datasetKey, panelW]);
 
+  const specFields = useMemo(
+    () => fields.filter((f) => f.key !== "name" && f.key !== "notes"),
+    [fields],
+  );
+
   const diff = useMemo(() => {
-    if (picked.length !== 2) return [];
-    const [a, b] = picked;
-    return fields
-      .filter((f) => f.key !== "name" && f.key !== "notes")
-      .map((f) => {
-        const left = a[f.key];
-        const right = b[f.key];
-        const ln = asNum(left);
-        const rn = asNum(right);
-        let delta: number | null = null;
-        if (ln != null && rn != null) delta = rn - ln;
-        return { label: f.label, left, right, delta, changed: asText(left) !== asText(right) };
-      });
-  }, [fields, picked]);
+    if (picked.length < 2) return [];
+    return specFields.map((field) => {
+      const values = picked.map((row) => row[field.key]);
+      return {
+        key: field.key,
+        label: field.label,
+        values,
+        best: winningIndexes(values, field),
+      };
+    });
+  }, [specFields, picked]);
 
   function onDragPanel(e: ReactPointerEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -109,27 +149,31 @@ export function GearCompare({ datasetKey, rows, canEdit, saving, error, selected
             title="Потяните, чтобы изменить ширину панели"
           />
           <aside className="compare-card">
-            <h3>
-              {asText(picked[0].name)} <span>vs</span> {asText(picked[1].name)}
-            </h3>
-            <dl>
-              {diff.map((row) => (
-                <div key={row.label} className={row.changed ? "changed" : ""}>
-                  <dt>{row.label}</dt>
-                  <dd>
-                    <b>{asText(row.left) || "—"}</b>
-                    <span>→</span>
-                    <b>{asText(row.right) || "—"}</b>
-                    {row.delta != null && row.delta !== 0 && (
-                      <em className={row.delta > 0 ? "up" : "down"}>
-                        {row.delta > 0 ? "+" : ""}
-                        {row.delta.toFixed(2).replace(/\.00$/, "")}
-                      </em>
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <table className="compare-table">
+              <thead>
+                <tr>
+                  <th>Параметр</th>
+                  {picked.map((row, i) => (
+                    <th key={i}>{asText(row.name) || `Вариант ${i + 1}`}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {diff.map((row) => (
+                  <tr key={row.key}>
+                    <th scope="row">{row.label}</th>
+                    {row.values.map((value, i) => {
+                      const text = asText(value).trim();
+                      return (
+                        <td key={i} className={row.best.has(i) ? "best" : text ? undefined : "empty"}>
+                          {text || "—"}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </aside>
         </div>
       )}

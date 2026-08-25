@@ -1,7 +1,7 @@
 """Download public RF4 tables into prisma/seeds/guides/*.json.
 
 Sources:
-- Potryasov Google Sheets (alcohol, levels, shop prices)
+- Potryasov Google Sheets (alcohol, levels, shop prices, reel catalogs with Мод)
 - Potryasov wear-calculator pages (gearKg / blankKg fallback)
 - FarmTrof open catalogs (reels, rods, hooks, fish weights)
 """
@@ -40,6 +40,26 @@ REEL_PAGES = [
     ("http://potryasovgame.ru/page119040226.html", "Низкопрофильные"),
 ]
 
+# Interactive tables (Google Sheets) with a Мод column after each upgradeable spec.
+REEL_TABLE_PAGES = [
+    ("http://potryasovgame.ru/page110667406.html", "Безынерционные"),
+    ("http://potryasovgame.ru/page113477996.html", "Силовые"),
+    ("http://potryasovgame.ru/page113477646.html", "Байткастинговые"),
+    ("http://potryasovgame.ru/page113478266.html", "Низкопрофильные"),
+]
+
+REEL_SHEET_BASE = {
+    "название": "name",
+    "тест": "test",
+    "передаточное число": "ratio",
+    "фрикцион": "dragKg",
+    "шестерня": "gearKg",
+    "скорость": "_speed",
+}
+
+REEL_SHEET_STRINGS = {"name", "test", "testMod", "ratio", "ratioMod"}
+REEL_SHEET_NUMBERS = {"dragKg", "dragKgMod", "gearKg", "gearKgMod"}
+
 ROD_PAGES = [
     ("http://potryasovgame.ru/page119041286.html", "Поплавочные"),
     ("http://potryasovgame.ru/page119043766.html", "Фидерные"),
@@ -59,32 +79,60 @@ REEL_CAT = {
     "низкопрофильные": "Низкопрофильные",
 }
 
-ROD_CAT = {
-    "маховое": "Поплавочные",
-    "болонское": "Поплавочные",
-    "матчевое": "Поплавочные",
-    "поплавочные": "Поплавочные",
-    "фидер": "Фидерные",
-    "фидерные": "Фидерные",
-    "пикер": "Фидерные",
-    "карповое": "Фидерные",
-    "сподовое": "Фидерные",
-    "маркерное": "Фидерные",
-    "спиннинг": "Спиннинговые",
-    "спиннинговые": "Спиннинговые",
-    "кастинговое": "Кастинговые",
-    "кастинговые": "Кастинговые",
-    "джерковое": "Кастинговые",
-    "морское донное": "Морские",
-    "пилкерное": "Морские",
-    "морские": "Морские",
-    "нахлыстовое": "Нахлыстовые",
-    "нахлыстовые": "Нахлыстовые",
+ROD_TYPE = {
+    "маховое": "Маховое",
+    "болонское": "Болонское",
+    "матчевое": "Матчевое",
+    "фидер": "Фидерное",
+    "фидерное": "Фидерное",
+    "пикер": "Пикерное",
+    "пикерное": "Пикерное",
+    "карповое": "Карповое",
+    "сподовое": "Сподовое",
+    "маркерное": "Маркерное",
+    "спиннинг": "Спиннинговое",
+    "спиннинговое": "Спиннинговое",
+    "кастинговое": "Кастинговое",
+    "джерк": "Джерковое",
+    "джерковое": "Джерковое",
+    "морское донное": "Морское донное",
+    "пилкер": "Пилкерное",
+    "пилкерное": "Пилкерное",
+    "нахлыстовое": "Нахлыстовое",
 }
 
+ROD_GROUP = {
+    "поплавочные": "Поплавочные",
+    "фидерные": "Фидерное",
+    "спиннинговые": "Спиннинговое",
+    "кастинговые": "Кастинговое",
+    "морские": "Морские",
+    "морское": "Морские",
+    "нахлыстовые": "Нахлыстовое",
+}
+
+ROD_PREFIXES = (
+    "морское донное",
+    "пилкерное",
+    "пилкер",
+    "джерковое",
+    "джерк",
+    "маховое",
+    "болонское",
+    "матчевое",
+    "фидерное",
+    "пикерное",
+    "карповое",
+    "спиннинговое",
+    "кастинговое",
+    "нахлыстовое",
+    "сподовое",
+    "маркерное",
+    "морское",
+)
+
 PREFIX_RE = re.compile(
-    r"^(маховое|болонское|матчевое|фидерное|пикерное|карповое|спиннинговое|кастинговое|"
-    r"джерковое|морское|пилкерное|нахлыстовое|сподовое|маркерное)\s*[-–:]\s*",
+    r"^(" + "|".join(ROD_PREFIXES) + r")\s*[-–:]\s*",
     re.I,
 )
 
@@ -110,6 +158,55 @@ def fetch_text(url: str, referer: str = "https://rr4farmtrof.com/") -> str:
         except UnicodeDecodeError:
             continue
     return raw.decode("utf-8", "replace")
+
+
+def empty_reel(name: str = "", category: str = "") -> dict:
+    return {
+        "name": name,
+        "category": category,
+        "retrieve": None,
+        "test": "",
+        "testMod": "",
+        "ratio": "",
+        "ratioMod": "",
+        "gearKg": None,
+        "gearKgMod": None,
+        "dragKg": None,
+        "dragKgMod": None,
+        "weight": None,
+        "capacity": "",
+        "price": None,
+        "notes": "",
+    }
+
+
+def is_blank_spec(value: str) -> bool:
+    text = (value or "").strip().replace("\xa0", " ")
+    return text.lower() in {"", "-", "—", "–", ".", "?", "нет", "нет данных"}
+
+
+def clean_text_spec(value: str) -> str:
+    text = html_lib.unescape(value or "").replace("\xa0", " ").strip()
+    text = re.sub(r"\s+", " ", text)
+    return "" if is_blank_spec(text) else text
+
+
+def clean_test(value: str) -> str:
+    text = clean_text_spec(value)
+    text = re.sub(r"\s*г\.?$", "", text, flags=re.I).strip()
+    return "" if is_blank_spec(text) else text
+
+
+def find_sheet_csv(page_html: str) -> str | None:
+    for m in re.finditer(
+        r"https://docs\.google\.com/spreadsheets/d/e/[A-Za-z0-9_-]+/pub\?[^\s\"'<>]+",
+        page_html,
+    ):
+        url = html_lib.unescape(m.group(0).replace("\\/", "/"))
+        url = url.split('"')[0].split("'")[0].rstrip("\\")
+        if "output=csv" in url:
+            return url
+    return None
 
 
 def parse_num(value: str | None) -> float | None:
@@ -257,18 +354,9 @@ def parse_calc_options(page_html: str, category: str, kind: str) -> list[dict]:
             continue
         seen.add(key)
         if kind == "reel":
-            rows.append({
-                "name": name,
-                "category": category,
-                "retrieve": None,
-                "ratio": "",
-                "gearKg": kg,
-                "dragKg": None,
-                "weight": None,
-                "capacity": "",
-                "price": None,
-                "notes": "",
-            })
+            row = empty_reel(name, category)
+            row["gearKg"] = kg
+            rows.append(row)
         else:
             rows.append({
                 "name": name,
@@ -292,6 +380,68 @@ def collect(pages: list[tuple[str, str]], kind: str) -> list[dict]:
             continue
         parsed = parse_calc_options(page_html, category, kind)
         print(kind, "potryasov", category, len(parsed))
+        all_rows.extend(parsed)
+    return all_rows
+
+
+def parse_reel_mod_sheet(header: list[str], rows: list[list[str]], category: str) -> list[dict]:
+    """Pair each «Мод» column with the previous spec (тест, передатка, фрикцион, шестерня)."""
+    fields: list[str | None] = []
+    last: str | None = None
+    for raw in header:
+        title = re.sub(r"\s+", " ", raw.strip().lower())
+        if title in {"мод", "моды"}:
+            fields.append(f"{last}Mod" if last else None)
+            continue
+        last = REEL_SHEET_BASE.get(title)
+        fields.append(last)
+
+    out: list[dict] = []
+    seen: set[str] = set()
+    for row in rows:
+        item = empty_reel("", category)
+        for i, field in enumerate(fields):
+            if not field or field.startswith("_"):
+                continue
+            raw = row[i].strip() if i < len(row) else ""
+            if field == "name":
+                item["name"] = html_lib.unescape(raw).strip()
+                continue
+            if field == "test" or field == "testMod":
+                value = clean_test(raw)
+            elif field in REEL_SHEET_STRINGS:
+                value = clean_text_spec(raw)
+            elif field in REEL_SHEET_NUMBERS:
+                value = None if is_blank_spec(raw) else clean_num(raw)
+            else:
+                continue
+            if value in (None, ""):
+                continue
+            item[field] = value
+        name = str(item.get("name") or "")
+        key = norm_name(name)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(item)
+    return out
+
+
+def collect_reel_catalogs() -> list[dict]:
+    all_rows: list[dict] = []
+    for url, category in REEL_TABLE_PAGES:
+        try:
+            page_html = fetch_text(url, referer="http://potryasovgame.ru/")
+        except Exception as exc:
+            print("fail catalog", category, exc)
+            continue
+        csv_url = find_sheet_csv(page_html)
+        if not csv_url:
+            print("no sheet", category)
+            continue
+        header, rows = read_csv(csv_url)
+        parsed = parse_reel_mod_sheet(header, rows, category)
+        print("reel catalog", category, len(parsed))
         all_rows.extend(parsed)
     return all_rows
 
@@ -334,6 +484,60 @@ def map_cat(raw: str, table: dict[str, str], fallback: str) -> str:
     return table.get(key, fallback if fallback else raw.strip())
 
 
+def fold_key(value: str) -> str:
+    text = html_lib.unescape(value or "").replace("\xa0", " ").strip().lower().replace("ё", "е")
+    return re.sub(r"\s+", " ", text)
+
+
+def rod_type_label(raw: str) -> str:
+    key = fold_key(raw)
+    return ROD_TYPE.get(key) or ROD_GROUP.get(key) or ""
+
+
+def split_rod_prefix(name: str) -> tuple[str, str]:
+    text = html_lib.unescape(name or "").replace("\xa0", " ").strip()
+    m = PREFIX_RE.match(text)
+    if not m:
+        return text, ""
+    rest = text[m.end() :].strip()
+    return (rest or text), m.group(1)
+
+
+def polish_rods(rows: list[dict]) -> list[dict]:
+    out = []
+    for row in rows:
+        item = dict(row)
+        name, prefix = split_rod_prefix(str(item.get("name") or ""))
+        item["name"] = name
+        category = (
+            rod_type_label(prefix)
+            or rod_type_label(str(item.get("notes") or ""))
+            or rod_type_label(str(item.get("category") or ""))
+            or str(item.get("category") or "").strip()
+        )
+        if category:
+            item["category"] = category
+        note = str(item.get("notes") or "").strip()
+        if not note or rod_type_label(note) == item.get("category"):
+            item["notes"] = ""
+        else:
+            item["notes"] = note
+        out.append(item)
+    index: dict[str, int] = {}
+    unique: list[dict] = []
+    for src in out:
+        key = norm_name(str(src.get("name") or ""))
+        if not key:
+            continue
+        i = index.get(key)
+        if i is None:
+            index[key] = len(unique)
+            unique.append(src)
+            continue
+        fill_empty_fields(unique[i], src)
+    return unique
+
+
 def parse_farmtrof_reels(page_html: str) -> list[dict]:
     rows = []
     seen: set[str] = set()
@@ -359,18 +563,16 @@ def parse_farmtrof_reels(page_html: str) -> list[dict]:
         abil = attr(block, "abil")
         if abil:
             notes.append(abil)
-        rows.append({
-            "name": name,
-            "category": category,
-            "retrieve": retrieve,
-            "ratio": ratio,
-            "gearKg": gear,
-            "dragKg": drag,
-            "weight": None,
-            "capacity": size,
-            "price": price,
-            "notes": "; ".join(dict.fromkeys(notes)),
-        })
+        row = empty_reel(name, category)
+        row["retrieve"] = retrieve
+        row["test"] = clean_test(inner_val(block, "test"))
+        row["ratio"] = ratio
+        row["gearKg"] = gear
+        row["dragKg"] = drag
+        row["capacity"] = size
+        row["price"] = price
+        row["notes"] = "; ".join(dict.fromkeys(notes))
+        rows.append(row)
     return rows
 
 
@@ -382,16 +584,18 @@ def parse_farmtrof_rods(page_html: str) -> list[dict]:
         name = html_lib.unescape(name_m.group(1)).strip() if name_m else ""
         if not name:
             continue
+        name, prefix = split_rod_prefix(name)
         key = norm_name(name)
         if not key or key in seen:
             continue
         seen.add(key)
         raw_type = attr(block, "type")
-        category = map_cat(raw_type, ROD_CAT, "Спиннинговые")
+        category = rod_type_label(prefix) or rod_type_label(raw_type) or "Спиннинговое"
         length = clean_num(attr(block, "length") or inner_val(block, "length"))
         test = inner_val(block, "test")
         blank = clean_num(attr(block, "strength") or inner_val(block, "strength"))
         price = clean_num(attr(block, "price"))
+        note = "" if rod_type_label(raw_type) in {category, ""} else raw_type
         rows.append({
             "name": name,
             "category": category,
@@ -399,7 +603,7 @@ def parse_farmtrof_rods(page_html: str) -> list[dict]:
             "test": test,
             "blankKg": blank,
             "price": price,
-            "notes": raw_type,
+            "notes": note,
         })
     return rows
 
@@ -472,16 +676,17 @@ def parse_farmtrof_fish(page_html: str) -> list[dict]:
     return rows
 
 
+def fill_empty_fields(dst: dict, src: dict) -> None:
+    for field, value in src.items():
+        if value in (None, ""):
+            continue
+        if dst.get(field) in (None, ""):
+            dst[field] = value
+
+
 def merge_by_name(primary: list[dict], extra: list[dict]) -> list[dict]:
     index = {norm_name(str(row.get("name") or "")): i for i, row in enumerate(primary)}
     out = [dict(row) for row in primary]
-
-    def fill_row(dst: dict, src: dict) -> None:
-        for field, value in src.items():
-            if value in (None, ""):
-                continue
-            if dst.get(field) in (None, ""):
-                dst[field] = value
 
     for src in extra:
         key = norm_name(str(src.get("name") or ""))
@@ -492,12 +697,26 @@ def merge_by_name(primary: list[dict], extra: list[dict]) -> list[dict]:
             variants = [idx for name, idx in index.items() if name.startswith(key + " ")]
             if variants:
                 for idx in variants:
-                    fill_row(out[idx], src)
+                    fill_empty_fields(out[idx], src)
                 continue
             index[key] = len(out)
             out.append(dict(src))
             continue
-        fill_row(out[i], src)
+        fill_empty_fields(out[i], src)
+    return out
+
+
+def apply_to_prefixed_names(rows: list[dict], extra: list[dict]) -> list[dict]:
+    """Copy specs onto longer names (7-Years, colourways) when the short catalog name exists."""
+    out = [dict(row) for row in rows]
+    index = [(norm_name(str(row.get("name") or "")), i) for i, row in enumerate(out)]
+    for src in extra:
+        key = norm_name(str(src.get("name") or ""))
+        if not key:
+            continue
+        for name, i in index:
+            if name.startswith(key + " "):
+                fill_empty_fields(out[i], src)
     return out
 
 
@@ -521,8 +740,10 @@ def main() -> None:
 
     potryasov_reels = collect(REEL_PAGES, "reel")
     potryasov_rods = collect(ROD_PAGES, "rod")
-    dump("reels", merge_by_name(farm_reels, potryasov_reels))
-    dump("rods", merge_by_name(farm_rods, potryasov_rods))
+    reel_catalog = collect_reel_catalogs()
+    reels = merge_by_name(merge_by_name(farm_reels, potryasov_reels), reel_catalog)
+    dump("reels", apply_to_prefixed_names(reels, reel_catalog))
+    dump("rods", polish_rods(merge_by_name(farm_rods, potryasov_rods)))
 
     fish_rows = parse_farmtrof_fish(fish_html)
     if FISH_JSON.exists():

@@ -67,7 +67,15 @@ function defaultWidth(field: GuideField) {
   if (field.key === "notes") return 160;
   if (field.key === "category") return 140;
   if (field.key === "size") return 80;
-  if (field.key === "test" || field.key === "ratio" || field.key === "capacity") return 110;
+  if (
+    field.key === "test" ||
+    field.key === "testMod" ||
+    field.key === "ratio" ||
+    field.key === "ratioMod" ||
+    field.key === "capacity"
+  ) {
+    return 110;
+  }
   return field.type === "number" ? 96 : 130;
 }
 
@@ -102,7 +110,6 @@ export function GuideTable({
   selectHint,
 }: Props) {
   const [draft, setDraft] = useState<GuideRow[] | null>(null);
-  const [q, setQ] = useState("");
   const [sortKey, setSortKey] = useState(fields[0]?.key ?? "name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [filterOpen, setFilterOpen] = useState(false);
@@ -118,7 +125,6 @@ export function GuideTable({
 
   useEffect(() => {
     setDraft(null);
-    setQ("");
     setSlots([]);
     setValues({});
     setFilterOpen(false);
@@ -160,7 +166,6 @@ export function GuideTable({
   const activeCount = fields.filter((field) => slots.includes(field.key) && filterActive(field, values[field.key])).length;
 
   const indexed = useMemo(() => {
-    const query = q.trim().toLowerCase();
     const list = data.map((row, index) => ({ row, index }));
     const filtered = list.filter(({ row }) => {
       for (const field of fields) {
@@ -168,8 +173,7 @@ export function GuideTable({
         const spec = values[field.key] ?? emptyFilter();
         if (!rowPasses(row, field, spec)) return false;
       }
-      if (!query) return true;
-      return fields.some((field) => asText(row[field.key]).toLowerCase().includes(query));
+      return true;
     });
     const dir = sortDir === "asc" ? 1 : -1;
     filtered.sort((a, b) => {
@@ -181,7 +185,7 @@ export function GuideTable({
       return asText(av).localeCompare(asText(bv), "ru") * dir;
     });
     return filtered;
-  }, [data, q, slots, values, fields, sortKey, sortDir]);
+  }, [data, slots, values, fields, sortKey, sortDir]);
 
   const tableWidth =
     (onSelect ? PICK_W : 0) +
@@ -359,12 +363,6 @@ export function GuideTable({
         )}
       </div>
       <div className="guide-toolbar">
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Поиск"
-          aria-label="Поиск по таблице"
-        />
         <span className="muted">
           {indexed.length} из {data.length}
         </span>

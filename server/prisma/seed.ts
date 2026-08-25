@@ -50,7 +50,7 @@ type WbSeed = {
 };
 
 const PREFIX_RE =
-  /^(маховое|болонское|матчевое|фидерное|пикерное|карповое|спиннинговое|кастинговое|джерковое|морское|пилкерное|нахлыстовое|сподовое|маркерное)\s*[-–:]\s*/i;
+  /^(морское\s+донное|пилкерное|пилкер|джерковое|джерк|маховое|болонское|матчевое|фидерное|пикерное|карповое|спиннинговое|кастинговое|нахлыстовое|сподовое|маркерное|морское)\s*[-–:]\s*/i;
 
 function normGuideName(value: unknown) {
   const text = String(value ?? "")
@@ -83,7 +83,7 @@ function emptyValue(value: unknown) {
 }
 
 const FILL_FIELDS: Record<string, string[]> = {
-  reels: ["retrieve", "ratio", "dragKg", "price"],
+  reels: ["retrieve", "ratio", "dragKg", "price", "test", "testMod", "ratioMod", "dragKgMod", "gearKgMod"],
   rods: ["length", "test", "price"],
   fishWeights: ["qualifyingKg", "trophyKg", "rareTrophyKg"],
   alcohol: ["price", "expPct"],
@@ -121,7 +121,10 @@ function mergeGuideRows(dataset: string, existing: GuideRow[], seeded: GuideRow[
     }
     const currentName = String(dst.name ?? "");
     const seedName = String(src.name ?? "");
-    if (seedName && currentName.includes(" - ") && !seedName.includes(" - ")) {
+    if (dataset === "rods") {
+      if (seedName) dst.name = seedName;
+      if (!emptyValue(src.category)) dst.category = src.category;
+    } else if (seedName && currentName.includes(" - ") && !seedName.includes(" - ")) {
       dst.name = seedName;
     }
   }
