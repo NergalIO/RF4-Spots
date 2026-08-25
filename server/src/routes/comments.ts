@@ -2,7 +2,8 @@ import { Router } from "express";
 import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
 import { canEditPost, requireAuth, type AuthedRequest } from "../middleware/auth.js";
-import { upload } from "../lib/upload.js";
+import { uploadLimiter } from "../lib/rateLimit.js";
+import { enforceUploadQuota, upload, uploadedFiles, validateUploads } from "../lib/upload.js";
 import { paramId } from "../lib/params.js";
 
 export const commentsRouter = Router();
@@ -18,7 +19,10 @@ function shotUrl(filename: string) {
 commentsRouter.patch(
   "/comments/:id",
   requireAuth,
+  uploadLimiter,
   upload.array("screenshots", 8),
+  validateUploads,
+  enforceUploadQuota,
   async (req: AuthedRequest, res) => {
     const existing = await prisma.comment.findUnique({ where: { id: paramId(req.params.id) } });
     if (!existing) {
@@ -34,7 +38,7 @@ commentsRouter.patch(
       res.status(400).json({ error: parsed.error.issues[0]?.message ?? "Неверные данные" });
       return;
     }
-    const files = (req.files as Express.Multer.File[] | undefined) ?? [];
+    const files = uploadedFiles(req);
     const comment = await prisma.comment.update({
       where: { id: existing.id },
       data: {

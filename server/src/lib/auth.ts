@@ -7,8 +7,24 @@ export type TokenPayload = {
   role: Role;
 };
 
+const WEAK_SECRETS = new Set([
+  "",
+  "dev-rf4-spots-change-me",
+  "change-me-in-production",
+  "change-me",
+  "secret",
+  "jwt-secret",
+  "jwt_secret",
+]);
+
 export function jwtSecret(): string {
-  return process.env.JWT_SECRET || "dev-rf4-spots-change-me";
+  const secret = (process.env.JWT_SECRET ?? "").trim();
+  if (secret.length < 32 || WEAK_SECRETS.has(secret.toLowerCase())) {
+    throw new Error(
+      "Задайте JWT_SECRET: случайная строка не короче 32 символов (не дефолт из примера).",
+    );
+  }
+  return secret;
 }
 
 export function signToken(payload: TokenPayload): string {

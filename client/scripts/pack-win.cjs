@@ -47,8 +47,29 @@ function run(command, args) {
 
 cleanRelease();
 
+if (!process.env.VITE_SERVER_URL && !process.env.VITE_ALLOWED_SERVERS) {
+  console.warn(
+    "VITE_SERVER_URL не задан: установленный клиент сможет ходить только на localhost. Для продакшена: set VITE_SERVER_URL=https://ваш-домен",
+  );
+}
+
 const buildStatus = run("npm", ["run", "build"]);
 if (buildStatus !== 0) process.exit(buildStatus);
+
+const pinnedPath = path.join(clientDir, "dist", "pinned-server.json");
+if (!fs.existsSync(pinnedPath)) {
+  fs.writeFileSync(
+    pinnedPath,
+    JSON.stringify(
+      {
+        url: String(process.env.VITE_SERVER_URL || "").trim().replace(/\/$/, ""),
+        allowed: String(process.env.VITE_ALLOWED_SERVERS || "").trim(),
+      },
+      null,
+      2,
+    ),
+  );
+}
 
 function sha512File(filePath) {
   const hash = crypto.createHash("sha512");

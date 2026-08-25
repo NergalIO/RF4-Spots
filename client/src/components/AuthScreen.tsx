@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
-import { ApiError } from "../api";
+import { Api, ApiError } from "../api";
 import { DEFAULT_SERVER_URL, loadSession } from "../session";
+import { isServerUrlPinned, resolveServerUrl } from "../serverUrl";
 import { useStore } from "../store";
 
 export function AuthScreen() {
@@ -10,22 +11,48 @@ export function AuthScreen() {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [serverUrl, setServerUrl] = useState(DEFAULT_SERVER_URL);
+  const [allowRegister, setAllowRegister] = useState(true);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const pinned = isServerUrlPinned();
 
   useEffect(() => {
     loadSession().then((s) => setServerUrl(s.serverUrl));
   }, []);
+
+  useEffect(() => {
+    let dead = false;
+    try {
+      const url = resolveServerUrl(serverUrl);
+      const api = new Api(url, "");
+      void api
+        .authConfig()
+        .then((cfg) => {
+          if (dead) return;
+          setAllowRegister(cfg.allowRegister);
+          if (!cfg.allowRegister) setMode((m) => (m === "register" ? "login" : m));
+        })
+        .catch(() => {
+          if (!dead) setAllowRegister(true);
+        });
+    } catch {
+      /* invalid url while typing */
+    }
+    return () => {
+      dead = true;
+    };
+  }, [serverUrl]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError("");
     try {
-      if (mode === "login") await login(nickname, password, serverUrl);
-      else await register(nickname, password, serverUrl);
+      const url = resolveServerUrl(serverUrl);
+      if (mode === "login") await login(nickname, password, url);
+      else await register(nickname, password, url);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Не удалось связаться с сервером");
+      setError(err instanceof ApiError || err instanceof Error ? err.message : "Не удалось связаться с сервером");
     } finally {
       setBusy(false);
     }
@@ -41,9 +68,11 @@ export function AuthScreen() {
           <button type="button" className={mode === "login" ? "on" : ""} onClick={() => setMode("login")}>
             Вход
           </button>
-          <button type="button" className={mode === "register" ? "on" : ""} onClick={() => setMode("register")}>
-            Регистрация
-          </button>
+          {allowRegister && (
+            <button type="button" className={mode === "register" ? "on" : ""} onClick={() => setMode("register")}>
+              Регистрация
+            </button>
+          )}
         </div>
         <form onSubmit={onSubmit}>
           <label>
@@ -57,13 +86,18 @@ export function AuthScreen() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete={mode === "login" ? "current-password" : "new-password"}
+              minLength={mode === "register" ? 8 : undefined}
               required
             />
           </label>
-          <label>
-            Адрес сервера
-            <input value={serverUrl} onChange={(e) => setServerUrl(e.target.value)} />
-          </label>
+          {pinned ? (
+            <p className="hint">Сервер: {serverUrl}</p>
+          ) : (
+            <label>
+              Адрес сервера
+              <input value={serverUrl} onChange={(e) => setServerUrl(e.target.value)} />
+            </label>
+          )}
           {error && <p className="form-error">{error}</p>}
           <button className="btn primary" disabled={busy} type="submit">
             {busy ? "…" : mode === "login" ? "Войти" : "Создать аккаунт"}
@@ -72,7 +106,9 @@ export function AuthScreen() {
         <p className="hint">
           {mode === "register"
             ? "Регистрация создаёт игрока. Админа назначают командой на сервере."
-            : "При следующих запусках вход будет автоматическим."}
+            : allowRegister
+              ? "При следующих запусках вход будет автоматическим."
+              : "Регистрация закрыта. Аккаунт выдаёт администратор."}
         </p>
       </div>
     </div>

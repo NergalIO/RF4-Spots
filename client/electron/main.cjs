@@ -5,6 +5,50 @@ const fs = require("fs");
 const DEFAULT_SERVER_URL = "http://127.0.0.1:3780";
 const isDev = !app.isPackaged;
 
+function readPinned() {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "dist", "pinned-server.json"), "utf8"));
+  } catch {
+    return { url: "", allowed: "" };
+  }
+}
+
+function isLoopbackHost(host) {
+  return host === "localhost" || host === "127.0.0.1" || host === "::1";
+}
+
+function resolveServerUrl(candidate) {
+  const pin = readPinned();
+  const pinned = String(pin.url || "").replace(/\/$/, "");
+  if (!isDev && pinned) return pinned;
+  const allowed = String(pin.allowed || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const url = String(candidate || DEFAULT_SERVER_URL).replace(/\/$/, "");
+  try {
+    const parsed = new URL(url);
+    if (parsed.username || parsed.password) return DEFAULT_SERVER_URL;
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return DEFAULT_SERVER_URL;
+    if (!isDev && allowed.length) {
+      const origin = parsed.origin.replace(/\/$/, "").toLowerCase();
+      const ok = allowed.some((entry) => {
+        try {
+          if (entry.includes("://")) return new URL(entry).origin.replace(/\/$/, "").toLowerCase() === origin;
+          return entry.toLowerCase() === parsed.host.toLowerCase() || entry.toLowerCase() === parsed.hostname.toLowerCase();
+        } catch {
+          return false;
+        }
+      });
+      return ok ? url : DEFAULT_SERVER_URL;
+    }
+    if (!isDev && !isLoopbackHost(parsed.hostname)) return DEFAULT_SERVER_URL;
+    return url;
+  } catch {
+    return DEFAULT_SERVER_URL;
+  }
+}
+
 function configPath() {
   return path.join(app.getPath("userData"), "session.json");
 }
@@ -20,14 +64,15 @@ function readStore() {
       }
     }
     delete raw.tokenEnc;
+    raw.serverUrl = resolveServerUrl(raw.serverUrl);
     return raw;
   } catch {
-    return { serverUrl: DEFAULT_SERVER_URL };
+    return { serverUrl: resolveServerUrl(DEFAULT_SERVER_URL) };
   }
 }
 
 function writeStore(data) {
-  const out = { serverUrl: data.serverUrl || DEFAULT_SERVER_URL };
+  const out = { serverUrl: resolveServerUrl(data.serverUrl || DEFAULT_SERVER_URL) };
   if (data.token && safeStorage.isEncryptionAvailable()) {
     out.tokenEnc = safeStorage.encryptString(data.token).toString("base64");
   } else {
@@ -110,10 +155,11 @@ function startUpdateCheck() {
     autoUpdater.autoDownload = true;
     autoUpdater.autoInstallOnAppQuit = false;
     autoUpdater.allowDowngrade = false;
+    // Enable when the Windows installer is Authenticode-signed.
     autoUpdater.verifyUpdateCodeSignature = false;
     autoUpdater.setFeedURL({
       provider: "generic",
-      url: updatesUrl(readStore().serverUrl || DEFAULT_SERVER_URL),
+      url: updatesUrl(resolveServerUrl(readStore().serverUrl || DEFAULT_SERVER_URL)),
     });
     autoUpdater.on("checking-for-update", () => {
       sendSplash({ phase: "check", message: "Проверка обновлений…" });

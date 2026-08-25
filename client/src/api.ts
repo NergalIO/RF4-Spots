@@ -33,6 +33,10 @@ export class Api {
     return `${this.baseUrl}${path}`;
   }
 
+  authConfig() {
+    return this.req<{ allowRegister: boolean }>("/auth/config");
+  }
+
   login(nickname: string, password: string) {
     return this.req<{ token: string; user: User }>("/auth/login", {
       method: "POST",

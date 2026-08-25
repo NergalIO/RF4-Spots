@@ -14,26 +14,37 @@ function arg(name: string): string | undefined {
 async function main() {
   const nickname = (arg("nickname") ?? process.argv[2])?.trim();
   const password = arg("password") ?? process.argv[3];
+  const roleArg = (arg("role") ?? "admin").trim().toLowerCase();
+  const role = roleArg === "player" ? "player" : "admin";
   if (!nickname || !password) {
     console.error("Использование: npm run create-admin -- --nickname NAME --password SECRET");
+    console.error("Игрок: npm run create-user -- --nickname NAME --password SECRET");
+    process.exit(1);
+  }
+  if (password.length < 8) {
+    console.error("Пароль от 8 символов.");
     process.exit(1);
   }
   const existing = await prisma.user.findUnique({ where: { nickname } });
   if (existing) {
-    const updated = await prisma.user.update({
-      where: { id: existing.id },
-      data: { role: "admin" },
-    });
-    console.log(`Пользователь ${updated.nickname} повышен до админа (id ${updated.id}).`);
+    if (role === "admin" && existing.role !== "admin") {
+      const updated = await prisma.user.update({
+        where: { id: existing.id },
+        data: { role: "admin" },
+      });
+      console.log(`Пользователь ${updated.nickname} повышен до админа (id ${updated.id}).`);
+      return;
+    }
+    console.log(`Пользователь ${existing.nickname} уже есть (роль ${existing.role}, id ${existing.id}).`);
     return;
   }
   const salt = newSalt();
   const id = fingerprint(nickname, password, salt);
   const passwordHash = await argon2.hash(password);
   const user = await prisma.user.create({
-    data: { id, nickname, salt, passwordHash, role: "admin" },
+    data: { id, nickname, salt, passwordHash, role },
   });
-  console.log(`Создан админ ${user.nickname} (id ${user.id}).`);
+  console.log(`Создан ${user.role} ${user.nickname} (id ${user.id}).`);
 }
 
 main()

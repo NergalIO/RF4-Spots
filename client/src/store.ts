@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { ALL_WATERBODIES } from "./constants";
 import { Api } from "./api";
 import { DEFAULT_SERVER_URL, loadSession, saveSession } from "./session";
+import { resolveServerUrl } from "./serverUrl";
 import type { Filters, Fish, Post, User, Waterbody } from "./types";
 import { markPostSeen, seedSeen, type SeenMap } from "./unread";
 
@@ -90,7 +91,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   login: async (nickname, password, serverUrl) => {
-    const api = new Api(serverUrl.replace(/\/$/, ""), "");
+    const api = new Api(resolveServerUrl(serverUrl), "");
     const { token, user } = await api.login(nickname, password);
     const authed = new Api(api.baseUrl, token);
     await saveSession({ serverUrl: api.baseUrl, token });
@@ -99,7 +100,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   register: async (nickname, password, serverUrl) => {
-    const api = new Api(serverUrl.replace(/\/$/, ""), "");
+    const api = new Api(resolveServerUrl(serverUrl), "");
     const { token, user } = await api.register(nickname, password);
     const authed = new Api(api.baseUrl, token);
     await saveSession({ serverUrl: api.baseUrl, token });

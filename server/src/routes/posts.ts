@@ -3,12 +3,26 @@ import { z } from "zod";
 import type { CatchType, Prisma } from "@prisma/client";
 import { prisma } from "../lib/prisma.js";
 import { canEditPost, requireAuth, type AuthedRequest } from "../middleware/auth.js";
-import { upload } from "../lib/upload.js";
+import { uploadLimiter } from "../lib/rateLimit.js";
+import { enforceUploadQuota, upload, uploadedFiles, validateUploads } from "../lib/upload.js";
 import { paramId } from "../lib/params.js";
 
 export const postsRouter = Router();
 
 const catchTypes = ["farm", "trophy", "farm_trophy"] as const;
+const keepIds = z.array(z.string().min(1).max(64)).max(32);
+
+function parseKeepScreenshots(raw: unknown): { ok: true; ids?: string[] } | { ok: false } {
+  if (raw == null || raw === "") return { ok: true, ids: undefined };
+  if (typeof raw !== "string") return { ok: false };
+  try {
+    const parsed = keepIds.safeParse(JSON.parse(raw));
+    if (!parsed.success) return { ok: false };
+    return { ok: true, ids: parsed.data };
+  } catch {
+    return { ok: false };
+  }
+}
 
 const postBody = z.object({
   waterbodyId: z.string().min(1),
@@ -145,7 +159,14 @@ postsRouter.get("/:id", requireAuth, async (req, res) => {
   });
 });
 
-postsRouter.post("/", requireAuth, upload.array("screenshots", 8), async (req: AuthedRequest, res) => {
+postsRouter.post(
+  "/",
+  requireAuth,
+  uploadLimiter,
+  upload.array("screenshots", 8),
+  validateUploads,
+  enforceUploadQuota,
+  async (req: AuthedRequest, res) => {
   const parsed = postBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.issues[0]?.message ?? "Неверные данные" });
@@ -160,7 +181,7 @@ postsRouter.post("/", requireAuth, upload.array("screenshots", 8), async (req: A
     res.status(400).json({ error: "Неизвестный вид или водоём" });
     return;
   }
-  const files = (req.files as Express.Multer.File[] | undefined) ?? [];
+  const files = uploadedFiles(req);
   const post = await prisma.post.create({
     data: {
       userId: req.user!.id,
@@ -178,9 +199,17 @@ postsRouter.post("/", requireAuth, upload.array("screenshots", 8), async (req: A
     include: includeList,
   });
   res.status(201).json({ post: mapPost(post) });
-});
+  },
+);
 
-postsRouter.patch("/:id", requireAuth, upload.array("screenshots", 8), async (req: AuthedRequest, res) => {
+postsRouter.patch(
+  "/:id",
+  requireAuth,
+  uploadLimiter,
+  upload.array("screenshots", 8),
+  validateUploads,
+  enforceUploadQuota,
+  async (req: AuthedRequest, res) => {
   const existing = await prisma.post.findUnique({ where: { id: paramId(req.params.id) } });
   if (!existing) {
     res.status(404).json({ error: "Пост не найден" });
@@ -196,10 +225,13 @@ postsRouter.patch("/:id", requireAuth, upload.array("screenshots", 8), async (re
     return;
   }
   const data = parsed.data;
-  const files = (req.files as Express.Multer.File[] | undefined) ?? [];
-  const keep = typeof req.body.keepScreenshots === "string"
-    ? (JSON.parse(req.body.keepScreenshots) as string[])
-    : undefined;
+  const files = uploadedFiles(req);
+  const keepParsed = parseKeepScreenshots(req.body.keepScreenshots);
+  if (!keepParsed.ok) {
+    res.status(400).json({ error: "Некорректный список скриншотов" });
+    return;
+  }
+  const keep = keepParsed.ids;
 
   const post = await prisma.$transaction(async (tx) => {
     if (keep) {
@@ -236,7 +268,8 @@ postsRouter.patch("/:id", requireAuth, upload.array("screenshots", 8), async (re
     });
   });
   res.json({ post: mapPost(post) });
-});
+  },
+);
 
 postsRouter.delete("/:id", requireAuth, async (req: AuthedRequest, res) => {
   const existing = await prisma.post.findUnique({ where: { id: paramId(req.params.id) } });
@@ -252,7 +285,14 @@ postsRouter.delete("/:id", requireAuth, async (req: AuthedRequest, res) => {
   res.json({ ok: true });
 });
 
-postsRouter.post("/:id/comments", requireAuth, upload.array("screenshots", 8), async (req: AuthedRequest, res) => {
+postsRouter.post(
+  "/:id/comments",
+  requireAuth,
+  uploadLimiter,
+  upload.array("screenshots", 8),
+  validateUploads,
+  enforceUploadQuota,
+  async (req: AuthedRequest, res) => {
   const text = z.string().trim().min(1, "Напишите комментарий").max(4000).safeParse(req.body.text);
   if (!text.success) {
     res.status(400).json({ error: text.error.issues[0]?.message ?? "Неверные данные" });
@@ -263,7 +303,7 @@ postsRouter.post("/:id/comments", requireAuth, upload.array("screenshots", 8), a
     res.status(404).json({ error: "Пост не найден" });
     return;
   }
-  const files = (req.files as Express.Multer.File[] | undefined) ?? [];
+  const files = uploadedFiles(req);
   const comment = await prisma.comment.create({
     data: {
       postId: post.id,
@@ -291,4 +331,5 @@ postsRouter.post("/:id/comments", requireAuth, upload.array("screenshots", 8), a
       })),
     },
   });
-});
+  },
+);

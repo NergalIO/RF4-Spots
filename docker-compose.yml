@@ -2,15 +2,13 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: rf4
-      POSTGRES_PASSWORD: rf4
-      POSTGRES_DB: rf4spots
+      POSTGRES_USER: ${POSTGRES_USER:-rf4}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-rf4spots}
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rf4 -d rf4spots"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rf4} -d ${POSTGRES_DB:-rf4spots}"]
       interval: 5s
       timeout: 5s
       retries: 12
@@ -18,12 +16,17 @@ services:
   api:
     build: ./server
     ports:
-      - "3780:3780"
+      - "127.0.0.1:3780:3780"
     environment:
-      DATABASE_URL: postgresql://rf4:rf4@db:5432/rf4spots
-      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rf4}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-rf4spots}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
       PORT: 3780
       HOST: 0.0.0.0
+      NODE_ENV: production
+      ALLOW_REGISTER: ${ALLOW_REGISTER:-true}
+      TRUST_PROXY: ${TRUST_PROXY:-0}
+      REQUIRE_HTTPS: ${REQUIRE_HTTPS:-0}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
     volumes:
       - uploads:/app/uploads
       - ./server/assets/maps:/app/assets/maps:ro
@@ -33,6 +36,25 @@ services:
       db:
         condition: service_healthy
 
+  caddy:
+    profiles: ["https"]
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+
 volumes:
   pgdata:
   uploads:
+  caddy_data:
+  caddy_config:
