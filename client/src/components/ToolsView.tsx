@@ -9,11 +9,12 @@ import { SpeedCalc } from "./SpeedCalc";
 import { WearCalc } from "./WearCalc";
 
 const TOOL_KEY = "rf4spots-tools-tab";
-type ToolId = "reels" | "rods" | "wear" | "speed" | "fishWeights" | "alcohol" | "shopPrices" | "levels";
+type ToolId = "reels" | "rods" | "hooks" | "wear" | "speed" | "fishWeights" | "alcohol" | "shopPrices" | "levels";
 
 const TOOLS: { id: ToolId; label: string }[] = [
   { id: "reels", label: "Сравнение катушек" },
   { id: "rods", label: "Сравнение удочек" },
+  { id: "hooks", label: "Крючки" },
   { id: "wear", label: "Калькулятор износа" },
   { id: "speed", label: "Калькулятор скорости" },
   { id: "fishWeights", label: "Веса рыбы" },
@@ -73,6 +74,7 @@ export function ToolsView({ active }: { active: boolean }) {
 
   const reels = data.reels ?? [];
   const rods = data.rods ?? [];
+  const hooks = data.hooks ?? [];
 
   const save = async (key: GuideKey, rows: GuideRow[]) => {
     setSaving(true);
@@ -95,7 +97,7 @@ export function ToolsView({ active }: { active: boolean }) {
   }
 
   let body;
-  if (tool === "wear") body = <WearCalc reels={reels} rods={rods} />;
+  if (tool === "wear") body = <WearCalc reels={reels} rods={rods} hooks={hooks} />;
   else if (tool === "speed") body = <SpeedCalc reels={reels} />;
   else if (tool === "reels") {
     body = (

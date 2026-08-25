@@ -62,6 +62,17 @@ function normGuideName(value: unknown) {
   return text.replace(/\s+/g, " ");
 }
 
+function guideRowKey(dataset: string, row: GuideRow) {
+  const name = normGuideName(row.name);
+  if (dataset === "hooks") {
+    const size = String(row.size ?? "")
+      .toLowerCase()
+      .replace(/\s+/g, "");
+    return name ? `${name}|${size}` : "";
+  }
+  return name;
+}
+
 function asGuideRows(value: unknown): GuideRow[] {
   if (!Array.isArray(value)) return [];
   return value.filter((row) => row && typeof row === "object") as GuideRow[];
@@ -78,6 +89,7 @@ const FILL_FIELDS: Record<string, string[]> = {
   alcohol: ["price", "expPct"],
   shopPrices: ["tackleShop"],
   levels: ["xp"],
+  hooks: ["strengthKg"],
 };
 
 function sparseGuide(rows: GuideRow[], fields: string[]) {
@@ -86,15 +98,15 @@ function sparseGuide(rows: GuideRow[], fields: string[]) {
   return hits / rows.length < 0.25;
 }
 
-function mergeGuideRows(existing: GuideRow[], seeded: GuideRow[]): GuideRow[] {
+function mergeGuideRows(dataset: string, existing: GuideRow[], seeded: GuideRow[]): GuideRow[] {
   const out = existing.map((row) => ({ ...row }));
   const index = new Map<string, number>();
   out.forEach((row, i) => {
-    const key = normGuideName(row.name);
+    const key = guideRowKey(dataset, row);
     if (key) index.set(key, i);
   });
   for (const src of seeded) {
-    const key = normGuideName(src.name);
+    const key = guideRowKey(dataset, src);
     if (!key) continue;
     const i = index.get(key);
     if (i == null) {
@@ -190,7 +202,7 @@ async function main() {
       guides += 1;
       continue;
     }
-    const merged = mergeGuideRows(asGuideRows(existing.rows), seeded);
+    const merged = mergeGuideRows(key, asGuideRows(existing.rows), seeded);
     await prisma.guideDataset.update({
       where: { key },
       data: { rows: merged },

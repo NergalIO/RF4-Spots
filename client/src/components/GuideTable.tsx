@@ -28,6 +28,7 @@ function defaultWidth(field: GuideField) {
   if (field.key === "name") return 220;
   if (field.key === "notes") return 160;
   if (field.key === "category") return 140;
+  if (field.key === "size") return 80;
   if (field.key === "test" || field.key === "ratio" || field.key === "capacity") return 110;
   return field.type === "number" ? 96 : 130;
 }

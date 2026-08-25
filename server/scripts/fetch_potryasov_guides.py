@@ -3,7 +3,7 @@
 Sources:
 - Potryasov Google Sheets (alcohol, levels, shop prices)
 - Potryasov wear-calculator pages (gearKg / blankKg fallback)
-- FarmTrof open catalogs (reels, rods, fish weights)
+- FarmTrof open catalogs (reels, rods, hooks, fish weights)
 """
 from __future__ import annotations
 
@@ -29,6 +29,7 @@ CSV_SOURCES = {
 FARMTROF = {
     "reels": "https://rr4farmtrof.com/pages/knowledge-base/reel-specs.php",
     "rods": "https://rr4farmtrof.com/pages/knowledge-base/rod-specs.php",
+    "hooks": "https://rr4farmtrof.com/pages/knowledge-base/hook-strength.php",
     "fish": "https://rr4farmtrof.com/pages/knowledge-base/fish-weight.php",
 }
 
@@ -403,11 +404,56 @@ def parse_farmtrof_rods(page_html: str) -> list[dict]:
     return rows
 
 
+def parse_js_const_array(page_html: str, name: str) -> list:
+    marker = f"const {name} = "
+    start = page_html.find(marker)
+    if start < 0:
+        raise RuntimeError(f"{name} array not found")
+    data, _end = json.JSONDecoder().raw_decode(page_html[start + len(marker):])
+    if not isinstance(data, list):
+        raise RuntimeError(f"{name} is not an array")
+    return data
+
+
+def hook_note(raw_value: object) -> str:
+    text = str(raw_value or "").replace("\xa0", " ").strip()
+    if any(ch in text for ch in "+~≈"):
+        return text
+    return ""
+
+
+def parse_farmtrof_hooks(page_html: str) -> list[dict]:
+    rows = []
+    for item in parse_js_const_array(page_html, "HOOKS"):
+        if not isinstance(item, dict):
+            continue
+        name = str(item.get("name") or "").strip()
+        category = str(item.get("type") or "").strip()
+        sizes = item.get("sizes") if isinstance(item.get("sizes"), dict) else {}
+        raw = item.get("raw") if isinstance(item.get("raw"), dict) else {}
+        keys = list(sizes.keys())
+        for key in raw:
+            if key not in sizes:
+                keys.append(key)
+        if not name or not keys:
+            continue
+        for size_key in keys:
+            size = str(size_key).strip()
+            if not size:
+                continue
+            kg = sizes.get(size_key, raw.get(size_key))
+            rows.append({
+                "name": name,
+                "category": category,
+                "size": size,
+                "strengthKg": clean_num(kg),
+                "notes": hook_note(raw.get(size_key, "")),
+            })
+    return rows
+
+
 def parse_farmtrof_fish(page_html: str) -> list[dict]:
-    m = re.search(r"const FISHES = (\[.*?\]);", page_html, re.S)
-    if not m:
-        raise RuntimeError("FISHES array not found on farmtrof fish page")
-    data = json.loads(m.group(1))
+    data = parse_js_const_array(page_html, "FISHES")
     rows = []
     seen: set[str] = set()
     for item in data:
@@ -465,10 +511,13 @@ def main() -> None:
 
     reel_html = fetch_text(FARMTROF["reels"])
     rod_html = fetch_text(FARMTROF["rods"])
+    hook_html = fetch_text(FARMTROF["hooks"])
     fish_html = fetch_text(FARMTROF["fish"])
     farm_reels = parse_farmtrof_reels(reel_html)
     farm_rods = parse_farmtrof_rods(rod_html)
-    print("farmtrof reels", len(farm_reels), "rods", len(farm_rods))
+    farm_hooks = parse_farmtrof_hooks(hook_html)
+    print("farmtrof reels", len(farm_reels), "rods", len(farm_rods), "hooks", len(farm_hooks))
+    dump("hooks", farm_hooks)
 
     potryasov_reels = collect(REEL_PAGES, "reel")
     potryasov_rods = collect(ROD_PAGES, "rod")

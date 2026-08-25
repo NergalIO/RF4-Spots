@@ -1,4 +1,4 @@
-export type GuideKey = "reels" | "rods" | "fishWeights" | "alcohol" | "shopPrices" | "levels";
+export type GuideKey = "reels" | "rods" | "hooks" | "fishWeights" | "alcohol" | "shopPrices" | "levels";
 export type GuideFieldType = "string" | "number";
 export type GuideField = { key: string; label: string; type: GuideFieldType };
 
@@ -22,6 +22,13 @@ export const GUIDE_FIELDS: Record<GuideKey, GuideField[]> = {
     { key: "test", label: "Тест", type: "string" },
     { key: "blankKg", label: "Бланк, кг", type: "number" },
     { key: "price", label: "Цена", type: "number" },
+    { key: "notes", label: "Заметки", type: "string" },
+  ],
+  hooks: [
+    { key: "name", label: "Название", type: "string" },
+    { key: "category", label: "Категория", type: "string" },
+    { key: "size", label: "Размер", type: "string" },
+    { key: "strengthKg", label: "Прочность, кг", type: "number" },
     { key: "notes", label: "Заметки", type: "string" },
   ],
   fishWeights: [

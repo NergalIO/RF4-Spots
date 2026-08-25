@@ -1,0 +1,5140 @@
+[
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 3,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 3.76,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 3.68,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 3.91,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 4.35,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 4.55,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 4.97,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 6.12,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 5.98,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 6.6,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 6.27,
+    "notes": ""
+  },
+  {
+    "name": "Stinger",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 6.4,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 4.92,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 6,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 7.42,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 7.62,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 8.33,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 8.62,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 9.24,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 9.54,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 9.71,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 10.2,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 12.2,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 12.2,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 12,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 12.25,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 12.75,
+    "notes": ""
+  },
+  {
+    "name": "CHK101",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 12.9,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 5.15,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 6.35,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 6.54,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 6.95,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 7.39,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 7.89,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 8.36,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 8.42,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 9.2,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 10,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 10,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 10.75,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 10.75,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 11,
+    "notes": ""
+  },
+  {
+    "name": "CHK201",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 11.5,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 10.7,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 11.3,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 12.05,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 13.2,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 13,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 14,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 14,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 14.9,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 16.4,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 17.1,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 17.4,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 17.9,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 18.2,
+    "notes": ""
+  },
+  {
+    "name": "CHK301",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 19,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S24",
+    "strengthKg": 5.43,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S22",
+    "strengthKg": 5.91,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 6.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S19",
+    "strengthKg": 7.69,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 8.55,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 9.22,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 9.81,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 9.95,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 10.35,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 10.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 11.25,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 11.75,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 12.05,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 11.85,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 12.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 13,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 13.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 15.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 16.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 16,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 17.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-11",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 16.8,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 6.24,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 7.97,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 9.56,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 9.94,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 10.55,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 11.45,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 12.05,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 12.24,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 13,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 13.5,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 14.8,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 15.8,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 15.9,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 15.9,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 16.4,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 17.5,
+    "notes": ""
+  },
+  {
+    "name": "CHK401",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 17.1,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 12.7,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 13.3,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 14.1,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 15.75,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 16.4,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 18.4,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 20.5,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 21.9,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 22.3,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 23.4,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 22.9,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S3/0",
+    "strengthKg": 23,
+    "notes": ""
+  },
+  {
+    "name": "CHK501",
+    "category": "Классические",
+    "size": "S4/0",
+    "strengthKg": 23.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S24",
+    "strengthKg": 6.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S22",
+    "strengthKg": 7.02,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 8.01,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S19",
+    "strengthKg": 8.45,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 9.81,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 10.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 11.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 11.95,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 12.25,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 12.65,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 13.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 13.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 14.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 14.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 14.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 15.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 16.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 17.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 18.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 19,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 20,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-12",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 20.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S24",
+    "strengthKg": 12.25,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S22",
+    "strengthKg": 13.65,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 14.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S19",
+    "strengthKg": 16.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 18.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 21.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 22.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 22.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 23.2,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 25,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 25.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 25.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 26.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 27.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 29.2,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 30,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 31.2,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 34.2,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 35.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 37.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 37.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 38.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 39.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 39.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S3/0",
+    "strengthKg": 41.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-13",
+    "category": "Классические",
+    "size": "S4/0",
+    "strengthKg": 42.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S19",
+    "strengthKg": 10.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 11.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 12.95,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 14.05,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 14.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 14.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 15.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 15.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 16.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 16.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 17,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 17.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 18.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 19.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 21.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 22.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 23.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 23.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 24.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 24.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-14",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 25.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 13.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 15.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 15.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 15.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 16.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 16.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 17.2,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 18.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 18.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 19,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 20.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 20.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 23.4,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 24.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 24.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 25,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 26.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 26.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-15",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 27.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S22",
+    "strengthKg": 11.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 12.65,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S19",
+    "strengthKg": 13.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 15.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 17.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 18.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 19,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 19.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 20.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 20.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 21.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 22.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 22.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 23.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 25.2,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 27.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 29.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 30.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 31.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 31.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 32.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 33.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 32.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S3/0",
+    "strengthKg": 34.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook CL-16",
+    "category": "Классические",
+    "size": "S4/0",
+    "strengthKg": 34.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S24",
+    "strengthKg": 13.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S22",
+    "strengthKg": 14.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 16.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S19",
+    "strengthKg": 18,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 20.3,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 22.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 24.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 25.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 25.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 26.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 27.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 28.3,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 29.3,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 30.3,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 31.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 32.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 34.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 38.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 39.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 40.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 41.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 42.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 43.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 43.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S3/0",
+    "strengthKg": 45.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S1",
+    "category": "Классические",
+    "size": "S4/0",
+    "strengthKg": 45.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S24",
+    "strengthKg": 18,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S22",
+    "strengthKg": 19.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S20",
+    "strengthKg": 21.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S19",
+    "strengthKg": 24,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 27.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 29.9,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 32.9,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 33.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 34.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 35.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 36.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 37.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 39.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 40.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 42.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 43.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 46.3,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 50.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 53,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 54.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 55.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 57.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 58.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 58.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S3/0",
+    "strengthKg": 60.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S2",
+    "category": "Классические",
+    "size": "S4/0",
+    "strengthKg": 60.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 30.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 30.9,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 31.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 32.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 33.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 35,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 35.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 37.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 38.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 40.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 42.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 43.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 48.3,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 49.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 50.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 52.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 53.3,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 53.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S3/0",
+    "strengthKg": 55.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage S3",
+    "category": "Классические",
+    "size": "S4/0",
+    "strengthKg": 55,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S18",
+    "strengthKg": 23.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S17",
+    "strengthKg": 25.9,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S16",
+    "strengthKg": 28.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S15",
+    "strengthKg": 29.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S14",
+    "strengthKg": 29.9,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S13",
+    "strengthKg": 30.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S12",
+    "strengthKg": 31.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S11",
+    "strengthKg": 32.9,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S10",
+    "strengthKg": 33.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S9",
+    "strengthKg": 34.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S8",
+    "strengthKg": 36.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S7",
+    "strengthKg": 38.2,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S6",
+    "strengthKg": 40,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S5",
+    "strengthKg": 43.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S4",
+    "strengthKg": 45.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S3",
+    "strengthKg": 46.9,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S2",
+    "strengthKg": 48,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S1",
+    "strengthKg": 49.8,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S1/0",
+    "strengthKg": 50.4,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S2/0",
+    "strengthKg": 50.6,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S3/0",
+    "strengthKg": 52,
+    "notes": ""
+  },
+  {
+    "name": "Rage S4",
+    "category": "Классические",
+    "size": "S4/0",
+    "strengthKg": 55,
+    "notes": ""
+  },
+  {
+    "name": "Carp CL-1",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 37.52,
+    "notes": ""
+  },
+  {
+    "name": "Carp SR-1",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 31.36,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S12",
+    "strengthKg": 33.8,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S10",
+    "strengthKg": 36.1,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S8",
+    "strengthKg": 39,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S6",
+    "strengthKg": 42.6,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S4",
+    "strengthKg": 48.7,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 51.8,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 52.2,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S1/0",
+    "strengthKg": 54,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S2/0",
+    "strengthKg": 54,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S3/0",
+    "strengthKg": 55,
+    "notes": ""
+  },
+  {
+    "name": "Deadly Loop CL-18",
+    "category": "Карповые",
+    "size": "S4/0",
+    "strengthKg": 55,
+    "notes": ""
+  },
+  {
+    "name": "Reactive Original",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 47.85,
+    "notes": ""
+  },
+  {
+    "name": "Reactive WG",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 45.9,
+    "notes": ""
+  },
+  {
+    "name": "Reactive Stiff R",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 47.08,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S18",
+    "strengthKg": 14.5,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S17",
+    "strengthKg": 15.7,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S16",
+    "strengthKg": 17.5,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S15",
+    "strengthKg": 17.4,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S14",
+    "strengthKg": 17.7,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S13",
+    "strengthKg": 18.5,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S12",
+    "strengthKg": 19.5,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S11",
+    "strengthKg": 19.7,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S10",
+    "strengthKg": 20.5,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S9",
+    "strengthKg": 21.4,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S8",
+    "strengthKg": 22.2,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S7",
+    "strengthKg": 23,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S6",
+    "strengthKg": 23.8,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S5",
+    "strengthKg": 26,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S4",
+    "strengthKg": 27.3,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S3",
+    "strengthKg": 28.6,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 29.3,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 30.6,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S1/0",
+    "strengthKg": 30.2,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S2/0",
+    "strengthKg": 30.2,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S3/0",
+    "strengthKg": 31.9,
+    "notes": ""
+  },
+  {
+    "name": "Silk Series CL-17",
+    "category": "Карповые",
+    "size": "S4/0",
+    "strengthKg": 31.9,
+    "notes": ""
+  },
+  {
+    "name": "Reactive Shank",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 48.81,
+    "notes": ""
+  },
+  {
+    "name": "CF Master",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 54.87,
+    "notes": ""
+  },
+  {
+    "name": "CF Master Chod",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 54.66,
+    "notes": ""
+  },
+  {
+    "name": "CF Master WG",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 52.88,
+    "notes": ""
+  },
+  {
+    "name": "CF Curved Shank",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 57.01,
+    "notes": ""
+  },
+  {
+    "name": "CF Long Shank",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 55.71,
+    "notes": ""
+  },
+  {
+    "name": "Wide Gape S1",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 62.11,
+    "notes": ""
+  },
+  {
+    "name": "Wide Gape S2",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 62.64,
+    "notes": ""
+  },
+  {
+    "name": "Stiff Rig S1",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 64.58,
+    "notes": ""
+  },
+  {
+    "name": "Curved Shank S1",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 64.3,
+    "notes": ""
+  },
+  {
+    "name": "Curved Shank S2",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 64.58,
+    "notes": ""
+  },
+  {
+    "name": "CF Raptor",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 57.69,
+    "notes": ""
+  },
+  {
+    "name": "CF Raptor Chod",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 57.69,
+    "notes": ""
+  },
+  {
+    "name": "U1",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 65.45,
+    "notes": ""
+  },
+  {
+    "name": "Chod Hook",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 65.45,
+    "notes": ""
+  },
+  {
+    "name": "LS Mugga Hook",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 65.45,
+    "notes": ""
+  },
+  {
+    "name": "Mugga Hook",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 65.45,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S14",
+    "strengthKg": 50.4,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S13",
+    "strengthKg": 52.2,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S12",
+    "strengthKg": 53.9,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S11",
+    "strengthKg": 56,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S10",
+    "strengthKg": 57.5,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S9",
+    "strengthKg": 59.3,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S8",
+    "strengthKg": 61.8,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S7",
+    "strengthKg": 64.6,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S6",
+    "strengthKg": 68.3,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S5",
+    "strengthKg": 74.1,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S4",
+    "strengthKg": 77.63,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S3",
+    "strengthKg": 79.49,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 81.44,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 83.49,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S1/0",
+    "strengthKg": 85.65,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S2/0",
+    "strengthKg": 85.65,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S3/0",
+    "strengthKg": 88.5,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Series",
+    "category": "Карповые",
+    "size": "S4/0",
+    "strengthKg": 87.91,
+    "notes": ""
+  },
+  {
+    "name": "WG Hook",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 65.45,
+    "notes": ""
+  },
+  {
+    "name": "Curved Shank XM",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 64.01,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S14",
+    "strengthKg": 40.2,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S13",
+    "strengthKg": 41.7,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S12",
+    "strengthKg": 43.1,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S11",
+    "strengthKg": 44.5,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S10",
+    "strengthKg": 46,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S9",
+    "strengthKg": 47.3,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S8",
+    "strengthKg": 49.4,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S7",
+    "strengthKg": 51.7,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S6",
+    "strengthKg": 54.4,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S5",
+    "strengthKg": 59.3,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S4",
+    "strengthKg": 62.1,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S3",
+    "strengthKg": 63.6,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S2",
+    "strengthKg": 64.9,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 67.3,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S1/0",
+    "strengthKg": 68.3,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S2/0",
+    "strengthKg": 68.3,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S3/0",
+    "strengthKg": 70.5,
+    "notes": ""
+  },
+  {
+    "name": "Bloody Series",
+    "category": "Карповые",
+    "size": "S4/0",
+    "strengthKg": 70.5,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Chod",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 69.5,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Mugga",
+    "category": "Карповые",
+    "size": "S1",
+    "strengthKg": 69.17,
+    "notes": ""
+  },
+  {
+    "name": "Happy hook",
+    "category": "Живцовые",
+    "size": "S4/0",
+    "strengthKg": 25,
+    "notes": ""
+  },
+  {
+    "name": "Magneric",
+    "category": "Живцовые",
+    "size": "S4",
+    "strengthKg": 62,
+    "notes": ""
+  },
+  {
+    "name": "Magneric",
+    "category": "Живцовые",
+    "size": "S2",
+    "strengthKg": 64.8,
+    "notes": ""
+  },
+  {
+    "name": "Magneric",
+    "category": "Живцовые",
+    "size": "S1",
+    "strengthKg": 67.2,
+    "notes": ""
+  },
+  {
+    "name": "Magneric",
+    "category": "Живцовые",
+    "size": "S1/0",
+    "strengthKg": 68.3,
+    "notes": ""
+  },
+  {
+    "name": "Magneric",
+    "category": "Живцовые",
+    "size": "S2/0",
+    "strengthKg": 68.3,
+    "notes": ""
+  },
+  {
+    "name": "Magneric",
+    "category": "Живцовые",
+    "size": "S3/0",
+    "strengthKg": 70.5,
+    "notes": ""
+  },
+  {
+    "name": "Magneric",
+    "category": "Живцовые",
+    "size": "S4/0",
+    "strengthKg": 70.2,
+    "notes": ""
+  },
+  {
+    "name": "Ultra",
+    "category": "Живцовые",
+    "size": "S4",
+    "strengthKg": 86.2,
+    "notes": ""
+  },
+  {
+    "name": "Ultra",
+    "category": "Живцовые",
+    "size": "S2",
+    "strengthKg": 90.31,
+    "notes": ""
+  },
+  {
+    "name": "Ultra",
+    "category": "Живцовые",
+    "size": "S1",
+    "strengthKg": 92.83,
+    "notes": ""
+  },
+  {
+    "name": "Ultra",
+    "category": "Живцовые",
+    "size": "S1/0",
+    "strengthKg": 94.82,
+    "notes": ""
+  },
+  {
+    "name": "Ultra",
+    "category": "Живцовые",
+    "size": "S2/0",
+    "strengthKg": 95.5,
+    "notes": ""
+  },
+  {
+    "name": "Ultra",
+    "category": "Живцовые",
+    "size": "S3/0",
+    "strengthKg": 98.33,
+    "notes": ""
+  },
+  {
+    "name": "Ultra",
+    "category": "Живцовые",
+    "size": "S4/0",
+    "strengthKg": 98.33,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S2/0",
+    "strengthKg": 57,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S3/0",
+    "strengthKg": 58,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S4/0",
+    "strengthKg": 57.5,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S5/0",
+    "strengthKg": 72,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S6/0",
+    "strengthKg": 86,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S8/0",
+    "strengthKg": 98.5,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S10/0",
+    "strengthKg": 115,
+    "notes": ""
+  },
+  {
+    "name": "Marine Series M-16",
+    "category": "Морские",
+    "size": "S12/0",
+    "strengthKg": 143,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S2/0",
+    "strengthKg": 101,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S3/0",
+    "strengthKg": 105,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S4/0",
+    "strengthKg": 105,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S5/0",
+    "strengthKg": 130,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S6/0",
+    "strengthKg": 157,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S8/0",
+    "strengthKg": 177,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Rage MR Series",
+    "category": "Морские",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S2/0",
+    "strengthKg": 96,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S3/0",
+    "strengthKg": 99,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S4/0",
+    "strengthKg": 98.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S5/0",
+    "strengthKg": 124,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S6/0",
+    "strengthKg": 150,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S8/0",
+    "strengthKg": 170,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S10/0",
+    "strengthKg": 199,
+    "notes": ""
+  },
+  {
+    "name": "Rage MR-AB Series",
+    "category": "Морские",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S2/0",
+    "strengthKg": 104,
+    "notes": ""
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S3/0",
+    "strengthKg": 106,
+    "notes": ""
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S4/0",
+    "strengthKg": 106,
+    "notes": ""
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S5/0",
+    "strengthKg": 133,
+    "notes": ""
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S6/0",
+    "strengthKg": 159,
+    "notes": ""
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S8/0",
+    "strengthKg": 179,
+    "notes": ""
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Aberdeen",
+    "category": "Морские",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S2/0",
+    "strengthKg": 109,
+    "notes": ""
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S3/0",
+    "strengthKg": 113,
+    "notes": ""
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S4/0",
+    "strengthKg": 112,
+    "notes": ""
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S5/0",
+    "strengthKg": 140,
+    "notes": ""
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S6/0",
+    "strengthKg": 168,
+    "notes": ""
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S8/0",
+    "strengthKg": 190,
+    "notes": ""
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Original",
+    "category": "Морские",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Marlin Series",
+    "category": "Морские",
+    "size": "S3/0",
+    "strengthKg": 129,
+    "notes": ""
+  },
+  {
+    "name": "Marlin Series",
+    "category": "Морские",
+    "size": "S4/0",
+    "strengthKg": 129,
+    "notes": ""
+  },
+  {
+    "name": "Marlin Series",
+    "category": "Морские",
+    "size": "S5/0",
+    "strengthKg": 161,
+    "notes": ""
+  },
+  {
+    "name": "Marlin Series",
+    "category": "Морские",
+    "size": "S6/0",
+    "strengthKg": 193,
+    "notes": ""
+  },
+  {
+    "name": "Marlin Series",
+    "category": "Морские",
+    "size": "S8/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Marlin Series",
+    "category": "Морские",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Marlin Series",
+    "category": "Морские",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Mega Raptor",
+    "category": "Морские",
+    "size": "S4/0",
+    "strengthKg": 138,
+    "notes": ""
+  },
+  {
+    "name": "SW Mega Raptor",
+    "category": "Морские",
+    "size": "S5/0",
+    "strengthKg": 174,
+    "notes": ""
+  },
+  {
+    "name": "SW Mega Raptor",
+    "category": "Морские",
+    "size": "S6/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Mega Raptor",
+    "category": "Морские",
+    "size": "S8/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Mega Raptor",
+    "category": "Морские",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Mega Raptor",
+    "category": "Морские",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Imp OFS Series",
+    "category": "Офсетные",
+    "size": "S4/0",
+    "strengthKg": 56.16,
+    "notes": ""
+  },
+  {
+    "name": "Avenger OFS Series",
+    "category": "Офсетные",
+    "size": "S4/0",
+    "strengthKg": 38.25,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook LF-10",
+    "category": "Офсетные",
+    "size": "S4/0",
+    "strengthKg": 25,
+    "notes": ""
+  },
+  {
+    "name": "Classik Head JH-201",
+    "category": "Джиг-головки",
+    "size": "S1",
+    "strengthKg": 29.5,
+    "notes": ""
+  },
+  {
+    "name": "Protected Head JH-301",
+    "category": "Джиг-головки",
+    "size": "S2",
+    "strengthKg": 28.7,
+    "notes": ""
+  },
+  {
+    "name": "Protected Head JH-301",
+    "category": "Джиг-головки",
+    "size": "S1",
+    "strengthKg": 30.1,
+    "notes": ""
+  },
+  {
+    "name": "Protected Head JH-301",
+    "category": "Джиг-головки",
+    "size": "S1/0",
+    "strengthKg": 30.1,
+    "notes": ""
+  },
+  {
+    "name": "Protected Head JH-301",
+    "category": "Джиг-головки",
+    "size": "S2/0",
+    "strengthKg": 30.3,
+    "notes": ""
+  },
+  {
+    "name": "Heavy Head JH-401",
+    "category": "Джиг-головки",
+    "size": "S4/0",
+    "strengthKg": 37,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S6",
+    "strengthKg": 59.7,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S4",
+    "strengthKg": 68.4,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S2",
+    "strengthKg": 71.3,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S1",
+    "strengthKg": 74,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S1/0",
+    "strengthKg": 75,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S2/0",
+    "strengthKg": 75,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S3/0",
+    "strengthKg": 77.5,
+    "notes": ""
+  },
+  {
+    "name": "FishEye Jig Series",
+    "category": "Джиг-головки",
+    "size": "S4/0",
+    "strengthKg": 77.5,
+    "notes": ""
+  },
+  {
+    "name": "Avenger Jig Series",
+    "category": "Джиг-головки",
+    "size": "S6",
+    "strengthKg": 50.3,
+    "notes": ""
+  },
+  {
+    "name": "Avenger Jig Series",
+    "category": "Джиг-головки",
+    "size": "S4",
+    "strengthKg": 57.7,
+    "notes": ""
+  },
+  {
+    "name": "Avenger Jig Series",
+    "category": "Джиг-головки",
+    "size": "S2",
+    "strengthKg": 60.5,
+    "notes": ""
+  },
+  {
+    "name": "Avenger Jig Series",
+    "category": "Джиг-головки",
+    "size": "S1",
+    "strengthKg": 62.4,
+    "notes": ""
+  },
+  {
+    "name": "Avenger Jig Series",
+    "category": "Джиг-головки",
+    "size": "S1/0",
+    "strengthKg": 63.6,
+    "notes": ""
+  },
+  {
+    "name": "Avenger Jig Series",
+    "category": "Джиг-головки",
+    "size": "S2/0",
+    "strengthKg": 63.6,
+    "notes": ""
+  },
+  {
+    "name": "OFS Jig head M1",
+    "category": "Джиг-головки",
+    "size": "S2/0",
+    "strengthKg": 109,
+    "notes": ""
+  },
+  {
+    "name": "OFS Jig head M1",
+    "category": "Джиг-головки",
+    "size": "S4/0",
+    "strengthKg": 113,
+    "notes": ""
+  },
+  {
+    "name": "OFS Jig head M1",
+    "category": "Джиг-головки",
+    "size": "S5/0",
+    "strengthKg": 142,
+    "notes": ""
+  },
+  {
+    "name": "OFS Jig head M1",
+    "category": "Джиг-головки",
+    "size": "S6/0",
+    "strengthKg": 170,
+    "notes": ""
+  },
+  {
+    "name": "OFS Jig head M1",
+    "category": "Джиг-головки",
+    "size": "S8/0",
+    "strengthKg": 191,
+    "notes": ""
+  },
+  {
+    "name": "OFS Jig head M1",
+    "category": "Джиг-головки",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Jig head M1",
+    "category": "Джиг-головки",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW FishEye S1-W",
+    "category": "Джиг-головки",
+    "size": "S2/0",
+    "strengthKg": 116,
+    "notes": ""
+  },
+  {
+    "name": "SW FishEye S1-W",
+    "category": "Джиг-головки",
+    "size": "S4/0",
+    "strengthKg": 120,
+    "notes": ""
+  },
+  {
+    "name": "SW FishEye S1-W",
+    "category": "Джиг-головки",
+    "size": "S5/0",
+    "strengthKg": 151,
+    "notes": ""
+  },
+  {
+    "name": "SW FishEye S1-W",
+    "category": "Джиг-головки",
+    "size": "S6/0",
+    "strengthKg": 181,
+    "notes": ""
+  },
+  {
+    "name": "SW FishEye S1-W",
+    "category": "Джиг-головки",
+    "size": "S8/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW FishEye S1-W",
+    "category": "Джиг-головки",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW FishEye S1-W",
+    "category": "Джиг-головки",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S8",
+    "strengthKg": 4.43,
+    "notes": ""
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S6",
+    "strengthKg": 4.85,
+    "notes": ""
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 5.55,
+    "notes": ""
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 5.8,
+    "notes": ""
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 6.1,
+    "notes": ""
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 6.3,
+    "notes": ""
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 6.47,
+    "notes": ""
+  },
+  {
+    "name": "Stinger Triple",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 6.65,
+    "notes": ""
+  },
+  {
+    "name": "TRBHK101",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 16.31,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S8",
+    "strengthKg": 12.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S6",
+    "strengthKg": 13.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 15.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 16.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 17.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 17.3,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 17.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 17.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-10",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 17.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S8",
+    "strengthKg": 22.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S6",
+    "strengthKg": 23.8,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 27.2,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 28.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 30.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 31,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 30.6,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 32.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-11",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 31.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S8",
+    "strengthKg": 38.5,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S6",
+    "strengthKg": 42.7,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 48.75,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 50.75,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 52.35,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 53.45,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 53.45,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 55.25,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 55.25,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 68.1,
+    "notes": ""
+  },
+  {
+    "name": "Rage Treble",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 82.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 49.35,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 52,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 53.75,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 53.9,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 54.35,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 55,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 55,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 68.1,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three TRPL-12",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 83.5,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S8",
+    "strengthKg": 49.35,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S6",
+    "strengthKg": 54.35,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 61.75,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 64.8,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 66.75,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 68.6,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 68.1,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 70.5,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 70.5,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 87,
+    "notes": ""
+  },
+  {
+    "name": "Magneric Treble",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 105,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 84.5,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 104,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 126,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S8/0",
+    "strengthKg": 141,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S10/0",
+    "strengthKg": 169,
+    "notes": ""
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S14/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Happy Three ST-1",
+    "category": "Тройники",
+    "size": "S16/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S8",
+    "strengthKg": 69,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S6",
+    "strengthKg": 75.9,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 86.5,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 90.4,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 93.8,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 95.6,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 95.6,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 98,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 98,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 122,
+    "notes": ""
+  },
+  {
+    "name": "Ultra Treble",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 147,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 93.5,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 98,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 101,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 103,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 103,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 106,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 106,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 133,
+    "notes": ""
+  },
+  {
+    "name": "U1 Treble",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 160,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 104,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 109,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 112,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 115,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 115,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 118,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 118,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 147,
+    "notes": ""
+  },
+  {
+    "name": "S1 Treble",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 177.5,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S4",
+    "strengthKg": 122,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S2",
+    "strengthKg": 122,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S1",
+    "strengthKg": 126,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S1/0",
+    "strengthKg": 128,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S2/0",
+    "strengthKg": 128,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S3/0",
+    "strengthKg": 132,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 132,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 165,
+    "notes": ""
+  },
+  {
+    "name": "Ethalon Treble",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 197,
+    "notes": ""
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S4/0",
+    "strengthKg": 149,
+    "notes": ""
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 187,
+    "notes": ""
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S8/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S14/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Treble",
+    "category": "Тройники",
+    "size": "S16/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Tristar",
+    "category": "Тройники",
+    "size": "S5/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Tristar",
+    "category": "Тройники",
+    "size": "S6/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Tristar",
+    "category": "Тройники",
+    "size": "S8/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Tristar",
+    "category": "Тройники",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Tristar",
+    "category": "Тройники",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Tristar",
+    "category": "Тройники",
+    "size": "S14/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Tristar",
+    "category": "Тройники",
+    "size": "S16/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S4/0",
+    "strengthKg": 128,
+    "notes": ""
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S5/0",
+    "strengthKg": 161,
+    "notes": ""
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S6/0",
+    "strengthKg": 193,
+    "notes": ""
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S8/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S14/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "OFS Double hook",
+    "category": "Двойники",
+    "size": "S16/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S4/0",
+    "strengthKg": 146,
+    "notes": ""
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S5/0",
+    "strengthKg": 182,
+    "notes": ""
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S6/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S8/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S10/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S12/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S14/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "SW Twin hook",
+    "category": "Двойники",
+    "size": "S16/0",
+    "strengthKg": 210,
+    "notes": "205+"
+  },
+  {
+    "name": "Imp WGT Series 1g",
+    "category": "Огруженные (вэки)",
+    "size": "S14",
+    "strengthKg": 31.97,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1g",
+    "category": "Огруженные (вэки)",
+    "size": "S12",
+    "strengthKg": 34.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1g",
+    "category": "Огруженные (вэки)",
+    "size": "S10",
+    "strengthKg": 36.41,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook WGT-10 1.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 12,
+    "notes": "~12"
+  },
+  {
+    "name": "Happy Hook WGT-10 1.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 13.5,
+    "notes": "~13,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 1.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 15.5,
+    "notes": "~15,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 1.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 16,
+    "notes": "~16"
+  },
+  {
+    "name": "Happy Hook WGT-10 1.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1",
+    "strengthKg": 16.5,
+    "notes": "~16,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 1.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Happy Hook WGT-10 1.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Imp WGT Series 1.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S14",
+    "strengthKg": 31.97,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S12",
+    "strengthKg": 34.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S10",
+    "strengthKg": 36.41,
+    "notes": ""
+  },
+  {
+    "name": "WGTHK 101-0175",
+    "category": "Огруженные (вэки)",
+    "size": "S1",
+    "strengthKg": 11.12,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S14",
+    "strengthKg": 31.97,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S12",
+    "strengthKg": 34.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S10",
+    "strengthKg": 36.41,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 39.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 43.21,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 49.36,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 51.51,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 1.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 54.36,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook WGT-10 2G",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 12,
+    "notes": "~12"
+  },
+  {
+    "name": "Happy Hook WGT-10 2G",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 13.5,
+    "notes": "~13,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 2G",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 15.5,
+    "notes": "~15,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 2G",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 16,
+    "notes": "~16"
+  },
+  {
+    "name": "Happy Hook WGT-10 2G",
+    "category": "Огруженные (вэки)",
+    "size": "S1",
+    "strengthKg": 16.5,
+    "notes": "~16,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 2G",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Happy Hook WGT-10 2G",
+    "category": "Огруженные (вэки)",
+    "size": "S2/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S14",
+    "strengthKg": 31.97,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S12",
+    "strengthKg": 34.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S10",
+    "strengthKg": 36.41,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 39.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 43.21,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 49.36,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 51.51,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 2.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 54.36,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook WGT-10 2.75G",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 12,
+    "notes": "~12"
+  },
+  {
+    "name": "Happy Hook WGT-10 2.75G",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 13.5,
+    "notes": "~13,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 2.75G",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 15.5,
+    "notes": "~15,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 2.75G",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 16,
+    "notes": "~16"
+  },
+  {
+    "name": "Happy Hook WGT-10 2.75G",
+    "category": "Огруженные (вэки)",
+    "size": "S1",
+    "strengthKg": 16.5,
+    "notes": "~16,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 2.75G",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Happy Hook WGT-10 2.75G",
+    "category": "Огруженные (вэки)",
+    "size": "S2/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "WGTHK 101-0350",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 11.36,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook WGT-10 3.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 12,
+    "notes": "~12"
+  },
+  {
+    "name": "Happy Hook WGT-10 3.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 13.5,
+    "notes": "~13,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 3.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 15.5,
+    "notes": "~15,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 3.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 16,
+    "notes": "~16"
+  },
+  {
+    "name": "Happy Hook WGT-10 3.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1",
+    "strengthKg": 16.5,
+    "notes": "~16,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 3.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Happy Hook WGT-10 3.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Imp WGT Series 3.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 39.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 3.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 43.21,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 3.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 49.36,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 3.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 51.51,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 3.75g",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 54.36,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook WGT-10 5G",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 12,
+    "notes": "~12"
+  },
+  {
+    "name": "Happy Hook WGT-10 5G",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 13.5,
+    "notes": "~13,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 5G",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 15.5,
+    "notes": "~15,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 16,
+    "notes": "~16"
+  },
+  {
+    "name": "Happy Hook WGT-10 5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1",
+    "strengthKg": 16.5,
+    "notes": "~16,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Happy Hook WGT-10 5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Imp WGT Series 5g",
+    "category": "Огруженные (вэки)",
+    "size": "S8",
+    "strengthKg": 39.19,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 5g",
+    "category": "Огруженные (вэки)",
+    "size": "S6",
+    "strengthKg": 43.21,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 5g",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 49.36,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 5g",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 51.51,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 5g",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 54.36,
+    "notes": ""
+  },
+  {
+    "name": "WGTHK 101-0525",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 11.44,
+    "notes": ""
+  },
+  {
+    "name": "WGTHK 101-0700",
+    "category": "Огруженные (вэки)",
+    "size": "S2/0",
+    "strengthKg": 11.7,
+    "notes": ""
+  },
+  {
+    "name": "Happy Hook WGT-10 7.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 15.5,
+    "notes": "~15,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 7.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 16.5,
+    "notes": "~16,5"
+  },
+  {
+    "name": "Happy Hook WGT-10 7.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Happy Hook WGT-10 7.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Happy Hook WGT-10 7.5G",
+    "category": "Огруженные (вэки)",
+    "size": "S2/0",
+    "strengthKg": 17,
+    "notes": "~17"
+  },
+  {
+    "name": "Imp WGT Series 7.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S4",
+    "strengthKg": 49.36,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 7.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 51.51,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 7.5g",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 54.36,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 9g",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 51.51,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 9g",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 54.36,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 12g",
+    "category": "Огруженные (вэки)",
+    "size": "S2",
+    "strengthKg": 51.51,
+    "notes": ""
+  },
+  {
+    "name": "Imp WGT Series 12g",
+    "category": "Огруженные (вэки)",
+    "size": "S1/0",
+    "strengthKg": 54.36,
+    "notes": ""
+  }
+]

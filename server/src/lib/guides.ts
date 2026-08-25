@@ -1,6 +1,7 @@
 export const GUIDE_KEYS = [
   "reels",
   "rods",
+  "hooks",
   "fishWeights",
   "alcohol",
   "shopPrices",
@@ -36,6 +37,13 @@ export const GUIDE_FIELDS: Record<GuideKey, GuideField[]> = {
     { key: "test", type: "string" },
     { key: "blankKg", type: "number" },
     { key: "price", type: "number" },
+    { key: "notes", type: "string" },
+  ],
+  hooks: [
+    { key: "name", type: "string" },
+    { key: "category", type: "string" },
+    { key: "size", type: "string" },
+    { key: "strengthKg", type: "number" },
     { key: "notes", type: "string" },
   ],
   fishWeights: [
