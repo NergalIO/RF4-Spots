@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RF4 Spots</title>
+    <style>
+      html, body { height: 100%; margin: 0; }
+      body {
+        font-family: "Segoe UI", Manrope, sans-serif;
+        background: radial-gradient(900px 400px at 10% -20%, #143246, #07131c);
+        color: #e7efe8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-app-region: drag;
+        user-select: none;
+      }
+      .card {
+        width: 100%;
+        padding: 28px 32px 32px;
+        box-sizing: border-box;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+      .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, #dcc58a, #8d6a22);
+        color: #1a1408;
+        font-weight: 800;
+        font-size: 13px;
+      }
+      strong { display: block; font-size: 16px; }
+      small { color: #8aa0a8; font-size: 12px; }
+      .status { font-size: 14px; min-height: 20px; margin: 0 0 12px; }
+      .bar {
+        height: 8px;
+        border-radius: 999px;
+        background: #0a1820;
+        border: 1px solid rgba(212, 180, 106, 0.22);
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .bar.on { opacity: 1; }
+      .fill {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #c9a35a, #e8d7a3);
+        transition: width 0.15s linear;
+      }
+      .bar.indeterminate { opacity: 1; }
+      .bar.indeterminate .fill {
+        width: 36%;
+        transition: none;
+        animation: slide 1.15s ease-in-out infinite;
+      }
+      @keyframes slide {
+        0% { transform: translateX(-120%); }
+        100% { transform: translateX(320%); }
+      }
+      .pct {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #c9a35a;
+        font-variant-numeric: tabular-nums;
+        min-height: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="brand">
+        <span class="logo">RF4</span>
+        <div>
+          <strong>Spots</strong>
+          <small>запуск клиента</small>
+        </div>
+      </div>
+      <p class="status" id="status">Проверка обновлений…</p>
+      <div class="bar indeterminate" id="bar"><div class="fill" id="fill"></div></div>
+      <div class="pct" id="pct"></div>
+    </div>
+    <script>
+      window.splash?.onStatus((s) => {
+        document.getElementById("status").textContent = s.message || "";
+        const bar = document.getElementById("bar");
+        const fill = document.getElementById("fill");
+        const pct = document.getElementById("pct");
+        if (typeof s.percent === "number") {
+          bar.classList.add("on");
+          bar.classList.remove("indeterminate");
+          fill.style.width = Math.max(0, Math.min(100, s.percent)) + "%";
+          pct.textContent = Math.round(s.percent) + "%";
+        } else if (s.phase === "check" || s.phase === "launch") {
+          bar.classList.add("indeterminate");
+          bar.classList.remove("on");
+          fill.style.width = "36%";
+          pct.textContent = "";
+        }
+      });
+    </script>
+  </body>
+</html>

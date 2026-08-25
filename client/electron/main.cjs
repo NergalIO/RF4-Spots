@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage, session, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, session } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -41,69 +41,139 @@ function updatesUrl(serverUrl) {
   return `${(serverUrl || DEFAULT_SERVER_URL).replace(/\/$/, "")}/updates`;
 }
 
-let updaterReady = false;
-let installPrompted = false;
-let lastUpdateCheck = 0;
-const UPDATE_CHECK_MIN_MS = 5 * 60 * 1000;
+let splash = null;
+let mainWindow = null;
+let mainOpened = false;
+let installing = false;
+let downloading = false;
+let splashTimer = null;
 
-function configureUpdater(serverUrl) {
-  if (isDev) return;
-  const { autoUpdater } = require("electron-updater");
-  autoUpdater.autoDownload = true;
-  autoUpdater.autoInstallOnAppQuit = true;
-  autoUpdater.allowDowngrade = false;
-  autoUpdater.verifyUpdateCodeSignature = false;
-  autoUpdater.setFeedURL({
-    provider: "generic",
-    url: updatesUrl(serverUrl),
+function sendSplash(payload) {
+  if (splash && !splash.isDestroyed()) splash.webContents.send("updater:status", payload);
+}
+
+function clearSplashTimer() {
+  if (splashTimer) {
+    clearTimeout(splashTimer);
+    splashTimer = null;
+  }
+}
+
+function closeSplash() {
+  if (splash && !splash.isDestroyed()) splash.close();
+  splash = null;
+}
+
+function openMain() {
+  if (mainOpened || installing) return;
+  mainOpened = true;
+  clearSplashTimer();
+  sendSplash({ phase: "launch", message: "Запуск…" });
+  createWindow();
+}
+
+function createSplash() {
+  splash = new BrowserWindow({
+    width: 420,
+    height: 240,
+    resizable: false,
+    maximizable: false,
+    minimizable: false,
+    fullscreenable: false,
+    center: true,
+    frame: false,
+    show: true,
+    backgroundColor: "#07131c",
+    title: "RF4 Spots",
+    webPreferences: {
+      preload: path.join(__dirname, "splash-preload.cjs"),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
   });
-  if (updaterReady) return;
-  updaterReady = true;
-  autoUpdater.on("error", (err) => {
-    console.error("auto-update:", err == null ? "unknown" : err.message || err);
+  splash.setMenuBarVisibility(false);
+  splash.loadFile(path.join(__dirname, "splash.html"));
+  splash.on("close", (e) => {
+    if (downloading || installing) e.preventDefault();
   });
-  autoUpdater.on("update-downloaded", (info) => {
-    if (installPrompted) return;
-    installPrompted = true;
-    const version = info && info.version ? info.version : "";
-    dialog
-      .showMessageBox({
-        type: "info",
-        title: "RF4 Spots",
-        message: version ? `Загружена версия ${version}` : "Загружено обновление",
-        detail: "Приложение закроется, обновление установится без окна установщика и запустится снова. Иначе обновление встанет при следующем выходе.",
-        buttons: ["Перезапустить", "Позже"],
-        defaultId: 0,
-        cancelId: 1,
-        noLink: true,
-      })
-      .then(({ response }) => {
-        if (response === 0) autoUpdater.quitAndInstall(true, true);
-      })
-      .catch(() => {});
+  splash.on("closed", () => {
+    splash = null;
+    if (!mainOpened && !installing) openMain();
   });
 }
 
-function checkForUpdates(force) {
-  if (isDev) return;
-  const now = Date.now();
-  if (!force && lastUpdateCheck && now - lastUpdateCheck < UPDATE_CHECK_MIN_MS) return;
-  lastUpdateCheck = now;
+function startUpdateCheck() {
+  sendSplash({ phase: "check", message: "Проверка обновлений…" });
+  splashTimer = setTimeout(() => openMain(), 20000);
   try {
     const { autoUpdater } = require("electron-updater");
-    configureUpdater(readStore().serverUrl || DEFAULT_SERVER_URL);
+    autoUpdater.autoDownload = true;
+    autoUpdater.autoInstallOnAppQuit = false;
+    autoUpdater.allowDowngrade = false;
+    autoUpdater.verifyUpdateCodeSignature = false;
+    autoUpdater.setFeedURL({
+      provider: "generic",
+      url: updatesUrl(readStore().serverUrl || DEFAULT_SERVER_URL),
+    });
+    autoUpdater.on("checking-for-update", () => {
+      sendSplash({ phase: "check", message: "Проверка обновлений…" });
+    });
+    autoUpdater.on("update-available", (info) => {
+      clearSplashTimer();
+      downloading = true;
+      const version = info && info.version ? info.version : "";
+      sendSplash({
+        phase: "available",
+        percent: 0,
+        message: version ? `Загрузка версии ${version}…` : "Загрузка обновления…",
+      });
+    });
+    autoUpdater.on("update-not-available", () => {
+      sendSplash({ phase: "none", message: "Обновлений нет" });
+      openMain();
+    });
+    autoUpdater.on("download-progress", (prog) => {
+      const percent = prog && typeof prog.percent === "number" ? prog.percent : 0;
+      sendSplash({
+        phase: "download",
+        percent,
+        message: "Загрузка обновления…",
+      });
+    });
+    autoUpdater.on("update-downloaded", () => {
+      installing = true;
+      clearSplashTimer();
+      sendSplash({ phase: "install", percent: 100, message: "Установка и запуск…" });
+      setTimeout(() => {
+        try {
+          autoUpdater.quitAndInstall(true, true);
+        } catch (err) {
+          console.error("auto-update install:", err);
+          installing = false;
+          openMain();
+        }
+      }, 400);
+    });
+    autoUpdater.on("error", (err) => {
+      console.error("auto-update:", err == null ? "unknown" : err.message || err);
+      downloading = false;
+      sendSplash({ phase: "error", message: "Сервер обновлений недоступен" });
+      setTimeout(() => openMain(), 700);
+    });
     void autoUpdater.checkForUpdates();
   } catch (err) {
     console.error("auto-update:", err);
+    openMain();
   }
 }
 
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1440,
     height: 900,
     minWidth: 1100,
     minHeight: 700,
+    show: false,
     backgroundColor: "#07131c",
     title: "RF4 Spots",
     webPreferences: {
@@ -113,12 +183,24 @@ function createWindow() {
       webviewTag: true,
     },
   });
-  win.setMenuBarVisibility(false);
+  mainWindow.setMenuBarVisibility(false);
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
   if (isDev) {
-    win.loadURL("http://127.0.0.1:5173");
-  } else {
-    win.loadFile(path.join(__dirname, "..", "dist", "index.html"));
+    mainWindow.loadURL("http://127.0.0.1:5173");
+    mainWindow.show();
+    return;
   }
+  mainWindow.once("ready-to-show", () => {
+    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.show();
+    closeSplash();
+  });
+  setTimeout(() => {
+    if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.isVisible()) mainWindow.show();
+    closeSplash();
+  }, 4000);
+  mainWindow.loadFile(path.join(__dirname, "..", "dist", "index.html"));
 }
 
 app.setAppUserModelId("com.rf4spots.app");
@@ -135,18 +217,18 @@ app.whenReady().then(async () => {
   ipcMain.handle("store:get", () => readStore());
   ipcMain.handle("store:set", (_e, data) => {
     writeStore(data);
-    configureUpdater(data.serverUrl || DEFAULT_SERVER_URL);
-    return true;
-  });
-  ipcMain.handle("updates:check", () => {
-    checkForUpdates(false);
     return true;
   });
   await session.defaultSession.clearCache();
-  createWindow();
-  checkForUpdates(true);
+  if (isDev) {
+    createWindow();
+  } else {
+    createSplash();
+    startUpdateCheck();
+  }
 });
 
 app.on("window-all-closed", () => {
+  if (installing) return;
   if (process.platform !== "darwin") app.quit();
 });
