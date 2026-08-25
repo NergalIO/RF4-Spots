@@ -6,7 +6,7 @@ export const GUIDE_FIELDS: Record<GuideKey, GuideField[]> = {
   reels: [
     { key: "name", label: "Название", type: "string" },
     { key: "category", label: "Категория", type: "string" },
-    { key: "retrieve", label: "Смотка", type: "number" },
+    { key: "retrieve", label: "Смотка, м/мин", type: "number" },
     { key: "ratio", label: "Передатка", type: "string" },
     { key: "gearKg", label: "Шестерня, кг", type: "number" },
     { key: "dragKg", label: "Фрикцион, кг", type: "number" },

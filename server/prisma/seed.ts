@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, readFileSync } from "node:fs";
-import { GUIDE_KEYS } from "../src/lib/guides.js";
+import { GUIDE_KEYS, type GuideRow } from "../src/lib/guides.js";
 
 function loadEnv() {
   const path = resolve(process.cwd(), ".env");
@@ -48,6 +48,73 @@ type WbSeed = {
   sortOrder: number;
   source: string;
 };
+
+const PREFIX_RE =
+  /^(маховое|болонское|матчевое|фидерное|пикерное|карповое|спиннинговое|кастинговое|джерковое|морское|пилкерное|нахлыстовое|сподовое|маркерное)\s*[-–:]\s*/i;
+
+function normGuideName(value: unknown) {
+  const text = String(value ?? "")
+    .replace(/ё/gi, "е")
+    .replace(PREFIX_RE, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9а-я]+/gi, " ")
+    .trim();
+  return text.replace(/\s+/g, " ");
+}
+
+function asGuideRows(value: unknown): GuideRow[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((row) => row && typeof row === "object") as GuideRow[];
+}
+
+function emptyValue(value: unknown) {
+  return value == null || value === "";
+}
+
+const FILL_FIELDS: Record<string, string[]> = {
+  reels: ["retrieve", "ratio", "dragKg", "price"],
+  rods: ["length", "test", "price"],
+  fishWeights: ["qualifyingKg", "trophyKg", "rareTrophyKg"],
+  alcohol: ["price", "expPct"],
+  shopPrices: ["tackleShop"],
+  levels: ["xp"],
+};
+
+function sparseGuide(rows: GuideRow[], fields: string[]) {
+  if (!rows.length) return true;
+  const hits = rows.filter((row) => fields.some((field) => !emptyValue(row[field]))).length;
+  return hits / rows.length < 0.25;
+}
+
+function mergeGuideRows(existing: GuideRow[], seeded: GuideRow[]): GuideRow[] {
+  const out = existing.map((row) => ({ ...row }));
+  const index = new Map<string, number>();
+  out.forEach((row, i) => {
+    const key = normGuideName(row.name);
+    if (key) index.set(key, i);
+  });
+  for (const src of seeded) {
+    const key = normGuideName(src.name);
+    if (!key) continue;
+    const i = index.get(key);
+    if (i == null) {
+      index.set(key, out.length);
+      out.push({ ...src });
+      continue;
+    }
+    const dst = out[i];
+    for (const [field, value] of Object.entries(src)) {
+      if (emptyValue(value)) continue;
+      if (emptyValue(dst[field])) dst[field] = value;
+    }
+    const currentName = String(dst.name ?? "");
+    const seedName = String(src.name ?? "");
+    if (seedName && currentName.includes(" - ") && !seedName.includes(" - ")) {
+      dst.name = seedName;
+    }
+  }
+  return out;
+}
 
 async function main() {
   const fish: FishSeed[] = JSON.parse(
@@ -114,11 +181,20 @@ async function main() {
 
   let guides = 0;
   for (const key of GUIDE_KEYS) {
-    const existing = await prisma.guideDataset.findUnique({ where: { key } });
-    if (existing) continue;
     const file = join(here, "seeds", "guides", `${key}.json`);
-    const rows = existsSync(file) ? JSON.parse(await readFile(file, "utf8")) : [];
-    await prisma.guideDataset.create({ data: { key, rows } });
+    const seeded: GuideRow[] = existsSync(file) ? JSON.parse(await readFile(file, "utf8")) : [];
+    const existing = await prisma.guideDataset.findUnique({ where: { key } });
+    if (!existing || sparseGuide(asGuideRows(existing.rows), FILL_FIELDS[key] ?? [])) {
+      if (!existing) await prisma.guideDataset.create({ data: { key, rows: seeded } });
+      else await prisma.guideDataset.update({ where: { key }, data: { rows: seeded } });
+      guides += 1;
+      continue;
+    }
+    const merged = mergeGuideRows(asGuideRows(existing.rows), seeded);
+    await prisma.guideDataset.update({
+      where: { key },
+      data: { rows: merged },
+    });
     guides += 1;
   }
 

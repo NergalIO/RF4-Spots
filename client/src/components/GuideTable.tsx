@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { GuideRow } from "../types";
 import { asText, emptyGuideRow, type GuideField, type GuideKey } from "../guideSchema";
 
@@ -15,9 +15,39 @@ type Props = {
   selectHint?: string;
 };
 
+const PICK_W = 44;
+const DEL_W = 40;
+const MIN_COL = 72;
+
 function cellText(value: unknown) {
   if (value == null || value === "") return "—";
   return String(value);
+}
+
+function defaultWidth(field: GuideField) {
+  if (field.key === "name") return 220;
+  if (field.key === "notes") return 160;
+  if (field.key === "category") return 140;
+  if (field.key === "test" || field.key === "ratio" || field.key === "capacity") return 110;
+  return field.type === "number" ? 96 : 130;
+}
+
+function loadWidths(datasetKey: string, fields: GuideField[]): Record<string, number> {
+  const defaults: Record<string, number> = {};
+  for (const field of fields) defaults[field.key] = defaultWidth(field);
+  try {
+    const raw = localStorage.getItem(`rf4spots-guide-cols:${datasetKey}`);
+    if (!raw) return defaults;
+    const parsed = JSON.parse(raw) as Record<string, number>;
+    const next = { ...defaults };
+    for (const field of fields) {
+      const n = Number(parsed[field.key]);
+      if (Number.isFinite(n)) next[field.key] = Math.max(MIN_COL, Math.round(n));
+    }
+    return next;
+  } catch {
+    return defaults;
+  }
 }
 
 export function GuideTable({
@@ -37,8 +67,28 @@ export function GuideTable({
   const [sortKey, setSortKey] = useState(fields[0]?.key ?? "name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [category, setCategory] = useState("");
+  const [widths, setWidths] = useState(() => loadWidths(datasetKey, fields));
+  const widthsRef = useRef(widths);
+  widthsRef.current = widths;
   const data = draft ?? rows;
   const dirty = draft != null;
+
+  useEffect(() => {
+    setDraft(null);
+    setQ("");
+    setCategory("");
+    setSortKey(fields[0]?.key ?? "name");
+    setSortDir("asc");
+    setWidths(loadWidths(datasetKey, fields));
+  }, [datasetKey]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(`rf4spots-guide-cols:${datasetKey}`, JSON.stringify(widths));
+    } catch {
+      /* ignore */
+    }
+  }, [datasetKey, widths]);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -46,7 +96,7 @@ export function GuideTable({
       const value = asText(row.category);
       if (value) set.add(value);
     }
-    return [...set];
+    return [...set].sort((a, b) => a.localeCompare(b, "ru"));
   }, [rows]);
 
   const indexed = useMemo(() => {
@@ -69,6 +119,11 @@ export function GuideTable({
     return filtered;
   }, [data, q, category, fields, sortKey, sortDir]);
 
+  const tableWidth =
+    (onSelect ? PICK_W : 0) +
+    fields.reduce((sum, field) => sum + (widths[field.key] ?? defaultWidth(field)), 0) +
+    (canEdit ? DEL_W : 0);
+
   function toggleSort(key: string) {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     else {
@@ -85,6 +140,28 @@ export function GuideTable({
       next[index] = row;
       return next;
     });
+  }
+
+  function onResizeCol(key: string) {
+    return (e: ReactPointerEvent<HTMLSpanElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const startX = e.clientX;
+      const field = fields.find((f) => f.key === key);
+      const startW = widthsRef.current[key] ?? (field ? defaultWidth(field) : MIN_COL);
+      document.body.classList.add("resizing-panels");
+      const move = (ev: PointerEvent) => {
+        const next = Math.max(MIN_COL, Math.round(startW + ev.clientX - startX));
+        setWidths((cur) => ({ ...cur, [key]: next }));
+      };
+      const up = () => {
+        document.body.classList.remove("resizing-panels");
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+      };
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+    };
   }
 
   return (
@@ -106,7 +183,9 @@ export function GuideTable({
             ))}
           </select>
         )}
-        <span className="muted">{indexed.length} из {data.length}</span>
+        <span className="muted">
+          {indexed.length} из {data.length}
+        </span>
         {selectHint && <span className="muted">{selectHint}</span>}
         <div className="spacer" />
         {canEdit && (
@@ -142,7 +221,14 @@ export function GuideTable({
       </div>
       {error && <p className="form-error">{error}</p>}
       <div className="guide-scroll">
-        <table>
+        <table style={{ width: tableWidth }}>
+          <colgroup>
+            {onSelect && <col style={{ width: PICK_W }} />}
+            {fields.map((field) => (
+              <col key={field.key} style={{ width: widths[field.key] ?? defaultWidth(field) }} />
+            ))}
+            {canEdit && <col style={{ width: DEL_W }} />}
+          </colgroup>
           <thead>
             <tr>
               {onSelect && <th className="pick">#</th>}
@@ -152,6 +238,14 @@ export function GuideTable({
                     {field.label}
                     {sortKey === field.key ? (sortDir === "asc" ? " ↑" : " ↓") : ""}
                   </button>
+                  <span
+                    className="col-resizer"
+                    onPointerDown={onResizeCol(field.key)}
+                    onDoubleClick={() =>
+                      setWidths((cur) => ({ ...cur, [field.key]: defaultWidth(field) }))
+                    }
+                    title="Потяните, чтобы изменить ширину колонки"
+                  />
                 </th>
               ))}
               {canEdit && <th />}

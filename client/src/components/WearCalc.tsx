@@ -70,13 +70,15 @@ export function WearCalc({ reels, rods }: Props) {
         </label>
         <label>
           Удилище
-          <select value={rodI} onChange={(e) => setRodI(Number(e.target.value))}>
-            {rodOpts.map((o) => (
-              <option key={o.index} value={o.index}>
-                {o.category ? `${o.category}: ${o.name}` : o.name}
-              </option>
-            ))}
-          </select>
+          <span className="select-clip">
+            <select value={rodI} onChange={(e) => setRodI(Number(e.target.value))}>
+              {rodOpts.map((o) => (
+                <option key={o.index} value={o.index}>
+                  {o.category ? `${o.category}: ${o.name}` : o.name}
+                </option>
+              ))}
+            </select>
+          </span>
         </label>
         <p className="muted">Бланк без износа: {fmtKg(blankKg || null)}</p>
         <label>
@@ -92,13 +94,15 @@ export function WearCalc({ reels, rods }: Props) {
         </label>
         <label>
           Катушка
-          <select value={reelI} onChange={(e) => setReelI(Number(e.target.value))}>
-            {reelOpts.map((o) => (
-              <option key={o.index} value={o.index}>
-                {o.category ? `${o.category}: ${o.name}` : o.name}
-              </option>
-            ))}
-          </select>
+          <span className="select-clip">
+            <select value={reelI} onChange={(e) => setReelI(Number(e.target.value))}>
+              {reelOpts.map((o) => (
+                <option key={o.index} value={o.index}>
+                  {o.category ? `${o.category}: ${o.name}` : o.name}
+                </option>
+              ))}
+            </select>
+          </span>
         </label>
         <p className="muted">Шестерня без износа: {fmtKg(gearKg || null)}</p>
         <label>

@@ -100,6 +100,7 @@ export function ToolsView({ active }: { active: boolean }) {
   else if (tool === "reels") {
     body = (
       <GearCompare
+        key="reels"
         datasetKey="reels"
         rows={reels}
         canEdit={canEdit}
@@ -113,6 +114,7 @@ export function ToolsView({ active }: { active: boolean }) {
   } else if (tool === "rods") {
     body = (
       <GearCompare
+        key="rods"
         datasetKey="rods"
         rows={rods}
         canEdit={canEdit}
@@ -127,6 +129,7 @@ export function ToolsView({ active }: { active: boolean }) {
     const key = tool as GuideKey;
     body = (
       <GuideTable
+        key={key}
         datasetKey={key}
         rows={data[key] ?? []}
         fields={GUIDE_FIELDS[key]}

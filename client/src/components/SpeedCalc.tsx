@@ -52,21 +52,23 @@ export function SpeedCalc({ reels }: Props) {
         </label>
         <label>
           Катушка
-          <select value={i1} onChange={(e) => setI1(Number(e.target.value))}>
-            {opts1.map((o) => (
-              <option key={o.index} value={o.index}>
-                {reelLabel(o.row)}
-              </option>
-            ))}
-          </select>
+          <span className="select-clip">
+            <select value={i1} onChange={(e) => setI1(Number(e.target.value))}>
+              {opts1.map((o) => (
+                <option key={o.index} value={o.index}>
+                  {reelLabel(o.row)}
+                </option>
+              ))}
+            </select>
+          </span>
         </label>
         <label>
           Скорость проводки
           <input value={speed1} onChange={(e) => setSpeed1(e.target.value)} />
         </label>
         <label>
-          Смотка (если нет в таблице)
-          <input value={r1} onChange={(e) => setR1(e.target.value)} placeholder={retrieve1 ? String(retrieve1) : "см/оборот"} />
+          Смотка, м/мин (если нет в таблице)
+          <input value={r1} onChange={(e) => setR1(e.target.value)} placeholder={retrieve1 ? String(retrieve1) : "м/мин"} />
         </label>
       </section>
       <section className="calc-card">
@@ -77,17 +79,19 @@ export function SpeedCalc({ reels }: Props) {
         </label>
         <label>
           Катушка
-          <select value={i2} onChange={(e) => setI2(Number(e.target.value))}>
-            {opts2.map((o) => (
-              <option key={o.index} value={o.index}>
-                {reelLabel(o.row)}
-              </option>
-            ))}
-          </select>
+          <span className="select-clip">
+            <select value={i2} onChange={(e) => setI2(Number(e.target.value))}>
+              {opts2.map((o) => (
+                <option key={o.index} value={o.index}>
+                  {reelLabel(o.row)}
+                </option>
+              ))}
+            </select>
+          </span>
         </label>
         <label>
-          Смотка (если нет в таблице)
-          <input value={r2} onChange={(e) => setR2(e.target.value)} placeholder={retrieve2 ? String(retrieve2) : "см/оборот"} />
+          Смотка, м/мин (если нет в таблице)
+          <input value={r2} onChange={(e) => setR2(e.target.value)} placeholder={retrieve2 ? String(retrieve2) : "м/мин"} />
         </label>
         <p className="calc-weak">
           Эквивалентная скорость: <b>{result == null ? "—" : result.toFixed(2).replace(/\.00$/, "")}</b>

@@ -739,19 +739,53 @@ body.resizing-panels .leaflet-host {
   border-radius: 12px;
   background: var(--panel);
 }
-.guide-scroll table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.guide-scroll table {
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
 .guide-scroll th,
 .guide-scroll td {
   padding: 6px 8px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
   white-space: nowrap;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.guide-scroll thead th { position: sticky; top: 0; background: #16303d; z-index: 1; }
-.guide-scroll .sort { border: 0; background: transparent; color: var(--gold); padding: 0; }
+.guide-scroll thead th {
+  position: sticky;
+  top: 0;
+  background: #16303d;
+  z-index: 1;
+  padding-right: 12px;
+}
+.guide-scroll .sort {
+  border: 0;
+  background: transparent;
+  color: var(--gold);
+  padding: 0;
+  max-width: calc(100% - 8px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.guide-scroll .col-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 7px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 2;
+}
+.guide-scroll .col-resizer:hover,
+body.resizing-panels .guide-scroll .col-resizer {
+  background: rgba(201, 163, 90, 0.45);
+}
 .guide-scroll td input {
   width: 100%;
-  min-width: 72px;
+  min-width: 0;
   padding: 6px 8px;
   margin: 0;
 }
@@ -761,22 +795,41 @@ body.resizing-panels .leaflet-host {
 .guide-compare {
   flex: 1;
   min-height: 0;
-  display: grid;
-  grid-template-columns: 1fr minmax(260px, 320px);
-  gap: 12px;
+  min-width: 0;
+  display: flex;
+  position: relative;
 }
+.guide-compare .guide-table {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+.compare-dock {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8;
+  display: flex;
+  min-width: 0;
+  box-shadow: -16px 0 32px rgba(0, 0, 0, 0.45);
+}
+.compare-dock .resize-handle { align-self: stretch; }
 .compare-card {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 12px 0 0 12px;
   background: var(--panel);
   padding: 14px;
   overflow: auto;
 }
-.compare-card h3 { margin: 0 0 12px; font-size: 15px; }
+.compare-card h3 { margin: 0 0 12px; font-size: 15px; overflow-wrap: anywhere; }
 .compare-card h3 span { color: var(--muted); font-weight: 500; }
 .compare-card dl { margin: 0; display: grid; gap: 8px; }
 .compare-card dt { color: var(--muted); font-size: 12px; }
-.compare-card dd { margin: 0; display: flex; gap: 8px; align-items: center; }
+.compare-card dd { margin: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .compare-card dd span { color: var(--muted); }
 .compare-card .changed b { color: var(--gold); }
 .compare-card .up { color: #7dcea0; }
@@ -786,21 +839,37 @@ body.resizing-panels .leaflet-host {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   overflow: auto;
+  min-width: 0;
 }
 .calc-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .calc-card {
+  min-width: 0;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--panel);
   padding: 16px;
 }
 .calc-card h3 { margin: 0 0 12px; }
-.calc-card label { margin-bottom: 10px; }
+.calc-card label { margin-bottom: 10px; min-width: 0; }
+.calc-card input,
+.calc-card select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.calc-card select { field-sizing: fixed; }
+.calc-card .select-clip {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
 .calc-result { margin: 0; padding-left: 18px; }
 .calc-weak { margin: 12px 0 0; color: var(--gold); }
 @media (max-width: 1100px) {
   .tools-host { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .tools-nav { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
-  .guide-compare, .calc-grid, .calc-grid.two { grid-template-columns: 1fr; }
+  .calc-grid, .calc-grid.two { grid-template-columns: 1fr; }
 }
 

@@ -1,1763 +1,1770 @@
 [
   {
     "name": "Акула гигантская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 50,
+    "uniqueKg": 90,
+    "trophyKg": 1300,
+    "rareTrophyKg": 2500
   },
   {
     "name": "Акула гренландская полярная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 30,
+    "uniqueKg": 100,
+    "trophyKg": 600,
+    "rareTrophyKg": 900
   },
   {
     "name": "Акула плащеносная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 4.5,
+    "uniqueKg": 8,
+    "trophyKg": 50,
+    "rareTrophyKg": 70
   },
   {
     "name": "Акула сельдевая атлантическая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 15,
+    "trophyKg": 140,
+    "rareTrophyKg": 200
   },
   {
     "name": "Амур белый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 2,
+    "uniqueKg": 4,
+    "trophyKg": 28,
+    "rareTrophyKg": 40
   },
   {
     "name": "Амур белый альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3.733,
+    "uniqueKg": 4,
+    "trophyKg": 28,
+    "rareTrophyKg": 40
   },
   {
     "name": "Амур чёрный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 2,
+    "uniqueKg": 4,
+    "trophyKg": 28,
+    "rareTrophyKg": 40
   },
   {
     "name": "Белоглазка",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.11,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.6,
+    "rareTrophyKg": 0.9
   },
   {
     "name": "Белорыбица",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.7,
+    "uniqueKg": 3,
+    "trophyKg": 15,
+    "rareTrophyKg": 25
   },
   {
     "name": "Белуга каспийская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 15,
+    "uniqueKg": 30,
+    "trophyKg": 500,
+    "rareTrophyKg": 1000
   },
   {
     "name": "Белуга черноморская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 37.333,
+    "uniqueKg": 40,
+    "trophyKg": 500,
+    "rareTrophyKg": 1000
   },
   {
     "name": "Бельдюга европейская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.14,
+    "uniqueKg": 0.18,
+    "trophyKg": 0.9,
+    "rareTrophyKg": 1.3
   },
   {
     "name": "Берикс красный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.446,
+    "uniqueKg": 6.067,
+    "trophyKg": 9,
+    "rareTrophyKg": 12
   },
   {
     "name": "Берш",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.25,
+    "uniqueKg": 0.27,
+    "trophyKg": 1.4,
+    "rareTrophyKg": 2.2
   },
   {
     "name": "Буффало большеротый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.926,
+    "uniqueKg": 2,
+    "trophyKg": 15,
+    "rareTrophyKg": 20
   },
   {
     "name": "Буффало чёрный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 2,
+    "trophyKg": 15,
+    "rareTrophyKg": 20
   },
   {
     "name": "Валёк",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.2,
+    "uniqueKg": 0.3,
+    "trophyKg": 1.2,
+    "rareTrophyKg": 1.6
   },
   {
     "name": "Вармоус",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.1,
+    "uniqueKg": 0.11,
+    "trophyKg": 0.65,
+    "rareTrophyKg": 0.85
   },
   {
     "name": "Вобла",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.09,
+    "uniqueKg": 0.13,
+    "trophyKg": 0.5,
+    "rareTrophyKg": 0.8
   },
   {
     "name": "Вырезуб",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.3,
+    "uniqueKg": 1,
+    "trophyKg": 5.5,
+    "rareTrophyKg": 7.5
   },
   {
     "name": "Вьюн",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.05,
+    "uniqueKg": 0.08,
+    "trophyKg": 0.2,
+    "rareTrophyKg": 0.25
   },
   {
     "name": "Гимантолоф атлантический",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.49,
+    "uniqueKg": 0.5,
+    "trophyKg": 7,
+    "rareTrophyKg": 9
   },
   {
     "name": "Голавль",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 0.75,
+    "trophyKg": 4,
+    "rareTrophyKg": 7
   },
   {
     "name": "Голец арктический",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.5,
+    "uniqueKg": 2,
+    "trophyKg": 11,
+    "rareTrophyKg": 16
   },
   {
     "name": "Голец Дрягина",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 5.5,
+    "trophyKg": 10,
+    "rareTrophyKg": 14
   },
   {
     "name": "Голец Куорский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 2,
+    "trophyKg": 22,
+    "rareTrophyKg": 30
   },
   {
     "name": "Голец Леванидова",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.25,
+    "uniqueKg": 0.35,
+    "trophyKg": 1.6,
+    "rareTrophyKg": 2.1
   },
   {
     "name": "Голец сибирский-усач",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.03,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.06,
+    "rareTrophyKg": 0.08
   },
   {
     "name": "Гольян",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.022,
+    "uniqueKg": 0.035,
+    "trophyKg": 0.1,
+    "rareTrophyKg": 0.16
   },
   {
     "name": "Гольян озёрный",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.035,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.1,
+    "rareTrophyKg": 0.16
   },
   {
     "name": "Горбуша",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Горбыль речной",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.2,
+    "trophyKg": 13.5,
+    "rareTrophyKg": 19
   },
   {
     "name": "Горбыль серебристый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 32.75,
+    "trophyKg": 65,
+    "rareTrophyKg": 90
   },
   {
     "name": "Гребешок исландский",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.1,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.35,
+    "rareTrophyKg": 0.45
   },
   {
     "name": "Густера",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.14,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.8,
+    "rareTrophyKg": 1.2
   },
   {
     "name": "Доросома северная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.18,
+    "uniqueKg": 0.2,
+    "trophyKg": 1.1,
+    "rareTrophyKg": 1.6
   },
   {
     "name": "Дрейссена речная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.04,
+    "uniqueKg": 0.08,
+    "trophyKg": 0.15,
+    "rareTrophyKg": 0.21
   },
   {
     "name": "Елец",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.06,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.25,
+    "rareTrophyKg": 0.39
   },
   {
     "name": "Елец сибирский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.06,
+    "uniqueKg": 0.066,
+    "trophyKg": 0.25,
+    "rareTrophyKg": 0.39
   },
   {
     "name": "Ёрш",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.04,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.14,
+    "rareTrophyKg": 0.22
   },
   {
     "name": "Ёрш-носарь",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.045,
+    "uniqueKg": 0.1,
+    "trophyKg": 0.25,
+    "rareTrophyKg": 0.35
   },
   {
     "name": "Жерех",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.7,
+    "trophyKg": 8,
+    "rareTrophyKg": 13
   },
   {
     "name": "Зубатка полосатая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.9,
+    "uniqueKg": 2,
+    "trophyKg": 14.5,
+    "rareTrophyKg": 19
   },
   {
     "name": "Зубатка пятнистая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.9,
+    "uniqueKg": 2,
+    "trophyKg": 17,
+    "rareTrophyKg": 22
   },
   {
     "name": "Зубатка синяя",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.35,
+    "uniqueKg": 2,
+    "trophyKg": 13,
+    "rareTrophyKg": 17
   },
   {
     "name": "Калуга",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 15,
+    "uniqueKg": 30,
+    "trophyKg": 500,
+    "rareTrophyKg": 1000
   },
   {
     "name": "Кальмар обыкновенный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.3,
+    "uniqueKg": 0.5,
+    "trophyKg": 2,
+    "rareTrophyKg": 2.4
   },
   {
     "name": "Камбала морская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.8,
+    "trophyKg": 4.5,
+    "rareTrophyKg": 5.5
   },
   {
     "name": "Камбала палтусовидная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 0.7,
+    "trophyKg": 4,
+    "rareTrophyKg": 5
   },
   {
     "name": "Камбала хоботная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.45,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Карасекарп",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.45,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Карась золотой",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.28,
+    "uniqueKg": 0.35,
+    "trophyKg": 1.8,
+    "rareTrophyKg": 2.9
   },
   {
     "name": "Карась серебряный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.3,
+    "uniqueKg": 0.35,
+    "trophyKg": 1.9,
+    "rareTrophyKg": 3.2
   },
   {
     "name": "Карп голый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 5,
+    "trophyKg": 30,
+    "rareTrophyKg": 45
   },
   {
-    "name": "Карп голый — альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп голый - альбинос",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 5,
+    "trophyKg": 30,
+    "rareTrophyKg": 45
   },
   {
-    "name": "Карп голый — призрак",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп голый - призрак",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 5,
+    "trophyKg": 30,
+    "rareTrophyKg": 45
   },
   {
     "name": "Карп Динкенбюльский голый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 2,
+    "uniqueKg": 3.5,
+    "trophyKg": 35,
+    "rareTrophyKg": 45
   },
   {
     "name": "Карп Динкенбюльский зеркальный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 3.5,
+    "trophyKg": 35,
+    "rareTrophyKg": 45
   },
   {
     "name": "Карп Динкенбюльский линейный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 2,
+    "uniqueKg": 3.5,
+    "trophyKg": 35,
+    "rareTrophyKg": 45
   },
   {
     "name": "Карп зеркальный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
-    "name": "Карп зеркальный — альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп зеркальный - альбинос",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
-    "name": "Карп зеркальный — призрак",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп зеркальный - призрак",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
     "name": "Карп Кои Ёцусиро",
-    "qualifyingKg": null,
+    "qualifyingKg": 2,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
     "name": "Карп Кои Кохаку",
-    "qualifyingKg": null,
+    "qualifyingKg": 2,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
     "name": "Карп Кои Мамэсибори Госики",
-    "qualifyingKg": null,
+    "qualifyingKg": 2,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
     "name": "Карп Кои Мидори-гои",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.125,
+    "uniqueKg": 2,
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
     "name": "Карп Кои Наруми Асаги",
-    "qualifyingKg": null,
+    "qualifyingKg": 2,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
     "name": "Карп Кои Орэндзи Огон",
-    "qualifyingKg": null,
+    "qualifyingKg": 2,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
     "name": "Карп Кои Хи Уцури",
-    "qualifyingKg": null,
+    "qualifyingKg": 2,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
-    "name": "Карп красный Старвас — зеркальный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп красный Старвас - зеркальный",
+    "qualifyingKg": 3,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
-    "name": "Карп красный Старвас — чешуйчатый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп красный Старвас - чешуйчатый",
+    "qualifyingKg": 1,
+    "uniqueKg": 3,
+    "trophyKg": 20,
+    "rareTrophyKg": 30
   },
   {
     "name": "Карп линейный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
-    "name": "Карп линейный — альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп линейный - альбинос",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
-    "name": "Карп линейный — призрак",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп линейный - призрак",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
     "name": "Карп рамчатый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
-    "name": "Карп рамчатый — альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп рамчатый - альбинос",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
-    "name": "Карп рамчатый — призрак",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп рамчатый - призрак",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 4,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
     "name": "Карп Супер Фрикс",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 3.5,
+    "trophyKg": 30,
+    "rareTrophyKg": 40
   },
   {
     "name": "Карп чешуйчатый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 3,
+    "trophyKg": 20,
+    "rareTrophyKg": 30
   },
   {
-    "name": "Карп чешуйчатый — альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп чешуйчатый - альбинос",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 3,
+    "trophyKg": 20,
+    "rareTrophyKg": 30
   },
   {
-    "name": "Карп чешуйчатый — призрак",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "name": "Карп чешуйчатый - призрак",
+    "qualifyingKg": 0.1,
+    "uniqueKg": 3,
+    "trophyKg": 20,
+    "rareTrophyKg": 30
   },
   {
     "name": "Катран",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 1.5,
+    "trophyKg": 7,
+    "rareTrophyKg": 10
   },
   {
     "name": "Керчак европейский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.3,
+    "uniqueKg": 0.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Кета",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.5,
+    "uniqueKg": 1.8,
+    "trophyKg": 8,
+    "rareTrophyKg": 10
   },
   {
     "name": "Кижуч",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.75,
+    "uniqueKg": 1,
+    "trophyKg": 5.5,
+    "rareTrophyKg": 7
   },
   {
     "name": "Колюшка девятииглая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.018,
+    "uniqueKg": 0.025,
+    "trophyKg": 0.07,
+    "rareTrophyKg": 0.09
   },
   {
     "name": "Колюшка малая южная",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.025,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.07,
+    "rareTrophyKg": 0.09
   },
   {
     "name": "Колюшка трёхиглая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.018,
+    "uniqueKg": 0.025,
+    "trophyKg": 0.07,
+    "rareTrophyKg": 0.09
   },
   {
     "name": "Конгер",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 8,
+    "trophyKg": 60,
+    "rareTrophyKg": 75
   },
   {
     "name": "Корюшка",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.04,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.13,
+    "rareTrophyKg": 0.2
   },
   {
     "name": "Корюшка азиатская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.04,
+    "uniqueKg": 0.08,
+    "trophyKg": 0.27,
+    "rareTrophyKg": 0.32
   },
   {
     "name": "Краб камчатский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 4,
+    "trophyKg": 7.5,
+    "rareTrophyKg": 9
   },
   {
     "name": "Краб съедобный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.35,
+    "uniqueKg": 0.5,
+    "trophyKg": 1.8,
+    "rareTrophyKg": 2.2
   },
   {
     "name": "Краппи белый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.22,
+    "uniqueKg": 0.24,
+    "trophyKg": 1.35,
+    "rareTrophyKg": 2
   },
   {
     "name": "Краппи чёрный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.145,
+    "uniqueKg": 0.24,
+    "trophyKg": 1.6,
+    "rareTrophyKg": 2.2
   },
   {
     "name": "Краснопёр монгольский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.1,
+    "uniqueKg": 1.3,
+    "trophyKg": 2.5,
+    "rareTrophyKg": 3.2
   },
   {
     "name": "Краснопёр-Угай крупночешуйчатый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.18,
+    "uniqueKg": 0.2,
+    "trophyKg": 1.2,
+    "rareTrophyKg": 1.5
   },
   {
     "name": "Краснопёрка",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.25,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 1.5,
+    "rareTrophyKg": 2
   },
   {
     "name": "Кунджа",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.8,
+    "trophyKg": 10,
+    "rareTrophyKg": 14
+  },
+  {
+    "name": "Кумжа черноморская",
+    "qualifyingKg": 0.6,
+    "uniqueKg": 2,
+    "trophyKg": 14,
+    "rareTrophyKg": 20
   },
   {
     "name": "Кутум",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 1,
+    "trophyKg": 5,
+    "rareTrophyKg": 7
   },
   {
     "name": "Лаврак полосатый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 2,
+    "uniqueKg": 16,
+    "trophyKg": 30,
+    "rareTrophyKg": 45
   },
   {
     "name": "Лаврак полосатый гибридный",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.9,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 8,
+    "rareTrophyKg": 10
   },
   {
     "name": "Ленок острорылый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.7,
+    "uniqueKg": 0.9,
+    "trophyKg": 5.5,
+    "rareTrophyKg": 7
   },
   {
     "name": "Ленок тупорылый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 0.8,
+    "trophyKg": 7.5,
+    "rareTrophyKg": 9
   },
   {
     "name": "Лещ",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.75,
+    "uniqueKg": 1,
+    "trophyKg": 4.4,
+    "rareTrophyKg": 7
   },
   {
     "name": "Лещ восточный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.75,
+    "uniqueKg": 1,
+    "trophyKg": 4.4,
+    "rareTrophyKg": 7
   },
   {
     "name": "Ликод полуголый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.175,
+    "uniqueKg": 0.25,
+    "trophyKg": 1.2,
+    "rareTrophyKg": 1.5
   },
   {
     "name": "Ликод Эсмарка",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.1,
+    "uniqueKg": 0.5,
+    "trophyKg": 2.5,
+    "rareTrophyKg": 3.3
   },
   {
     "name": "Линь",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 0.65,
+    "trophyKg": 4,
+    "rareTrophyKg": 6
   },
   {
     "name": "Линь золотистый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 0.8,
+    "trophyKg": 4,
+    "rareTrophyKg": 6
   },
   {
     "name": "Линь Квольсдорфский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.75,
+    "trophyKg": 4,
+    "rareTrophyKg": 6
   },
   {
     "name": "Лосось атлантический",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 4,
+    "uniqueKg": 5,
+    "trophyKg": 30,
+    "rareTrophyKg": 38
   },
   {
     "name": "Лосось каспийский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 5,
+    "trophyKg": 30,
+    "rareTrophyKg": 50
   },
   {
     "name": "Лосось ладожский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 2,
+    "trophyKg": 14,
+    "rareTrophyKg": 20
   },
   {
     "name": "Лягушка",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.05,
+    "uniqueKg": 0.1,
+    "trophyKg": 0.19,
+    "rareTrophyKg": 0.25
   },
   {
     "name": "Макрель атлантическая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.25,
+    "uniqueKg": 0.4,
+    "trophyKg": 2,
+    "rareTrophyKg": 2.8
   },
   {
     "name": "Макрурус северный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.1,
+    "uniqueKg": 0.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Мальма",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.75,
+    "uniqueKg": 1.6,
+    "trophyKg": 7.5,
+    "rareTrophyKg": 10
   },
   {
     "name": "Менёк",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.8,
+    "uniqueKg": 2.5,
+    "trophyKg": 18,
+    "rareTrophyKg": 24
   },
   {
     "name": "Мерланг",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.3,
+    "uniqueKg": 0.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Мерлуза",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.9,
+    "uniqueKg": 1.5,
+    "trophyKg": 9,
+    "rareTrophyKg": 12
   },
   {
     "name": "Меч-рыба",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 8,
+    "uniqueKg": 40,
+    "trophyKg": 300,
+    "rareTrophyKg": 450
   },
   {
     "name": "Мидия",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.04,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.13,
+    "rareTrophyKg": 0.15
   },
   {
     "name": "Микижа",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.6,
+    "trophyKg": 8,
+    "rareTrophyKg": 10
   },
   {
     "name": "Минога дальневосточная ручьевая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.02,
+    "uniqueKg": 0.03,
+    "trophyKg": 0.04,
+    "rareTrophyKg": 0.05
   },
   {
     "name": "Минога каспийская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.057,
+    "uniqueKg": 0.103,
+    "trophyKg": 0.15,
+    "rareTrophyKg": 0.2
   },
   {
     "name": "Минога сибирская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.02,
+    "uniqueKg": 0.03,
+    "trophyKg": 0.04,
+    "rareTrophyKg": 0.05
   },
   {
     "name": "Минога трёхзубая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.03,
+    "uniqueKg": 0.05,
+    "trophyKg": 0.07,
+    "rareTrophyKg": 0.088
   },
   {
     "name": "Минога украинская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.03,
+    "uniqueKg": 0.05,
+    "trophyKg": 0.07,
+    "rareTrophyKg": 0.088
   },
   {
     "name": "Мольва голубая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.5,
+    "uniqueKg": 3.5,
+    "trophyKg": 25,
+    "rareTrophyKg": 35
   },
   {
     "name": "Мольва обыкновенная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.2,
+    "uniqueKg": 5,
+    "trophyKg": 30,
+    "rareTrophyKg": 40
   },
   {
     "name": "Морской чёрт",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 5.5,
+    "trophyKg": 35,
+    "rareTrophyKg": 45
   },
   {
     "name": "Муксун",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.7,
+    "uniqueKg": 1,
+    "trophyKg": 6,
+    "rareTrophyKg": 9
   },
   {
     "name": "Налим",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.199,
+    "trophyKg": 9,
+    "rareTrophyKg": 14
   },
   {
     "name": "Нейва",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.25,
+    "uniqueKg": 0.4,
+    "trophyKg": 1.4,
+    "rareTrophyKg": 1.7
   },
   {
     "name": "Нельма",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 3,
+    "trophyKg": 25,
+    "rareTrophyKg": 30
   },
   {
     "name": "Нерка",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.8,
+    "uniqueKg": 0.8,
+    "trophyKg": 4.5,
+    "rareTrophyKg": 6
   },
   {
     "name": "Окунь",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.28,
+    "uniqueKg": 0.35,
+    "trophyKg": 1.6,
+    "rareTrophyKg": 2.7
   },
   {
     "name": "Окунь белый",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.25,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 1.8,
+    "rareTrophyKg": 2.5
   },
   {
     "name": "Окунь большеротый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 0.8,
+    "trophyKg": 6,
+    "rareTrophyKg": 7.5
   },
   {
     "name": "Окунь каменный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.837,
+    "uniqueKg": 5,
+    "trophyKg": 60,
+    "rareTrophyKg": 75
   },
   {
     "name": "Окунь малоротый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.35,
+    "uniqueKg": 0.4,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Окунь морской золотистый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.8,
+    "uniqueKg": 4.9,
+    "trophyKg": 9,
+    "rareTrophyKg": 11
   },
   {
     "name": "Окунь морской норвежский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.35,
+    "uniqueKg": 0.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Окунь павлиний",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.45,
+    "uniqueKg": 0.5,
+    "trophyKg": 4,
+    "rareTrophyKg": 5.5
   },
   {
     "name": "Окунь пятнистый",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.4,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Окунь солнечный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.08,
+    "uniqueKg": 0.09,
+    "trophyKg": 0.45,
+    "rareTrophyKg": 0.6
   },
   {
     "name": "Окунь-клювач",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 1.1,
+    "trophyKg": 5.5,
+    "rareTrophyKg": 7
   },
   {
     "name": "Омуль арктический",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.5,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Омуль байкальский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.55,
+    "uniqueKg": 1,
+    "trophyKg": 6,
+    "rareTrophyKg": 7
   },
   {
     "name": "Опах краснопёрый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 12,
+    "trophyKg": 140,
+    "rareTrophyKg": 200
   },
   {
     "name": "Осётр балтийский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 33.4,
+    "uniqueKg": 66.7,
+    "trophyKg": 200,
+    "rareTrophyKg": 300
   },
   {
     "name": "Осётр восточносибирский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 2,
+    "uniqueKg": 15,
+    "trophyKg": 100,
+    "rareTrophyKg": 150
   },
   {
     "name": "Осётр ладожский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 7.5,
+    "uniqueKg": 14,
+    "trophyKg": 60,
+    "rareTrophyKg": 80
   },
   {
     "name": "Осётр персидский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 33.4,
+    "trophyKg": 100,
+    "rareTrophyKg": 150
   },
   {
     "name": "Осётр русский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 10,
+    "trophyKg": 50,
+    "rareTrophyKg": 100
   },
   {
     "name": "Палия кряжевая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.7,
+    "trophyKg": 3,
+    "rareTrophyKg": 4.5
   },
   {
     "name": "Палия лудожная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 1.1,
+    "trophyKg": 5,
+    "rareTrophyKg": 7.6
   },
   {
     "name": "Палия обыкновенная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 0.9,
+    "trophyKg": 5,
+    "rareTrophyKg": 7.6
   },
   {
     "name": "Палтус атлантический",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 12,
+    "trophyKg": 150,
+    "rareTrophyKg": 220
   },
   {
     "name": "Палтус синекорый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 15,
+    "trophyKg": 25,
+    "rareTrophyKg": 32
   },
   {
     "name": "Панцирник пятнистый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.067,
+    "uniqueKg": 2.033,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Пелядь",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.5,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Перловица",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.05,
+    "uniqueKg": 0.09,
+    "trophyKg": 0.19,
+    "rareTrophyKg": 0.28
   },
   {
     "name": "Пескарь обыкновенный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.025,
+    "uniqueKg": 0.062,
+    "trophyKg": 0.1,
+    "rareTrophyKg": 0.16
   },
   {
     "name": "Пескарь сибирский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.025,
+    "uniqueKg": 0.087,
+    "trophyKg": 0.15,
+    "rareTrophyKg": 0.2
   },
   {
     "name": "Пикша",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.8,
+    "uniqueKg": 1.5,
+    "trophyKg": 11,
+    "rareTrophyKg": 13
   },
   {
     "name": "Пинагор",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 0.7,
+    "trophyKg": 6,
+    "rareTrophyKg": 7.5
   },
   {
     "name": "Плотва обыкновенная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.22,
+    "uniqueKg": 0.3,
+    "trophyKg": 1.2,
+    "rareTrophyKg": 2
   },
   {
     "name": "Плотва сибирская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.1,
+    "uniqueKg": 0.15,
+    "trophyKg": 0.6,
+    "rareTrophyKg": 0.7
   },
   {
     "name": "Подкаменщик сибирский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.015,
+    "uniqueKg": 0.02,
+    "trophyKg": 0.045,
+    "rareTrophyKg": 0.055
   },
   {
     "name": "Подуст",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.15,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.8,
+    "rareTrophyKg": 1.3
   },
   {
     "name": "Поллак",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.1,
+    "uniqueKg": 1.5,
+    "trophyKg": 11,
+    "rareTrophyKg": 14
   },
   {
     "name": "Пузанок каспийский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.06,
+    "uniqueKg": 0.08,
+    "trophyKg": 0.25,
+    "rareTrophyKg": 0.34
   },
   {
     "name": "Путассу северная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
-  },
-  {
-    "name": "Разнорыбица",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.14,
+    "uniqueKg": 0.2,
+    "trophyKg": 0.9,
+    "rareTrophyKg": 1.2
   },
   {
     "name": "Рак речной",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.07,
+    "uniqueKg": 0.1,
+    "trophyKg": 0.2,
+    "rareTrophyKg": 0.33
   },
   {
     "name": "Рипус",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.2,
+    "uniqueKg": 0.7,
+    "trophyKg": 1.2,
+    "rareTrophyKg": 1.7
   },
   {
     "name": "Ротан",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.08,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.4,
+    "rareTrophyKg": 0.7
   },
   {
     "name": "Рыбец",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.3,
+    "uniqueKg": 0.9,
+    "trophyKg": 1.5,
+    "rareTrophyKg": 2.4
   },
   {
     "name": "Ряпушка",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.08,
+    "uniqueKg": 0.12,
+    "trophyKg": 0.5,
+    "rareTrophyKg": 0.8
   },
   {
     "name": "Ряпушка сибирская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.12,
+    "uniqueKg": 0.13,
+    "trophyKg": 0.8,
+    "rareTrophyKg": 1.1
   },
   {
     "name": "Сазан",
-    "qualifyingKg": null,
+    "qualifyingKg": 3,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 25,
+    "rareTrophyKg": 35
   },
   {
     "name": "Сайда",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.9,
+    "uniqueKg": 3,
+    "trophyKg": 19,
+    "rareTrophyKg": 25
   },
   {
     "name": "Сайра атлантическая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.12,
+    "uniqueKg": 0.15,
+    "trophyKg": 0.6,
+    "rareTrophyKg": 0.75
   },
   {
     "name": "Сардина европейская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.05,
+    "uniqueKg": 0.06,
+    "trophyKg": 0.18,
+    "rareTrophyKg": 0.24
   },
   {
     "name": "Севрюга",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 16.733,
+    "trophyKg": 50,
+    "rareTrophyKg": 70
   },
   {
     "name": "Сельдь атлантическая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.15,
+    "uniqueKg": 0.18,
+    "trophyKg": 0.8,
+    "rareTrophyKg": 1
   },
   {
     "name": "Сельдь Бражникова",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.267,
+    "uniqueKg": 0.483,
+    "trophyKg": 0.7,
+    "rareTrophyKg": 1
   },
   {
     "name": "Сельдь Кесслера",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.24,
+    "uniqueKg": 0.35,
+    "trophyKg": 1.2,
+    "rareTrophyKg": 1.7
   },
   {
     "name": "Сельдь черноморская",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.11,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.65,
+    "rareTrophyKg": 0.9
   },
   {
     "name": "Сиг валаамский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.3,
+    "uniqueKg": 0.4,
+    "trophyKg": 1.5,
+    "rareTrophyKg": 2.5
   },
   {
     "name": "Сиг волховский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.887,
+    "uniqueKg": 2.7,
+    "trophyKg": 4,
+    "rareTrophyKg": 7
   },
   {
     "name": "Сиг вуоксинский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.35,
+    "uniqueKg": 0.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 5
   },
   {
     "name": "Сиг куорский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.35,
+    "uniqueKg": 1.925,
+    "trophyKg": 3.5,
+    "rareTrophyKg": 5
   },
   {
     "name": "Сиг ладожский озёрный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.2,
+    "uniqueKg": 1.5,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Сиг острожский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.2,
+    "uniqueKg": 1.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 4
   },
   {
     "name": "Сиг свирский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.233,
+    "uniqueKg": 2.367,
+    "trophyKg": 3.5,
+    "rareTrophyKg": 5
   },
   {
     "name": "Сиг чёрный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.6,
+    "trophyKg": 3.5,
+    "rareTrophyKg": 5
   },
   {
     "name": "Сиг-лудога",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.35,
+    "uniqueKg": 0.6,
+    "trophyKg": 3,
+    "rareTrophyKg": 5
   },
   {
     "name": "Сиг-пыжьян",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 0.7,
+    "trophyKg": 4.5,
+    "rareTrophyKg": 6
   },
   {
     "name": "Сима",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 1,
+    "trophyKg": 6.5,
+    "rareTrophyKg": 8
   },
   {
     "name": "Сима жилая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 0.8,
+    "trophyKg": 5,
+    "rareTrophyKg": 6.5
   },
   {
     "name": "Синец",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.13,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 0.75,
+    "rareTrophyKg": 1.1
   },
   {
     "name": "Скат колючий",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 6,
+    "trophyKg": 11,
+    "rareTrophyKg": 14
   },
   {
     "name": "Скат полярный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 1.4,
+    "trophyKg": 8,
+    "rareTrophyKg": 10
   },
   {
     "name": "Солнечник красноухий",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.23,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 1.7,
+    "rareTrophyKg": 2.3
   },
   {
     "name": "Солнечник синежаберный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.2,
+    "uniqueKg": 0.22,
+    "trophyKg": 1.2,
+    "rareTrophyKg": 1.7
   },
   {
     "name": "Сом",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 16,
+    "trophyKg": 100,
+    "rareTrophyKg": 200
   },
   {
     "name": "Сом альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 16,
+    "trophyKg": 100,
+    "rareTrophyKg": 200
   },
   {
     "name": "Сом амурский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 1,
+    "trophyKg": 5,
+    "rareTrophyKg": 7
   },
   {
     "name": "Сомик канальный",
-    "qualifyingKg": null,
+    "qualifyingKg": 1.2,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 14,
+    "rareTrophyKg": 20
   },
   {
     "name": "Сомик оливковый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.5,
+    "uniqueKg": 2,
+    "trophyKg": 30,
+    "rareTrophyKg": 45
   },
   {
     "name": "Стерлядь",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.9,
+    "trophyKg": 9,
+    "rareTrophyKg": 14
   },
   {
     "name": "Стерлядь сибирская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.9,
+    "trophyKg": 9,
+    "rareTrophyKg": 14
   },
   {
     "name": "Судак",
-    "qualifyingKg": null,
+    "qualifyingKg": 1.5,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 8,
+    "rareTrophyKg": 12
   },
   {
     "name": "Судак светлопёрый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.7,
+    "uniqueKg": 0.8,
+    "trophyKg": 7,
+    "rareTrophyKg": 9
   },
   {
     "name": "Таймень",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 7,
+    "trophyKg": 50,
+    "rareTrophyKg": 80
   },
   {
     "name": "Тарань",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.2,
+    "uniqueKg": 0.25,
+    "trophyKg": 1.3,
+    "rareTrophyKg": 1.8
   },
   {
     "name": "Толстолобик белый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.55,
+    "uniqueKg": 3,
+    "trophyKg": 25,
+    "rareTrophyKg": 40
   },
   {
     "name": "Толстолобик пёстрый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 4,
+    "trophyKg": 30,
+    "rareTrophyKg": 45
   },
   {
     "name": "Треска атлантическая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 3,
+    "uniqueKg": 7,
+    "trophyKg": 50,
+    "rareTrophyKg": 65
   },
   {
     "name": "Тугун",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.02,
+    "uniqueKg": 0.022,
+    "trophyKg": 0.06,
+    "rareTrophyKg": 0.07
   },
   {
     "name": "Тунец голубой",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 5,
+    "uniqueKg": 20,
+    "trophyKg": 250,
+    "rareTrophyKg": 400
   },
   {
     "name": "Тюлька черноморская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.015,
+    "uniqueKg": 0.016,
+    "trophyKg": 0.024,
+    "rareTrophyKg": 0.028
   },
   {
     "name": "Тюрбо",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.3,
+    "uniqueKg": 2.5,
+    "trophyKg": 14,
+    "rareTrophyKg": 18
   },
   {
     "name": "Угольщик обыкновенный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.567,
+    "uniqueKg": 3.033,
+    "trophyKg": 4.5,
+    "rareTrophyKg": 5.5
   },
   {
     "name": "Угорь",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 1.2,
+    "trophyKg": 4,
+    "rareTrophyKg": 7.5
   },
   {
     "name": "Уклейка",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.035,
+    "uniqueKg": 0.036,
+    "trophyKg": 0.11,
+    "rareTrophyKg": 0.16
   },
   {
     "name": "Усач альбинос",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 2.733,
+    "uniqueKg": 5.367,
+    "trophyKg": 8,
+    "rareTrophyKg": 12
   },
   {
     "name": "Усач короткоголовый",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.515,
+    "uniqueKg": 2.1,
+    "trophyKg": 13,
+    "rareTrophyKg": 18
   },
   {
     "name": "Усач обыкновенный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1.2,
+    "uniqueKg": 1.5,
+    "trophyKg": 8,
+    "rareTrophyKg": 12
   },
   {
     "name": "Устрица съедобная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.07,
+    "uniqueKg": 0.08,
+    "trophyKg": 0.3,
+    "rareTrophyKg": 0.37
   },
   {
     "name": "Форель озерная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 1,
+    "uniqueKg": 1.599,
+    "trophyKg": 10,
+    "rareTrophyKg": 15
   },
   {
     "name": "Форель радужная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.5,
+    "uniqueKg": 1.6,
+    "trophyKg": 10,
+    "rareTrophyKg": 13
   },
   {
     "name": "Форель ручьевая",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.5,
+    "trophyKg": 3,
+    "rareTrophyKg": 5
   },
   {
     "name": "Форель севанская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.6,
+    "uniqueKg": 1.6,
+    "trophyKg": 9,
+    "rareTrophyKg": 15
   },
   {
     "name": "Хариус восточносибирский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.301,
+    "uniqueKg": 0.311,
+    "trophyKg": 2,
+    "rareTrophyKg": 2.5
   },
   {
     "name": "Хариус европейский",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.4,
+    "uniqueKg": 0.8,
+    "trophyKg": 3.2,
+    "rareTrophyKg": 5.5
   },
   {
     "name": "Хариус западносибирский",
-    "qualifyingKg": null,
+    "qualifyingKg": 0.3,
     "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "trophyKg": 2,
+    "rareTrophyKg": 2.5
   },
   {
     "name": "Химера европейская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.7,
+    "uniqueKg": 1.1,
+    "trophyKg": 1.5,
+    "rareTrophyKg": 1.875
   },
   {
     "name": "Центролоф чёрный",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.8,
+    "uniqueKg": 4,
+    "trophyKg": 24,
+    "rareTrophyKg": 29
   },
   {
     "name": "Чавыча",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 10,
+    "uniqueKg": 12,
+    "trophyKg": 40,
+    "rareTrophyKg": 60
   },
   {
     "name": "Чехонь",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.22,
+    "uniqueKg": 0.25,
+    "trophyKg": 1.5,
+    "rareTrophyKg": 2
   },
   {
     "name": "Чир",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.8,
+    "uniqueKg": 1,
+    "trophyKg": 7,
+    "rareTrophyKg": 10
   },
   {
     "name": "Чукучан",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.25,
+    "uniqueKg": 0.4,
+    "trophyKg": 1.8,
+    "rareTrophyKg": 2.2
   },
   {
     "name": "Шемая каспийская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.11,
+    "uniqueKg": 0.2,
+    "trophyKg": 0.6,
+    "rareTrophyKg": 0.9
   },
   {
     "name": "Шемая черноморская",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.075,
+    "uniqueKg": 0.09,
+    "trophyKg": 0.5,
+    "rareTrophyKg": 0.7
   },
   {
     "name": "Шип",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 5.05,
+    "uniqueKg": 10,
+    "trophyKg": 50,
+    "rareTrophyKg": 70
   },
   {
     "name": "Щука обыкновенная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 0.75,
+    "uniqueKg": 2,
+    "trophyKg": 12,
+    "rareTrophyKg": 20
   },
   {
     "name": "Щука панцирная",
-    "qualifyingKg": null,
-    "uniqueKg": null,
-    "trophyKg": null,
-    "rareTrophyKg": null
+    "qualifyingKg": 23.667,
+    "uniqueKg": 46.833,
+    "trophyKg": 70,
+    "rareTrophyKg": 100
   },
   {
     "name": "Язь",
+    "qualifyingKg": 0.5,
+    "uniqueKg": 0.65,
+    "trophyKg": 4,
+    "rareTrophyKg": 6.5
+  },
+  {
+    "name": "Разнорыбица",
     "qualifyingKg": null,
     "uniqueKg": null,
     "trophyKg": null,
