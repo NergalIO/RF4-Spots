@@ -146,6 +146,8 @@ pack_client() {
   docker run --rm \
     -e CSC_IDENTITY_AUTO_DISCOVERY=false \
     -e PACK_ON_SERVER=1 \
+    -e VITE_SERVER_URL="${VITE_SERVER_URL:-}" \
+    -e VITE_ALLOWED_SERVERS="${VITE_ALLOWED_SERVERS:-}" \
     -v "$ROOT":/project \
     -v rf4spots-electron-cache:/root/.cache/electron \
     -v rf4spots-electron-builder-cache:/root/.cache/electron-builder \

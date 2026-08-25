@@ -16,7 +16,7 @@ services:
   api:
     build: ./server
     ports:
-      - "127.0.0.1:3780:3780"
+      - "3780:3780"
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-rf4}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-rf4spots}
       JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
