@@ -1,50 +1,50 @@
 export type GuideKey = "reels" | "rods" | "hooks" | "fishWeights" | "alcohol" | "shopPrices" | "levels";
 export type GuideFieldType = "string" | "number";
-export type GuideField = { key: string; label: string; type: GuideFieldType };
+export type GuideField = { key: string; label: string; type: GuideFieldType; filter?: "range" | "search" };
 
 export const GUIDE_FIELDS: Record<GuideKey, GuideField[]> = {
   reels: [
-    { key: "name", label: "Название", type: "string" },
+    { key: "name", label: "Название", type: "string", filter: "search" },
     { key: "category", label: "Категория", type: "string" },
     { key: "retrieve", label: "Смотка, м/мин", type: "number" },
-    { key: "test", label: "Тест", type: "string" },
-    { key: "testMod", label: "Теста*", type: "string" },
-    { key: "ratio", label: "Передатка", type: "string" },
-    { key: "ratioMod", label: "Передатка*", type: "string" },
+    { key: "test", label: "Тест", type: "string", filter: "range" },
+    { key: "testMod", label: "Теста*", type: "string", filter: "range" },
+    { key: "ratio", label: "Передатка", type: "string", filter: "range" },
+    { key: "ratioMod", label: "Передатка*", type: "string", filter: "range" },
     { key: "gearKg", label: "Шестерня, кг", type: "number" },
     { key: "gearKgMod", label: "Механизм*", type: "number" },
     { key: "dragKg", label: "Фрикцион, кг", type: "number" },
     { key: "dragKgMod", label: "Фрикцион*", type: "number" },
     { key: "weight", label: "Вес", type: "number" },
-    { key: "capacity", label: "Шпуля", type: "string" },
+    { key: "capacity", label: "Шпуля", type: "string", filter: "range" },
     { key: "price", label: "Цена", type: "number" },
     { key: "notes", label: "Заметки", type: "string" },
   ],
   rods: [
-    { key: "name", label: "Название", type: "string" },
+    { key: "name", label: "Название", type: "string", filter: "search" },
     { key: "category", label: "Категория", type: "string" },
     { key: "length", label: "Длина", type: "number" },
-    { key: "test", label: "Тест", type: "string" },
+    { key: "test", label: "Тест", type: "string", filter: "range" },
     { key: "blankKg", label: "Бланк, кг", type: "number" },
     { key: "price", label: "Цена", type: "number" },
     { key: "notes", label: "Заметки", type: "string" },
   ],
   hooks: [
-    { key: "name", label: "Название", type: "string" },
+    { key: "name", label: "Название", type: "string", filter: "search" },
     { key: "category", label: "Категория", type: "string" },
     { key: "size", label: "Размер", type: "string" },
     { key: "strengthKg", label: "Прочность, кг", type: "number" },
     { key: "notes", label: "Заметки", type: "string" },
   ],
   fishWeights: [
-    { key: "name", label: "Рыба", type: "string" },
+    { key: "name", label: "Рыба", type: "string", filter: "search" },
     { key: "qualifyingKg", label: "Зачётная, кг", type: "number" },
     { key: "uniqueKg", label: "Чатовая, кг", type: "number" },
     { key: "trophyKg", label: "Трофей, кг", type: "number" },
     { key: "rareTrophyKg", label: "Редкий трофей, кг", type: "number" },
   ],
   alcohol: [
-    { key: "name", label: "Название", type: "string" },
+    { key: "name", label: "Название", type: "string", filter: "search" },
     { key: "source", label: "Источник", type: "string" },
     { key: "waterbody", label: "Водоём", type: "string" },
     { key: "expPct", label: "Опыт %", type: "number" },
@@ -95,4 +95,31 @@ export function asNum(value: unknown): number | null {
 
 export function asText(value: unknown) {
   return value == null ? "" : String(value);
+}
+
+export function usesRangeFilter(field: GuideField) {
+  return field.type === "number" || field.filter === "range";
+}
+
+export function usesSearchFilter(field: GuideField) {
+  return field.filter === "search" || field.key === "name";
+}
+
+/** Parse "12", "3,2", "5,8:1", "2–18 г" into a numeric interval. */
+export function parseNumericRange(value: unknown): { min: number; max: number } | null {
+  if (value == null || value === "") return null;
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? { min: value, max: value } : null;
+  }
+  const text = String(value).trim().replace(/\u00a0/g, " ").replace(",", ".");
+  if (!text) return null;
+  const direct = Number(text);
+  if (Number.isFinite(direct)) return { min: direct, max: direct };
+  const ratios = [...text.matchAll(/(\d+(?:\.\d+)?)\s*:\s*\d/g)].map((m) => Number(m[1]));
+  if (ratios.length) return { min: Math.min(...ratios), max: Math.max(...ratios) };
+  const nums = [...text.matchAll(/(\d+(?:\.\d+)?)/g)]
+    .map((m) => Number(m[1]))
+    .filter((n) => Number.isFinite(n));
+  if (!nums.length) return null;
+  return { min: Math.min(...nums), max: Math.max(...nums) };
 }

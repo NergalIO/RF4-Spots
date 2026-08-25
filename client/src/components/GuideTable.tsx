@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { GuideRow } from "../types";
-import { asNum, asText, emptyGuideRow, type GuideField, type GuideKey } from "../guideSchema";
+import { asNum, asText, emptyGuideRow, parseNumericRange, usesRangeFilter, usesSearchFilter, type GuideField, type GuideKey } from "../guideSchema";
 import { ValueCombobox } from "./ValueCombobox";
 
 type Props = {
@@ -38,22 +38,26 @@ function uniqueTexts(rows: GuideRow[], key: string) {
 
 function filterActive(field: GuideField, value: FilterValue | undefined) {
   if (!value) return false;
-  if (field.type === "number") return Boolean(value.from.trim() || value.to.trim());
+  if (usesRangeFilter(field)) return Boolean(value.from.trim() || value.to.trim());
   return Boolean(value.text);
 }
 
 function rowPasses(row: GuideRow, field: GuideField, value: FilterValue) {
-  if (field.type === "number") {
-    const n = asNum(row[field.key]);
+  if (usesRangeFilter(field)) {
     const from = asNum(value.from);
     const to = asNum(value.to);
     if (from == null && to == null) return true;
-    if (n == null) return false;
-    if (from != null && n < from) return false;
-    if (to != null && n > to) return false;
+    const range = parseNumericRange(row[field.key]);
+    if (!range) return false;
+    if (from != null && range.max < from) return false;
+    if (to != null && range.min > to) return false;
     return true;
   }
   if (!value.text) return true;
+  const query = value.text.trim().toLowerCase();
+  if (usesSearchFilter(field)) {
+    return asText(row[field.key]).toLowerCase().includes(query);
+  }
   return asText(row[field.key]) === value.text;
 }
 
@@ -158,7 +162,9 @@ export function GuideTable({
   const uniqueByField = useMemo(() => {
     const map: Record<string, string[]> = {};
     for (const field of fields) {
-      if (field.type === "string") map[field.key] = uniqueTexts(data, field.key);
+      if (field.type === "string" && !usesRangeFilter(field) && !usesSearchFilter(field)) {
+        map[field.key] = uniqueTexts(data, field.key);
+      }
     }
     return map;
   }, [data, fields]);
@@ -176,9 +182,18 @@ export function GuideTable({
       return true;
     });
     const dir = sortDir === "asc" ? 1 : -1;
+    const sortField = fields.find((field) => field.key === sortKey);
     filtered.sort((a, b) => {
       const av = a.row[sortKey];
       const bv = b.row[sortKey];
+      if (sortField && usesRangeFilter(sortField)) {
+        const an = parseNumericRange(av)?.min;
+        const bn = parseNumericRange(bv)?.min;
+        if (an == null && bn == null) return 0;
+        if (an == null) return 1;
+        if (bn == null) return -1;
+        return (an - bn) * dir;
+      }
       const an = typeof av === "number" ? av : Number(av);
       const bn = typeof bv === "number" ? bv : Number(bv);
       if (Number.isFinite(an) && Number.isFinite(bn) && av !== "" && bv !== "") return (an - bn) * dir;
@@ -254,7 +269,7 @@ export function GuideTable({
 
   function renderFilterControl(field: GuideField) {
     const spec = values[field.key] ?? emptyFilter();
-    if (field.type === "number") {
+    if (usesRangeFilter(field)) {
       return (
         <div className="num-range">
           <input
@@ -274,6 +289,16 @@ export function GuideTable({
             aria-label={`${field.label}, до`}
           />
         </div>
+      );
+    }
+    if (usesSearchFilter(field)) {
+      return (
+        <input
+          value={spec.text}
+          placeholder="Поиск"
+          onChange={(e) => patchFilter(field.key, { text: e.target.value })}
+          aria-label={`${field.label}, поиск`}
+        />
       );
     }
     const options = uniqueByField[field.key] ?? [];
