@@ -130,6 +130,10 @@ export function MapView({ onCreate }: Props) {
         zoom={-1}
         maxZoom={4}
         minZoom={-2}
+        zoomSnap={0}
+        zoomDelta={0.25}
+        wheelPxPerZoomLevel={180}
+        wheelDebounceTime={20}
         className="leaflet-host"
         attributionControl={false}
       >

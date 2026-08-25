@@ -475,6 +475,9 @@ body.resizing-panels .leaflet-host {
 
 .map-wrap { position: relative; min-width: 0; min-height: 0; }
 .leaflet-host, .leaflet-container { height: 100%; width: 100%; background: #071018; }
+.leaflet-host.leaflet-zoom-anim .leaflet-zoom-animated {
+  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
 .map-hud {
   position: absolute;
   left: 12px;
@@ -893,7 +896,6 @@ body.resizing-panels .guide-scroll .col-resizer {
   min-width: 0;
 }
 .calc-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.calc-grid.wear { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .calc-card {
   min-width: 0;
   overflow: hidden;
@@ -919,12 +921,77 @@ body.resizing-panels .guide-scroll .col-resizer {
 }
 .calc-result { margin: 0; padding-left: 18px; }
 .calc-weak { margin: 12px 0 0; color: var(--gold); }
-@media (max-width: 1400px) {
-  .calc-grid.wear { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wear-calc {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
+.wear-calc h3 { margin: 0 0 8px; font-size: 15px; color: var(--gold); }
+.wear-scroll {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.wear-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.wear-table th,
+.wear-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+  vertical-align: middle;
+}
+.wear-table thead th {
+  background: #16303d;
+  color: var(--gold);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.wear-table tbody th {
+  color: var(--muted);
+  font-weight: 500;
+  white-space: nowrap;
+  width: 1%;
+}
+.wear-table tbody tr:last-child th,
+.wear-table tbody tr:last-child td { border-bottom: 0; }
+.wear-table tr.weak th,
+.wear-table tr.weak td {
+  color: #f2c0c0;
+  background: rgba(212, 106, 106, 0.2);
+  font-weight: 700;
+}
+.wear-pick {
+  display: grid;
+  gap: 6px;
+  min-width: 180px;
+}
+.wear-table input,
+.wear-table select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.wear-table select { field-sizing: fixed; }
+.wear-table .select-clip {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.wear-table .wear-pct { width: 88px; }
+.wear-table .wear-kg { width: 120px; }
+.wear-calc .form-error { margin: 10px 0 0; }
 @media (max-width: 1100px) {
   .tools-host { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .tools-nav { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
-  .calc-grid, .calc-grid.two, .calc-grid.wear { grid-template-columns: 1fr; }
+  .calc-grid, .calc-grid.two { grid-template-columns: 1fr; }
 }
 

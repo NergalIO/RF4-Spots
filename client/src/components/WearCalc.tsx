@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { GuideRow } from "../types";
 import { asNum, asText } from "../guideSchema";
-import { fmtKg, remainBase, remainLinear } from "../wear";
+import { fmtKg, fmtPct, maxWearBase, remainBase, remainLinear } from "../wear";
 
 type Props = {
   reels: GuideRow[];
@@ -35,6 +35,52 @@ function hookOptions(rows: GuideRow[]) {
     .sort((a, b) => a.name.localeCompare(b.name, "ru"));
 }
 
+function parseKg(text: string) {
+  const n = Number(text.replace(",", ".").trim());
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+function minDefined(values: Array<number | null>) {
+  const nums = values.filter((n): n is number => n != null);
+  return nums.length ? Math.min(...nums) : null;
+}
+
+type PickOpt = { index: number; name: string; category: string };
+
+function GearPick({
+  query,
+  onQuery,
+  value,
+  onChange,
+  options: opts,
+  emptyLabel,
+  searchPlaceholder,
+}: {
+  query: string;
+  onQuery: (value: string) => void;
+  value: number;
+  onChange: (value: number) => void;
+  options: PickOpt[];
+  emptyLabel?: string;
+  searchPlaceholder: string;
+}) {
+  return (
+    <div className="wear-pick">
+      <input value={query} onChange={(e) => onQuery(e.target.value)} placeholder={searchPlaceholder} />
+      <span className="select-clip">
+        <select value={value} onChange={(e) => onChange(Number(e.target.value))}>
+          {emptyLabel != null && <option value={-1}>{emptyLabel}</option>}
+          {opts.map((o) => (
+            <option key={o.index} value={o.index}>
+              {o.category ? `${o.category}: ${o.name}` : o.name}
+            </option>
+          ))}
+        </select>
+      </span>
+    </div>
+  );
+}
+
 export function WearCalc({ reels, rods, hooks }: Props) {
   const [rodI, setRodI] = useState(0);
   const [reelI, setReelI] = useState(0);
@@ -45,6 +91,8 @@ export function WearCalc({ reels, rods, hooks }: Props) {
   const [hookWear, setHookWear] = useState(0);
   const [lineKg, setLineKg] = useState("");
   const [lineWear, setLineWear] = useState(0);
+  const [leaderKg, setLeaderKg] = useState("");
+  const [leaderWear, setLeaderWear] = useState(0);
   const [rodQ, setRodQ] = useState("");
   const [reelQ, setReelQ] = useState("");
   const [hookQ, setHookQ] = useState("");
@@ -77,136 +125,227 @@ export function WearCalc({ reels, rods, hooks }: Props) {
   const gearKg = asNum(reel?.gearKg) ?? 0;
   const dragKg = asNum(reel?.dragKg);
   const hookKg = asNum(hook?.strengthKg);
-  const line = Number(lineKg.replace(",", "."));
+  const line = parseKg(lineKg);
+  const leader = parseKg(leaderKg);
 
   const blankLeft = blankKg ? remainBase(blankKg, rodWear) : null;
   const gearLeft = gearKg ? remainBase(gearKg, gearWear) : null;
   const dragLeft = dragKg != null ? remainLinear(dragKg, dragWear) : null;
   const hookLeft = hookKg != null && hookKg > 0 ? remainLinear(hookKg, hookWear) : null;
-  const lineLeft = Number.isFinite(line) && line > 0 ? remainLinear(line, lineWear) : null;
+  const lineLeft = line != null ? remainLinear(line, lineWear) : null;
+  const leaderLeft = leader != null ? remainLinear(leader, leaderWear) : null;
 
-  const parts = [
-    { name: "Бланк удочки", kg: blankLeft },
-    { name: "Шестерня катушки", kg: gearLeft },
-    { name: "Фрикцион", kg: dragLeft },
-    { name: "Крючок", kg: hookLeft },
-    { name: "Леска / поводок", kg: lineLeft },
-  ].filter((p) => p.kg != null) as { name: string; kg: number }[];
-  const weakest = parts.reduce<(typeof parts)[0] | null>((best, p) => (!best || p.kg < best.kg ? p : best), null);
-  const others = parts.filter((p) => p.name !== "Шестерня катушки");
-  const weakestOther = others.reduce<(typeof parts)[0] | null>((best, p) => (!best || p.kg < best.kg ? p : best), null);
-  const warn = Boolean(gearLeft && weakestOther && weakestOther.kg > gearLeft);
+  const resultRows = [
+    { id: "blank", name: "Удилище", stock: blankKg || null, left: blankLeft },
+    { id: "gear", name: "Механизм катушки", stock: gearKg || null, left: gearLeft },
+    { id: "drag", name: "Фрикцион", stock: dragKg, left: dragLeft },
+    { id: "hook", name: "Крючок", stock: hookKg, left: hookLeft },
+    { id: "line", name: "Леска", stock: line, left: lineLeft },
+    { id: "leader", name: "Поводок", stock: leader, left: leaderLeft },
+  ];
+  const loadRows = resultRows.filter((row) => row.id !== "drag" && row.left != null);
+  const weakest = loadRows.reduce<(typeof loadRows)[0] | null>(
+    (best, row) => (!best || (row.left ?? Infinity) < (best.left ?? Infinity) ? row : best),
+    null,
+  );
+  const others = loadRows.filter((row) => row.id !== "gear");
+  const weakestOther = others.reduce<(typeof others)[0] | null>(
+    (best, row) => (!best || (row.left ?? Infinity) < (best.left ?? Infinity) ? row : best),
+    null,
+  );
+  const warn = Boolean(gearLeft && weakestOther?.left != null && weakestOther.left > gearLeft);
+
+  const consumableMin = minDefined([hookLeft, lineLeft, leaderLeft]);
+  const blankSafe = blankKg ? maxWearBase(blankKg, consumableMin ?? (gearKg || NaN)) : null;
+  const gearSafe = gearKg ? maxWearBase(gearKg, consumableMin ?? (blankKg || NaN)) : null;
 
   return (
-    <div className="calc-grid wear">
-      <section className="calc-card">
-        <h3>Удилище</h3>
-        <label>
-          Поиск
-          <input value={rodQ} onChange={(e) => setRodQ(e.target.value)} placeholder="Название" />
-        </label>
-        <label>
-          Удилище
-          <span className="select-clip">
-            <select value={rodI} onChange={(e) => setRodI(Number(e.target.value))}>
-              {rodOpts.map((o) => (
-                <option key={o.index} value={o.index}>
-                  {o.category ? `${o.category}: ${o.name}` : o.name}
-                </option>
-              ))}
-            </select>
-          </span>
-        </label>
-        <p className="muted">Бланк без износа: {fmtKg(blankKg || null)}</p>
-        <label>
-          Износ бланка, %
-          <input type="number" min={0} max={100} value={rodWear} onChange={(e) => setRodWear(Number(e.target.value))} />
-        </label>
+    <div className="wear-calc">
+      <section>
+        <h3>Сборка</h3>
+        <div className="wear-scroll">
+          <table className="wear-table">
+            <thead>
+              <tr>
+                <th>Часть</th>
+                <th>Снасть</th>
+                <th>Сток</th>
+                <th>Износ, %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Удилище</th>
+                <td>
+                  <GearPick
+                    query={rodQ}
+                    onQuery={setRodQ}
+                    value={rodI}
+                    onChange={setRodI}
+                    options={rodOpts}
+                    searchPlaceholder="Название удочки"
+                  />
+                </td>
+                <td>{fmtKg(blankKg || null)}</td>
+                <td>
+                  <input
+                    className="wear-pct"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={rodWear}
+                    onChange={(e) => setRodWear(Number(e.target.value))}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Катушка</th>
+                <td>
+                  <GearPick
+                    query={reelQ}
+                    onQuery={setReelQ}
+                    value={reelI}
+                    onChange={setReelI}
+                    options={reelOpts}
+                    searchPlaceholder="Название катушки"
+                  />
+                </td>
+                <td>{fmtKg(gearKg || null)}</td>
+                <td>
+                  <input
+                    className="wear-pct"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={gearWear}
+                    onChange={(e) => setGearWear(Number(e.target.value))}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Фрикцион</th>
+                <td className="muted">{asText(reel?.name) || "—"}</td>
+                <td>{fmtKg(dragKg)}</td>
+                <td>
+                  <input
+                    className="wear-pct"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={dragWear}
+                    onChange={(e) => setDragWear(Number(e.target.value))}
+                    disabled={dragKg == null}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Крючок</th>
+                <td>
+                  <GearPick
+                    query={hookQ}
+                    onQuery={setHookQ}
+                    value={hookI}
+                    onChange={setHookI}
+                    options={hookOpts}
+                    emptyLabel="Не выбран"
+                    searchPlaceholder="CHK101 S10"
+                  />
+                </td>
+                <td>
+                  {fmtKg(hookKg)}
+                  {asText(hook?.notes) ? ` (${asText(hook?.notes)})` : ""}
+                </td>
+                <td>
+                  <input
+                    className="wear-pct"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={hookWear}
+                    onChange={(e) => setHookWear(Number(e.target.value))}
+                    disabled={hookI < 0}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Леска</th>
+                <td>
+                  <input
+                    className="wear-kg"
+                    value={lineKg}
+                    onChange={(e) => setLineKg(e.target.value)}
+                    placeholder="кг"
+                  />
+                </td>
+                <td>{fmtKg(line)}</td>
+                <td>
+                  <input
+                    className="wear-pct"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={lineWear}
+                    onChange={(e) => setLineWear(Number(e.target.value))}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Поводок</th>
+                <td>
+                  <input
+                    className="wear-kg"
+                    value={leaderKg}
+                    onChange={(e) => setLeaderKg(e.target.value)}
+                    placeholder="кг"
+                  />
+                </td>
+                <td>{fmtKg(leader)}</td>
+                <td>
+                  <input
+                    className="wear-pct"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={leaderWear}
+                    onChange={(e) => setLeaderWear(Number(e.target.value))}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
-      <section className="calc-card">
-        <h3>Катушка</h3>
-        <label>
-          Поиск
-          <input value={reelQ} onChange={(e) => setReelQ(e.target.value)} placeholder="Название" />
-        </label>
-        <label>
-          Катушка
-          <span className="select-clip">
-            <select value={reelI} onChange={(e) => setReelI(Number(e.target.value))}>
-              {reelOpts.map((o) => (
-                <option key={o.index} value={o.index}>
-                  {o.category ? `${o.category}: ${o.name}` : o.name}
-                </option>
+
+      <section>
+        <h3>Результат</h3>
+        <div className="wear-scroll">
+          <table className="wear-table">
+            <thead>
+              <tr>
+                <th>Часть</th>
+                <th>Сток</th>
+                <th>Остаток</th>
+                <th>Безопасный износ</th>
+              </tr>
+            </thead>
+            <tbody>
+              {resultRows.map((row) => (
+                <tr key={row.id} className={weakest?.id === row.id ? "weak" : undefined}>
+                  <th scope="row">{row.name}</th>
+                  <td>{fmtKg(row.stock)}</td>
+                  <td>{fmtKg(row.left)}</td>
+                  <td>
+                    {row.id === "blank" ? fmtPct(blankSafe) : row.id === "gear" ? fmtPct(gearSafe) : "—"}
+                  </td>
+                </tr>
               ))}
-            </select>
-          </span>
-        </label>
-        <p className="muted">Шестерня без износа: {fmtKg(gearKg || null)}</p>
-        <label>
-          Износ шестерни, %
-          <input type="number" min={0} max={100} value={gearWear} onChange={(e) => setGearWear(Number(e.target.value))} />
-        </label>
-        {dragKg != null && (
-          <label>
-            Износ фрикциона, %
-            <input type="number" min={0} max={100} value={dragWear} onChange={(e) => setDragWear(Number(e.target.value))} />
-          </label>
-        )}
-      </section>
-      <section className="calc-card">
-        <h3>Крючок</h3>
-        <label>
-          Поиск
-          <input value={hookQ} onChange={(e) => setHookQ(e.target.value)} placeholder="CHK101 S10" />
-        </label>
-        <label>
-          Крючок
-          <span className="select-clip">
-            <select value={hookI} onChange={(e) => setHookI(Number(e.target.value))}>
-              <option value={-1}>Не выбран</option>
-              {hookOpts.map((o) => (
-                <option key={o.index} value={o.index}>
-                  {o.category ? `${o.category}: ${o.name}` : o.name}
-                </option>
-              ))}
-            </select>
-          </span>
-        </label>
-        <p className="muted">
-          Прочность без износа: {fmtKg(hookKg)}
-          {asText(hook?.notes) ? ` (${asText(hook?.notes)})` : ""}
-        </p>
-        <label>
-          Износ крючка, %
-          <input type="number" min={0} max={100} value={hookWear} onChange={(e) => setHookWear(Number(e.target.value))} />
-        </label>
-      </section>
-      <section className="calc-card">
-        <h3>Слабое звено</h3>
-        <label>
-          Леска / поводок, кг
-          <input value={lineKg} onChange={(e) => setLineKg(e.target.value)} placeholder="необязательно" />
-        </label>
-        <label>
-          Износ лески, %
-          <input type="number" min={0} max={100} value={lineWear} onChange={(e) => setLineWear(Number(e.target.value))} />
-        </label>
-        <ul className="calc-result">
-          <li>Бланк: <b>{fmtKg(blankLeft)}</b></li>
-          <li>Шестерня: <b>{fmtKg(gearLeft)}</b></li>
-          {dragLeft != null && <li>Фрикцион: <b>{fmtKg(dragLeft)}</b></li>}
-          {hookLeft != null && <li>Крючок: <b>{fmtKg(hookLeft)}</b></li>}
-          {lineLeft != null && <li>Леска: <b>{fmtKg(lineLeft)}</b></li>}
-        </ul>
-        {weakest && (
-          <p className="calc-weak">
-            Самое слабое: <b>{weakest.name}</b> — {fmtKg(weakest.kg)}
-          </p>
-        )}
+            </tbody>
+          </table>
+        </div>
         {warn && (
           <p className="form-error">
-            Слабая часть сборки ({weakestOther?.name}, {fmtKg(weakestOther?.kg)}) прочнее шестерни катушки ({fmtKg(gearLeft)}).
-            Механизм будет узким местом.
+            Слабая часть сборки ({weakestOther?.name}, {fmtKg(weakestOther?.left)}) прочнее механизма катушки (
+            {fmtKg(gearLeft)}). Механизм будет узким местом.
           </p>
         )}
       </section>
