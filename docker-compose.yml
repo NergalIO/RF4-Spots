@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-rf4}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
@@ -15,6 +16,7 @@ services:
 
   api:
     build: ./server
+    restart: unless-stopped
     ports:
       - "127.0.0.1:3780:3780"
     environment:
@@ -43,6 +45,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     environment:
       DOMAIN: ${DOMAIN:-localhost}
       ACME_EMAIL: ${ACME_EMAIL:-}

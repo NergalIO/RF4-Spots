@@ -29,10 +29,31 @@ function removePath(target) {
 function cleanRelease() {
   if (!fs.existsSync(releaseDir)) return;
   for (const name of fs.readdirSync(releaseDir)) {
-    if (name.endsWith(".lock") || name.startsWith("win-unpacked")) {
+    if (
+      name.endsWith(".lock") ||
+      name.startsWith("win-unpacked") ||
+      name.startsWith("RF4Spots-Setup-") ||
+      name === "latest.yml" ||
+      name === "builder-debug.yml"
+    ) {
       removePath(path.join(releaseDir, name));
     }
   }
+}
+
+function pruneOldInstallers(dir, keepVersion) {
+  if (!fs.existsSync(dir)) return [];
+  const keep = new Set([
+    `RF4Spots-Setup-${keepVersion}.exe`,
+    `RF4Spots-Setup-${keepVersion}.exe.blockmap`,
+  ]);
+  const removed = [];
+  for (const name of fs.readdirSync(dir)) {
+    if (!name.startsWith("RF4Spots-Setup-") || keep.has(name)) continue;
+    removePath(path.join(dir, name));
+    removed.push(name);
+  }
+  return removed;
 }
 
 function run(command, args) {
@@ -110,6 +131,11 @@ function publishUpdates() {
     fs.copyFileSync(path.join(releaseDir, name), path.join(dest, name));
     console.log("server/updates ←", name);
   }
+  const removed = pruneOldInstallers(dest, version);
+  if (removed.length) {
+    console.log("удалены старые установщики:", removed.join(", "));
+  }
+  removePath(path.join(releaseDir, "win-unpacked"));
   console.log(
     process.env.PACK_ON_SERVER
       ? "Установщик лежит в server/updates и отдаётся как /updates."

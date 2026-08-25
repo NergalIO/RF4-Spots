@@ -137,21 +137,60 @@ rebuild_api() {
   echo "$(LOG_PREFIX) api готово"
 }
 
+cleanup_old_installers() {
+  local version dir f base
+  local -a artifacts
+  version="$(cd "$ROOT/client" && node -p "require('./package.json').version" 2>/dev/null || true)"
+  if [[ -z "$version" ]]; then
+    echo "$(LOG_PREFIX) не удалось прочитать версию клиента, старые установщики не чищу" >&2
+    return 0
+  fi
+  for dir in "$ROOT/server/updates" "$ROOT/client/release"; do
+    [[ -d "$dir" ]] || continue
+    artifacts=()
+    shopt -s nullglob
+    artifacts=("$dir"/RF4Spots-Setup-*)
+    shopt -u nullglob
+    for f in "${artifacts[@]}"; do
+      base="$(basename "$f")"
+      if [[ "$base" == "RF4Spots-Setup-${version}.exe" || "$base" == "RF4Spots-Setup-${version}.exe.blockmap" ]]; then
+        continue
+      fi
+      rm -f "$f"
+      echo "$(LOG_PREFIX) удалено ${f#"$ROOT/"}"
+    done
+  done
+  if [[ -d "$ROOT/client/release/win-unpacked" ]]; then
+    rm -rf "$ROOT/client/release/win-unpacked"
+    echo "$(LOG_PREFIX) удалена client/release/win-unpacked"
+  fi
+}
+
 pack_client() {
   echo "$(LOG_PREFIX) клиент: сборка Windows-установщика через ${WINE_IMAGE}"
   if ! docker info >/dev/null 2>&1; then
     echo "$(LOG_PREFIX) docker недоступен, клиент пропущен" >&2
     return 1
   fi
+  local vite_url="${VITE_SERVER_URL:-}"
+  if [[ -z "$vite_url" && -f "$ROOT/.env" ]]; then
+    local domain
+    domain="$(grep -E '^DOMAIN=' "$ROOT/.env" | tail -1 | cut -d= -f2- | tr -d '\"' | tr -d "'" | tr -d ' ')"
+    if [[ -n "$domain" && "$domain" != "localhost" ]]; then
+      vite_url="https://${domain}"
+    fi
+  fi
   docker run --rm \
     -e CSC_IDENTITY_AUTO_DISCOVERY=false \
     -e PACK_ON_SERVER=1 \
+    -e "VITE_SERVER_URL=${vite_url}" \
     -v "$ROOT":/project \
     -v rf4spots-electron-cache:/root/.cache/electron \
     -v rf4spots-electron-builder-cache:/root/.cache/electron-builder \
     -w /project/client \
     "$WINE_IMAGE" \
     bash -lc 'npm ci && node scripts/pack-win.cjs'
+  cleanup_old_installers
   echo "$(LOG_PREFIX) клиент: файлы в server/updates (отдаются как /updates)"
 }
 
