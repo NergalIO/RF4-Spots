@@ -1158,35 +1158,71 @@ body.resizing-panels .guide-scroll .col-resizer {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-.session-view, .admin-view { padding: 16px 20px 32px; overflow: auto; }
-.session-head, .catch-row {
+.admin-panel {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+}
+.admin-panel h3 { margin: 0; font-size: 15px; color: var(--gold); }
+.admin-panel .earn-head .muted { margin: 0; }
+.admin-panel .btn.primary { width: auto; }
+.admin-panel .wear-scroll { flex: 1; }
+.admin-panel .wear-table td.empty { color: var(--muted); text-align: center; padding: 24px; }
+.admin-panel tr.is-off td { color: var(--muted); }
+.status-pill {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.catch-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 8px; }
-.catch-row {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 12px;
-}
-.catch-edit { display: flex; gap: 8px; align-items: center; }
-.cafe-badge {
-  display: inline-block;
-  margin-left: 8px;
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold-2);
+  padding: 3px 8px;
   border-radius: 999px;
-  padding: 1px 8px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
 }
-.admin-actions { display: flex; flex-wrap: wrap; gap: 6px; }
-.report-list { display: grid; gap: 12px; max-width: 720px; }
+.status-pill.admin { border-color: #3aa8a0; color: #9ee7e1; }
+.status-pill.on { color: var(--gold); }
+.status-pill.off { border-color: var(--danger); color: var(--danger); }
+.status-pill.unused { border-color: var(--gold-2); color: var(--gold); }
+.invite-code {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #0a1820;
+  border: 1px solid var(--line);
+  color: var(--gold);
+}
+.invite-code:hover { background: #1b3a48; }
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.admin-panel .wear-table thead th:last-child,
+.admin-panel .wear-table td.admin-actions { width: 1%; white-space: nowrap; }
+.report-list { display: grid; gap: 10px; max-width: 760px; }
+.admin-report {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.admin-report header {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.admin-report header strong { color: var(--gold); }
+.admin-report p { margin: 8px 0 0; }
+.admin-report .admin-actions { margin-top: 12px; justify-content: flex-start; }
 @media (max-width: 1100px) {
   .tools-host { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .tools-nav { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
