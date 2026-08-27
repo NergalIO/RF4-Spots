@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, safeStorage, session, desktopCapturer, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, session, desktopCapturer } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const { pathToFileURL } = require("url");
@@ -195,17 +195,8 @@ function startUpdateCheck() {
       installing = true;
       downloading = false;
       clearSplashTimer();
-      sendSplash({ phase: "install", percent: 100, message: "Обновление загружено" });
-      const parent = mainWindow && !mainWindow.isDestroyed() ? mainWindow : splash && !splash.isDestroyed() ? splash : null;
-      const box = {
-        type: "question",
-        buttons: ["Установить и перезапустить", "Позже"],
-        defaultId: 0,
-        cancelId: 1,
-        message: "Обновление загружено. Установить сейчас?",
-      };
-      const choice = parent ? dialog.showMessageBoxSync(parent, box) : dialog.showMessageBoxSync(box);
-      if (choice === 0) {
+      sendSplash({ phase: "install", percent: 100, message: "Установка обновления…" });
+      setTimeout(() => {
         try {
           autoUpdater.quitAndInstall(true, true);
         } catch (err) {
@@ -213,10 +204,7 @@ function startUpdateCheck() {
           installing = false;
           openMain();
         }
-        return;
-      }
-      installing = false;
-      openMain();
+      }, 400);
     });
     autoUpdater.on("error", (err) => {
       console.error("auto-update:", err == null ? "unknown" : err.message || err);
