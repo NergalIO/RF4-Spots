@@ -148,6 +148,8 @@ input:focus, select:focus, textarea:focus {
   background: rgba(8, 20, 28, 0.92);
   backdrop-filter: blur(10px);
   flex-wrap: wrap;
+  position: relative;
+  z-index: 30;
 }
 .brand { display: flex; align-items: center; gap: 10px; }
 .logo {
@@ -185,14 +187,42 @@ input:focus, select:focus, textarea:focus {
   color: var(--gold);
 }
 .game-clock.night .game-clock-time { color: #9ec4e8; }
+.user-menu { position: relative; z-index: 40; }
 .role-pill {
+  font: inherit;
   font-size: 12px;
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid var(--line);
   color: var(--gold);
+  background: transparent;
+  cursor: pointer;
 }
 .role-pill.admin { border-color: #3aa8a0; color: #9ee7e1; }
+.role-pill.open { border-color: var(--gold-2); }
+.user-menu-list {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 40;
+  min-width: 140px;
+  padding: 6px;
+  display: grid;
+  gap: 2px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.user-menu-list button {
+  text-align: left;
+  background: none;
+  border: 0;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.user-menu-list button:hover { background: rgba(232, 215, 163, 0.08); }
 
 .workspace {
   display: flex;

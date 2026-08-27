@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cafeUrlForWaterbody, waterbodyIdFromCafeUrl } from "../cafe";
 import { ALL_WATERBODIES } from "../constants";
 import { MapView } from "./MapView";
@@ -52,6 +52,8 @@ export function Shell() {
   const [lb, setLb] = useState<{ shots: Screenshot[]; index: number } | null>(null);
   const [tab, setTab] = useState<MainTab>(loadTab);
   const [passwordOpen, setPasswordOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const panels = useResizablePanels();
   const feedOnly = waterbodyId === ALL_WATERBODIES;
   const spotsTab = tab === "spots";
@@ -77,6 +79,22 @@ export function Shell() {
   useEffect(() => {
     if ((tab === "admin" || tab === "session") && user?.role !== "admin") setTab("spots");
   }, [tab, user?.role]);
+
+  useEffect(() => {
+    if (!userMenuOpen) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!userMenuRef.current?.contains(e.target as Node)) setUserMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setUserMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [userMenuOpen]);
 
   return (
     <div className="app-shell">
@@ -146,15 +164,41 @@ export function Shell() {
         )}
         <div className="spacer" />
         <GameClock />
-        <span className={`role-pill ${user?.role}`}>
-          {user?.nickname} · {user?.role === "admin" ? "админ" : "игрок"}
-        </span>
-        <button type="button" className="btn ghost" onClick={() => setPasswordOpen(true)}>
-          Пароль
-        </button>
-        <button type="button" className="btn ghost" onClick={() => void logout()}>
-          Выход
-        </button>
+        <div className="user-menu" ref={userMenuRef}>
+          <button
+            type="button"
+            className={`role-pill ${user?.role ?? ""} ${userMenuOpen ? "open" : ""}`}
+            aria-haspopup="menu"
+            aria-expanded={userMenuOpen}
+            onClick={() => setUserMenuOpen((v) => !v)}
+          >
+            {user?.nickname} · {user?.role === "admin" ? "админ" : "игрок"}
+          </button>
+          {userMenuOpen && (
+            <div className="user-menu-list" role="menu">
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  setPasswordOpen(true);
+                }}
+              >
+                Пароль
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  void logout();
+                }}
+              >
+                Выход
+              </button>
+            </div>
+          )}
+        </div>
       </header>
       <div className="app-main">
         <div className={`workspace ${feedOnly ? "feed-only" : ""}`} hidden={!spotsTab}>
