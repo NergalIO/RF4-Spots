@@ -5,6 +5,8 @@ import { publicUser } from "../lib/auth.js";
 import { generateInviteCode } from "../lib/invite.js";
 import { paramId } from "../lib/params.js";
 import { softDeleteComment, softDeletePost } from "../lib/softDelete.js";
+import { collectAdminStats, ONLINE_WINDOW_MS } from "../lib/adminStats.js";
+import { unlinkFilenames } from "../lib/upload.js";
 import { requireAdmin, requireAuth, type AuthedRequest } from "../middleware/auth.js";
 
 export const adminRouter = Router();
@@ -34,6 +36,15 @@ async function enabledAdminCount(exceptId?: string) {
   });
 }
 
+function latest(...values: (Date | null | undefined)[]) {
+  let max: Date | null = null;
+  for (const value of values) {
+    if (!value) continue;
+    if (!max || value > max) max = value;
+  }
+  return max;
+}
+
 adminRouter.get("/users", async (_req, res) => {
   const users = await prisma.user.findMany({
     orderBy: { createdAt: "asc" },
@@ -43,14 +54,29 @@ adminRouter.get("/users", async (_req, res) => {
       role: true,
       createdAt: true,
       disabledAt: true,
+      lastSeenAt: true,
     },
   });
+  const [postMax, commentMax] = await Promise.all([
+    prisma.post.groupBy({ by: ["userId"], _max: { createdAt: true, updatedAt: true } }),
+    prisma.comment.groupBy({ by: ["userId"], _max: { createdAt: true, updatedAt: true } }),
+  ]);
+  const lastPost = new Map(postMax.map((r) => [r.userId, latest(r._max.createdAt, r._max.updatedAt)]));
+  const lastComment = new Map(commentMax.map((r) => [r.userId, latest(r._max.createdAt, r._max.updatedAt)]));
+  const now = Date.now();
   res.json({
-    users: users.map((u) => ({
-      ...publicUser(u),
-      createdAt: u.createdAt.toISOString(),
-      disabledAt: u.disabledAt?.toISOString() ?? null,
-    })),
+    users: users.map((u) => {
+      const lastActiveAt = latest(u.lastSeenAt, lastPost.get(u.id), lastComment.get(u.id), u.createdAt);
+      const online = Boolean(lastActiveAt && now - lastActiveAt.getTime() <= ONLINE_WINDOW_MS);
+      return {
+        ...publicUser(u),
+        createdAt: u.createdAt.toISOString(),
+        disabledAt: u.disabledAt?.toISOString() ?? null,
+        lastSeenAt: u.lastSeenAt?.toISOString() ?? null,
+        lastActiveAt: lastActiveAt?.toISOString() ?? u.createdAt.toISOString(),
+        online,
+      };
+    }),
   });
 });
 
@@ -98,6 +124,47 @@ adminRouter.patch("/users/:id", async (req: AuthedRequest, res) => {
       disabledAt: updated.disabledAt?.toISOString() ?? null,
     },
   });
+});
+
+adminRouter.delete("/users/:id", async (req: AuthedRequest, res) => {
+  const id = paramId(req.params.id);
+  if (id === req.user!.id) {
+    res.status(400).json({ error: "Нельзя удалить свой аккаунт" });
+    return;
+  }
+  const target = await prisma.user.findUnique({ where: { id } });
+  if (!target) {
+    res.status(404).json({ error: "Пользователь не найден" });
+    return;
+  }
+  if (target.role === "admin") {
+    const others = await enabledAdminCount(target.id);
+    if (others < 1) {
+      res.status(400).json({ error: "Нельзя удалить последнего администратора" });
+      return;
+    }
+  }
+  const posts = await prisma.post.findMany({
+    where: { userId: id },
+    include: {
+      screenshots: { select: { filename: true } },
+      comments: { include: { screenshots: { select: { filename: true } } } },
+    },
+  });
+  const comments = await prisma.comment.findMany({
+    where: { userId: id },
+    include: { screenshots: { select: { filename: true } } },
+  });
+  const files = [
+    ...posts.flatMap((p) => [
+      ...p.screenshots.map((s) => s.filename),
+      ...p.comments.flatMap((c) => c.screenshots.map((s) => s.filename)),
+    ]),
+    ...comments.flatMap((c) => c.screenshots.map((s) => s.filename)),
+  ];
+  await prisma.user.delete({ where: { id } });
+  unlinkFilenames(files);
+  res.json({ ok: true });
 });
 
 adminRouter.get("/invites", async (_req, res) => {
@@ -239,4 +306,9 @@ adminRouter.patch("/reports/:id", async (req: AuthedRequest, res) => {
       resolvedAt: report.resolvedAt?.toISOString() ?? null,
     },
   });
+});
+
+adminRouter.get("/stats", async (_req, res) => {
+  const stats = await collectAdminStats();
+  res.json({ stats });
 });

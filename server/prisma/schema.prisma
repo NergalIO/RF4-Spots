@@ -36,6 +36,7 @@ model User {
   salt          String    @default("")
   role          Role      @default(player)
   disabledAt    DateTime?
+  lastSeenAt    DateTime?
   tokenVersion  Int       @default(0)
   createdAt     DateTime  @default(now())
   posts         Post[]

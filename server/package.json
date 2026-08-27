@@ -1,6 +1,6 @@
 {
   "name": "rf4-spots-server",
-  "version": "2.2.0",
+  "version": "2.2.5",
   "private": true,
   "type": "module",
   "scripts": {

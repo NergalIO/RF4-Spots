@@ -1,19 +1,21 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { fmtDateTime } from "../api";
 import { useStore } from "../store";
-import type { AdminUser, Invite, ModerationReport } from "../types";
+import type { AdminStats, AdminUser, Invite, ModerationReport } from "../types";
+import { AdminDashboard } from "./AdminDashboard";
 
 const TAB_KEY = "rf4spots-admin-tab";
-type AdminTab = "users" | "invites" | "reports";
+type AdminTab = "dashboard" | "users" | "invites" | "reports";
 
 function loadTab(): AdminTab {
   try {
     const v = localStorage.getItem(TAB_KEY);
-    if (v === "users" || v === "invites" || v === "reports") return v;
+    if (v === "dashboard" || v === "users" || v === "invites" || v === "reports") return v;
   } catch {
     /* ignore */
   }
-  return "users";
+  return "dashboard";
 }
 
 async function copyText(value: string) {
@@ -24,6 +26,8 @@ async function copyText(value: string) {
   }
 }
 
+type UserMenu = { user: AdminUser; top: number; left: number };
+
 export function AdminView() {
   const api = useStore((s) => s.api);
   const me = useStore((s) => s.user);
@@ -31,17 +35,26 @@ export function AdminView() {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [invites, setInvites] = useState<Invite[]>([]);
   const [reports, setReports] = useState<ModerationReport[]>([]);
+  const [stats, setStats] = useState<AdminStats | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState("");
+  const [menu, setMenu] = useState<UserMenu | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   async function reload() {
     setError("");
     try {
-      const [u, i, r] = await Promise.all([api.adminUsers(), api.adminInvites(), api.adminReports("open")]);
+      const [u, i, r, s] = await Promise.all([
+        api.adminUsers(),
+        api.adminInvites(),
+        api.adminReports("open"),
+        api.adminStats(),
+      ]);
       setUsers(u.users);
       setInvites(i.invites);
       setReports(r.reports);
+      setStats(s.stats);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ошибка загрузки");
     }
@@ -59,13 +72,51 @@ export function AdminView() {
     }
   }, [tab]);
 
+  useEffect(() => {
+    if (!menu) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) setMenu(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenu(null);
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menu]);
+
+  function openMenu(user: AdminUser, x: number, y: number) {
+    const width = 200;
+    const left = Math.min(x, window.innerWidth - width - 8);
+    const top = Math.min(y, window.innerHeight - 220);
+    setMenu({ user, top, left: Math.max(8, left) });
+  }
+
   async function patchUser(id: string, body: { role?: "player" | "admin"; disabled?: boolean }) {
+    setMenu(null);
     setBusy(true);
     try {
       await api.adminPatchUser(id, body);
       await reload();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Не удалось сохранить");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function deleteUser(id: string, nickname: string) {
+    setMenu(null);
+    if (!window.confirm(`Удалить игрока «${nickname}» и все его посты?`)) return;
+    setBusy(true);
+    try {
+      await api.adminDeleteUser(id);
+      await reload();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Не удалось удалить");
     } finally {
       setBusy(false);
     }
@@ -102,9 +153,15 @@ export function AdminView() {
     window.setTimeout(() => setCopied((cur) => (cur === code ? "" : cur)), 1600);
   }
 
+  const menuUser = menu?.user;
+
+
   return (
     <div className="tools-host">
       <nav className="tools-nav" aria-label="Админка">
+        <button type="button" className={tab === "dashboard" ? "on" : ""} onClick={() => setTab("dashboard")}>
+          Dashboard
+        </button>
         <button type="button" className={tab === "users" ? "on" : ""} onClick={() => setTab("users")}>
           Игроки
         </button>
@@ -117,6 +174,7 @@ export function AdminView() {
       </nav>
       <div className="tools-body">
         {error && <p className="form-error">{error}</p>}
+        {tab === "dashboard" && <AdminDashboard stats={stats} />}
         {tab === "users" && (
           <section className="admin-panel">
             <div className="earn-head">
@@ -130,19 +188,28 @@ export function AdminView() {
                     <th>Ник</th>
                     <th>Роль</th>
                     <th>Статус</th>
+                    <th>Активность</th>
                     <th />
                   </tr>
                 </thead>
                 <tbody>
                   {users.length === 0 && (
                     <tr>
-                      <td className="empty" colSpan={4}>
+                      <td className="empty" colSpan={5}>
                         Игроков пока нет
                       </td>
                     </tr>
                   )}
                   {users.map((u) => (
-                    <tr key={u.id} className={u.disabledAt ? "is-off" : undefined}>
+                    <tr
+                      key={u.id}
+                      className={u.disabledAt ? "is-off" : undefined}
+                      onContextMenu={(e) => {
+                        if (u.id === me?.id) return;
+                        e.preventDefault();
+                        openMenu(u, e.clientX, e.clientY);
+                      }}
+                    >
                       <td>
                         <strong>{u.nickname}</strong>
                         {u.id === me?.id && <span className="muted"> · вы</span>}
@@ -153,27 +220,29 @@ export function AdminView() {
                         </span>
                       </td>
                       <td>
-                        <span className={`status-pill ${u.disabledAt ? "off" : "on"}`}>{u.disabledAt ? "отключён" : "активен"}</span>
+                        <span className={`status-pill ${u.disabledAt ? "off" : "on"}`}>{u.disabledAt ? "отключён" : "включён"}</span>
+                      </td>
+                      <td>
+                        {u.online && !u.disabledAt ? (
+                          <span className="status-pill live">Активен</span>
+                        ) : (
+                          <span className="muted">{fmtDateTime(u.lastActiveAt)}</span>
+                        )}
                       </td>
                       <td className="admin-actions">
-                        {u.role !== "admin" && (
-                          <button type="button" className="btn ghost sm" disabled={busy} onClick={() => void patchUser(u.id, { role: "admin" })}>
-                            Сделать админом
-                          </button>
-                        )}
-                        {u.role === "admin" && u.id !== me?.id && (
-                          <button type="button" className="btn ghost sm" disabled={busy} onClick={() => void patchUser(u.id, { role: "player" })}>
-                            Снять админа
-                          </button>
-                        )}
-                        {u.id !== me?.id && !u.disabledAt && (
-                          <button type="button" className="btn danger sm" disabled={busy} onClick={() => void patchUser(u.id, { disabled: true })}>
-                            Отключить
-                          </button>
-                        )}
-                        {u.disabledAt && (
-                          <button type="button" className="btn ghost sm" disabled={busy} onClick={() => void patchUser(u.id, { disabled: false })}>
-                            Включить
+                        {u.id !== me?.id && (
+                          <button
+                            type="button"
+                            className="btn ghost sm admin-kebab"
+                            disabled={busy}
+                            aria-haspopup="menu"
+                            aria-expanded={menuUser?.id === u.id}
+                            onClick={(e) => {
+                              const r = e.currentTarget.getBoundingClientRect();
+                              openMenu(u, r.right - 200, r.bottom + 4);
+                            }}
+                          >
+                            ⋮
                           </button>
                         )}
                       </td>
@@ -222,11 +291,7 @@ export function AdminView() {
                       </td>
                       <td className="muted">{fmtDateTime(i.createdAt)}</td>
                       <td>
-                        {i.usedBy ? (
-                          i.usedBy.nickname
-                        ) : (
-                          <span className="status-pill unused">не использован</span>
-                        )}
+                        {i.usedBy ? i.usedBy.nickname : <span className="status-pill unused">не использован</span>}
                       </td>
                     </tr>
                   ))}
@@ -274,6 +339,46 @@ export function AdminView() {
           </section>
         )}
       </div>
+      {menu &&
+        createPortal(
+          <div
+            ref={menuRef}
+            className="user-menu-list admin-ctx"
+            role="menu"
+            style={{ top: menu.top, left: menu.left }}
+          >
+            {menu.user.role !== "admin" && (
+              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { role: "admin" })}>
+                Сделать админом
+              </button>
+            )}
+            {menu.user.role === "admin" && (
+              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { role: "player" })}>
+                Снять админа
+              </button>
+            )}
+            {!menu.user.disabledAt && (
+              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { disabled: true })}>
+                Отключить
+              </button>
+            )}
+            {menu.user.disabledAt && (
+              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { disabled: false })}>
+                Включить
+              </button>
+            )}
+            <button
+              type="button"
+              role="menuitem"
+              className="danger"
+              disabled={busy}
+              onClick={() => void deleteUser(menu.user.id, menu.user.nickname)}
+            >
+              Удалить
+            </button>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

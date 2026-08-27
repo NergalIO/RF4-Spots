@@ -1,5 +1,6 @@
 import type {
   AdminUser,
+  AdminStats,
   CatchType,
   CommentItem,
   Fish,
@@ -156,6 +157,14 @@ export class Api {
       method: "PATCH",
       body: JSON.stringify(body),
     });
+  }
+
+  adminDeleteUser(id: string) {
+    return this.req<{ ok: boolean }>(`/admin/users/${id}`, { method: "DELETE" });
+  }
+
+  adminStats() {
+    return this.req<{ stats: AdminStats }>("/admin/stats");
   }
 
   adminInvites() {
