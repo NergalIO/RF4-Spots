@@ -1,4 +1,18 @@
-import type { CatchType, CommentItem, Fish, GuideDataset, GuideRow, Post, User, Waterbody } from "./types";
+import type {
+  AdminUser,
+  CatchType,
+  CommentItem,
+  Fish,
+  FishingSession,
+  GuideDataset,
+  GuideRow,
+  Invite,
+  ModerationReport,
+  Post,
+  PostMarker,
+  User,
+  Waterbody,
+} from "./types";
 
 export class ApiError extends Error {
   status: number;
@@ -34,7 +48,7 @@ export class Api {
   }
 
   authConfig() {
-    return this.req<{ allowRegister: boolean }>("/auth/config");
+    return this.req<{ allowRegister: boolean; invites: boolean }>("/auth/config");
   }
 
   login(nickname: string, password: string) {
@@ -44,10 +58,17 @@ export class Api {
     });
   }
 
-  register(nickname: string, password: string) {
+  register(nickname: string, password: string, invite?: string) {
     return this.req<{ token: string; user: User }>("/auth/register", {
       method: "POST",
-      body: JSON.stringify({ nickname, password }),
+      body: JSON.stringify({ nickname, password, invite: invite || undefined }),
+    });
+  }
+
+  changePassword(current: string, next: string) {
+    return this.req<{ token: string; user: User }>("/auth/password", {
+      method: "PATCH",
+      body: JSON.stringify({ current, next }),
     });
   }
 
@@ -72,7 +93,13 @@ export class Api {
     for (const [k, v] of Object.entries(params)) {
       if (v) q.set(k, v);
     }
-    return this.req<{ posts: Post[] }>(`/posts?${q.toString()}`);
+    return this.req<{ posts: Post[]; nextCursor: string | null }>(`/posts?${q.toString()}`);
+  }
+
+  markers(waterbodyId: string) {
+    const q = new URLSearchParams();
+    if (waterbodyId) q.set("waterbodyId", waterbodyId);
+    return this.req<{ markers: PostMarker[] }>(`/posts/markers?${q.toString()}`);
   }
 
   post(id: string) {
@@ -91,6 +118,12 @@ export class Api {
     return this.req<{ ok: boolean }>(`/posts/${id}`, { method: "DELETE" });
   }
 
+  setFavorite(id: string, on: boolean) {
+    return this.req<{ ok: boolean; favorited: boolean }>(`/posts/${id}/favorite`, {
+      method: on ? "POST" : "DELETE",
+    });
+  }
+
   addComment(postId: string, fd: FormData) {
     return this.req<{ comment: CommentItem }>(`/posts/${postId}/comments`, {
       method: "POST",
@@ -100,6 +133,140 @@ export class Api {
 
   deleteComment(id: string) {
     return this.req<{ ok: boolean }>(`/comments/${id}`, { method: "DELETE" });
+  }
+
+  report(body: { postId?: string; commentId?: string; reason: string }) {
+    return this.req<{ report: { id: string } }>("/reports", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
+  cafeOrders(waterbodyId: string) {
+    return this.req<{ waterbodyId: string; url: string | null; names: string[] }>(
+      `/cafe/orders?waterbodyId=${encodeURIComponent(waterbodyId)}`,
+    );
+  }
+
+  sessions(params: Record<string, string>) {
+    const q = new URLSearchParams();
+    for (const [k, v] of Object.entries(params)) {
+      if (v) q.set(k, v);
+    }
+    return this.req<{ sessions: FishingSession[] }>(`/sessions?${q.toString()}`);
+  }
+
+  startSession(waterbodyId: string, openingCash = "") {
+    return this.req<{ session: FishingSession }>("/sessions", {
+      method: "POST",
+      body: JSON.stringify({ waterbodyId, openingCash }),
+    });
+  }
+
+  session(id: string) {
+    return this.req<{ session: FishingSession }>(`/sessions/${id}`);
+  }
+
+  patchSession(id: string, openingCash: string) {
+    return this.req<{ session: FishingSession }>(`/sessions/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ openingCash }),
+    });
+  }
+
+  endSession(id: string) {
+    return this.req<{ session: FishingSession }>(`/sessions/${id}/end`, { method: "POST" });
+  }
+
+  addCatch(
+    sessionId: string,
+    body: {
+      fishId?: string | null;
+      fishNameRaw: string;
+      weightKg?: number | null;
+      catchType?: CatchType | null;
+      ocrText?: string;
+    },
+  ) {
+    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/catches`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
+
+  updateCatch(
+    sessionId: string,
+    catchId: string,
+    body: {
+      fishId?: string | null;
+      fishNameRaw?: string;
+      weightKg?: number | null;
+      catchType?: CatchType | null;
+    },
+  ) {
+    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/catches/${catchId}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+  }
+
+  deleteCatch(sessionId: string, catchId: string) {
+    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/catches/${catchId}`, {
+      method: "DELETE",
+    });
+  }
+
+  addEarning(sessionId: string, kind: "in" | "out", amount: string) {
+    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/earnings`, {
+      method: "POST",
+      body: JSON.stringify({ kind, amount }),
+    });
+  }
+
+  patchEarning(sessionId: string, opId: string, body: { kind?: "in" | "out"; amount?: string }) {
+    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/earnings/${opId}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+  }
+
+  deleteEarning(sessionId: string, opId: string) {
+    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/earnings/${opId}`, {
+      method: "DELETE",
+    });
+  }
+
+  adminUsers() {
+    return this.req<{ users: AdminUser[] }>("/admin/users");
+  }
+
+  adminPatchUser(id: string, body: { role?: "player" | "admin"; disabled?: boolean }) {
+    return this.req<{ user: AdminUser }>(`/admin/users/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
+  }
+
+  adminInvites() {
+    return this.req<{ invites: Invite[] }>("/admin/invites");
+  }
+
+  adminCreateInvite(expiresAt?: string) {
+    return this.req<{ invite: Invite }>("/admin/invites", {
+      method: "POST",
+      body: JSON.stringify(expiresAt ? { expiresAt } : {}),
+    });
+  }
+
+  adminReports(status = "open") {
+    return this.req<{ reports: ModerationReport[] }>(`/admin/reports?status=${encodeURIComponent(status)}`);
+  }
+
+  adminPatchReport(id: string, body: { status: "open" | "resolved" | "dismissed"; hide?: boolean }) {
+    return this.req<{ report: { id: string; status: string } }>(`/admin/reports/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
   }
 
   guides() {

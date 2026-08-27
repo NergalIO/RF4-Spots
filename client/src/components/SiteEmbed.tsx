@@ -75,7 +75,16 @@ export function SiteEmbed({ url, title, partition, active = true, onNavigate }: 
   }, []);
 
   if (!electron) {
-    return <iframe className="site-webview" title={title} ref={(el) => { frame.current = el; }} />;
+    return (
+      <iframe
+        className="site-webview"
+        title={title}
+        src={active || started.current ? url : undefined}
+        ref={(el) => {
+          frame.current = el;
+        }}
+      />
+    );
   }
 
   return createElement("webview", {

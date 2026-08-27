@@ -14,7 +14,7 @@ if (!existsSync(UPLOAD_DIR)) {
   mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
-function sniffImage(buf: Buffer): "jpeg" | "png" | "gif" | "webp" | null {
+export function sniffImage(buf: Buffer): "jpeg" | "png" | "gif" | "webp" | null {
   if (buf.length >= 3 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "jpeg";
   if (buf.length >= 8 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) return "png";
   if (buf.length >= 6) {
@@ -41,6 +41,17 @@ function extMatchesKind(ext: string, kind: ReturnType<typeof sniffImage>) {
 
 export function uploadedFiles(req: Request): Express.Multer.File[] {
   return (req.files as Express.Multer.File[] | undefined) ?? [];
+}
+
+export function unlinkFilenames(filenames: string[]) {
+  for (const name of filenames) {
+    if (!name || name.includes("..") || name.includes("/") || name.includes("\\")) continue;
+    try {
+      unlinkSync(join(UPLOAD_DIR, name));
+    } catch {
+      /* already gone */
+    }
+  }
 }
 
 export function removeUploaded(files: Express.Multer.File[]) {

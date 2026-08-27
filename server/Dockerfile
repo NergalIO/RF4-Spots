@@ -7,4 +7,4 @@ RUN npm install
 COPY . .
 RUN npx prisma generate && npm run build
 EXPOSE 3780
-CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node dist/index.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]

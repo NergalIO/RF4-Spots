@@ -1,7 +1,7 @@
 import "../lib/loadEnv.js";
 import argon2 from "argon2";
 import { prisma } from "../lib/prisma.js";
-import { fingerprint, newSalt } from "../lib/fingerprint.js";
+import { newSalt } from "../lib/fingerprint.js";
 
 function arg(name: string): string | undefined {
   const i = process.argv.findIndex((a) => a === `--${name}` || a.startsWith(`--${name}=`));
@@ -30,7 +30,7 @@ async function main() {
     if (role === "admin" && existing.role !== "admin") {
       const updated = await prisma.user.update({
         where: { id: existing.id },
-        data: { role: "admin" },
+        data: { role: "admin", disabledAt: null },
       });
       console.log(`Пользователь ${updated.nickname} повышен до админа (id ${updated.id}).`);
       return;
@@ -39,10 +39,9 @@ async function main() {
     return;
   }
   const salt = newSalt();
-  const id = fingerprint(nickname, password, salt);
   const passwordHash = await argon2.hash(password);
   const user = await prisma.user.create({
-    data: { id, nickname, salt, passwordHash, role },
+    data: { nickname, salt, passwordHash, role },
   });
   console.log(`Создан ${user.role} ${user.nickname} (id ${user.id}).`);
 }

@@ -2,23 +2,23 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, ImageOverlay, Marker, Polyline, Tooltip, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import { fmtCoord } from "../api";
-import type { Post, Waterbody } from "../types";
+import type { CatchType, PostMarker, Waterbody } from "../types";
 import { useStore } from "../store";
 
 type Props = {
   onCreate: (coords: { x: number; y: number }) => void;
 };
 
-function pin(active: boolean) {
+function pin(active: boolean, catchType: CatchType) {
   return L.divIcon({
     className: "",
     iconSize: [18, 18],
     iconAnchor: [9, 9],
-    html: `<span class="map-pin${active ? " on" : ""}"></span>`,
+    html: `<span class="map-pin ${catchType}${active ? " on" : ""}"></span>`,
   });
 }
 
-function pixelToGame(wb: Waterbody, latlng: L.LatLng) {
+export function pixelToGame(wb: Waterbody, latlng: L.LatLng) {
   const px = latlng.lng;
   const pyFromTop = wb.imageHeight - latlng.lat;
   const innerW = wb.imageWidth - wb.padLeft - wb.padRight;
@@ -30,7 +30,7 @@ function pixelToGame(wb: Waterbody, latlng: L.LatLng) {
   return { x, y };
 }
 
-function gameToLatLng(wb: Waterbody, x: number, y: number) {
+export function gameToLatLng(wb: Waterbody, x: number, y: number) {
   const innerW = wb.imageWidth - wb.padLeft - wb.padRight;
   const innerH = wb.imageHeight - wb.padTop - wb.padBottom;
   const relX = (x - wb.xMin) / (wb.xMax - wb.xMin);
@@ -49,6 +49,24 @@ function MapSync({ wb }: { wb: Waterbody }) {
     map.fitBounds(bounds);
     map.setMaxBounds(bounds.pad(0.08));
   }, [map, wb]);
+  return null;
+}
+
+function FlyToPin({
+  wb,
+  marker,
+}: {
+  wb: Waterbody;
+  marker: PostMarker | undefined;
+}) {
+  const map = useMap();
+  const flyToId = useStore((s) => s.flyToId);
+  const clearFlyTo = useStore((s) => s.clearFlyTo);
+  useEffect(() => {
+    if (!flyToId || !marker) return;
+    map.panTo(gameToLatLng(wb, marker.coordX, marker.coordY));
+    clearFlyTo();
+  }, [map, wb, marker, flyToId, clearFlyTo]);
   return null;
 }
 
@@ -100,7 +118,7 @@ export function MapView({ onCreate }: Props) {
   const api = useStore((s) => s.api);
   const waterbodies = useStore((s) => s.waterbodies);
   const waterbodyId = useStore((s) => s.waterbodyId);
-  const posts = useStore((s) => s.posts);
+  const markers = useStore((s) => s.markers);
   const selectedId = useStore((s) => s.selectedId);
   const selectPost = useStore((s) => s.selectPost);
   const rulerOn = useStore((s) => s.rulerOn);
@@ -108,11 +126,12 @@ export function MapView({ onCreate }: Props) {
   const [hover, setHover] = useState<{ x: number; y: number } | null>(null);
   const [ruler, setRuler] = useState<{ x: number; y: number }[]>([]);
 
-  const shown = selectedId ? posts.filter((p) => p.id === selectedId) : posts;
   const bounds = useMemo(
     () => (wb ? L.latLngBounds([0, 0], [wb.imageHeight, wb.imageWidth]) : null),
     [wb],
   );
+
+  const flyMarker = markers.find((m) => m.id === selectedId);
 
   if (!wb || !bounds) return <div className="map-empty">Выберите водоём</div>;
 
@@ -123,7 +142,7 @@ export function MapView({ onCreate }: Props) {
 
   return (
     <div className="map-wrap">
-        <MapContainer
+      <MapContainer
         key={`${wb.id}-${wb.imageWidth}x${wb.imageHeight}-${wb.mapUrl}`}
         crs={L.CRS.Simple}
         center={[wb.imageHeight / 2, wb.imageWidth / 2]}
@@ -138,17 +157,18 @@ export function MapView({ onCreate }: Props) {
         attributionControl={false}
       >
         <MapSync wb={wb} />
+        <FlyToPin wb={wb} marker={flyMarker} />
         <ImageOverlay url={api.fileUrl(wb.mapUrl)} bounds={bounds} />
         <MapEvents wb={wb} rulerOn={rulerOn} onHover={setHover} onCreate={onCreate} onRuler={setRuler} />
-        {shown.map((p: Post) => (
+        {markers.map((p) => (
           <Marker
             key={p.id}
             position={gameToLatLng(wb, p.coordX, p.coordY)}
-            icon={pin(p.id === selectedId)}
+            icon={pin(p.id === selectedId, p.catchType)}
             eventHandlers={{ click: () => void selectPost(p.id) }}
           >
             <Tooltip direction="top" offset={[0, -8]}>
-              {p.fish.name} · {fmtCoord(p.coordX, p.coordY)}
+              {p.fishName} · {fmtCoord(p.coordX, p.coordY)}
             </Tooltip>
           </Marker>
         ))}

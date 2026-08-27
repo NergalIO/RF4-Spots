@@ -3,18 +3,9 @@ import { ALL_WATERBODIES } from "./constants";
 import { Api } from "./api";
 import { DEFAULT_SERVER_URL, loadSession, saveSession } from "./session";
 import { resolveServerUrl } from "./serverUrl";
-import type { Filters, Fish, Post, User, Waterbody } from "./types";
+import { loadFilters, loadWaterbodyId, saveFilters, saveWaterbodyId } from "./persist";
+import type { Filters, Fish, Post, PostMarker, User, Waterbody } from "./types";
 import { markPostSeen, seedSeen, type SeenMap } from "./unread";
-
-const emptyFilters = (): Filters => ({
-  fishId: "",
-  catchType: "",
-  catchFrom: "",
-  catchTo: "",
-  uploadedFrom: "",
-  uploadedTo: "",
-  sort: "createdAt",
-});
 
 const POLL_MS = 4000;
 let pollTimer: ReturnType<typeof setInterval> | null = null;
@@ -29,24 +20,33 @@ type Store = {
   waterbodies: Waterbody[];
   waterbodyId: string;
   posts: Post[];
+  markers: PostMarker[];
+  nextCursor: string | null;
   selectedId: string | null;
   detail: Post | null;
   filters: Filters;
   rulerOn: boolean;
   seen: SeenMap;
   syncStamp: string;
+  flyToId: string | null;
   boot: () => Promise<void>;
   login: (nickname: string, password: string, serverUrl: string) => Promise<void>;
-  register: (nickname: string, password: string, serverUrl: string) => Promise<void>;
+  register: (nickname: string, password: string, serverUrl: string, invite?: string) => Promise<void>;
   logout: () => Promise<void>;
-  setWaterbody: (id: string) => Promise<void>;
+  setToken: (token: string, user: User) => Promise<void>;
+  setWaterbody: (id: string, opts?: { keepPostId?: string }) => Promise<void>;
   setFilters: (patch: Partial<Filters>) => Promise<void>;
   selectPost: (id: string | null) => Promise<void>;
-  refreshPosts: () => Promise<void>;
+  refreshPosts: (opts?: { append?: boolean }) => Promise<void>;
+  loadMorePosts: () => Promise<void>;
+  refreshMarkers: () => Promise<void>;
   refreshDetail: (opts?: { skipList?: boolean }) => Promise<void>;
+  openOnMap: (post: Post) => Promise<void>;
+  toggleFavorite: (post: Post) => Promise<void>;
   markSeen: (post: Post) => void;
   toggleRuler: () => void;
   setError: (msg: string) => void;
+  clearFlyTo: () => void;
 };
 
 export const useStore = create<Store>((set, get) => ({
@@ -56,17 +56,21 @@ export const useStore = create<Store>((set, get) => ({
   error: "",
   fish: [],
   waterbodies: [],
-  waterbodyId: "",
+  waterbodyId: loadWaterbodyId(),
   posts: [],
+  markers: [],
+  nextCursor: null,
   selectedId: null,
   detail: null,
-  filters: emptyFilters(),
+  filters: loadFilters(),
   rulerOn: false,
   seen: {},
   syncStamp: "",
+  flyToId: null,
 
   setError: (error) => set({ error }),
   toggleRuler: () => set({ rulerOn: !get().rulerOn }),
+  clearFlyTo: () => set({ flyToId: null }),
 
   markSeen: (post) => {
     const user = get().user;
@@ -106,13 +110,20 @@ export const useStore = create<Store>((set, get) => ({
     await loadCatalogAndPosts();
   },
 
-  register: async (nickname, password, serverUrl) => {
+  register: async (nickname, password, serverUrl, invite) => {
     const api = new Api(resolveServerUrl(serverUrl), "");
-    const { token, user } = await api.register(nickname, password);
+    const { token, user } = await api.register(nickname, password, invite);
     const authed = new Api(api.baseUrl, token);
     await saveSession({ serverUrl: api.baseUrl, token });
     set({ api: authed, user, error: "" });
     await loadCatalogAndPosts();
+  },
+
+  setToken: async (token, user) => {
+    const { api } = get();
+    const authed = new Api(api.baseUrl, token);
+    await saveSession({ serverUrl: api.baseUrl, token });
+    set({ api: authed, user });
   },
 
   logout: async () => {
@@ -123,27 +134,35 @@ export const useStore = create<Store>((set, get) => ({
       user: null,
       api: new Api(api.baseUrl, ""),
       posts: [],
+      markers: [],
       detail: null,
       selectedId: null,
       fish: [],
       waterbodies: [],
       seen: {},
       syncStamp: "",
+      nextCursor: null,
     });
   },
 
-  setWaterbody: async (id) => {
+  setWaterbody: async (id, opts) => {
+    saveWaterbodyId(id);
     set({
       waterbodyId: id,
-      selectedId: null,
-      detail: null,
+      selectedId: opts?.keepPostId ?? null,
+      detail: opts?.keepPostId ? get().detail : null,
       rulerOn: id === ALL_WATERBODIES ? false : get().rulerOn,
+      posts: [],
+      nextCursor: null,
     });
-    await get().refreshPosts();
+    await Promise.all([get().refreshPosts(), get().refreshMarkers()]);
+    if (opts?.keepPostId) await get().selectPost(opts.keepPostId);
   },
 
   setFilters: async (patch) => {
-    set({ filters: { ...get().filters, ...patch } });
+    const filters = { ...get().filters, ...patch };
+    saveFilters(filters);
+    set({ filters, posts: [], nextCursor: null });
     await get().refreshPosts();
   },
 
@@ -159,10 +178,10 @@ export const useStore = create<Store>((set, get) => ({
     get().markSeen(post);
   },
 
-  refreshPosts: async () => {
-    const { api, waterbodyId, filters, selectedId, user } = get();
+  refreshPosts: async (opts) => {
+    const { api, waterbodyId, filters, selectedId, user, nextCursor } = get();
     if (!waterbodyId) return;
-    const { posts } = await api.posts({
+    const { posts, nextCursor: cursor } = await api.posts({
       waterbodyId: waterbodyId === ALL_WATERBODIES ? "" : waterbodyId,
       fishId: filters.fishId,
       catchType: filters.catchType,
@@ -171,14 +190,35 @@ export const useStore = create<Store>((set, get) => ({
       uploadedFrom: filters.uploadedFrom,
       uploadedTo: filters.uploadedTo,
       sort: filters.sort,
+      mine: filters.mine ? "1" : "",
+      favorite: filters.favorite ? "1" : "",
+      q: filters.q,
+      take: "50",
+      cursor: opts?.append && nextCursor ? nextCursor : "",
     });
-    let seen = user ? seedSeen(user.id, posts) : get().seen;
-    const selected = selectedId ? posts.find((p) => p.id === selectedId) : undefined;
+    const merged = opts?.append ? [...get().posts, ...posts] : posts;
+    let seen = user ? seedSeen(user.id, merged) : get().seen;
+    const selected = selectedId ? merged.find((p) => p.id === selectedId) : undefined;
     if (user && selected) seen = markPostSeen(user.id, selected);
-    set({ posts, seen });
-    if (selectedId && !posts.some((p) => p.id === selectedId)) {
-      set({ selectedId: null, detail: null });
+    set({ posts: merged, nextCursor: cursor, seen });
+    if (selectedId && !opts?.append && !merged.some((p) => p.id === selectedId) && get().detail?.id !== selectedId) {
+      /* keep detail if opened from map marker not yet in this page */
     }
+  },
+
+  loadMorePosts: async () => {
+    if (!get().nextCursor) return;
+    await get().refreshPosts({ append: true });
+  },
+
+  refreshMarkers: async () => {
+    const { api, waterbodyId } = get();
+    if (!waterbodyId || waterbodyId === ALL_WATERBODIES) {
+      set({ markers: [] });
+      return;
+    }
+    const { markers } = await api.markers(waterbodyId);
+    set({ markers });
   },
 
   refreshDetail: async (opts) => {
@@ -188,6 +228,25 @@ export const useStore = create<Store>((set, get) => ({
     set({ detail: post });
     get().markSeen(post);
     if (!opts?.skipList) await get().refreshPosts();
+  },
+
+  openOnMap: async (post) => {
+    set({ flyToId: post.id });
+    if (get().waterbodyId !== post.waterbody.id) {
+      await get().setWaterbody(post.waterbody.id, { keepPostId: post.id });
+    } else {
+      await get().selectPost(post.id);
+    }
+  },
+
+  toggleFavorite: async (post) => {
+    const { api } = get();
+    const { favorited } = await api.setFavorite(post.id, !post.favorited);
+    set({
+      posts: get().posts.map((p) => (p.id === post.id ? { ...p, favorited } : p)),
+      detail: get().detail?.id === post.id ? { ...get().detail!, favorited } : get().detail,
+    });
+    if (get().filters.favorite && !favorited) await get().refreshPosts();
   },
 }));
 
@@ -201,6 +260,7 @@ async function tickSync() {
     if (stamp === syncStamp) return;
     useStore.setState({ syncStamp: stamp });
     await useStore.getState().refreshPosts();
+    await useStore.getState().refreshMarkers();
     if (useStore.getState().selectedId) await useStore.getState().refreshDetail({ skipList: true });
   } catch {
     /* offline / stale token */
@@ -234,11 +294,11 @@ async function loadCatalogAndPosts() {
     api.waterbodies(),
     api.sync(),
   ]);
+  const saved = waterbodyId;
   const nextId =
-    waterbodyId && (waterbodyId === ALL_WATERBODIES || waterbodies.some((w) => w.id === waterbodyId))
-      ? waterbodyId
-      : ALL_WATERBODIES;
+    saved && (saved === ALL_WATERBODIES || waterbodies.some((w) => w.id === saved)) ? saved : ALL_WATERBODIES;
+  saveWaterbodyId(nextId);
   useStore.setState({ fish, waterbodies, waterbodyId: nextId, syncStamp: stamp });
-  await useStore.getState().refreshPosts();
+  await Promise.all([useStore.getState().refreshPosts(), useStore.getState().refreshMarkers()]);
   startPoll();
 }

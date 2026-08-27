@@ -10,11 +10,14 @@ export function AuthScreen() {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
+  const [invite, setInvite] = useState("");
   const [serverUrl, setServerUrl] = useState(DEFAULT_SERVER_URL);
   const [allowRegister, setAllowRegister] = useState(true);
+  const [invites, setInvites] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const pinned = isServerUrlPinned();
+  const canRegister = allowRegister || invites;
 
   useEffect(() => {
     loadSession().then((s) => setServerUrl(s.serverUrl));
@@ -30,10 +33,14 @@ export function AuthScreen() {
         .then((cfg) => {
           if (dead) return;
           setAllowRegister(cfg.allowRegister);
-          if (!cfg.allowRegister) setMode((m) => (m === "register" ? "login" : m));
+          setInvites(Boolean(cfg.invites));
+          if (!cfg.allowRegister && !cfg.invites) setMode((m) => (m === "register" ? "login" : m));
         })
         .catch(() => {
-          if (!dead) setAllowRegister(true);
+          if (!dead) {
+            setAllowRegister(true);
+            setInvites(false);
+          }
         });
     } catch {
       /* invalid url while typing */
@@ -50,7 +57,7 @@ export function AuthScreen() {
     try {
       const url = resolveServerUrl(serverUrl);
       if (mode === "login") await login(nickname, password, url);
-      else await register(nickname, password, url);
+      else await register(nickname, password, url, invite);
     } catch (err) {
       setError(err instanceof ApiError || err instanceof Error ? err.message : "Не удалось связаться с сервером");
     } finally {
@@ -68,7 +75,7 @@ export function AuthScreen() {
           <button type="button" className={mode === "login" ? "on" : ""} onClick={() => setMode("login")}>
             Вход
           </button>
-          {allowRegister && (
+          {canRegister && (
             <button type="button" className={mode === "register" ? "on" : ""} onClick={() => setMode("register")}>
               Регистрация
             </button>
@@ -90,6 +97,12 @@ export function AuthScreen() {
               required
             />
           </label>
+          {mode === "register" && invites && !allowRegister && (
+            <label>
+              Код приглашения
+              <input value={invite} onChange={(e) => setInvite(e.target.value)} required autoComplete="off" />
+            </label>
+          )}
           {pinned ? (
             <p className="hint">Сервер: {serverUrl}</p>
           ) : (
@@ -105,8 +118,10 @@ export function AuthScreen() {
         </form>
         <p className="hint">
           {mode === "register"
-            ? "Регистрация создаёт игрока. Админа назначают командой на сервере."
-            : allowRegister
+            ? invites && !allowRegister
+              ? "Регистрация по коду, который выдаёт администратор."
+              : "Регистрация создаёт игрока. Админа назначают в приложении."
+            : canRegister
               ? "При следующих запусках вход будет автоматическим."
               : "Регистрация закрыта. Аккаунт выдаёт администратор."}
         </p>

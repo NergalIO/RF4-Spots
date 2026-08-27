@@ -5,6 +5,7 @@ export type TokenPayload = {
   userId: string;
   nickname: string;
   role: Role;
+  tokenVersion: number;
 };
 
 const WEAK_SECRETS = new Set([
@@ -28,9 +29,19 @@ export function jwtSecret(): string {
 }
 
 export function signToken(payload: TokenPayload): string {
-  return jwt.sign(payload, jwtSecret(), { expiresIn: "30d" });
+  return jwt.sign(payload, jwtSecret(), { expiresIn: "7d" });
 }
 
 export function verifyToken(token: string): TokenPayload {
-  return jwt.verify(token, jwtSecret()) as TokenPayload;
+  const decoded = jwt.verify(token, jwtSecret()) as TokenPayload & { tokenVersion?: number };
+  return {
+    userId: decoded.userId,
+    nickname: decoded.nickname,
+    role: decoded.role,
+    tokenVersion: decoded.tokenVersion ?? 0,
+  };
+}
+
+export function publicUser(user: { id: string; nickname: string; role: Role }) {
+  return { id: user.id, nickname: user.nickname, role: user.role };
 }

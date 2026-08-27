@@ -13,12 +13,17 @@ import {
   isSecureRequest,
   requireHttps,
 } from "./lib/security.js";
+import { prisma } from "./lib/prisma.js";
 import { isMulterError, UPLOAD_DIR } from "./lib/upload.js";
+import { adminRouter } from "./routes/admin.js";
 import { authRouter } from "./routes/auth.js";
+import { cafeRouter } from "./routes/cafe.js";
 import { catalogRouter } from "./routes/catalog.js";
-import { postsRouter } from "./routes/posts.js";
 import { commentsRouter } from "./routes/comments.js";
 import { guidesRouter } from "./routes/guides.js";
+import { postsRouter } from "./routes/posts.js";
+import { reportsRouter } from "./routes/reports.js";
+import { sessionsRouter } from "./routes/sessions.js";
 
 jwtSecret();
 
@@ -140,15 +145,24 @@ app.use(
   }),
 );
 
-app.get("/health", (_req, res) => {
-  res.json({ ok: true });
+app.get("/health", async (_req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ ok: true, db: true });
+  } catch {
+    res.status(503).json({ ok: false, db: false });
+  }
 });
 
 app.use("/auth", authRouter);
+app.use("/admin", adminRouter);
 app.use("/guides", guidesRouter);
+app.use("/sessions", sessionsRouter);
+app.use("/cafe", cafeRouter);
 app.use(catalogRouter);
 app.use("/posts", postsRouter);
 app.use(commentsRouter);
+app.use(reportsRouter);
 
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err);

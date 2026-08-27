@@ -7,6 +7,7 @@ export type AuthedRequest = Request & {
     id: string;
     nickname: string;
     role: "player" | "admin";
+    tokenVersion: number;
   };
 };
 
@@ -24,7 +25,15 @@ export async function requireAuth(req: AuthedRequest, res: Response, next: NextF
       res.status(401).json({ error: "Пользователь не найден" });
       return;
     }
-    req.user = { id: user.id, nickname: user.nickname, role: user.role };
+    if (user.disabledAt) {
+      res.status(401).json({ error: "Аккаунт отключён" });
+      return;
+    }
+    if (payload.tokenVersion !== user.tokenVersion) {
+      res.status(401).json({ error: "Сессия истекла, войдите снова" });
+      return;
+    }
+    req.user = { id: user.id, nickname: user.nickname, role: user.role, tokenVersion: user.tokenVersion };
     next();
   } catch {
     res.status(401).json({ error: "Сессия истекла, войдите снова" });

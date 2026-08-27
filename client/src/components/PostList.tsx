@@ -5,33 +5,43 @@ import { FishCombobox } from "./FishCombobox";
 import { DateRangePicker } from "./DateRangePicker";
 import { useStore } from "../store";
 import type { CatchType } from "../types";
+import { loadFilterSlots, saveFilterSlots, type FilterKey } from "../persist";
 import { ruNewComments, unreadOf } from "../unread";
 
-type FilterKey = "fish" | "catchType" | "catchDate" | "uploadedDate" | "sort";
-
 const FILTER_OPTIONS: { id: FilterKey; label: string }[] = [
+  { id: "search", label: "Поиск" },
   { id: "fish", label: "Вид рыбы" },
   { id: "catchType", label: "Тип поимки" },
   { id: "catchDate", label: "Дата поимки" },
   { id: "uploadedDate", label: "Дата загрузки" },
+  { id: "mine", label: "Только мои" },
+  { id: "favorite", label: "Избранное" },
   { id: "sort", label: "Сортировка" },
 ];
 
 export function PostList({ onCollapse }: { onCollapse?: () => void }) {
   const posts = useStore((s) => s.posts);
+  const nextCursor = useStore((s) => s.nextCursor);
+  const loadMorePosts = useStore((s) => s.loadMorePosts);
   const fish = useStore((s) => s.fish);
   const filters = useStore((s) => s.filters);
   const setFilters = useStore((s) => s.setFilters);
   const selectedId = useStore((s) => s.selectedId);
   const selectPost = useStore((s) => s.selectPost);
+  const openOnMap = useStore((s) => s.openOnMap);
+  const toggleFavorite = useStore((s) => s.toggleFavorite);
   const waterbodyId = useStore((s) => s.waterbodyId);
   const user = useStore((s) => s.user);
   const seen = useStore((s) => s.seen);
   const allMaps = waterbodyId === ALL_WATERBODIES;
   const [open, setOpen] = useState(false);
-  const [slots, setSlots] = useState<FilterKey[]>([]);
+  const [slots, setSlots] = useState<FilterKey[]>(() => loadFilterSlots());
   const [addOpen, setAddOpen] = useState(false);
   const addRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    saveFilterSlots(slots);
+  }, [slots]);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -47,10 +57,13 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
   );
 
   const activeCount = [
+    filters.q,
     filters.fishId,
     filters.catchType,
     filters.catchFrom || filters.catchTo,
     filters.uploadedFrom || filters.uploadedTo,
+    filters.mine ? "1" : "",
+    filters.favorite ? "1" : "",
     filters.sort !== "createdAt" ? filters.sort : "",
   ].filter(Boolean).length;
 
@@ -58,6 +71,8 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
     setSlots((prev) => (prev.includes(id) ? prev : [...prev, id]));
     setAddOpen(false);
     setOpen(true);
+    if (id === "mine") void setFilters({ mine: true });
+    if (id === "favorite") void setFilters({ favorite: true });
   }
 
   function removeSlot(id: FilterKey) {
@@ -67,6 +82,9 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
     if (id === "catchDate") void setFilters({ catchFrom: "", catchTo: "" });
     if (id === "uploadedDate") void setFilters({ uploadedFrom: "", uploadedTo: "" });
     if (id === "sort") void setFilters({ sort: "createdAt" });
+    if (id === "mine") void setFilters({ mine: false });
+    if (id === "favorite") void setFilters({ favorite: false });
+    if (id === "search") void setFilters({ q: "" });
   }
 
   return (
@@ -105,6 +123,13 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
                     ×
                   </button>
                 </div>
+                {id === "search" && (
+                  <input
+                    value={filters.q}
+                    onChange={(e) => void setFilters({ q: e.target.value })}
+                    placeholder="Текст поста или комментария"
+                  />
+                )}
                 {id === "fish" && (
                   <FishCombobox
                     fish={fish}
@@ -139,6 +164,26 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
                     to={filters.uploadedTo}
                     onChange={(uploadedFrom, uploadedTo) => void setFilters({ uploadedFrom, uploadedTo })}
                   />
+                )}
+                {id === "mine" && (
+                  <label className="chip">
+                    <input
+                      type="checkbox"
+                      checked={filters.mine}
+                      onChange={(e) => void setFilters({ mine: e.target.checked })}
+                    />
+                    Только мои посты
+                  </label>
+                )}
+                {id === "favorite" && (
+                  <label className="chip">
+                    <input
+                      type="checkbox"
+                      checked={filters.favorite}
+                      onChange={(e) => void setFilters({ favorite: e.target.checked })}
+                    />
+                    Только избранное
+                  </label>
                 )}
                 {id === "sort" && (
                   <select
@@ -187,30 +232,62 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
           const unreadClass =
             unread.kind === "comments" ? " unread-comments" : unread.kind === "post" ? " unread-post" : "";
           return (
-          <button
-            key={p.id}
-            type="button"
-            className={`spot-card ${p.id === selectedId ? "selected" : ""}${unreadClass}`}
-            onClick={() => void selectPost(p.id === selectedId ? null : p.id)}
-          >
-            <strong>{p.fish.name}</strong>
-            <span className="meta">
-              {allMaps ? `${p.waterbody.name} · ` : ""}
-              {fmtCoord(p.coordX, p.coordY)} · {CATCH_LABEL[p.catchType]}
-            </span>
-            <span className="meta">{fmtDate(p.catchDate)}</span>
-            {p.comment && <p className="excerpt">{p.comment}</p>}
-            <span className="nick">{p.author.nickname}</span>
-            {unread.kind === "post" && <span className="unread-line unread-post-label">Новый пост</span>}
-            {unread.kind === "comments" && (
-              <span className="unread-line unread-comments-label">
-                <span className="unread-count">{unread.count}</span>
-                {ruNewComments(unread.count)}
-              </span>
-            )}
-          </button>
+            <article
+              key={p.id}
+              className={`spot-card ${p.id === selectedId ? "selected" : ""}${unreadClass}`}
+            >
+              <div className="spot-card-title">
+                <button
+                  type="button"
+                  className="spot-card-name"
+                  onClick={() => void selectPost(p.id === selectedId ? null : p.id)}
+                >
+                  <strong>{p.fish.name}</strong>
+                </button>
+                <button
+                  type="button"
+                  className={`btn ghost sm fav-btn ${p.favorited ? "on" : ""}`}
+                  title={p.favorited ? "Убрать из избранного" : "В избранное"}
+                  onClick={() => void toggleFavorite(p)}
+                >
+                  ★
+                </button>
+              </div>
+              <button
+                type="button"
+                className="spot-card-main"
+                onClick={() => void selectPost(p.id === selectedId ? null : p.id)}
+              >
+                <span className="meta">
+                  {allMaps ? `${p.waterbody.name} · ` : ""}
+                  {fmtCoord(p.coordX, p.coordY)} · {CATCH_LABEL[p.catchType]}
+                </span>
+                <span className="meta">{fmtDate(p.catchDate)}</span>
+                {p.comment && <p className="excerpt">{p.comment}</p>}
+                <span className="nick">{p.author.nickname}</span>
+                {unread.kind === "post" && <span className="unread-line unread-post-label">Новый пост</span>}
+                {unread.kind === "comments" && (
+                  <span className="unread-line unread-comments-label">
+                    <span className="unread-count">{unread.count}</span>
+                    {ruNewComments(unread.count)}
+                  </span>
+                )}
+              </button>
+              {allMaps && (
+                <div className="spot-card-actions">
+                  <button type="button" className="btn ghost sm" onClick={() => void openOnMap(p)}>
+                    На карте
+                  </button>
+                </div>
+              )}
+            </article>
           );
         })}
+        {nextCursor && (
+          <button type="button" className="btn ghost" onClick={() => void loadMorePosts()}>
+            Ещё
+          </button>
+        )}
       </div>
     </aside>
   );

@@ -37,7 +37,7 @@ docker compose exec api npm run create-admin -- --nickname Nergal --password "с
 
 Публичный HTTPS (нужен DNS-имя): см. [deploy/README.md](deploy/README.md). Кратко: в `.env` `DOMAIN`, `TRUST_PROXY=1`, `REQUIRE_HTTPS=1`, затем `docker compose --profile https up -d`. Файрвол: `sudo bash deploy/ufw.sh`.
 
-Открытую регистрацию на публичном сервере лучше выключить (`ALLOW_REGISTER=false`) и выдавать аккаунты: `docker compose exec api npm run create-user -- --nickname NAME --password SECRET`.
+Открытую регистрацию на публичном сервере лучше выключить (`ALLOW_REGISTER=false`) и выдавать приглашения в клиенте (вкладка «Админ») либо аккаунты: `docker compose exec api npm run create-user -- --nickname NAME --password SECRET`.
 
 После смены `JWT_SECRET` все сессии сбрасываются — нужен повторный вход.
 
@@ -62,3 +62,7 @@ npm run pack
 При первом запуске укажите ник, пароль и адрес сервера. Дальше клиент входит сам.
 
 Игрок создаёт посты и правит только свои. Админ правит любые. ПКМ на карте — новый пост, линейка считает дистанцию в метрах по размеру клетки водоёма.
+
+На публичном сервере регистрация по приглашению (`ALLOW_REGISTER=false`): админ выдаёт коды во вкладке «Админ». Справочники после деплоя: `docker compose exec api npm run db:seed` (на каждый старт контейнера seed больше не выполняется). Лишние файлы в `uploads`: `docker compose exec api npm run uploads:sweep`.
+
+Клиент и API — версия **2.2.0**. `/health` проверяет PostgreSQL.

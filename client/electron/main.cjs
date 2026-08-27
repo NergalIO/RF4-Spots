@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain, safeStorage, session } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, session, desktopCapturer, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
+const { pathToFileURL } = require("url");
 
 const DEFAULT_SERVER_URL = "http://127.0.0.1:3780";
 const isDev = !app.isPackaged;
@@ -80,6 +81,10 @@ function writeStore(data) {
   }
   fs.mkdirSync(path.dirname(configPath()), { recursive: true });
   fs.writeFileSync(configPath(), JSON.stringify(out, null, 2));
+}
+
+function tessDir() {
+  return app.isPackaged ? path.join(process.resourcesPath, "tessdata") : path.join(__dirname, "tessdata");
 }
 
 function updatesUrl(serverUrl) {
@@ -188,9 +193,19 @@ function startUpdateCheck() {
     });
     autoUpdater.on("update-downloaded", () => {
       installing = true;
+      downloading = false;
       clearSplashTimer();
-      sendSplash({ phase: "install", percent: 100, message: "Установка и запуск…" });
-      setTimeout(() => {
+      sendSplash({ phase: "install", percent: 100, message: "Обновление загружено" });
+      const parent = mainWindow && !mainWindow.isDestroyed() ? mainWindow : splash && !splash.isDestroyed() ? splash : null;
+      const box = {
+        type: "question",
+        buttons: ["Установить и перезапустить", "Позже"],
+        defaultId: 0,
+        cancelId: 1,
+        message: "Обновление загружено. Установить сейчас?",
+      };
+      const choice = parent ? dialog.showMessageBoxSync(parent, box) : dialog.showMessageBoxSync(box);
+      if (choice === 0) {
         try {
           autoUpdater.quitAndInstall(true, true);
         } catch (err) {
@@ -198,7 +213,10 @@ function startUpdateCheck() {
           installing = false;
           openMain();
         }
-      }, 400);
+        return;
+      }
+      installing = false;
+      openMain();
     });
     autoUpdater.on("error", (err) => {
       console.error("auto-update:", err == null ? "unknown" : err.message || err);
@@ -264,6 +282,28 @@ app.whenReady().then(async () => {
   ipcMain.handle("store:set", (_e, data) => {
     writeStore(data);
     return true;
+  });
+  ipcMain.handle("ocr:capture", async () => {
+    try {
+      const sources = await desktopCapturer.getSources({
+        types: ["window"],
+        thumbnailSize: { width: 1600, height: 900 },
+        fetchWindowIcons: false,
+      });
+      const src = sources.find((item) => /russian\s*fishing\s*4|\brf4\b/i.test(item.name));
+      if (!src) return { ok: false, error: "Окно игры не найдено" };
+      return { ok: true, dataUrl: src.thumbnail.toDataURL() };
+    } catch (err) {
+      return { ok: false, error: err instanceof Error ? err.message : "Не удалось снять окно" };
+    }
+  });
+  ipcMain.handle("ocr:tessPath", () => {
+    const dir = tessDir();
+    const hasRus =
+      fs.existsSync(path.join(dir, "rus.traineddata")) || fs.existsSync(path.join(dir, "rus.traineddata.gz"));
+    if (!hasRus) return "";
+    const href = pathToFileURL(dir).href;
+    return href.endsWith("/") ? href : `${href}/`;
   });
   await session.defaultSession.clearCache();
   if (isDev) {

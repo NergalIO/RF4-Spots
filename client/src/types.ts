@@ -46,6 +46,14 @@ export type CommentItem = {
   screenshots: Screenshot[];
 };
 
+export type PostMarker = {
+  id: string;
+  coordX: number;
+  coordY: number;
+  catchType: CatchType;
+  fishName: string;
+};
+
 export type Post = {
   id: string;
   coordX: number;
@@ -53,6 +61,8 @@ export type Post = {
   catchType: CatchType;
   catchDate: string;
   comment: string;
+  weightKg: number | null;
+  bait: string;
   createdAt: string;
   updatedAt: string;
   author: User;
@@ -62,6 +72,7 @@ export type Post = {
   commentsCount: number;
   commentsMeta: { id: string; createdAt: string; userId: string }[];
   comments?: CommentItem[];
+  favorited: boolean;
 };
 
 export type GuideValue = string | number | null;
@@ -80,6 +91,65 @@ export type Filters = {
   uploadedFrom: string;
   uploadedTo: string;
   sort: "createdAt" | "catchDate";
+  mine: boolean;
+  favorite: boolean;
+  q: string;
+};
+
+export type SessionCatch = {
+  id: string;
+  fishId: string | null;
+  fishName: string;
+  fishNameRaw: string;
+  weightKg: number | null;
+  catchType: CatchType | null;
+  ocrText: string;
+  createdAt: string;
+};
+
+export type SessionEarning = {
+  id: string;
+  kind: "in" | "out";
+  amount: string;
+  createdAt: string;
+};
+
+export type FishingSession = {
+  id: string;
+  waterbodyId: string;
+  waterbody: { id: string; name: string };
+  startedAt: string;
+  endedAt: string | null;
+  openingCash: string;
+  catches: SessionCatch[];
+  earnings: SessionEarning[];
+};
+
+export type AdminUser = User & {
+  createdAt: string;
+  disabledAt: string | null;
+};
+
+export type Invite = {
+  id: string;
+  code: string;
+  createdAt: string;
+  expiresAt: string | null;
+  usedAt: string | null;
+  createdBy: User;
+  usedBy: User | null;
+};
+
+export type ModerationReport = {
+  id: string;
+  reason: string;
+  status: "open" | "resolved" | "dismissed";
+  createdAt: string;
+  resolvedAt: string | null;
+  reporter: User;
+  resolvedBy: User | null;
+  post: { id: string; excerpt: string; fishName: string; deleted: boolean } | null;
+  comment: { id: string; postId: string; excerpt: string; deleted: boolean } | null;
 };
 
 declare global {
@@ -87,6 +157,8 @@ declare global {
     rf4?: {
       storeGet: () => Promise<{ serverUrl?: string; token?: string }>;
       storeSet: (data: { serverUrl: string; token?: string }) => Promise<boolean>;
+      ocrCapture?: () => Promise<{ ok: boolean; dataUrl?: string; error?: string }>;
+      tessLangPath?: () => Promise<string>;
     };
   }
 }

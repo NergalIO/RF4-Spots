@@ -9,17 +9,20 @@ import { Lightbox } from "./Lightbox";
 import { GameClock } from "./GameClock";
 import { SiteEmbed } from "./SiteEmbed";
 import { ToolsView } from "./ToolsView";
+import { SessionView } from "./SessionView";
+import { AdminView } from "./AdminView";
+import { PasswordModal } from "./PasswordModal";
 import { useStore } from "../store";
 import { useResizablePanels } from "../useResizablePanels";
 import type { Post, Screenshot } from "../types";
 
 const TAB_KEY = "rf4spots-main-tab";
-type MainTab = "spots" | "stats" | "cafe" | "tools";
+type MainTab = "spots" | "session" | "stats" | "cafe" | "tools" | "admin";
 
 function loadTab(): MainTab {
   try {
     const v = localStorage.getItem(TAB_KEY);
-    if (v === "stats" || v === "cafe" || v === "tools") return v;
+    if (v === "stats" || v === "cafe" || v === "tools" || v === "session" || v === "admin") return v;
   } catch {
     /* ignore */
   }
@@ -30,6 +33,8 @@ function tabCaption(tab: MainTab) {
   if (tab === "stats") return "статистика улова";
   if (tab === "cafe") return "заказы кафе";
   if (tab === "tools") return "полезные функции";
+  if (tab === "session") return "сессия улова";
+  if (tab === "admin") return "админка";
   return "точки ловли";
 }
 
@@ -46,6 +51,7 @@ export function Shell() {
   const [edit, setEdit] = useState<Post | null>(null);
   const [lb, setLb] = useState<{ shots: Screenshot[]; index: number } | null>(null);
   const [tab, setTab] = useState<MainTab>(loadTab);
+  const [passwordOpen, setPasswordOpen] = useState(false);
   const panels = useResizablePanels();
   const feedOnly = waterbodyId === ALL_WATERBODIES;
   const spotsTab = tab === "spots";
@@ -68,6 +74,10 @@ export function Shell() {
     }
   }, [tab]);
 
+  useEffect(() => {
+    if ((tab === "admin" || tab === "session") && user?.role !== "admin") setTab("spots");
+  }, [tab, user?.role]);
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -79,42 +89,34 @@ export function Shell() {
           </div>
         </div>
         <div className="nav-tabs" role="tablist" aria-label="Разделы">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={spotsTab}
-            className={spotsTab ? "on" : ""}
-            onClick={() => setTab("spots")}
-          >
+          <button type="button" role="tab" aria-selected={spotsTab} className={spotsTab ? "on" : ""} onClick={() => setTab("spots")}>
             Споты
           </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tab === "stats"}
-            className={tab === "stats" ? "on" : ""}
-            onClick={() => setTab("stats")}
-          >
+          {user?.role === "admin" && (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "session"}
+              className={tab === "session" ? "on" : ""}
+              onClick={() => setTab("session")}
+            >
+              Сессия
+            </button>
+          )}
+          <button type="button" role="tab" aria-selected={tab === "stats"} className={tab === "stats" ? "on" : ""} onClick={() => setTab("stats")}>
             Статистика
           </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tab === "cafe"}
-            className={tab === "cafe" ? "on" : ""}
-            onClick={() => setTab("cafe")}
-          >
+          <button type="button" role="tab" aria-selected={tab === "cafe"} className={tab === "cafe" ? "on" : ""} onClick={() => setTab("cafe")}>
             Кафе
           </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tab === "tools"}
-            className={tab === "tools" ? "on" : ""}
-            onClick={() => setTab("tools")}
-          >
+          <button type="button" role="tab" aria-selected={tab === "tools"} className={tab === "tools" ? "on" : ""} onClick={() => setTab("tools")}>
             Полезные функции
           </button>
+          {user?.role === "admin" && (
+            <button type="button" role="tab" aria-selected={tab === "admin"} className={tab === "admin" ? "on" : ""} onClick={() => setTab("admin")}>
+              Админ
+            </button>
+          )}
         </div>
         <label className="wb-select">
           Водоём
@@ -134,18 +136,10 @@ export function Shell() {
         )}
         {spotsTab && (
           <>
-            <button
-              type="button"
-              className={`btn ghost sm ${panels.leftOpen ? "on" : ""}`}
-              onClick={() => panels.setLeftOpen((v) => !v)}
-            >
+            <button type="button" className={`btn ghost sm ${panels.leftOpen ? "on" : ""}`} onClick={() => panels.setLeftOpen((v) => !v)}>
               Посты
             </button>
-            <button
-              type="button"
-              className={`btn ghost sm ${panels.rightOpen ? "on" : ""}`}
-              onClick={() => panels.setRightOpen((v) => !v)}
-            >
+            <button type="button" className={`btn ghost sm ${panels.rightOpen ? "on" : ""}`} onClick={() => panels.setRightOpen((v) => !v)}>
               Детали
             </button>
           </>
@@ -155,6 +149,9 @@ export function Shell() {
         <span className={`role-pill ${user?.role}`}>
           {user?.nickname} · {user?.role === "admin" ? "админ" : "игрок"}
         </span>
+        <button type="button" className="btn ghost" onClick={() => setPasswordOpen(true)}>
+          Пароль
+        </button>
         <button type="button" className="btn ghost" onClick={() => void logout()}>
           Выход
         </button>
@@ -163,10 +160,7 @@ export function Shell() {
         <div className={`workspace ${feedOnly ? "feed-only" : ""}`} hidden={!spotsTab}>
           {panels.leftOpen ? (
             <>
-              <div
-                className={`pane pane-left ${feedOnly ? "fill" : ""}`}
-                style={feedOnly ? undefined : { width: panels.leftWidth }}
-              >
+              <div className={`pane pane-left ${feedOnly ? "fill" : ""}`} style={feedOnly ? undefined : { width: panels.leftWidth }}>
                 <PostList onCollapse={() => panels.setLeftOpen(false)} />
               </div>
               {!feedOnly && (
@@ -179,12 +173,7 @@ export function Shell() {
               )}
             </>
           ) : (
-            <button
-              type="button"
-              className="pane-rail"
-              onClick={() => panels.setLeftOpen(true)}
-              title="Показать посты"
-            >
+            <button type="button" className="pane-rail" onClick={() => panels.setLeftOpen(true)} title="Показать посты">
               ›
             </button>
           )}
@@ -213,55 +202,41 @@ export function Shell() {
               </div>
             </>
           ) : (
-            <button
-              type="button"
-              className="pane-rail"
-              onClick={() => panels.setRightOpen(true)}
-              title="Показать детали"
-            >
+            <button type="button" className="pane-rail" onClick={() => panels.setRightOpen(true)} title="Показать детали">
               ‹
             </button>
           )}
         </div>
+        {tab === "session" && user?.role === "admin" && (
+          <div className="tools-shell">
+            <SessionView active />
+          </div>
+        )}
         <div className="site-host" hidden={tab !== "stats"}>
-          <SiteEmbed
-            url="https://rf4-stat.ru/"
-            title="RF4-STAT"
-            partition="persist:rf4stat"
-            active={tab === "stats"}
-          />
+          <SiteEmbed url="https://rf4-stat.ru/" title="RF4-STAT" partition="persist:rf4stat" active={tab === "stats"} />
         </div>
         <div className="site-host" hidden={tab !== "cafe"}>
-          <SiteEmbed
-            url={cafeUrl}
-            title="RF4 Cafe"
-            partition="persist:rf4cafe"
-            active={tab === "cafe"}
-            onNavigate={onCafeNavigate}
-          />
+          <SiteEmbed url={cafeUrl} title="RF4 Cafe" partition="persist:rf4cafe" active={tab === "cafe"} onNavigate={onCafeNavigate} />
         </div>
         {tab === "tools" && (
           <div className="tools-shell">
             <ToolsView active />
           </div>
         )}
+        {tab === "admin" && user?.role === "admin" && (
+          <div className="tools-shell">
+            <AdminView />
+          </div>
+        )}
       </div>
       {createAt && <PostForm coords={createAt} onClose={() => setCreateAt(null)} />}
       {edit && (
-        <PostForm
-          coords={{ x: edit.coordX, y: edit.coordY }}
-          post={edit}
-          onClose={() => setEdit(null)}
-        />
+        <PostForm coords={{ x: edit.coordX, y: edit.coordY }} post={edit} onClose={() => setEdit(null)} />
       )}
       {lb && (
-        <Lightbox
-          shots={lb.shots}
-          index={lb.index}
-          onClose={() => setLb(null)}
-          onIndex={(index) => setLb({ ...lb, index })}
-        />
+        <Lightbox shots={lb.shots} index={lb.index} onClose={() => setLb(null)} onIndex={(index) => setLb({ ...lb, index })} />
       )}
+      {passwordOpen && <PasswordModal onClose={() => setPasswordOpen(false)} />}
     </div>
   );
 }

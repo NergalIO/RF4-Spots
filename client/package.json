@@ -1,6 +1,6 @@
 {
   "name": "rf4-spots-client",
-  "version": "1.6.8",
+  "version": "2.2.0",
   "private": true,
   "description": "Клиент точек ловли Russian Fishing 4",
   "author": "RF4 Spots",
@@ -11,7 +11,9 @@
     "dev:electron": "concurrently -k \"vite\" \"wait-on http://127.0.0.1:5173 && electron .\"",
     "build": "vite build",
     "preview": "vite preview",
-    "pack": "node scripts/pack-win.cjs"
+    "pack": "node scripts/pack-win.cjs",
+    "test": "vitest run",
+    "tessdata": "node scripts/fetch-tessdata.cjs"
   },
   "dependencies": {
     "electron-updater": "^6.8.9",
@@ -19,6 +21,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
+    "tesseract.js": "^6.0.1",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
@@ -31,6 +34,7 @@
     "electron-builder": "26.13.0",
     "typescript": "^5.9.2",
     "vite": "^6.3.5",
+    "vitest": "^3.2.4",
     "wait-on": "^8.0.4"
   },
   "build": {
@@ -39,6 +43,13 @@
     "directories": {
       "output": "release"
     },
+    "extraResources": [
+      {
+        "from": "electron/tessdata",
+        "to": "tessdata",
+        "filter": ["**/*"]
+      }
+    ],
     "files": [
       "dist/**/*",
       "electron/**/*",

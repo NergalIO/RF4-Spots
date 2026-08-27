@@ -439,7 +439,49 @@ body.resizing-panels .leaflet-host {
   padding: 12px;
   margin-bottom: 8px;
   display: grid;
+  gap: 8px;
+}
+.spot-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.spot-card-name {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+}
+.spot-card-name strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fav-btn {
+  flex-shrink: 0;
+  padding: 2px 8px;
+}
+.spot-card-main {
+  display: grid;
   gap: 4px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+}
+.spot-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 .spot-card:hover { border-color: var(--gold-2); }
 .spot-card.unread-post {
@@ -523,7 +565,13 @@ body.resizing-panels .leaflet-host {
   border: 2px solid #1a1408;
   box-shadow: 0 0 0 3px rgba(232, 215, 163, 0.25);
 }
-.map-pin.on { background: #3aa8a0; box-shadow: 0 0 0 4px rgba(58, 168, 160, 0.35); }
+.map-pin.on { box-shadow: 0 0 0 4px rgba(58, 168, 160, 0.35); outline: 2px solid #3aa8a0; }
+.map-pin.farm { background: #6b9ac4; }
+.map-pin.trophy { background: #d4a017; }
+.map-pin.farm_trophy { background: #c45c26; }
+.map-pin.farm.on { background: #8ec4e8; }
+.map-pin.trophy.on { background: #f0c040; }
+.map-pin.farm_trophy.on { background: #e07a42; }
 
 .facts { margin: 0 0 12px; display: grid; gap: 8px; }
 .facts div { display: grid; gap: 2px; }
@@ -1075,6 +1123,40 @@ body.resizing-panels .guide-scroll .col-resizer {
   margin-top: 10px;
 }
 .earn-actions .muted { margin: 0; font-size: 12px; }
+.coord-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.session-view, .admin-view { padding: 16px 20px 32px; overflow: auto; }
+.session-head, .catch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.catch-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 8px; }
+.catch-row {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.catch-edit { display: flex; gap: 8px; align-items: center; }
+.cafe-badge {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-2);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.admin-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.report-list { display: grid; gap: 12px; max-width: 720px; }
 @media (max-width: 1100px) {
   .tools-host { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .tools-nav { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }

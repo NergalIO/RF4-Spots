@@ -92,10 +92,6 @@ export function ShotPicker({
     if (next.length !== current.length) onChangeRef.current(next);
   }
 
-  function addOne(file: File | null) {
-    if (file) addMany([file]);
-  }
-
   useEffect(() => {
     const handler = (e: ClipboardEvent) => {
       if (onlyWhenFocused) {

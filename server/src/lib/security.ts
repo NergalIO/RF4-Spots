@@ -2,7 +2,7 @@ import type { Request } from "express";
 import { envFlag, envList, isProduction } from "./env.js";
 
 export function allowRegister() {
-  return envFlag("ALLOW_REGISTER", true);
+  return envFlag("ALLOW_REGISTER", false);
 }
 
 export function requireHttps() {
@@ -31,8 +31,12 @@ export function allowInsecureLocal(req: Request) {
 }
 
 export function corsOriginDelegate(origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) {
-  if (!origin || origin === "null") {
+  if (!origin) {
     cb(null, true);
+    return;
+  }
+  if (origin === "null") {
+    cb(null, !isProduction());
     return;
   }
   cb(null, corsOrigins().includes(origin));
