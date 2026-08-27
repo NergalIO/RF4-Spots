@@ -9,7 +9,6 @@ import { Lightbox } from "./Lightbox";
 import { GameClock } from "./GameClock";
 import { SiteEmbed } from "./SiteEmbed";
 import { ToolsView } from "./ToolsView";
-import { SessionView } from "./SessionView";
 import { AdminView } from "./AdminView";
 import { PasswordModal } from "./PasswordModal";
 import { useStore } from "../store";
@@ -17,12 +16,13 @@ import { useResizablePanels } from "../useResizablePanels";
 import type { Post, Screenshot } from "../types";
 
 const TAB_KEY = "rf4spots-main-tab";
-type MainTab = "spots" | "session" | "stats" | "cafe" | "tools" | "admin";
+type MainTab = "spots" | "stats" | "cafe" | "tools" | "admin";
 
 function loadTab(): MainTab {
   try {
     const v = localStorage.getItem(TAB_KEY);
-    if (v === "stats" || v === "cafe" || v === "tools" || v === "session" || v === "admin") return v;
+    if (v === "session") return "tools";
+    if (v === "stats" || v === "cafe" || v === "tools" || v === "admin") return v;
   } catch {
     /* ignore */
   }
@@ -33,7 +33,6 @@ function tabCaption(tab: MainTab) {
   if (tab === "stats") return "статистика улова";
   if (tab === "cafe") return "заказы кафе";
   if (tab === "tools") return "полезные функции";
-  if (tab === "session") return "сессия улова";
   if (tab === "admin") return "админка";
   return "точки ловли";
 }
@@ -77,7 +76,7 @@ export function Shell() {
   }, [tab]);
 
   useEffect(() => {
-    if ((tab === "admin" || tab === "session") && user?.role !== "admin") setTab("spots");
+    if (tab === "admin" && user?.role !== "admin") setTab("spots");
   }, [tab, user?.role]);
 
   useEffect(() => {
@@ -110,17 +109,6 @@ export function Shell() {
           <button type="button" role="tab" aria-selected={spotsTab} className={spotsTab ? "on" : ""} onClick={() => setTab("spots")}>
             Споты
           </button>
-          {user?.role === "admin" && (
-            <button
-              type="button"
-              role="tab"
-              aria-selected={tab === "session"}
-              className={tab === "session" ? "on" : ""}
-              onClick={() => setTab("session")}
-            >
-              Сессия
-            </button>
-          )}
           <button type="button" role="tab" aria-selected={tab === "stats"} className={tab === "stats" ? "on" : ""} onClick={() => setTab("stats")}>
             Статистика
           </button>
@@ -251,11 +239,6 @@ export function Shell() {
             </button>
           )}
         </div>
-        {tab === "session" && user?.role === "admin" && (
-          <div className="tools-shell">
-            <SessionView active />
-          </div>
-        )}
         <div className="site-host" hidden={tab !== "stats"}>
           <SiteEmbed url="https://rf4-stat.ru/" title="RF4-STAT" partition="persist:rf4stat" active={tab === "stats"} />
         </div>

@@ -3,7 +3,6 @@ import type {
   CatchType,
   CommentItem,
   Fish,
-  FishingSession,
   GuideDataset,
   GuideRow,
   Invite,
@@ -146,94 +145,6 @@ export class Api {
     return this.req<{ waterbodyId: string; url: string | null; names: string[] }>(
       `/cafe/orders?waterbodyId=${encodeURIComponent(waterbodyId)}`,
     );
-  }
-
-  sessions(params: Record<string, string>) {
-    const q = new URLSearchParams();
-    for (const [k, v] of Object.entries(params)) {
-      if (v) q.set(k, v);
-    }
-    return this.req<{ sessions: FishingSession[] }>(`/sessions?${q.toString()}`);
-  }
-
-  startSession(waterbodyId: string, openingCash = "") {
-    return this.req<{ session: FishingSession }>("/sessions", {
-      method: "POST",
-      body: JSON.stringify({ waterbodyId, openingCash }),
-    });
-  }
-
-  session(id: string) {
-    return this.req<{ session: FishingSession }>(`/sessions/${id}`);
-  }
-
-  patchSession(id: string, openingCash: string) {
-    return this.req<{ session: FishingSession }>(`/sessions/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ openingCash }),
-    });
-  }
-
-  endSession(id: string) {
-    return this.req<{ session: FishingSession }>(`/sessions/${id}/end`, { method: "POST" });
-  }
-
-  addCatch(
-    sessionId: string,
-    body: {
-      fishId?: string | null;
-      fishNameRaw: string;
-      weightKg?: number | null;
-      catchType?: CatchType | null;
-      ocrText?: string;
-    },
-  ) {
-    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/catches`, {
-      method: "POST",
-      body: JSON.stringify(body),
-    });
-  }
-
-  updateCatch(
-    sessionId: string,
-    catchId: string,
-    body: {
-      fishId?: string | null;
-      fishNameRaw?: string;
-      weightKg?: number | null;
-      catchType?: CatchType | null;
-    },
-  ) {
-    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/catches/${catchId}`, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    });
-  }
-
-  deleteCatch(sessionId: string, catchId: string) {
-    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/catches/${catchId}`, {
-      method: "DELETE",
-    });
-  }
-
-  addEarning(sessionId: string, kind: "in" | "out", amount: string) {
-    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/earnings`, {
-      method: "POST",
-      body: JSON.stringify({ kind, amount }),
-    });
-  }
-
-  patchEarning(sessionId: string, opId: string, body: { kind?: "in" | "out"; amount?: string }) {
-    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/earnings/${opId}`, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    });
-  }
-
-  deleteEarning(sessionId: string, opId: string) {
-    return this.req<{ session: FishingSession }>(`/sessions/${sessionId}/earnings/${opId}`, {
-      method: "DELETE",
-    });
   }
 
   adminUsers() {

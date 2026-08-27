@@ -96,35 +96,6 @@ export type Filters = {
   q: string;
 };
 
-export type SessionCatch = {
-  id: string;
-  fishId: string | null;
-  fishName: string;
-  fishNameRaw: string;
-  weightKg: number | null;
-  catchType: CatchType | null;
-  ocrText: string;
-  createdAt: string;
-};
-
-export type SessionEarning = {
-  id: string;
-  kind: "in" | "out";
-  amount: string;
-  createdAt: string;
-};
-
-export type FishingSession = {
-  id: string;
-  waterbodyId: string;
-  waterbody: { id: string; name: string };
-  startedAt: string;
-  endedAt: string | null;
-  openingCash: string;
-  catches: SessionCatch[];
-  earnings: SessionEarning[];
-};
-
 export type AdminUser = User & {
   createdAt: string;
   disabledAt: string | null;
