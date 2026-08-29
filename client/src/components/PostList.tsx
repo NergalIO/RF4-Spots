@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CATCH_LABEL, fmtCoord, fmtDate } from "../api";
+import { CATCH_LABEL, fmtCoord, fmtWhen } from "../api";
 import { ALL_WATERBODIES } from "../constants";
 import { FishCombobox } from "./FishCombobox";
 import { DateRangePicker } from "./DateRangePicker";
@@ -262,7 +262,7 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
                   {allMaps ? `${p.waterbody.name} · ` : ""}
                   {fmtCoord(p.coordX, p.coordY)} · {CATCH_LABEL[p.catchType]}
                 </span>
-                <span className="meta">{fmtDate(p.catchDate)}</span>
+                <span className="meta" title={p.catchDate}>{fmtWhen(p.catchDate)}</span>
                 {p.comment && <p className="excerpt">{p.comment}</p>}
                 <span className="nick">{p.author.nickname}</span>
                 {unread.kind === "post" && <span className="unread-line unread-post-label">Новый пост</span>}

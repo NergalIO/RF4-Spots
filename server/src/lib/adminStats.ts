@@ -38,7 +38,7 @@ export type AdminStats = {
 };
 
 const TZ = "Europe/Moscow";
-const ONLINE_MS = 15 * 60 * 1000;
+const ONLINE_MS = 60 * 1000;
 
 function ymdInTz(d: Date, timeZone = TZ) {
   return new Intl.DateTimeFormat("en-CA", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);

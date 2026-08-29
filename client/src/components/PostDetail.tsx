@@ -1,5 +1,5 @@
-import { FormEvent, useEffect, useState } from "react";
-import { CATCH_LABEL, fmtCoord, fmtDate, fmtDateTime } from "../api";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { CATCH_LABEL, fmtCoord, fmtWhen } from "../api";
 import { ALL_WATERBODIES } from "../constants";
 import { useStore } from "../store";
 import type { Screenshot } from "../types";
@@ -28,6 +28,8 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
   const [error, setError] = useState("");
   const [reportFor, setReportFor] = useState<{ postId?: string; commentId?: string } | null>(null);
   const [reportReason, setReportReason] = useState("");
+  const [actOpen, setActOpen] = useState(false);
+  const actRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setText("");
@@ -35,7 +37,24 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
     setError("");
     setReportFor(null);
     setReportReason("");
+    setActOpen(false);
   }, [detail?.id]);
+
+  useEffect(() => {
+    if (!actOpen) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!actRef.current?.contains(e.target as Node)) setActOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [actOpen]);
 
   if (!detail) {
     return (
@@ -126,24 +145,60 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
               На карте
             </button>
           )}
-          {canMod && (
-            <>
-              <button type="button" className="btn ghost sm" onClick={onEdit}>
-                Изменить
+          {(canMod || (user && user.id !== post.author.id)) && (
+            <div className="user-menu" ref={actRef}>
+              <button
+                type="button"
+                className={`btn ghost sm ${actOpen ? "on" : ""}`}
+                aria-haspopup="menu"
+                aria-expanded={actOpen}
+                aria-label="Действия"
+                onClick={() => setActOpen((v) => !v)}
+              >
+                ⋮
               </button>
-              <button type="button" className="btn danger sm" onClick={() => void removePost()}>
-                Удалить
-              </button>
-            </>
-          )}
-          {user && user.id !== post.author.id && (
-            <button
-              type="button"
-              className="btn ghost sm"
-              onClick={() => setReportFor({ postId: post.id })}
-            >
-              Жалоба
-            </button>
+              {actOpen && (
+                <div className="user-menu-list" role="menu">
+                  {canMod && (
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setActOpen(false);
+                        onEdit();
+                      }}
+                    >
+                      Изменить
+                    </button>
+                  )}
+                  {canMod && (
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className="danger"
+                      onClick={() => {
+                        setActOpen(false);
+                        void removePost();
+                      }}
+                    >
+                      Удалить
+                    </button>
+                  )}
+                  {user && user.id !== post.author.id && (
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setActOpen(false);
+                        setReportFor({ postId: post.id });
+                      }}
+                    >
+                      Жалоба
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           )}
           {onCollapse && (
             <button type="button" className="pane-toggle" onClick={onCollapse} title="Скрыть панель">
@@ -166,8 +221,8 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
           </div>
           <div>
             <dt>Поимка</dt>
-            <dd>
-              {fmtDate(detail.catchDate)} · {CATCH_LABEL[detail.catchType]}
+            <dd title={detail.catchDate}>
+              {fmtWhen(detail.catchDate)} · {CATCH_LABEL[detail.catchType]}
             </dd>
           </div>
           <div>
@@ -210,7 +265,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
             <article key={c.id} className="comment">
               <header>
                 <strong>{c.author.nickname}</strong>
-                <time>{fmtDateTime(c.createdAt)}</time>
+                <time title={c.createdAt}>{fmtWhen(c.createdAt)}</time>
                 {(user?.role === "admin" || user?.id === c.author.id) && (
                   <button
                     type="button"

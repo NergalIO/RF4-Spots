@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { fmtDateTime } from "../api";
+import { fmtDateTime, fmtWhen } from "../api";
 import { useStore } from "../store";
 import type { AdminStats, AdminUser, Invite, ModerationReport } from "../types";
 import { AdminDashboard } from "./AdminDashboard";
@@ -63,6 +63,12 @@ export function AdminView() {
   useEffect(() => {
     void reload();
   }, [api]);
+
+  useEffect(() => {
+    if (tab !== "users" && tab !== "dashboard") return;
+    const id = window.setInterval(() => void reload(), 15_000);
+    return () => window.clearInterval(id);
+  }, [tab, api]);
 
   useEffect(() => {
     try {
@@ -226,7 +232,9 @@ export function AdminView() {
                         {u.online && !u.disabledAt ? (
                           <span className="status-pill live">Активен</span>
                         ) : (
-                          <span className="muted">{fmtDateTime(u.lastActiveAt)}</span>
+                          <span className="muted" title={fmtDateTime(u.lastActiveAt)}>
+                            {fmtWhen(u.lastActiveAt)}
+                          </span>
                         )}
                       </td>
                       <td className="admin-actions">

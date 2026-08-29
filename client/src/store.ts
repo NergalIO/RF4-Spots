@@ -8,7 +8,9 @@ import type { Filters, Fish, Post, PostMarker, User, Waterbody } from "./types";
 import { markPostSeen, seedSeen, type SeenMap } from "./unread";
 
 const POLL_MS = 4000;
+const HEARTBEAT_MS = 20_000;
 let pollTimer: ReturnType<typeof setInterval> | null = null;
+let beatTimer: ReturnType<typeof setInterval> | null = null;
 let pollBusy = false;
 
 type Store = {
@@ -250,6 +252,16 @@ export const useStore = create<Store>((set, get) => ({
   },
 }));
 
+async function tickPresence() {
+  const { api, user } = useStore.getState();
+  if (!user) return;
+  try {
+    await api.me();
+  } catch {
+    /* offline / stale token */
+  }
+}
+
 async function tickSync() {
   if (pollBusy || document.hidden) return;
   const { api, user, syncStamp } = useStore.getState();
@@ -274,6 +286,10 @@ function stopPoll() {
     clearInterval(pollTimer);
     pollTimer = null;
   }
+  if (beatTimer) {
+    clearInterval(beatTimer);
+    beatTimer = null;
+  }
   document.removeEventListener("visibilitychange", onVisibility);
 }
 
@@ -284,7 +300,9 @@ function onVisibility() {
 function startPoll() {
   stopPoll();
   pollTimer = setInterval(() => void tickSync(), POLL_MS);
+  beatTimer = setInterval(() => void tickPresence(), HEARTBEAT_MS);
   document.addEventListener("visibilitychange", onVisibility);
+  void tickPresence();
 }
 
 async function loadCatalogAndPosts() {

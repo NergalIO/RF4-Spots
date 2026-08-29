@@ -235,14 +235,10 @@ export function fmtCoord(x: number, y: number) {
   return `${rx}:${ry}`;
 }
 
+export { fmtDateTime, fmtWhen } from "./time";
+
 export function fmtDate(iso: string) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
   return d.toLocaleDateString("ru-RU");
-}
-
-export function fmtDateTime(iso: string) {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleString("ru-RU", { dateStyle: "short", timeStyle: "short" });
 }

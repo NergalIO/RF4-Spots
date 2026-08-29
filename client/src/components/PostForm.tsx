@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { CATCH_LABEL, fmtCoord } from "../api";
+import { toDatetimeLocal } from "../time";
 import type { CatchType, Post } from "../types";
 import { FishCombobox } from "./FishCombobox";
 import { ShotPicker } from "./ShotPicker";
@@ -20,9 +21,7 @@ export function PostForm({ coords, post, onClose }: Props) {
   const selectPost = useStore((s) => s.selectPost);
   const [fishId, setFishId] = useState(post?.fish.id ?? "");
   const [catchType, setCatchType] = useState<CatchType>(post?.catchType ?? "farm");
-  const [catchDate, setCatchDate] = useState(
-    (post?.catchDate || new Date().toISOString()).slice(0, 10),
-  );
+  const [catchDate, setCatchDate] = useState(() => toDatetimeLocal(post?.catchDate || new Date().toISOString()));
   const [comment, setComment] = useState(post?.comment ?? "");
   const [coordX, setCoordX] = useState(String(post?.coordX ?? coords.x));
   const [coordY, setCoordY] = useState(String(post?.coordY ?? coords.y));
@@ -61,7 +60,7 @@ export function PostForm({ coords, post, onClose }: Props) {
     fd.set("coordX", String(xNum));
     fd.set("coordY", String(yNum));
     fd.set("catchType", catchType);
-    fd.set("catchDate", catchDate);
+    fd.set("catchDate", new Date(catchDate).toISOString());
     fd.set("comment", comment);
     for (const f of files) fd.append("screenshots", f);
     if (post) fd.set("keepScreenshots", JSON.stringify(keepIds));
@@ -118,7 +117,7 @@ export function PostForm({ coords, post, onClose }: Props) {
         </fieldset>
         <label>
           Дата поимки
-          <input type="date" value={catchDate} onChange={(e) => setCatchDate(e.target.value)} required />
+          <input type="datetime-local" value={catchDate} onChange={(e) => setCatchDate(e.target.value)} required />
         </label>
         <label>
           Комментарий

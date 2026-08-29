@@ -35,7 +35,7 @@ export async function requireAuth(req: AuthedRequest, res: Response, next: NextF
     }
     req.user = { id: user.id, nickname: user.nickname, role: user.role, tokenVersion: user.tokenVersion };
     const seenAge = user.lastSeenAt ? Date.now() - user.lastSeenAt.getTime() : Number.POSITIVE_INFINITY;
-    if (seenAge > 60_000) {
+    if (seenAge > 15_000) {
       void prisma.user.update({ where: { id: user.id }, data: { lastSeenAt: new Date() } }).catch(() => {});
     }
     next();

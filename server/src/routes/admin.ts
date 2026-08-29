@@ -67,7 +67,7 @@ adminRouter.get("/users", async (_req, res) => {
   res.json({
     users: users.map((u) => {
       const lastActiveAt = latest(u.lastSeenAt, lastPost.get(u.id), lastComment.get(u.id), u.createdAt);
-      const online = Boolean(lastActiveAt && now - lastActiveAt.getTime() <= ONLINE_WINDOW_MS);
+      const online = Boolean(u.lastSeenAt && now - u.lastSeenAt.getTime() <= ONLINE_WINDOW_MS && !u.disabledAt);
       return {
         ...publicUser(u),
         createdAt: u.createdAt.toISOString(),
