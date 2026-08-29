@@ -1,244 +1,136 @@
-import type {
-  AdminUser,
-  AdminStats,
-  CatchType,
-  CommentItem,
-  Fish,
-  GuideDataset,
-  GuideRow,
-  Invite,
-  ModerationReport,
-  Post,
-  PostMarker,
-  User,
-  Waterbody,
-} from "./types";
+import { Http, ApiError } from "./api/http";
+import { authApi } from "./api/auth";
+import { adminApi } from "./api/admin";
+import { catalogApi, postsApi } from "./api/posts";
+import { guidesApi } from "./api/guides";
+import type { GuideRow } from "./types";
 
-export class ApiError extends Error {
-  status: number;
-  constructor(status: number, message: string) {
-    super(message);
-    this.status = status;
-  }
-}
+export { ApiError };
+export { CATCH_LABEL, fmtCoord, fmtDateTime, fmtWhen } from "./shared/format";
 
 export class Api {
-  constructor(
-    public baseUrl: string,
-    public token: string,
-  ) {}
+  private http: Http;
+  private auth: ReturnType<typeof authApi>;
+  private catalog: ReturnType<typeof catalogApi>;
+  private postsClient: ReturnType<typeof postsApi>;
+  private admin: ReturnType<typeof adminApi>;
+  private guidesClient: ReturnType<typeof guidesApi>;
 
-  private async req<T>(path: string, init: RequestInit = {}): Promise<T> {
-    const headers = new Headers(init.headers);
-    if (this.token) headers.set("Authorization", `Bearer ${this.token}`);
-    if (init.body && !(init.body instanceof FormData) && !headers.has("Content-Type")) {
-      headers.set("Content-Type", "application/json");
-    }
-    const res = await fetch(`${this.baseUrl}${path}`, { ...init, headers });
-    const data = (await res.json().catch(() => ({}))) as { error?: string } & T;
-    if (!res.ok) {
-      throw new ApiError(res.status, data.error || `Ошибка ${res.status}`);
-    }
-    return data;
+  constructor(baseUrl: string, token: string) {
+    this.http = new Http(baseUrl, token);
+    this.auth = authApi(this.http);
+    this.catalog = catalogApi(this.http);
+    this.postsClient = postsApi(this.http);
+    this.admin = adminApi(this.http);
+    this.guidesClient = guidesApi(this.http);
+  }
+
+  get baseUrl() {
+    return this.http.baseUrl;
+  }
+
+  get token() {
+    return this.http.token;
   }
 
   fileUrl(path: string) {
-    if (path.startsWith("http")) return path;
-    return `${this.baseUrl}${path}`;
+    return this.http.fileUrl(path);
   }
 
   authConfig() {
-    return this.req<{ allowRegister: boolean; invites: boolean }>("/auth/config");
+    return this.auth.authConfig();
   }
-
   login(nickname: string, password: string) {
-    return this.req<{ token: string; user: User }>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ nickname, password }),
-    });
+    return this.auth.login(nickname, password);
   }
-
   register(nickname: string, password: string, invite?: string) {
-    return this.req<{ token: string; user: User }>("/auth/register", {
-      method: "POST",
-      body: JSON.stringify({ nickname, password, invite: invite || undefined }),
-    });
+    return this.auth.register(nickname, password, invite);
   }
-
   changePassword(current: string, next: string) {
-    return this.req<{ token: string; user: User }>("/auth/password", {
-      method: "PATCH",
-      body: JSON.stringify({ current, next }),
-    });
+    return this.auth.changePassword(current, next);
   }
-
   me() {
-    return this.req<{ user: User }>("/auth/me");
+    return this.auth.me();
   }
-
   fish() {
-    return this.req<{ fish: Fish[] }>("/fish");
+    return this.catalog.fish();
   }
-
   waterbodies() {
-    return this.req<{ waterbodies: Waterbody[] }>("/waterbodies");
+    return this.catalog.waterbodies();
   }
-
   sync() {
-    return this.req<{ stamp: string }>("/sync");
+    return this.catalog.sync();
   }
-
   posts(params: Record<string, string>) {
-    const q = new URLSearchParams();
-    for (const [k, v] of Object.entries(params)) {
-      if (v) q.set(k, v);
-    }
-    return this.req<{ posts: Post[]; nextCursor: string | null }>(`/posts?${q.toString()}`);
+    return this.postsClient.posts(params);
   }
-
   markers(waterbodyId: string) {
-    const q = new URLSearchParams();
-    if (waterbodyId) q.set("waterbodyId", waterbodyId);
-    return this.req<{ markers: PostMarker[] }>(`/posts/markers?${q.toString()}`);
+    return this.postsClient.markers(waterbodyId);
   }
-
   post(id: string) {
-    return this.req<{ post: Post }>(`/posts/${id}`);
+    return this.postsClient.post(id);
   }
-
   createPost(fd: FormData) {
-    return this.req<{ post: Post }>("/posts", { method: "POST", body: fd });
+    return this.postsClient.createPost(fd);
   }
-
   updatePost(id: string, fd: FormData) {
-    return this.req<{ post: Post }>(`/posts/${id}`, { method: "PATCH", body: fd });
+    return this.postsClient.updatePost(id, fd);
   }
-
   deletePost(id: string) {
-    return this.req<{ ok: boolean }>(`/posts/${id}`, { method: "DELETE" });
+    return this.postsClient.deletePost(id);
   }
-
   setFavorite(id: string, on: boolean) {
-    return this.req<{ ok: boolean; favorited: boolean }>(`/posts/${id}/favorite`, {
-      method: on ? "POST" : "DELETE",
-    });
+    return this.postsClient.setFavorite(id, on);
   }
-
   addComment(postId: string, fd: FormData) {
-    return this.req<{ comment: CommentItem }>(`/posts/${postId}/comments`, {
-      method: "POST",
-      body: fd,
-    });
+    return this.postsClient.addComment(postId, fd);
   }
-
   deleteComment(id: string) {
-    return this.req<{ ok: boolean }>(`/comments/${id}`, { method: "DELETE" });
+    return this.postsClient.deleteComment(id);
   }
-
   report(body: { postId?: string; commentId?: string; reason: string }) {
-    return this.req<{ report: { id: string } }>("/reports", {
-      method: "POST",
-      body: JSON.stringify(body),
-    });
+    return this.postsClient.report(body);
   }
-
-  cafeOrders(waterbodyId: string) {
-    return this.req<{ waterbodyId: string; url: string | null; names: string[] }>(
-      `/cafe/orders?waterbodyId=${encodeURIComponent(waterbodyId)}`,
-    );
-  }
-
   adminUsers() {
-    return this.req<{ users: AdminUser[] }>("/admin/users");
+    return this.admin.adminUsers();
   }
-
   adminPatchUser(id: string, body: { role?: "player" | "admin"; disabled?: boolean }) {
-    return this.req<{ user: AdminUser }>(`/admin/users/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    });
+    return this.admin.adminPatchUser(id, body);
   }
-
   adminDeleteUser(id: string) {
-    return this.req<{ ok: boolean }>(`/admin/users/${id}`, { method: "DELETE" });
+    return this.admin.adminDeleteUser(id);
   }
-
   adminStats() {
-    return this.req<{ stats: AdminStats }>("/admin/stats");
+    return this.admin.adminStats();
   }
-
   adminInvites() {
-    return this.req<{ invites: Invite[] }>("/admin/invites");
+    return this.admin.adminInvites();
   }
-
   adminCreateInvite(expiresAt?: string) {
-    return this.req<{ invite: Invite }>("/admin/invites", {
-      method: "POST",
-      body: JSON.stringify(expiresAt ? { expiresAt } : {}),
-    });
+    return this.admin.adminCreateInvite(expiresAt);
   }
-
   adminReports(status = "open") {
-    return this.req<{ reports: ModerationReport[] }>(`/admin/reports?status=${encodeURIComponent(status)}`);
+    return this.admin.adminReports(status);
   }
-
   adminPatchReport(id: string, body: { status: "open" | "resolved" | "dismissed"; hide?: boolean }) {
-    return this.req<{ report: { id: string; status: string } }>(`/admin/reports/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    });
+    return this.admin.adminPatchReport(id, body);
   }
-
   guides() {
-    return this.req<{ datasets: GuideDataset[] }>("/guides");
+    return this.guidesClient.guides();
   }
-
   guide(key: string) {
-    return this.req<GuideDataset>(`/guides/${key}`);
+    return this.guidesClient.guide(key);
   }
-
   saveGuide(key: string, rows: GuideRow[]) {
-    return this.req<GuideDataset>(`/guides/${key}`, {
-      method: "PUT",
-      body: JSON.stringify({ rows }),
-    });
+    return this.guidesClient.saveGuide(key, rows);
   }
-
   addGuideRow(key: string, row: GuideRow) {
-    return this.req<GuideDataset>(`/guides/${key}/row`, {
-      method: "POST",
-      body: JSON.stringify(row),
-    });
+    return this.guidesClient.addGuideRow(key, row);
   }
-
   updateGuideRow(key: string, index: number, row: GuideRow) {
-    return this.req<GuideDataset>(`/guides/${key}/row/${index}`, {
-      method: "PUT",
-      body: JSON.stringify(row),
-    });
+    return this.guidesClient.updateGuideRow(key, index, row);
   }
-
   deleteGuideRow(key: string, index: number) {
-    return this.req<GuideDataset>(`/guides/${key}/row/${index}`, { method: "DELETE" });
+    return this.guidesClient.deleteGuideRow(key, index);
   }
-}
-
-export const CATCH_LABEL: Record<CatchType, string> = {
-  farm: "Фарм",
-  trophy: "Трофей",
-  farm_trophy: "Фарм с трофеями",
-};
-
-export function fmtCoord(x: number, y: number) {
-  const rx = Math.abs(x - Math.round(x)) < 0.05 ? String(Math.round(x)) : x.toFixed(1);
-  const ry = Math.abs(y - Math.round(y)) < 0.05 ? String(Math.round(y)) : y.toFixed(1);
-  return `${rx}:${ry}`;
-}
-
-export { fmtDateTime, fmtWhen } from "./time";
-
-export function fmtDate(iso: string) {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("ru-RU");
 }

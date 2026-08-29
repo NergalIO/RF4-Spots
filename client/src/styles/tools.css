@@ -1,0 +1,366 @@
+.tools-shell { display: flex; background: #071018; min-height: 0; }
+.tools-host {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 0;
+}
+.tools-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+  overflow: auto;
+}
+.tools-nav button {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: var(--muted);
+}
+.tools-nav button.on,
+.tools-nav button:hover { background: #1b3a48; color: var(--gold); }
+.tools-body {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  overflow: hidden;
+}
+.guide-table { display: flex; flex-direction: column; min-height: 0; flex: 1; gap: 8px; }
+.guide-table .filters-block {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.guide-table .filters-toggle { padding: 8px 12px; }
+.guide-table .filters { padding: 0 12px 12px; }
+.guide-table .combo-list,
+.guide-table .filter-add-menu { z-index: 40; }
+.num-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  min-width: 0;
+}
+.num-range input {
+  width: 100%;
+  margin: 0;
+  min-width: 0;
+}
+.filters input,
+.filters .combo { width: 100%; }
+.guide-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.guide-toolbar input,
+.guide-toolbar select { margin: 0; width: auto; min-width: 180px; }
+.guide-toolbar .btn.primary { width: auto; }
+.guide-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.guide-scroll table {
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.guide-scroll th,
+.guide-scroll td {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.guide-scroll thead th {
+  position: sticky;
+  top: 0;
+  background: #16303d;
+  z-index: 1;
+  padding-right: 12px;
+}
+.guide-scroll .sort {
+  border: 0;
+  background: transparent;
+  color: var(--gold);
+  padding: 0;
+  max-width: calc(100% - 8px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.guide-scroll .col-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 7px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 2;
+}
+.guide-scroll .col-resizer:hover,
+body.resizing-panels .guide-scroll .col-resizer {
+  background: rgba(201, 163, 90, 0.45);
+}
+.guide-scroll td input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 8px;
+  margin: 0;
+}
+.guide-scroll tr.picked { background: rgba(58, 168, 160, 0.12); }
+.guide-scroll td.empty { color: var(--muted); text-align: center; padding: 24px; }
+.guide-scroll .pick { width: 44px; }
+.guide-compare {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  position: relative;
+}
+.guide-compare .guide-table {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+.compare-dock {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8;
+  display: flex;
+  min-width: 0;
+  box-shadow: -16px 0 32px rgba(0, 0, 0, 0.45);
+}
+.compare-dock .resize-handle { align-self: stretch; }
+.compare-card {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px 0 0 12px;
+  background: var(--panel);
+  padding: 0;
+  overflow: auto;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.compare-table th,
+.compare-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+  vertical-align: top;
+}
+.compare-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #16303d;
+  color: var(--gold);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.compare-table tbody th {
+  color: var(--muted);
+  font-weight: 500;
+  white-space: nowrap;
+  width: 34%;
+}
+.compare-table td {
+  overflow-wrap: anywhere;
+}
+.compare-table td.empty { color: var(--muted); }
+.compare-table td.best {
+  color: #b7ebc6;
+  background: rgba(125, 206, 160, 0.16);
+  font-weight: 700;
+}
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  overflow: auto;
+  min-width: 0;
+}
+.calc-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.calc-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  padding: 16px;
+}
+.calc-card h3 { margin: 0 0 12px; }
+.calc-card label { margin-bottom: 10px; min-width: 0; }
+.calc-card input,
+.calc-card select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.calc-card select { field-sizing: fixed; }
+.calc-card .select-clip {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.calc-result { margin: 0; padding-left: 18px; }
+.calc-weak { margin: 12px 0 0; color: var(--gold); }
+.wear-calc,
+.earn-calc {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.wear-calc h3,
+.earn-calc h3 { margin: 0 0 8px; font-size: 15px; color: var(--gold); }
+.earn-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.earn-head h3 { margin: 0; }
+.earn-date-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.earn-date-pick input { width: auto; padding: 6px 8px; }
+.wear-scroll {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.wear-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.wear-table th,
+.wear-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+  vertical-align: middle;
+}
+.wear-table thead th {
+  background: #16303d;
+  color: var(--gold);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.wear-table tbody th {
+  color: var(--muted);
+  font-weight: 500;
+  white-space: nowrap;
+  width: 1%;
+}
+.wear-table tbody tr:last-child th,
+.wear-table tbody tr:last-child td { border-bottom: 0; }
+.wear-table tr.weak th,
+.wear-table tr.weak td {
+  color: #f2c0c0;
+  background: rgba(212, 106, 106, 0.2);
+  font-weight: 700;
+}
+.wear-pick {
+  display: grid;
+  gap: 6px;
+  min-width: 180px;
+}
+.wear-table input,
+.wear-table select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.wear-table select { field-sizing: fixed; }
+.wear-table .select-clip {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.wear-table .wear-pct { width: 88px; }
+.wear-table .wear-kg { width: 120px; }
+.wear-calc .form-error { margin: 10px 0 0; }
+.earn-table input,
+.earn-table select { padding: 6px 8px; border-radius: 8px; }
+.earn-table .earn-date { width: 138px; }
+.earn-table .earn-kind { width: 132px; }
+.earn-table .earn-money { width: 120px; }
+.earn-table tr.earn-in td:nth-child(1) { color: #b7ebc6; }
+.earn-table tr.earn-out td:nth-child(1) { color: #f2c0c0; }
+.earn-table td.earn-neg { color: #f2c0c0; }
+.earn-table tr.earn-total td.earn-neg { color: #f2c0c0; }
+.earn-add {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 600;
+}
+.earn-table thead th:last-child {
+  width: 1%;
+  text-align: right;
+}
+.earn-hint { margin: 10px 0 0; font-size: 12px; }
+.earn-table tr.earn-cash th { color: var(--gold); }
+.earn-table tr.earn-cash th,
+.earn-table tr.earn-cash td { background: rgba(232, 215, 163, 0.06); }
+.earn-table tr.earn-total th,
+.earn-table tr.earn-total td {
+  color: var(--gold);
+  background: rgba(232, 215, 163, 0.08);
+  font-weight: 700;
+}
+.earn-table .earn-range {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 12px;
+}
+.earn-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.earn-actions .muted { margin: 0; font-size: 12px; }
+.coord-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}

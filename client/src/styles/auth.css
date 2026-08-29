@@ -1,0 +1,88 @@
+.boot {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+}
+
+.auth-wrap {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+.auth-card {
+  width: min(440px, 100%);
+  background: linear-gradient(180deg, #132a36, #0d1d27);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+}
+.eyebrow {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  font-size: 11px;
+  margin: 0 0 8px;
+}
+.auth-card h1, .modal h2, .panel-head h2, .detail-body h3 {
+  font-family: Manrope, "Segoe UI", sans-serif;
+  font-weight: 600;
+}
+.auth-card h1, .modal h2 { margin: 0 0 8px; }
+.panel-head h2, .detail-body h3 { margin: 0; }
+.lead, .hint, .muted { color: var(--muted); }
+.lead { margin: 0 0 20px; line-height: 1.45; }
+.hint { font-size: 13px; margin: 16px 0 0; }
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: #0a1820;
+  padding: 4px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+.tabs button {
+  border: 0;
+  background: transparent;
+  padding: 8px;
+  border-radius: 8px;
+  color: var(--muted);
+}
+.tabs button.on { background: #1b3a48; color: var(--gold); }
+
+label { display: grid; gap: 6px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+input, select, textarea {
+  background: #0a1820;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 1px solid var(--gold-2);
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #1b3a48;
+}
+.btn.primary {
+  width: 100%;
+  background: linear-gradient(180deg, #dcc58a, #b8903e);
+  color: #1a1408;
+  font-weight: 700;
+}
+.btn.ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--gold);
+}
+.btn.ghost.on, .btn.ghost:hover { background: #1b3a48; }
+.btn.danger { background: transparent; border-color: var(--danger); color: var(--danger); }
+.btn.sm { padding: 6px 10px; font-size: 12px; }
+.form-error { color: var(--danger); font-size: 13px; }

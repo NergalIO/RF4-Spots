@@ -1,10 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth } from "../middleware/auth.js";
-
-function iso(d: Date | null | undefined) {
-  return d ? d.toISOString() : "";
-}
+import { iso } from "../lib/serialize.js";
 
 export const catalogRouter = Router();
 

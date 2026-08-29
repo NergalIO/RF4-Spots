@@ -74,11 +74,6 @@ if (!process.env.VITE_SERVER_URL && !process.env.VITE_ALLOWED_SERVERS) {
   );
 }
 
-const buildStatus = run("npm", ["run", "tessdata"]);
-if (buildStatus !== 0) {
-  console.warn("tessdata не скачалась — OCR возьмёт языковые файлы с CDN при первом запуске.");
-}
-
 const viteStatus = run("npm", ["run", "build"]);
 if (viteStatus !== 0) process.exit(viteStatus);
 

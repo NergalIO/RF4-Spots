@@ -65,7 +65,21 @@ function withPct(rows: { id: string; name: string; count: number }[], total: num
     .sort((a, b) => b.count - a.count);
 }
 
+const STATS_TTL_MS = 15_000;
+let statsCache: { at: number; value: AdminStats } | null = null;
+
 export async function collectAdminStats(): Promise<AdminStats> {
+  if (statsCache && Date.now() - statsCache.at < STATS_TTL_MS) return statsCache.value;
+  const value = await computeAdminStats();
+  statsCache = { at: Date.now(), value };
+  return value;
+}
+
+export function clearAdminStatsCache() {
+  statsCache = null;
+}
+
+async function computeAdminStats(): Promise<AdminStats> {
   const today = startOfMoscowDay(0);
   const yesterday = startOfMoscowDay(1);
   const week = startOfMoscowDay(6);

@@ -1,6 +1,6 @@
 {
   "name": "rf4-spots-client",
-  "version": "2.2.6",
+  "version": "3.0.0",
   "private": true,
   "description": "Клиент точек ловли Russian Fishing 4",
   "author": "RF4 Spots",
@@ -12,8 +12,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "pack": "node scripts/pack-win.cjs",
-    "test": "vitest run",
-    "tessdata": "node scripts/fetch-tessdata.cjs"
+    "test": "vitest run"
   },
   "dependencies": {
     "electron-updater": "^6.8.9",
@@ -21,7 +20,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
-    "tesseract.js": "^6.0.1",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
@@ -43,13 +41,6 @@
     "directories": {
       "output": "release"
     },
-    "extraResources": [
-      {
-        "from": "electron/tessdata",
-        "to": "tessdata",
-        "filter": ["**/*"]
-      }
-    ],
     "files": [
       "dist/**/*",
       "electron/**/*",

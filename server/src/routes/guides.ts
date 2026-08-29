@@ -10,6 +10,7 @@ import {
   type GuideRow,
 } from "../lib/guides.js";
 import { paramId } from "../lib/params.js";
+import { iso } from "../lib/serialize.js";
 
 export const guidesRouter = Router();
 
@@ -21,7 +22,7 @@ async function load(key: GuideKey) {
   const row = await prisma.guideDataset.findUnique({ where: { key } });
   return {
     key,
-    updatedAt: row?.updatedAt.toISOString() ?? "",
+    updatedAt: iso(row?.updatedAt) || "",
     rows: asRows(row?.rows),
   };
 }
@@ -35,7 +36,7 @@ guidesRouter.get("/", requireAuth, async (_req, res) => {
       const row = byKey[key];
       return {
         key,
-        updatedAt: row?.updatedAt.toISOString() ?? "",
+        updatedAt: iso(row?.updatedAt) || "",
         rows: asRows(row?.rows),
       };
     }),
@@ -65,7 +66,7 @@ guidesRouter.put("/:key", requireAuth, requireAdmin, async (req: AuthedRequest, 
       create: { key, rows },
       update: { rows },
     });
-    res.json({ key, updatedAt: saved.updatedAt.toISOString(), rows });
+    res.json({ key, updatedAt: iso(saved.updatedAt), rows });
   } catch (err) {
     res.status(400).json({ error: err instanceof Error ? err.message : "Некорректные данные" });
   }
@@ -84,7 +85,7 @@ guidesRouter.post("/:key/row", requireAuth, requireAdmin, async (req: AuthedRequ
     create: { key, rows: next },
     update: { rows: next },
   });
-  res.json({ key, updatedAt: saved.updatedAt.toISOString(), rows: next });
+  res.json({ key, updatedAt: iso(saved.updatedAt), rows: next });
 });
 
 guidesRouter.put("/:key/row/:index", requireAuth, requireAdmin, async (req: AuthedRequest, res) => {
@@ -106,7 +107,7 @@ guidesRouter.put("/:key/row/:index", requireAuth, requireAdmin, async (req: Auth
       create: { key, rows: current },
       update: { rows: current },
     });
-    res.json({ key, updatedAt: saved.updatedAt.toISOString(), rows: current });
+    res.json({ key, updatedAt: iso(saved.updatedAt), rows: current });
   } catch (err) {
     res.status(400).json({ error: err instanceof Error ? err.message : "Некорректные данные" });
   }
@@ -130,5 +131,5 @@ guidesRouter.delete("/:key/row/:index", requireAuth, requireAdmin, async (req: A
     create: { key, rows: current },
     update: { rows: current },
   });
-  res.json({ key, updatedAt: saved.updatedAt.toISOString(), rows: current });
+  res.json({ key, updatedAt: iso(saved.updatedAt), rows: current });
 });

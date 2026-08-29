@@ -4,5 +4,3 @@ release
 dist-electron
 .env.production
 .env.local
-electron/tessdata/*.traineddata*
-electron/tessdata/*.gz

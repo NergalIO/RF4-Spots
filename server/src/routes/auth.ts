@@ -2,12 +2,12 @@ import { Router } from "express";
 import argon2 from "argon2";
 import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
-import { newSalt } from "../lib/fingerprint.js";
 import { publicUser, signToken } from "../lib/auth.js";
 import { loginLimiter, registerLimiter } from "../lib/rateLimit.js";
 import { allowRegister } from "../lib/security.js";
 import { inviteIsUsable, normalizeInviteCode } from "../lib/invite.js";
 import { requireAuth, type AuthedRequest } from "../middleware/auth.js";
+import { zodError } from "../lib/httpErrors.js";
 
 export const authRouter = Router();
 
@@ -51,7 +51,7 @@ authRouter.get("/config", (_req, res) => {
 authRouter.post("/register", registerLimiter, async (req, res) => {
   const parsed = registerBody.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.issues[0]?.message ?? "Неверные данные" });
+    res.status(400).json({ error: zodError(parsed.error) });
     return;
   }
   const { nickname: name, password, invite: inviteRaw } = parsed.data;
@@ -79,12 +79,11 @@ authRouter.post("/register", registerLimiter, async (req, res) => {
     inviteId = invite.id;
   }
 
-  const salt = newSalt();
   const passwordHash = await argon2.hash(password);
   try {
     const user = await prisma.$transaction(async (tx) => {
       const created = await tx.user.create({
-        data: { nickname: name, salt, passwordHash, role: "player" },
+        data: { nickname: name, passwordHash, role: "player" },
       });
       if (inviteId) {
         const taken = await tx.invite.updateMany({
@@ -114,7 +113,7 @@ authRouter.post("/register", registerLimiter, async (req, res) => {
 authRouter.post("/login", loginLimiter, async (req, res) => {
   const parsed = loginBody.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.issues[0]?.message ?? "Неверные данные" });
+    res.status(400).json({ error: zodError(parsed.error) });
     return;
   }
   const { nickname: name, password } = parsed.data;
@@ -141,7 +140,7 @@ authRouter.get("/me", requireAuth, async (req: AuthedRequest, res) => {
 authRouter.patch("/password", requireAuth, async (req: AuthedRequest, res) => {
   const parsed = passwordBody.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.issues[0]?.message ?? "Неверные данные" });
+    res.status(400).json({ error: zodError(parsed.error) });
     return;
   }
   const user = await prisma.user.findUnique({ where: { id: req.user!.id } });

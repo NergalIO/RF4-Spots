@@ -1,0 +1,231 @@
+.admin-panel {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.admin-panel h3 { margin: 0; font-size: 15px; color: var(--gold); }
+.admin-panel .earn-head .muted { margin: 0; }
+.admin-panel .btn.primary { width: auto; }
+.admin-panel .wear-scroll { flex: 1; }
+.admin-panel .wear-table td.empty { color: var(--muted); text-align: center; padding: 24px; }
+.admin-panel tr.is-off td { color: var(--muted); }
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.status-pill.admin { border-color: #3aa8a0; color: #9ee7e1; }
+.status-pill.on { color: var(--gold); }
+.status-pill.off { border-color: var(--danger); color: var(--danger); }
+.status-pill.live {
+  border-color: #3d9a5f;
+  color: #9ee7b4;
+  background: rgba(61, 154, 95, 0.14);
+}
+.status-pill.unused { border-color: var(--gold-2); color: var(--gold); }
+.invite-code {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #0a1820;
+  border: 1px solid var(--line);
+  color: var(--gold);
+}
+.invite-code:hover { background: #1b3a48; }
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.admin-panel .wear-table thead th:last-child,
+.admin-panel .wear-table td.admin-actions { width: 1%; white-space: nowrap; }
+.report-list { display: grid; gap: 10px; max-width: 760px; }
+.admin-report {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.admin-report header {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.admin-report header strong { color: var(--gold); }
+.admin-report p { margin: 8px 0 0; }
+.admin-report .admin-actions { margin-top: 12px; justify-content: flex-start; }
+.admin-kebab { width: 32px; min-width: 32px; padding: 6px 0; font-size: 18px; line-height: 1; }
+.dash { gap: 14px; }
+.dash-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.dash-kpi {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+}
+.dash-kpi span { font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.dash-kpi strong { font-size: 22px; color: var(--gold); font-variant-numeric: tabular-nums; }
+.dash-kpi small { color: var(--muted); font-size: 12px; }
+.dash-kpi-btn {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.dash-kpi-btn:hover { border-color: var(--gold-2); }
+.dash-up { color: #9ee7b4 !important; }
+.dash-down { color: var(--danger) !important; }
+.dash-group { display: grid; gap: 8px; }
+.dash-group h4 {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 650;
+}
+.dash-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dash-chips span {
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: var(--panel);
+}
+.dash-ops {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.dash-nicks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dash-nick {
+  border: 1px solid var(--line);
+  background: #0a1820;
+  color: var(--gold);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+}
+.dash-nick:hover { background: #1b3a48; }
+.dash-queue { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.dash-queue li {
+  display: grid;
+  gap: 8px;
+  align-items: start;
+}
+.dash-queue-main {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.dash-queue-main strong { color: var(--gold); font-size: 13px; }
+.dash-queue-main span { font-size: 13px; }
+.dash-queue-main small { color: var(--muted); font-size: 12px; }
+.dash-rest { margin: 8px 0 0; font-size: 12px; }
+.reports-seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.reports-seg button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.reports-seg button.on,
+.reports-seg button:hover { color: var(--gold); background: #1b3a48; }
+.dash-block {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.dash-block h3 { margin-bottom: 10px; }
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.dash-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.dash-bar-meta { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+.dash-bar-track {
+  height: 6px;
+  border-radius: 999px;
+  background: #0a1820;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  margin-top: 4px;
+}
+.dash-bar-track i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #8d6a22, #dcc58a);
+}
+.dash-series {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22px, 1fr));
+  gap: 4px;
+  align-items: end;
+  min-height: 120px;
+}
+.dash-col { display: grid; justify-items: center; gap: 4px; min-width: 0; }
+.dash-col-bar {
+  width: 100%;
+  height: 88px;
+  display: flex;
+  align-items: flex-end;
+  background: #0a1820;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.dash-col-bar i {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  background: linear-gradient(180deg, #dcc58a, #8d6a22);
+}
+.dash-col span { font-size: 9px; color: var(--muted); white-space: nowrap; }
+.dash-col b { font-size: 10px; font-weight: 650; font-variant-numeric: tabular-nums; color: var(--gold); }

@@ -1,0 +1,79 @@
+:root {
+  --bg: #07131c;
+  --bg-2: #0c1c26;
+  --panel: #10232e;
+  --panel-2: #16303d;
+  --line: rgba(212, 180, 106, 0.22);
+  --gold: #e8d7a3;
+  --gold-2: #c9a35a;
+  --teal: #3aa8a0;
+  --text: #e7efe8;
+  --muted: #8aa0a8;
+  --danger: #d46a6a;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  font-family: Manrope, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+.app-frame {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.app-frame-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.app-frame-body > * { height: 100%; min-height: 0; }
+.update-banner {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, #16303d, #10232e);
+  color: var(--text);
+}
+.update-banner p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.update-banner-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.update-banner .btn.primary { width: auto; }
+html { color-scheme: dark; }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1a2c36 transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #16242c;
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #24363f;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+body { background: radial-gradient(1200px 700px at 10% -10%, #143246, var(--bg)); }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+button { cursor: pointer; }

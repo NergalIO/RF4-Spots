@@ -24,16 +24,10 @@ enum ReportStatus {
   dismissed
 }
 
-enum OpKind {
-  in
-  out
-}
-
 model User {
   id            String    @id @default(cuid())
   nickname      String    @unique
   passwordHash  String
-  salt          String    @default("")
   role          Role      @default(player)
   disabledAt    DateTime?
   lastSeenAt    DateTime?
@@ -48,7 +42,6 @@ model User {
   inviteUsed    Invite?            @relation("InviteUsedBy")
   deletedPosts  Post[]             @relation("PostDeletedBy")
   deletedComments Comment[]        @relation("CommentDeletedBy")
-  sessions      FishingSession[]
 }
 
 model Invite {
@@ -97,7 +90,6 @@ model FishSpecies {
   name        String         @unique
   waterbodies String[]
   posts       Post[]
-  catches     SessionCatch[]
 }
 
 model Waterbody {
@@ -121,7 +113,6 @@ model Waterbody {
   sortOrder        Int
   sourceUrl        String?
   posts            Post[]
-  sessions         FishingSession[]
 }
 
 model Post {
@@ -189,45 +180,4 @@ model GuideDataset {
   key       String   @id
   updatedAt DateTime @updatedAt
   rows      Json
-}
-
-model FishingSession {
-  id          String         @id @default(cuid())
-  userId      String
-  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  waterbodyId String
-  waterbody   Waterbody      @relation(fields: [waterbodyId], references: [id])
-  startedAt   DateTime       @default(now())
-  endedAt     DateTime?
-  openingCash String         @default("")
-  catches     SessionCatch[]
-  earnings    EarningsOp[]
-
-  @@index([userId, waterbodyId, startedAt])
-}
-
-model SessionCatch {
-  id          String          @id @default(cuid())
-  sessionId   String
-  session     FishingSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  fishId      String?
-  fish        FishSpecies?    @relation(fields: [fishId], references: [id], onDelete: SetNull)
-  fishNameRaw String
-  weightKg    Float?
-  catchType   CatchType?
-  ocrText     String          @default("")
-  createdAt   DateTime        @default(now())
-
-  @@index([sessionId, createdAt])
-}
-
-model EarningsOp {
-  id        String         @id @default(cuid())
-  sessionId String
-  session   FishingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  kind      OpKind
-  amount    String
-  createdAt DateTime       @default(now())
-
-  @@index([sessionId, createdAt])
 }

@@ -1,7 +1,6 @@
 import "../lib/loadEnv.js";
 import argon2 from "argon2";
 import { prisma } from "../lib/prisma.js";
-import { newSalt } from "../lib/fingerprint.js";
 
 function arg(name: string): string | undefined {
   const i = process.argv.findIndex((a) => a === `--${name}` || a.startsWith(`--${name}=`));
@@ -38,10 +37,9 @@ async function main() {
     console.log(`Пользователь ${existing.nickname} уже есть (роль ${existing.role}, id ${existing.id}).`);
     return;
   }
-  const salt = newSalt();
   const passwordHash = await argon2.hash(password);
   const user = await prisma.user.create({
-    data: { nickname, salt, passwordHash, role },
+    data: { nickname, passwordHash, role },
   });
   console.log(`Создан ${user.role} ${user.nickname} (id ${user.id}).`);
 }

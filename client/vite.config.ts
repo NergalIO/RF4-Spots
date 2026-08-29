@@ -27,8 +27,8 @@ export default defineConfig(({ mode }) => {
       },
     ],
     base: "./",
+    resolve: { alias: { "@": resolve(here, "src") } },
     server: { port: 5173, strictPort: true },
-    optimizeDeps: { exclude: ["tesseract.js"] },
     build: { outDir: "dist", emptyOutDir: true },
   };
 });

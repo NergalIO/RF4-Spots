@@ -6,37 +6,21 @@ import { uploadLimiter } from "../lib/rateLimit.js";
 import {
   enforceUploadQuota,
   removeUploaded,
-  unlinkFilenames,
   upload,
   uploadedFiles,
   validateUploads,
 } from "../lib/upload.js";
 import { paramId } from "../lib/params.js";
 import { softDeleteComment } from "../lib/softDelete.js";
+import { zodError } from "../lib/httpErrors.js";
+import { parseKeepScreenshots, replaceScreenshots } from "../lib/screenshots.js";
+import { screenshotUrl } from "../lib/serialize.js";
 
 export const commentsRouter = Router();
 
 const body = z.object({
   text: z.string().trim().min(1, "Напишите комментарий").max(4000),
 });
-
-const keepIds = z.array(z.string().min(1).max(64)).max(32);
-
-function parseKeepScreenshots(raw: unknown): { ok: true; ids?: string[] } | { ok: false } {
-  if (raw == null || raw === "") return { ok: true, ids: undefined };
-  if (typeof raw !== "string") return { ok: false };
-  try {
-    const parsed = keepIds.safeParse(JSON.parse(raw));
-    if (!parsed.success) return { ok: false };
-    return { ok: true, ids: parsed.data };
-  } catch {
-    return { ok: false };
-  }
-}
-
-function shotUrl(filename: string) {
-  return `/uploads/${filename}`;
-}
 
 commentsRouter.patch(
   "/comments/:id",
@@ -63,7 +47,7 @@ commentsRouter.patch(
     const parsed = body.partial().safeParse(req.body);
     if (!parsed.success) {
       removeUploaded(uploadedFiles(req));
-      res.status(400).json({ error: parsed.error.issues[0]?.message ?? "Неверные данные" });
+      res.status(400).json({ error: zodError(parsed.error) });
       return;
     }
     const files = uploadedFiles(req);
@@ -73,29 +57,13 @@ commentsRouter.patch(
       res.status(400).json({ error: "Некорректный список скриншотов" });
       return;
     }
-    const keep = keepParsed.ids;
     const comment = await prisma.$transaction(async (tx) => {
-      if (keep) {
-        const removed = existing.screenshots.filter((s) => !keep.includes(s.id));
-        await tx.screenshot.deleteMany({
-          where: { commentId: existing.id, id: { notIn: keep } },
-        });
-        unlinkFilenames(removed.map((s) => s.filename));
-      }
-      const maxOrder = await tx.screenshot.aggregate({
-        where: { commentId: existing.id },
-        _max: { sortOrder: true },
+      await replaceScreenshots(tx, {
+        owner: { commentId: existing.id },
+        existing: existing.screenshots,
+        keep: keepParsed.ids,
+        files,
       });
-      const start = (maxOrder._max.sortOrder ?? -1) + 1;
-      if (files.length) {
-        await tx.screenshot.createMany({
-          data: files.map((f, i) => ({
-            commentId: existing.id,
-            filename: f.filename,
-            sortOrder: start + i,
-          })),
-        });
-      }
       return tx.comment.update({
         where: { id: existing.id },
         data: { text: parsed.data.text },
@@ -112,7 +80,7 @@ commentsRouter.patch(
         createdAt: comment.createdAt.toISOString(),
         updatedAt: comment.updatedAt.toISOString(),
         author: comment.user,
-        screenshots: comment.screenshots.map((s) => ({ id: s.id, url: shotUrl(s.filename) })),
+        screenshots: comment.screenshots.map((s) => ({ id: s.id, url: screenshotUrl(s.filename) })),
       },
     });
   },

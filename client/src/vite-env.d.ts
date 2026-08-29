@@ -8,3 +8,14 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Window {
+  rf4?: {
+    storeGet: () => Promise<{ serverUrl?: string; token?: string }>;
+    storeSet: (data: { serverUrl: string; token?: string }) => Promise<boolean>;
+    updateStatus?: () => Promise<{ ready: boolean; version: string }>;
+    installUpdate?: () => Promise<boolean>;
+    onUpdateReady?: (cb: (info: { version: string }) => void) => () => void;
+  };
+}
+

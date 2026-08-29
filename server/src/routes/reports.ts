@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth, type AuthedRequest } from "../middleware/auth.js";
+import { zodError } from "../lib/httpErrors.js";
 
 export const reportsRouter = Router();
 
@@ -14,7 +15,7 @@ const body = z.object({
 reportsRouter.post("/reports", requireAuth, async (req: AuthedRequest, res) => {
   const parsed = body.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.issues[0]?.message ?? "Неверные данные" });
+    res.status(400).json({ error: zodError(parsed.error) });
     return;
   }
   const { postId, commentId, reason } = parsed.data;

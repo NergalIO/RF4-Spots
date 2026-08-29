@@ -163,13 +163,3 @@ export type ModerationReport = {
   comment: { id: string; postId: string; excerpt: string; deleted: boolean } | null;
 };
 
-declare global {
-  interface Window {
-    rf4?: {
-      storeGet: () => Promise<{ serverUrl?: string; token?: string }>;
-      storeSet: (data: { serverUrl: string; token?: string }) => Promise<boolean>;
-      ocrCapture?: () => Promise<{ ok: boolean; dataUrl?: string; error?: string }>;
-      tessLangPath?: () => Promise<string>;
-    };
-  }
-}

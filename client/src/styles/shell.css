@@ -1,0 +1,158 @@
+.app-shell { height: 100%; display: grid; grid-template-rows: auto 1fr; }
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  min-height: 64px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(8, 20, 28, 0.92);
+  backdrop-filter: blur(10px);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 30;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: linear-gradient(180deg, #dcc58a, #8d6a22);
+  color: #1a1408; font-weight: 800; font-size: 12px;
+}
+.brand small { display: block; color: var(--muted); font-size: 11px; }
+.wb-select { display: flex; align-items: center; gap: 8px; margin: 0; }
+.wb-select select { min-width: 220px; }
+.spacer { flex: 1; }
+.game-clock {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  line-height: 1;
+}
+.game-clock-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.game-clock-time {
+  font-variant-numeric: tabular-nums;
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+}
+.game-clock.night .game-clock-time { color: #9ec4e8; }
+.user-menu { position: relative; z-index: 40; }
+.role-pill {
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--gold);
+  background: transparent;
+  cursor: pointer;
+}
+.role-pill.admin { border-color: #3aa8a0; color: #9ee7e1; }
+.role-pill.open { border-color: var(--gold-2); }
+.user-menu-list {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 40;
+  min-width: 140px;
+  padding: 6px;
+  display: grid;
+  gap: 2px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.user-menu-list button {
+  text-align: left;
+  background: none;
+  border: 0;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.user-menu-list button:hover { background: rgba(232, 215, 163, 0.08); }
+.user-menu-list button.danger { color: var(--danger); }
+.admin-ctx { position: fixed; z-index: 80; min-width: 188px; }
+
+.workspace {
+  display: flex;
+  min-height: 0;
+}
+.pane {
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.pane .panel {
+  flex: 1;
+  height: 100%;
+  border-right: 0;
+  border-left: 0;
+}
+.pane-center {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  background: #071018;
+}
+.pane-center .map-wrap { flex: 1; width: 100%; }
+.workspace.feed-only .pane.fill {
+  flex: 1;
+  width: auto;
+}
+.resize-handle {
+  flex: 0 0 6px;
+  cursor: col-resize;
+  background: rgba(212, 180, 106, 0.08);
+  position: relative;
+  z-index: 6;
+}
+.resize-handle:hover,
+body.resizing-panels .resize-handle {
+  background: var(--gold-2);
+}
+body.resizing-panels {
+  cursor: col-resize;
+  user-select: none;
+}
+body.resizing-panels iframe,
+body.resizing-panels .leaflet-host {
+  pointer-events: none;
+}
+.pane-rail {
+  flex: 0 0 28px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--gold);
+  font-size: 18px;
+}
+.pane-rail:last-child { border-right: 0; border-left: 1px solid var(--line); }
+.pane-toggle {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--gold);
+  font-size: 16px;
+  line-height: 1;
+}
+.pane-toggle:hover { background: #1b3a48; }

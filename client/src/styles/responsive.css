@@ -1,0 +1,5 @@
+@media (max-width: 1100px) {
+  .tools-host { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .tools-nav { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
+  .calc-grid, .calc-grid.two, .dash-grid, .dash-ops { grid-template-columns: 1fr; }
+}
