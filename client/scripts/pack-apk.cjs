@@ -342,7 +342,21 @@ function extractGradle(archive) {
   return 1;
 }
 
+function systemGradle() {
+  const exe = process.platform === "win32" ? "gradle.bat" : "gradle";
+  const result = spawnSync(exe, ["-v"], { encoding: "utf8" });
+  if ((result.status ?? 1) !== 0) return "";
+  const text = `${result.stdout || ""}${result.stderr || ""}`;
+  if (!/Gradle\s+8\.(1[1-9]|\d{2,})/.test(text) && !text.includes(GRADLE_VERSION)) return "";
+  return exe;
+}
+
 async function ensureGradle() {
+  const fromPath = systemGradle();
+  if (fromPath) {
+    console.log("Gradle из PATH");
+    return fromPath;
+  }
   const gradleHome = path.join(toolsDir, `gradle-${GRADLE_VERSION}`);
   const bin = path.join(gradleHome, "bin", process.platform === "win32" ? "gradle.bat" : "gradle");
   if (fs.existsSync(bin)) {

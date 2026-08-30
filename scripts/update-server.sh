@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Проверяет git и пересобирает API, Windows-клиент и Android APK.
-# На Linux: Windows — Docker-образ с Wine (NSIS .exe), APK — образ с Android SDK.
+# На Linux: Windows — Docker-образ с Wine (NSIS .exe).
+# APK — тонкий образ client/android/Dockerfile (JDK + SDK 36, без NDK).
 #
 #   ./scripts/update-server.sh
 #   ./scripts/update-server.sh --watch
@@ -13,7 +14,7 @@ set -euo pipefail
 
 INTERVAL="${INTERVAL:-60}"
 WINE_IMAGE="${ELECTRON_BUILDER_IMAGE:-electronuserland/builder:wine}"
-ANDROID_IMAGE="${ANDROID_BUILD_IMAGE:-reactnativecommunity/react-native-android}"
+APK_IMAGE_DEFAULT="rf4spots-apk:local"
 WATCH=0
 FORCE=0
 RESET=0
@@ -41,8 +42,8 @@ for arg in "$@"; do
       echo "  --no-apk    не собирать APK"
       echo "  --reset     git reset --hard к origin"
       echo "Windows: Docker ${WINE_IMAGE} (нужно ~4 ГБ RAM, первый раз долго)."
-      echo "APK:     Docker ${ANDROID_IMAGE} (первый раз качает образ SDK)."
-      echo "Отключить APK: BUILD_APK=0 или --no-apk."
+      echo "APK:     тонкий образ ${APK_IMAGE_DEFAULT} (client/android/Dockerfile)."
+      echo "Чужой образ APK: ANDROID_BUILD_IMAGE=...  Отключить APK: BUILD_APK=0 или --no-apk."
       exit 0
       ;;
     *)
@@ -247,24 +248,36 @@ pack_win() {
   echo "$(LOG_PREFIX) Windows: файлы в server/updates (отдаются как /updates/installer)"
 }
 
+ensure_apk_image() {
+  if [[ -n "${ANDROID_BUILD_IMAGE:-}" ]]; then
+    printf '%s' "$ANDROID_BUILD_IMAGE"
+    return 0
+  fi
+  echo "$(LOG_PREFIX) docker: сборка тонкого образа APK (${APK_IMAGE_DEFAULT})" >&2
+  docker build -t "$APK_IMAGE_DEFAULT" -f "$ROOT/client/android/Dockerfile" "$ROOT/client/android" >&2
+  printf '%s' "$APK_IMAGE_DEFAULT"
+}
+
 pack_apk() {
-  echo "$(LOG_PREFIX) клиент: сборка APK через ${ANDROID_IMAGE}"
   if ! docker info >/dev/null 2>&1; then
     echo "$(LOG_PREFIX) docker недоступен, APK пропущен" >&2
     return 1
   fi
-  local vite_url
+  local image vite_url
+  image="$(ensure_apk_image)"
+  echo "$(LOG_PREFIX) клиент: сборка APK через ${image}"
   vite_url="$(client_vite_url)"
   docker run --rm \
     -e PACK_ON_SERVER=1 \
     -e "VITE_SERVER_URL=${vite_url}" \
     -e VITE_ALLOWED_SERVERS="${VITE_ALLOWED_SERVERS:-}" \
+    -e ELECTRON_SKIP_BINARY_DOWNLOAD=1 \
     -e TMPDIR=/root/.gradle/tmp \
     -v "$ROOT":/project \
     -v rf4spots-gradle-cache:/root/.gradle \
     -w /project/client \
-    "$ANDROID_IMAGE" \
-    bash -lc 'mkdir -p /root/.gradle/tmp; yes | sdkmanager --licenses >/dev/null 2>&1 || true; npm ci && node scripts/pack-apk.cjs' || return 1
+    "$image" \
+    bash -lc 'mkdir -p /root/.gradle/tmp; npm ci && node scripts/pack-apk.cjs' || return 1
   local version
   version="$(cd "$ROOT/client" && node -p "require('./package.json').version" 2>/dev/null || true)"
   if [[ -z "$version" || ! -f "$ROOT/server/updates/RF4Spots-${version}.apk" ]]; then
