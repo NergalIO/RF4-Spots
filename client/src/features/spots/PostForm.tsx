@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { CATCH_LABEL, fmtCoord } from "@/shared/format";
+import { CATCH_LABEL, fmtCoord, roundCoord } from "@/shared/format";
 import { toDatetimeLocal } from "@/time";
 import type { CatchType, Post } from "@/types";
 import { FishCombobox } from "@/shared/ui/FishCombobox";
@@ -23,16 +23,16 @@ export function PostForm({ coords, post, onClose }: Props) {
   const [catchType, setCatchType] = useState<CatchType>(post?.catchType ?? "farm");
   const [catchDate, setCatchDate] = useState(() => toDatetimeLocal(post?.catchDate || new Date().toISOString()));
   const [comment, setComment] = useState(post?.comment ?? "");
-  const [coordX, setCoordX] = useState(String(post?.coordX ?? coords.x));
-  const [coordY, setCoordY] = useState(String(post?.coordY ?? coords.y));
+  const [coordX, setCoordX] = useState(String(roundCoord(post?.coordX ?? coords.x)));
+  const [coordY, setCoordY] = useState(String(roundCoord(post?.coordY ?? coords.y)));
   const [files, setFiles] = useState<File[]>([]);
   const [keepIds, setKeepIds] = useState<string[]>(post?.screenshots.map((s) => s.id) ?? []);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
   const kept = post?.screenshots.filter((s) => keepIds.includes(s.id)) ?? [];
-  const xNum = Number(coordX.replace(",", "."));
-  const yNum = Number(coordY.replace(",", "."));
+  const xNum = roundCoord(Number(coordX.replace(",", ".")));
+  const yNum = roundCoord(Number(coordY.replace(",", ".")));
 
   async function copyCoords() {
     try {
@@ -81,12 +81,6 @@ export function PostForm({ coords, post, onClose }: Props) {
     <div className="modal-backdrop" onClick={onClose}>
       <form className="modal" onClick={(e) => e.stopPropagation()} onSubmit={onSubmit}>
         <h2>{post ? "Редактировать пост" : "Новый пост"}</h2>
-        <p className="muted">
-          Точка {fmtCoord(Number.isFinite(xNum) ? xNum : 0, Number.isFinite(yNum) ? yNum : 0)}{" "}
-          <button type="button" className="linkish" onClick={() => void copyCoords()}>
-            копировать X:Y
-          </button>
-        </p>
         <div className="coord-row">
           <label>
             X
@@ -119,19 +113,17 @@ export function PostForm({ coords, post, onClose }: Props) {
           Дата поимки
           <input type="datetime-local" value={catchDate} onChange={(e) => setCatchDate(e.target.value)} required />
         </label>
-        <label>
-          Комментарий
-          <textarea rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
-        </label>
         <div className="field">
-          <span className="field-label">Скриншоты</span>
+          <span className="field-label">Комментарий</span>
           <ShotPicker
             files={files}
             onChange={setFiles}
             existing={kept}
             onRemoveExisting={(id) => setKeepIds((ids) => ids.filter((x) => x !== id))}
             fileUrl={(url) => api.fileUrl(url)}
-          />
+          >
+            <textarea rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
+          </ShotPicker>
         </div>
         {error && <p className="form-error">{error}</p>}
         <div className="row-actions">

@@ -6,10 +6,12 @@ export const CATCH_LABEL: Record<CatchType, string> = {
   farm_trophy: "Фарм с трофеями",
 };
 
+export function roundCoord(n: number) {
+  return Math.round(n * 10) / 10;
+}
+
 export function fmtCoord(x: number, y: number) {
-  const rx = Math.abs(x - Math.round(x)) < 0.05 ? String(Math.round(x)) : x.toFixed(1);
-  const ry = Math.abs(y - Math.round(y)) < 0.05 ? String(Math.round(y)) : y.toFixed(1);
-  return `${rx}:${ry}`;
+  return `${roundCoord(x)}:${roundCoord(y)}`;
 }
 
 export { fmtDateTime, fmtWhen } from "../time";

@@ -282,12 +282,12 @@ html[data-platform="android"] .detail-composer {
 html[data-platform="android"] .composer-row {
   padding: 6px 6px 6px 14px;
 }
-html[data-platform="android"] .comment-composer .composer-row textarea {
+html[data-platform="android"] .composer-row textarea {
   min-height: 44px;
   max-height: 140px;
 }
 html[data-platform="android"] .composer-send,
-html[data-platform="android"] .comment-composer .shot-picker.compact .file-pick {
+html[data-platform="android"] .file-pick {
   width: 44px;
   height: 44px;
 }
@@ -474,7 +474,7 @@ html[data-platform="android"] .auth-card {
   html[data-platform="android"] .composer-send:hover {
     filter: none;
   }
-  html[data-platform="android"] .comment-composer .shot-picker.compact .file-pick:hover {
+  html[data-platform="android"] .file-pick:hover {
     color: var(--muted);
     background: transparent;
   }

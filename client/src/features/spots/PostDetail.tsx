@@ -316,9 +316,9 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
           ))}
         </section>
       </div>
-      <form className="comment-form comment-composer detail-composer" onSubmit={(e) => void sendComment(e)}>
+      <form className="comment-form detail-composer" onSubmit={(e) => void sendComment(e)}>
         {error && <p className="form-error">{error}</p>}
-        <ShotPicker files={files} onChange={setFiles} onlyWhenFocused compact>
+        <ShotPicker files={files} onChange={setFiles} onlyWhenFocused>
           <textarea
             ref={commentRef}
             rows={1}
