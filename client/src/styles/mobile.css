@@ -276,6 +276,12 @@ html[data-platform="android"] .map-hud {
 }
 
 /* Комментарии и вложения — под палец */
+html[data-platform="android"] .detail-composer {
+  padding: 8px 12px 10px;
+}
+html[data-platform="android"] .composer-row {
+  padding: 6px 6px 6px 14px;
+}
 html[data-platform="android"] .comment-composer .composer-row textarea {
   min-height: 44px;
   max-height: 140px;

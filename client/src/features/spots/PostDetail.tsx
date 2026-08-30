@@ -39,7 +39,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
     const el = commentRef.current;
     if (!el) return;
     el.style.height = "auto";
-    el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
   }
 
   useEffect(() => {
@@ -314,42 +314,42 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
               )}
             </article>
           ))}
-          <form className="comment-form comment-composer" onSubmit={(e) => void sendComment(e)}>
-            {error && <p className="form-error">{error}</p>}
-            <ShotPicker files={files} onChange={setFiles} onlyWhenFocused compact>
-              <textarea
-                ref={commentRef}
-                rows={1}
-                placeholder="Сообщение"
-                value={text}
-                onChange={(e) => {
-                  setText(e.target.value);
-                  fitCommentBox();
-                }}
-                onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) => {
-                  if (e.key !== "Enter" || e.shiftKey) return;
-                  e.preventDefault();
-                  e.currentTarget.form?.requestSubmit();
-                }}
-              />
-              <button
-                className="composer-send"
-                disabled={busy || !text.trim()}
-                type="submit"
-                aria-label="Отправить"
-                title="Отправить"
-              >
-                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden>
-                  <path
-                    fill="currentColor"
-                    d="M3.4 11.2 20.1 3.8c.7-.3 1.4.4 1.1 1.1l-7.4 16.7c-.3.7-1.3.7-1.6 0l-2.8-6.4-6.4-2.8c-.7-.3-.7-1.3 0-1.6Z"
-                  />
-                </svg>
-              </button>
-            </ShotPicker>
-          </form>
         </section>
       </div>
+      <form className="comment-form comment-composer detail-composer" onSubmit={(e) => void sendComment(e)}>
+        {error && <p className="form-error">{error}</p>}
+        <ShotPicker files={files} onChange={setFiles} onlyWhenFocused compact>
+          <textarea
+            ref={commentRef}
+            rows={1}
+            placeholder="Сообщение"
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+              fitCommentBox();
+            }}
+            onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) => {
+              if (e.key !== "Enter" || e.shiftKey) return;
+              e.preventDefault();
+              e.currentTarget.form?.requestSubmit();
+            }}
+          />
+          <button
+            className="composer-send"
+            disabled={busy || !text.trim()}
+            type="submit"
+            aria-label="Отправить"
+            title="Отправить"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden>
+              <path
+                fill="currentColor"
+                d="M3.4 11.2 20.1 3.8c.7-.3 1.4.4 1.1 1.1l-7.4 16.7c-.3.7-1.3.7-1.6 0l-2.8-6.4-6.4-2.8c-.7-.3-.7-1.3 0-1.6Z"
+              />
+            </svg>
+          </button>
+        </ShotPicker>
+      </form>
     </aside>
   );
 }
