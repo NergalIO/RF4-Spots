@@ -9,11 +9,14 @@ export function requireHttps() {
   return envFlag("REQUIRE_HTTPS", false);
 }
 
+export const ANDROID_WEBVIEW_ORIGIN = "https://appassets.androidplatform.net";
+
 export function corsOrigins() {
   const listed = envList("CORS_ORIGINS");
-  if (listed.length) return listed;
-  if (!isProduction()) return ["http://127.0.0.1:5173", "http://localhost:5173"];
-  return [];
+  const android = [ANDROID_WEBVIEW_ORIGIN];
+  if (listed.length) return [...new Set([...listed, ...android])];
+  if (!isProduction()) return ["http://127.0.0.1:5173", "http://localhost:5173", ...android];
+  return android;
 }
 
 export function isLoopbackAddress(value: string | undefined) {

@@ -16,8 +16,20 @@ export function AuthScreen() {
   const [invites, setInvites] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [downloads, setDownloads] = useState<{
+    installer: { name: string; url: string } | null;
+    apk: { name: string; url: string } | null;
+  }>({ installer: null, apk: null });
   const pinned = isServerUrlPinned();
   const canRegister = allowRegister || invites;
+  const inAndroidApp = typeof navigator !== "undefined" && /RF4SpotsAndroid/.test(navigator.userAgent);
+  const showApk = Boolean(downloads.apk) && !inAndroidApp;
+  let downloadBase = "";
+  try {
+    downloadBase = resolveServerUrl(serverUrl);
+  } catch {
+    downloadBase = "";
+  }
 
   useEffect(() => {
     loadSession().then((s) => setServerUrl(s.serverUrl));
@@ -41,6 +53,14 @@ export function AuthScreen() {
             setAllowRegister(true);
             setInvites(false);
           }
+        });
+      void api
+        .clientDownloads()
+        .then((files) => {
+          if (!dead) setDownloads(files);
+        })
+        .catch(() => {
+          if (!dead) setDownloads({ installer: null, apk: null });
         });
     } catch {
       /* invalid url while typing */
@@ -125,6 +145,21 @@ export function AuthScreen() {
               ? "При следующих запусках вход будет автоматическим."
               : "Регистрация закрыта. Аккаунт выдаёт администратор."}
         </p>
+        {downloadBase && (downloads.installer || showApk) && (
+          <p className="auth-downloads">
+            Скачать клиент
+            {downloads.installer && (
+              <a href={`${downloadBase}${downloads.installer.url}`} target="_blank" rel="noreferrer">
+                Windows
+              </a>
+            )}
+            {showApk && downloads.apk && (
+              <a href={`${downloadBase}${downloads.apk.url}`} target="_blank" rel="noreferrer">
+                Android
+              </a>
+            )}
+          </p>
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,11 @@
+.gradle/
+build/
+app/build/
+local.properties
+captures/
+*.iml
+.idea/
+rf4spots.keystore
+*.jks
+app/src/main/assets/**
+!app/src/main/assets/.gitkeep

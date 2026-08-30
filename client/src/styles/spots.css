@@ -338,6 +338,65 @@
   max-width: 100%;
   min-width: 0;
 }
+.comment-composer .shot-picker.compact { gap: 8px; }
+.composer-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 0;
+}
+.comment-composer .composer-row textarea {
+  flex: 1;
+  width: auto;
+  min-height: 40px;
+  max-height: 120px;
+  resize: none;
+  overflow-y: auto;
+  border-radius: 20px;
+  padding: 10px 14px;
+  line-height: 1.35;
+}
+.comment-composer .shot-picker.compact .file-pick {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  gap: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  overflow: visible;
+}
+.comment-composer .shot-picker.compact .file-pick:hover { color: var(--gold); background: #1b3a48; }
+.comment-composer .file-pick-icon {
+  display: grid;
+  place-items: center;
+  overflow: visible;
+  white-space: normal;
+}
+.composer-send {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #dcc58a, #b8903e);
+  color: #1a1408;
+}
+.composer-send:hover { filter: brightness(1.06); }
+.composer-send:disabled {
+  opacity: 0.38;
+  cursor: default;
+  filter: none;
+}
+.composer-send svg { display: block; margin-left: 2px; }
 .file-pick {
   position: relative;
   display: flex;

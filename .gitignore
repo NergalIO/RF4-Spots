@@ -10,4 +10,5 @@ Thumbs.db
 .update.lock
 .update-stamp
 .update-stamp-client
+.update-stamp-apk
 

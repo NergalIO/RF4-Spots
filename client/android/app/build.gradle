@@ -1,0 +1,51 @@
+plugins {
+    id "com.android.application"
+}
+
+def appVersion = project.findProperty("appVersion") ?: "3.0.0"
+def appVersionCode = (project.findProperty("appVersionCode") ?: "30000") as int
+def compileSdkVer = (project.findProperty("compileSdk") ?: "36") as int
+def keystorePath = System.getenv("ANDROID_KEYSTORE") ?: "${rootDir}/rf4spots.keystore"
+def keystorePass = System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: "android"
+def keyAliasName = System.getenv("ANDROID_KEY_ALIAS") ?: "rf4spots"
+def keyPass = System.getenv("ANDROID_KEY_PASSWORD") ?: keystorePass
+
+android {
+    namespace "com.rf4spots.app"
+    compileSdk compileSdkVer
+
+    defaultConfig {
+        applicationId "com.rf4spots.app"
+        minSdk 24
+        targetSdk compileSdkVer
+        versionCode appVersionCode
+        versionName appVersion
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(keystorePath)
+            storePassword keystorePass
+            keyAlias keyAliasName
+            keyPassword keyPass
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "androidx.webkit:webkit:1.11.0"
+    implementation "androidx.activity:activity:1.9.3"
+}

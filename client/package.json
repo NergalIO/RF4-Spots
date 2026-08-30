@@ -1,6 +1,6 @@
 {
   "name": "rf4-spots-client",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "description": "Клиент точек ловли Russian Fishing 4",
   "author": "RF4 Spots",
@@ -12,6 +12,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "pack": "node scripts/pack-win.cjs",
+    "pack:apk": "node scripts/pack-apk.cjs",
     "test": "vitest run"
   },
   "dependencies": {

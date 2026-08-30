@@ -4,3 +4,4 @@ release
 dist-electron
 .env.production
 .env.local
+.tools

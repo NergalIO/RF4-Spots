@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import type { Screenshot } from "@/types";
 
 export const MAX_SHOTS = 8;
@@ -10,6 +10,8 @@ type Props = {
   onRemoveExisting?: (id: string) => void;
   fileUrl?: (url: string) => string;
   onlyWhenFocused?: boolean;
+  compact?: boolean;
+  children?: ReactNode;
 };
 
 const pasteStack: Array<(e: ClipboardEvent) => boolean> = [];
@@ -54,6 +56,8 @@ export function ShotPicker({
   onRemoveExisting,
   fileUrl,
   onlyWhenFocused,
+  compact,
+  children,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const filesRef = useRef(files);
@@ -115,8 +119,38 @@ export function ShotPicker({
     };
   }, []);
 
+  const attach = (
+    <label
+      className={`file-pick${full ? " disabled" : ""}`}
+      title={full ? `Максимум ${MAX_SHOTS} скриншотов` : "Прикрепить скриншоты"}
+    >
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        disabled={full}
+        onChange={(e) => {
+          addMany(e.target.files);
+          e.target.value = "";
+        }}
+      />
+      {compact ? (
+        <span className="file-pick-icon" aria-hidden>
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path
+              fill="currentColor"
+              d="M16.5 6.5v8.2a4.5 4.5 0 1 1-9 0V6.2a3.2 3.2 0 1 1 6.4 0v8.1a1.9 1.9 0 1 1-3.8 0V7.2h1.5v7.1a.4.4 0 0 0 .8 0V6.2a1.7 1.7 0 1 0-3.4 0v8.5a3 3 0 0 0 6 0V6.5h1.5Z"
+            />
+          </svg>
+        </span>
+      ) : (
+        <span>{full ? `Максимум ${MAX_SHOTS} скриншотов` : "Добавить скриншоты"}</span>
+      )}
+    </label>
+  );
+
   return (
-    <div className="shot-picker" ref={rootRef}>
+    <div className={`shot-picker${compact ? " compact" : ""}`} ref={rootRef}>
       {(existing.length > 0 || files.length > 0) && (
         <div className={`thumbs shot-thumbs${existing.length + files.length > 4 ? " sm" : ""}`}>
           {existing.map((s) => (
@@ -149,20 +183,17 @@ export function ShotPicker({
           ))}
         </div>
       )}
-      <label className={`file-pick${full ? " disabled" : ""}`}>
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          disabled={full}
-          onChange={(e) => {
-            addMany(e.target.files);
-            e.target.value = "";
-          }}
-        />
-        <span>{full ? `Максимум ${MAX_SHOTS} скриншотов` : "Добавить скриншоты"}</span>
-      </label>
-      <p className="shot-hint">Несколько файлов сразу или Ctrl+V</p>
+      {compact ? (
+        <div className="composer-row">
+          {attach}
+          {children}
+        </div>
+      ) : (
+        <>
+          {attach}
+          <p className="shot-hint">Несколько файлов сразу или Ctrl+V</p>
+        </>
+      )}
     </div>
   );
 }

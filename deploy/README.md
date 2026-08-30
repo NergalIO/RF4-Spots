@@ -26,7 +26,10 @@ Pack with the public HTTPS origin (never commit that URL if you do not want it i
 cd client
 set VITE_SERVER_URL=https://spots.example.com
 npm run pack
+npm run pack:apk
 ```
+
+Windows setup is `/updates/installer`. Android APK is `/updates/apk`. Opening the site in a browser shows both when the files are in `server/updates`. APK build needs JDK 17–24 and Android SDK 34+ (`ANDROID_HOME`). Keep `client/android/rf4spots.keystore` if you want later APKs to install over the previous one.
 
 Existing JWTs become invalid after you rotate `JWT_SECRET`. Users sign in again. Changing a password or disabling an account also invalidates that user's tokens.
 

@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.RF4Spots" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:statusBarColor">#07131C</item>
+        <item name="android:navigationBarColor">#07131C</item>
+        <item name="android:windowBackground">#07131C</item>
+        <item name="android:colorBackground">#07131C</item>
+    </style>
+</resources>

@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { CATCH_LABEL, fmtCoord, fmtWhen } from "@/shared/format";
 import { ALL_WATERBODIES } from "@/constants";
 import { useStore } from "@/store";
@@ -31,6 +31,14 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
   const [reportReason, setReportReason] = useState("");
   const [actOpen, setActOpen] = useState(false);
   const closeAct = useCallback(() => setActOpen(false), []);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
+
+  function fitCommentBox() {
+    const el = commentRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+  }
 
   useEffect(() => {
     setText("");
@@ -39,6 +47,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
     setReportFor(null);
     setReportReason("");
     setActOpen(false);
+    requestAnimationFrame(fitCommentBox);
   }, [detail?.id]);
 
   if (!detail) {
@@ -90,6 +99,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
       await api.addComment(post.id, fd);
       setText("");
       setFiles([]);
+      requestAnimationFrame(fitCommentBox);
       await refreshDetail();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Не удалось отправить");
@@ -283,18 +293,39 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
               )}
             </article>
           ))}
-          <form className="comment-form" onSubmit={(e) => void sendComment(e)}>
-            <textarea
-              rows={3}
-              placeholder="Комментарий к посту"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
-            <ShotPicker files={files} onChange={setFiles} onlyWhenFocused />
+          <form className="comment-form comment-composer" onSubmit={(e) => void sendComment(e)}>
             {error && <p className="form-error">{error}</p>}
-            <button className="btn primary" disabled={busy || !text.trim()} type="submit">
-              Отправить
-            </button>
+            <ShotPicker files={files} onChange={setFiles} onlyWhenFocused compact>
+              <textarea
+                ref={commentRef}
+                rows={1}
+                placeholder="Сообщение"
+                value={text}
+                onChange={(e) => {
+                  setText(e.target.value);
+                  fitCommentBox();
+                }}
+                onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) => {
+                  if (e.key !== "Enter" || e.shiftKey) return;
+                  e.preventDefault();
+                  e.currentTarget.form?.requestSubmit();
+                }}
+              />
+              <button
+                className="composer-send"
+                disabled={busy || !text.trim()}
+                type="submit"
+                aria-label="Отправить"
+                title="Отправить"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden>
+                  <path
+                    fill="currentColor"
+                    d="M3.4 11.2 20.1 3.8c.7-.3 1.4.4 1.1 1.1l-7.4 16.7c-.3.7-1.3.7-1.6 0l-2.8-6.4-6.4-2.8c-.7-.3-.7-1.3 0-1.6Z"
+                  />
+                </svg>
+              </button>
+            </ShotPicker>
           </form>
         </section>
       </div>

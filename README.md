@@ -22,6 +22,8 @@
 
 Установленный клиент раз в 5 минут проверяет обновления (`/updates`). Если сборка скачана, внизу окна — баннер «Перезапустить».
 
+Открытый адрес сервера в браузере показывает страницу скачивания. Windows-установщик: `/updates/installer`. Android APK: `/updates/apk`.
+
 `/health` проверяет PostgreSQL.
 
 ## Сервер без Docker (локальный PostgreSQL)
@@ -70,12 +72,16 @@ npm run dev
 Браузер: http://127.0.0.1:5173  
 Окно Electron: `npm run dev:electron`  
 Установщик Windows: `npm run pack`  
+APK для Android: `npm run pack:apk` (нужны JDK 17–24 и Android SDK 34+, обычно из Android Studio). Если в PATH Java 25+, скрипт сам возьмёт JDK 17–24 из `Program Files\Java`.  
 Для продакшен-сборки задайте публичный HTTPS-адрес (не коммитьте его, если не хотите его в git):
 
 ```bash
 set VITE_SERVER_URL=https://spots.example.com
 npm run pack
+npm run pack:apk
 ```
+
+Оба файла копируются в `server/updates` и отдаются с API. На экране входа появляются ссылки, когда файлы уже лежат на сервере.
 
 При первом запуске укажите ник, пароль и адрес сервера. Дальше клиент входит сам.
 

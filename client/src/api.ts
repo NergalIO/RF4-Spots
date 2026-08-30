@@ -40,6 +40,9 @@ export class Api {
   authConfig() {
     return this.auth.authConfig();
   }
+  clientDownloads() {
+    return this.auth.clientDownloads();
+  }
   login(nickname: string, password: string) {
     return this.auth.login(nickname, password);
   }

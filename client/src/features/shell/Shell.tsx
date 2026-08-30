@@ -115,16 +115,6 @@ export function Shell() {
             Линейка
           </button>
         )}
-        {spotsTab && (
-          <>
-            <button type="button" className={`btn ghost sm ${panels.leftOpen ? "on" : ""}`} onClick={() => panels.setLeftOpen((v) => !v)}>
-              Посты
-            </button>
-            <button type="button" className={`btn ghost sm ${panels.rightOpen ? "on" : ""}`} onClick={() => panels.setRightOpen((v) => !v)}>
-              Детали
-            </button>
-          </>
-        )}
         <div className="spacer" />
         <GameClock />
         <DropdownMenu
