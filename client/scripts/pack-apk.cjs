@@ -316,15 +316,28 @@ function chmodGradle(bin) {
   }
 }
 
-function extractGradle(archive) {
-  if (isGzipFile(archive)) {
-    return spawnSync("tar", ["-xzf", archive, "-C", toolsDir], { stdio: "inherit" }).status ?? 1;
+function jarBin() {
+  const name = process.platform === "win32" ? "jar.exe" : "jar";
+  if (process.env.JAVA_HOME) {
+    const full = path.join(process.env.JAVA_HOME, "bin", name);
+    if (fs.existsSync(full)) return full;
   }
+  return name;
+}
+
+function extractGradle(archive) {
   if (isZipFile(archive) && process.platform === "win32") {
     return spawnSync("tar", ["-xf", archive, "-C", toolsDir], { stdio: "inherit" }).status ?? 1;
   }
   if (isZipFile(archive)) {
-    return spawnSync("unzip", ["-qo", archive, "-d", toolsDir], { stdio: "inherit" }).status ?? 1;
+    const unzip = spawnSync("unzip", ["-qo", archive, "-d", toolsDir], { stdio: "inherit" });
+    if ((unzip.status ?? 1) === 0) return 0;
+    const py = spawnSync("python3", ["-m", "zipfile", "-e", archive, toolsDir], { stdio: "inherit" });
+    if ((py.status ?? 1) === 0) return 0;
+    return spawnSync(jarBin(), ["xf", archive], { cwd: toolsDir, stdio: "inherit" }).status ?? 1;
+  }
+  if (isGzipFile(archive)) {
+    return spawnSync("tar", ["-xzf", archive, "-C", toolsDir], { stdio: "inherit" }).status ?? 1;
   }
   return 1;
 }
@@ -336,14 +349,10 @@ async function ensureGradle() {
     chmodGradle(bin);
     return bin;
   }
-  const useZip = process.platform === "win32";
-  const archiveName = useZip ? `gradle-${GRADLE_VERSION}-bin.zip` : `gradle-${GRADLE_VERSION}-bin.tar.gz`;
+  const archiveName = `gradle-${GRADLE_VERSION}-bin.zip`;
   const archive = path.join(toolsDir, archiveName);
   const url = `https://services.gradle.org/distributions/${archiveName}`;
-  const valid = () =>
-    fs.existsSync(archive) &&
-    fs.statSync(archive).size > 1_000_000 &&
-    (useZip ? isZipFile(archive) : isGzipFile(archive));
+  const valid = () => fs.existsSync(archive) && fs.statSync(archive).size > 1_000_000 && isZipFile(archive);
   if (!valid()) {
     if (fs.existsSync(archive)) fs.unlinkSync(archive);
     fs.mkdirSync(toolsDir, { recursive: true });
@@ -403,6 +412,7 @@ async function main() {
     );
   }
   const javaHome = findJavaHome();
+  process.env.JAVA_HOME = javaHome;
   const compileSdk = ensurePlatform(sdk);
   writeLocalProperties(sdk);
   ensureKeystore(javaHome);
