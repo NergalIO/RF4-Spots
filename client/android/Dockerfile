@@ -21,7 +21,7 @@ RUN apt-get update \
   && mv ${ANDROID_HOME}/cmdline-tools/cmdline-tools ${ANDROID_HOME}/cmdline-tools/latest \
   && rm /tmp/cmd.zip \
   && yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses >/dev/null \
-  && sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-36" "build-tools;36.0.0" "platform-tools" \
+  && sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-36" "build-tools;35.0.0" "build-tools;36.0.0" "platform-tools" \
   && curl -fsSL "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" -o /tmp/gradle.zip \
   && unzip -q /tmp/gradle.zip -d /opt \
   && mv /opt/gradle-${GRADLE_VERSION} ${GRADLE_HOME} \
