@@ -75,19 +75,23 @@ public class MainActivity extends AppCompatActivity {
     CookieManager.getInstance().setAcceptCookie(true);
     CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
     webView.setDownloadListener(
-        (url, userAgent, contentDisposition, mimeType, contentLength) -> {
-          try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-          } catch (Exception ignored) {
-            /* no handler */
-          }
-        });
+        (url, userAgent, contentDisposition, mimeType, contentLength) -> openExternally(Uri.parse(url)));
 
     webView.setWebViewClient(
         new WebViewClientCompat() {
           @Override
           public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
             return assetLoader.shouldInterceptRequest(request.getUrl());
+          }
+
+          /** WebViewClientCompat сводит все переходы к этой перегрузке. */
+          @Override
+          @SuppressWarnings("deprecation")
+          public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            Uri parsed = Uri.parse(url);
+            if (ASSET_HOST.equals(parsed.getHost())) return false;
+            openExternally(parsed);
+            return true;
           }
         });
 
@@ -125,6 +129,15 @@ public class MainActivity extends AppCompatActivity {
             });
 
     webView.loadUrl("https://" + ASSET_HOST + "/index.html");
+  }
+
+  /** Внешние сайты (rf4-cafe.ru, rf4-stat.ru, ссылки на клиенты) уходят в системный браузер. */
+  private void openExternally(Uri url) {
+    try {
+      startActivity(new Intent(Intent.ACTION_VIEW, url));
+    } catch (Exception ignored) {
+      /* нет приложения, готового открыть ссылку */
+    }
   }
 
   /**

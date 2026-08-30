@@ -1,4 +1,5 @@
 import { createElement, useEffect, useRef } from "react";
+import { useIsMobile } from "@/platform";
 
 type WebviewLike = HTMLElement & {
   loadURL?: (url: string) => void;
@@ -49,6 +50,7 @@ export function SiteEmbed({ url, title, partition, active = true, onNavigate }: 
   const onNavigateRef = useRef(onNavigate);
   onNavigateRef.current = onNavigate;
   const electron = typeof window !== "undefined" && Boolean(window.rf4);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const el = frame.current as WebviewLike | null;
@@ -73,6 +75,20 @@ export function SiteEmbed({ url, title, partition, active = true, onNavigate }: 
       el.removeEventListener("did-navigate-in-page", handle);
     };
   }, []);
+
+  // Оба сайта запрещают встраивание (X-Frame-Options), в WebView остаётся только внешний браузер.
+  if (isMobile) {
+    return (
+      <div className="site-external">
+        <h3>{title}</h3>
+        <p>Сайт не разрешает открывать себя внутри приложения.</p>
+        <a className="btn primary" href={url} target="_blank" rel="noreferrer">
+          Открыть в браузере
+        </a>
+        <p className="site-external-url">{url}</p>
+      </div>
+    );
+  }
 
   if (!electron) {
     return (

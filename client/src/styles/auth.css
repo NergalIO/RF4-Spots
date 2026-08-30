@@ -35,21 +35,6 @@
 .lead, .hint, .muted { color: var(--muted); }
 .lead { margin: 0 0 20px; line-height: 1.45; }
 .hint { font-size: 13px; margin: 16px 0 0; }
-.auth-downloads {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 14px;
-  margin: 16px 0 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-.auth-downloads a {
-  color: var(--gold);
-  text-decoration: none;
-}
-.auth-downloads a:hover { text-decoration: underline; }
-
 .tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;

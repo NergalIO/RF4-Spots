@@ -126,6 +126,7 @@ html[data-platform="android"] .mobile-screen {
   flex: 1;
   min-height: 0;
   display: flex;
+  isolation: isolate; /* панели Leaflet доходят до z-index 1000 и иначе перекрывают детали */
 }
 html[data-platform="android"] .mobile-screen > * {
   flex: 1;
@@ -134,7 +135,7 @@ html[data-platform="android"] .mobile-screen > * {
 html[data-platform="android"] .mobile-detail {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 1200;
   display: flex;
   background: var(--panel);
 }
@@ -371,6 +372,59 @@ html[data-platform="android"] .dash-col span {
 }
 html[data-platform="android"] .admin-actions {
   justify-content: flex-start;
+}
+
+/* Баннер обновления уходит наверх: снизу его закрывает панель вкладок */
+html[data-platform="android"] .update-banner {
+  order: -1;
+  gap: 10px;
+  padding: 10px 12px;
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+}
+html[data-platform="android"] .update-banner p {
+  font-size: 12px;
+}
+html[data-platform="android"] .update-banner .btn.sm {
+  padding: 8px 12px;
+}
+html[data-platform="android"] .update-banner a.btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+html[data-platform="android"] .site-external {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: 24px 20px;
+  text-align: center;
+}
+html[data-platform="android"] .site-external h3 {
+  margin: 0;
+  font-size: 17px;
+  color: var(--gold);
+}
+html[data-platform="android"] .site-external p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+html[data-platform="android"] .site-external .btn {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+html[data-platform="android"] .site-external-url {
+  font-size: 12px;
+  overflow-wrap: anywhere;
 }
 
 html[data-platform="android"] .auth-wrap {

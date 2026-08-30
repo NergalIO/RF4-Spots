@@ -1,5 +1,8 @@
 /// <reference types="vite/client" />
 
+/** Версия из client/package.json, подставляется на сборке. */
+declare const __APP_VERSION__: string;
+
 interface ImportMetaEnv {
   readonly VITE_SERVER_URL?: string;
   readonly VITE_ALLOWED_SERVERS?: string;
