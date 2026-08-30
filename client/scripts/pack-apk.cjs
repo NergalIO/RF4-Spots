@@ -287,35 +287,85 @@ function pruneOldApks(dir, keepVersion) {
   return removed;
 }
 
-async function ensureGradle() {
-  const gradleHome = path.join(toolsDir, `gradle-${GRADLE_VERSION}`);
-  const bin = path.join(gradleHome, "bin", process.platform === "win32" ? "gradle.bat" : "gradle");
-  if (fs.existsSync(bin)) {
-    try {
-      fs.chmodSync(bin, 0o755);
-    } catch {
-      /* windows */
-    }
-    return bin;
+function readMagic(filePath) {
+  const fd = fs.openSync(filePath, "r");
+  try {
+    const buf = Buffer.alloc(4);
+    fs.readSync(fd, buf, 0, 4, 0);
+    return buf;
+  } finally {
+    fs.closeSync(fd);
   }
-  const zip = path.join(toolsDir, `gradle-${GRADLE_VERSION}-bin.zip`);
-  if (!fs.existsSync(zip) || fs.statSync(zip).size < 1_000_000) {
-    fs.mkdirSync(toolsDir, { recursive: true });
-    const url = `https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip`;
-    console.log("Скачиваю Gradle", GRADLE_VERSION, "…");
-    await downloadFile(url, zip);
-  }
-  console.log("Распаковываю Gradle…");
-  fs.mkdirSync(toolsDir, { recursive: true });
-  const status = spawnSync("tar", ["-xf", zip, "-C", toolsDir], { stdio: "inherit" }).status ?? 1;
-  if (status !== 0 || !fs.existsSync(bin)) {
-    throw new Error("Не удалось распаковать Gradle (нужен tar).");
-  }
+}
+
+function isGzipFile(filePath) {
+  const buf = readMagic(filePath);
+  return buf[0] === 0x1f && buf[1] === 0x8b;
+}
+
+function isZipFile(filePath) {
+  const buf = readMagic(filePath);
+  return buf[0] === 0x50 && buf[1] === 0x4b;
+}
+
+function chmodGradle(bin) {
   try {
     fs.chmodSync(bin, 0o755);
   } catch {
     /* windows */
   }
+}
+
+function extractGradle(archive) {
+  if (isGzipFile(archive)) {
+    return spawnSync("tar", ["-xzf", archive, "-C", toolsDir], { stdio: "inherit" }).status ?? 1;
+  }
+  if (isZipFile(archive) && process.platform === "win32") {
+    return spawnSync("tar", ["-xf", archive, "-C", toolsDir], { stdio: "inherit" }).status ?? 1;
+  }
+  if (isZipFile(archive)) {
+    return spawnSync("unzip", ["-qo", archive, "-d", toolsDir], { stdio: "inherit" }).status ?? 1;
+  }
+  return 1;
+}
+
+async function ensureGradle() {
+  const gradleHome = path.join(toolsDir, `gradle-${GRADLE_VERSION}`);
+  const bin = path.join(gradleHome, "bin", process.platform === "win32" ? "gradle.bat" : "gradle");
+  if (fs.existsSync(bin)) {
+    chmodGradle(bin);
+    return bin;
+  }
+  const useZip = process.platform === "win32";
+  const archiveName = useZip ? `gradle-${GRADLE_VERSION}-bin.zip` : `gradle-${GRADLE_VERSION}-bin.tar.gz`;
+  const archive = path.join(toolsDir, archiveName);
+  const url = `https://services.gradle.org/distributions/${archiveName}`;
+  const valid = () =>
+    fs.existsSync(archive) &&
+    fs.statSync(archive).size > 1_000_000 &&
+    (useZip ? isZipFile(archive) : isGzipFile(archive));
+  if (!valid()) {
+    if (fs.existsSync(archive)) fs.unlinkSync(archive);
+    fs.mkdirSync(toolsDir, { recursive: true });
+    console.log("Скачиваю Gradle", GRADLE_VERSION, "…");
+    await downloadFile(url, archive);
+    if (!valid()) {
+      if (fs.existsSync(archive)) fs.unlinkSync(archive);
+      throw new Error("Скачанный Gradle повреждён. Повторите сборку.");
+    }
+  }
+  console.log("Распаковываю Gradle…");
+  fs.mkdirSync(toolsDir, { recursive: true });
+  const status = extractGradle(archive);
+  if (status !== 0 || !fs.existsSync(bin)) {
+    try {
+      fs.unlinkSync(archive);
+    } catch {
+      /* ignore */
+    }
+    throw new Error("Не удалось распаковать Gradle.");
+  }
+  chmodGradle(bin);
   return bin;
 }
 
