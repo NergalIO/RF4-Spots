@@ -19,7 +19,13 @@ const FILTER_OPTIONS: { id: FilterKey; label: string }[] = [
   { id: "sort", label: "Сортировка" },
 ];
 
-export function PostList({ onCollapse }: { onCollapse?: () => void }) {
+type Props = {
+  onCollapse?: () => void;
+  onSelect?: (id: string) => void;
+  onShowMap?: () => void;
+};
+
+export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
   const posts = useStore((s) => s.posts);
   const nextCursor = useStore((s) => s.nextCursor);
   const loadMorePosts = useStore((s) => s.loadMorePosts);
@@ -66,6 +72,12 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
     filters.favorite ? "1" : "",
     filters.sort !== "createdAt" ? filters.sort : "",
   ].filter(Boolean).length;
+
+  function openPost(id: string) {
+    const next = id === selectedId ? null : id;
+    void selectPost(next);
+    if (next) onSelect?.(next);
+  }
 
   function addSlot(id: FilterKey) {
     setSlots((prev) => (prev.includes(id) ? prev : [...prev, id]));
@@ -237,11 +249,7 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
               className={`spot-card ${p.id === selectedId ? "selected" : ""}${unreadClass}`}
             >
               <div className="spot-card-title">
-                <button
-                  type="button"
-                  className="spot-card-name"
-                  onClick={() => void selectPost(p.id === selectedId ? null : p.id)}
-                >
+                <button type="button" className="spot-card-name" onClick={() => openPost(p.id)}>
                   <strong>{p.fish.name}</strong>
                 </button>
                 <button
@@ -253,11 +261,7 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
                   ★
                 </button>
               </div>
-              <button
-                type="button"
-                className="spot-card-main"
-                onClick={() => void selectPost(p.id === selectedId ? null : p.id)}
-              >
+              <button type="button" className="spot-card-main" onClick={() => openPost(p.id)}>
                 <span className="meta">
                   {allMaps ? `${p.waterbody.name} · ` : ""}
                   {fmtCoord(p.coordX, p.coordY)} · {CATCH_LABEL[p.catchType]}
@@ -275,7 +279,14 @@ export function PostList({ onCollapse }: { onCollapse?: () => void }) {
               </button>
               {allMaps && (
                 <div className="spot-card-actions">
-                  <button type="button" className="btn ghost sm" onClick={() => void openOnMap(p)}>
+                  <button
+                    type="button"
+                    className="btn ghost sm"
+                    onClick={() => {
+                      void openOnMap(p);
+                      onShowMap?.();
+                    }}
+                  >
                     На карте
                   </button>
                 </div>

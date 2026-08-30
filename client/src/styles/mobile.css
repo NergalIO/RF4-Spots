@@ -1,0 +1,425 @@
+/* Все правила ниже действуют только в Android-клиенте (data-platform ставит main.tsx). */
+
+html[data-platform="android"] {
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-platform="android"] body {
+  overscroll-behavior: none;
+}
+html[data-platform="android"] input,
+html[data-platform="android"] select,
+html[data-platform="android"] textarea {
+  font-size: 16px; /* меньше 16px WebView компенсирует автозумом поля */
+  padding: 11px 12px;
+}
+html[data-platform="android"] .btn {
+  padding: 12px 16px;
+}
+html[data-platform="android"] .btn.sm {
+  padding: 9px 12px;
+  font-size: 13px;
+}
+
+/* Оболочка: топбар в одну строку, вкладки уезжают вниз */
+html[data-platform="android"] .app-shell {
+  grid-template-rows: auto 1fr auto;
+}
+html[data-platform="android"] .topbar {
+  gap: 8px;
+  padding: 8px 10px;
+  min-height: 0;
+  flex-wrap: nowrap;
+}
+html[data-platform="android"] .brand > div {
+  display: none;
+}
+html[data-platform="android"] .logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  font-size: 11px;
+}
+html[data-platform="android"] .spacer {
+  display: none;
+}
+html[data-platform="android"] .wb-select {
+  flex: 1;
+  min-width: 0;
+}
+html[data-platform="android"] .wb-select > span {
+  display: none;
+}
+html[data-platform="android"] .wb-select select {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 10px;
+}
+html[data-platform="android"] .game-clock {
+  gap: 0;
+  padding: 6px 10px;
+}
+html[data-platform="android"] .game-clock-label {
+  display: none;
+}
+html[data-platform="android"] .game-clock-time {
+  font-size: 14px;
+}
+html[data-platform="android"] .role-pill {
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 8px 10px;
+}
+
+html[data-platform="android"] .mobile-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px 6px calc(4px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  background: rgba(8, 20, 28, 0.96);
+  z-index: 30;
+}
+html[data-platform="android"] .mobile-tabs button {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 11px 4px;
+  border-radius: 10px;
+}
+html[data-platform="android"] .mobile-tabs button.on {
+  background: #1b3a48;
+  color: var(--gold);
+}
+
+/* Споты: список, карта и детали как отдельные экраны */
+html[data-platform="android"] .mobile-workspace {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+html[data-platform="android"] .mobile-switch {
+  display: flex;
+  gap: 4px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+html[data-platform="android"] .mobile-switch button {
+  flex: 1;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 6px;
+  font-size: 14px;
+}
+html[data-platform="android"] .mobile-switch button.on {
+  background: #1b3a48;
+  color: var(--gold);
+}
+html[data-platform="android"] .mobile-screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+html[data-platform="android"] .mobile-screen > * {
+  flex: 1;
+  min-width: 0;
+}
+html[data-platform="android"] .mobile-detail {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  background: var(--panel);
+}
+html[data-platform="android"] .mobile-detail > .panel {
+  flex: 1;
+  min-width: 0;
+}
+html[data-platform="android"] .panel,
+html[data-platform="android"] .panel.right {
+  border-left: 0;
+  border-right: 0;
+}
+html[data-platform="android"] .panel-head {
+  gap: 6px;
+  padding: 10px 12px;
+}
+html[data-platform="android"] .panel-head h2 {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+}
+html[data-platform="android"] .pane-back {
+  width: 36px;
+  height: 36px;
+  margin-left: -8px;
+  border: 0;
+  background: transparent;
+  color: var(--gold);
+  font-size: 28px;
+  line-height: 1;
+}
+html[data-platform="android"] .card-list,
+html[data-platform="android"] .detail-body {
+  padding: 10px 12px 24px;
+}
+html[data-platform="android"] .spot-card {
+  padding: 14px 12px;
+}
+html[data-platform="android"] .spot-card .excerpt,
+html[data-platform="android"] .spot-card .meta,
+html[data-platform="android"] .spot-card .nick {
+  font-size: 13px;
+}
+html[data-platform="android"] .fav-btn {
+  padding: 6px 12px;
+}
+html[data-platform="android"] .filters-toggle {
+  padding: 12px 14px;
+  font-size: 14px;
+}
+html[data-platform="android"] .filter-remove {
+  padding: 4px 8px;
+  font-size: 20px;
+}
+html[data-platform="android"] .filter-add {
+  width: 44px;
+  height: 44px;
+}
+html[data-platform="android"] .range-grid button {
+  padding: 10px 0;
+  font-size: 14px;
+}
+html[data-platform="android"] .range-nav button {
+  width: 36px;
+  height: 36px;
+}
+
+/* Карта: создание поста по центру вместо правой кнопки мыши */
+html[data-platform="android"] .map-actions {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 500;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+html[data-platform="android"] .map-fab {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(7, 19, 28, 0.92);
+  color: var(--gold);
+  font-size: 24px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow);
+}
+html[data-platform="android"] .map-fab.on {
+  background: #1b3a48;
+  border-color: var(--gold-2);
+}
+html[data-platform="android"] .map-fab.primary {
+  border-color: transparent;
+  background: linear-gradient(180deg, #dcc58a, #b8903e);
+  color: #1a1408;
+  font-size: 30px;
+  font-weight: 700;
+}
+html[data-platform="android"] .map-crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 450;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border: 1px solid rgba(232, 215, 163, 0.75);
+  border-radius: 50%;
+  pointer-events: none;
+}
+html[data-platform="android"] .map-crosshair::before,
+html[data-platform="android"] .map-crosshair::after {
+  content: "";
+  position: absolute;
+  background: rgba(232, 215, 163, 0.75);
+}
+html[data-platform="android"] .map-crosshair::before {
+  left: 50%;
+  top: -9px;
+  width: 1px;
+  height: 42px;
+}
+html[data-platform="android"] .map-crosshair::after {
+  top: 50%;
+  left: -9px;
+  height: 1px;
+  width: 42px;
+}
+html[data-platform="android"] .map-hud {
+  left: 10px;
+  bottom: 10px;
+  gap: 10px;
+  font-size: 13px;
+}
+
+/* Комментарии и вложения — под палец */
+html[data-platform="android"] .comment-composer .composer-row textarea {
+  min-height: 44px;
+  max-height: 140px;
+}
+html[data-platform="android"] .composer-send,
+html[data-platform="android"] .comment-composer .shot-picker.compact .file-pick {
+  width: 44px;
+  height: 44px;
+}
+html[data-platform="android"] .thumbs {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+html[data-platform="android"] .thumbs.sm {
+  grid-template-columns: repeat(3, 1fr);
+}
+html[data-platform="android"] .shot-remove {
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+/* Модальные окна как нижние шторки: 100vh обрезается клавиатурой */
+html[data-platform="android"] .modal-backdrop {
+  place-items: end stretch;
+}
+html[data-platform="android"] .modal {
+  width: 100%;
+  max-height: 92dvh;
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+}
+html[data-platform="android"] .row-actions .btn {
+  flex: 1;
+}
+
+html[data-platform="android"] .lightbox img {
+  max-width: 100vw;
+  max-height: 74dvh;
+  border-radius: 0;
+}
+html[data-platform="android"] .lightbox .nav {
+  top: auto;
+  bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  transform: none;
+  width: 52px;
+  height: 52px;
+}
+html[data-platform="android"] .lightbox .prev {
+  left: 18px;
+}
+html[data-platform="android"] .lightbox .next {
+  right: 18px;
+}
+html[data-platform="android"] .lightbox .counter {
+  top: 18px;
+  bottom: auto;
+}
+
+/* Полезные функции и админка */
+html[data-platform="android"] .tools-nav {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 6px;
+  padding: 8px 10px;
+}
+html[data-platform="android"] .tools-nav button {
+  white-space: nowrap;
+  padding: 10px 14px;
+}
+html[data-platform="android"] .tools-body {
+  padding: 10px;
+}
+html[data-platform="android"] .guide-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+html[data-platform="android"] .guide-toolbar input,
+html[data-platform="android"] .guide-toolbar select {
+  min-width: 140px;
+}
+html[data-platform="android"] .report-list {
+  max-width: none;
+}
+html[data-platform="android"] .dash-kpis {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+html[data-platform="android"] .dash-series {
+  grid-template-columns: repeat(auto-fit, minmax(28px, 1fr));
+}
+html[data-platform="android"] .dash-col span {
+  font-size: 10px;
+}
+html[data-platform="android"] .admin-actions {
+  justify-content: flex-start;
+}
+
+html[data-platform="android"] .auth-wrap {
+  align-content: start;
+  padding: 28px 14px;
+}
+html[data-platform="android"] .auth-card {
+  padding: 22px 18px;
+}
+
+/* На тач-экране :hover залипает после касания */
+@media (hover: none) {
+  html[data-platform="android"] .spot-card:hover:not(.selected):not(.unread-post):not(.unread-comments) {
+    border-color: transparent;
+  }
+  html[data-platform="android"] .spot-card.unread-post:hover {
+    border-color: #3b9be0;
+  }
+  html[data-platform="android"] .spot-card.unread-comments:hover {
+    border-color: #9b6bdb;
+  }
+  html[data-platform="android"] .btn.ghost:hover:not(.on),
+  html[data-platform="android"] .pane-toggle:hover,
+  html[data-platform="android"] .filter-add:hover,
+  html[data-platform="android"] .filter-add-menu button:hover,
+  html[data-platform="android"] .user-menu-list button:hover,
+  html[data-platform="android"] .combo-list button:hover:not(.active),
+  html[data-platform="android"] .range-grid button:hover:not(.in):not(.on),
+  html[data-platform="android"] .tools-nav button:hover:not(.on),
+  html[data-platform="android"] .reports-seg button:hover:not(.on),
+  html[data-platform="android"] .dash-nick:hover,
+  html[data-platform="android"] .invite-code:hover {
+    background: transparent;
+  }
+  html[data-platform="android"] .reports-seg button:hover:not(.on) {
+    color: var(--muted);
+  }
+  html[data-platform="android"] .dash-kpi-btn:hover {
+    border-color: var(--line);
+  }
+  html[data-platform="android"] .composer-send:hover {
+    filter: none;
+  }
+  html[data-platform="android"] .comment-composer .shot-picker.compact .file-pick:hover {
+    color: var(--muted);
+    background: transparent;
+  }
+  html[data-platform="android"] .shot-remove:hover {
+    background: rgba(8, 16, 22, 0.85);
+    color: var(--gold);
+  }
+}

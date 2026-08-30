@@ -7,14 +7,24 @@ import { ToolsView } from "../tools/ToolsView";
 import { AdminView } from "../admin/AdminView";
 import { PasswordModal } from "../auth/PasswordModal";
 import { useStore } from "@/store";
+import { useIsMobile } from "@/platform";
 import { useResizablePanels } from "@/useResizablePanels";
 import { usePersistedTab } from "@/shared/usePersistedTab";
+import { useBackGuard } from "@/shared/useBackGuard";
 import { DropdownMenu } from "@/shared/DropdownMenu";
 import { SpotsLayout } from "../spots/SpotsLayout";
 
 const TAB_KEY = "rf4spots-main-tab";
 const MAIN_TABS = ["spots", "stats", "cafe", "tools", "admin"] as const;
 type MainTab = (typeof MAIN_TABS)[number];
+
+const TAB_ITEMS: { id: MainTab; label: string; short: string }[] = [
+  { id: "spots", label: "Споты", short: "Споты" },
+  { id: "stats", label: "Статистика", short: "Стата" },
+  { id: "cafe", label: "Кафе", short: "Кафе" },
+  { id: "tools", label: "Полезные функции", short: "Функции" },
+  { id: "admin", label: "Админ", short: "Админ" },
+];
 
 function tabCaption(tab: MainTab) {
   if (tab === "stats") return "статистика улова";
@@ -38,9 +48,11 @@ export function Shell() {
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const panels = useResizablePanels();
+  const isMobile = useIsMobile();
   const feedOnly = waterbodyId === ALL_WATERBODIES;
   const spotsTab = tab === "spots";
   const cafeUrl = cafeUrlForWaterbody(waterbodyId);
+  const visibleTabs = TAB_ITEMS.filter((item) => item.id !== "admin" || user?.role === "admin");
 
   const openOnMap = useStore((s) => s.openOnMap);
 
@@ -70,6 +82,8 @@ export function Shell() {
     if (tab === "admin" && user?.role !== "admin") setTab("spots");
   }, [tab, user?.role, setTab]);
 
+  useBackGuard(passwordOpen, () => setPasswordOpen(false));
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -80,27 +94,24 @@ export function Shell() {
             <small>{tabCaption(tab)}</small>
           </div>
         </div>
-        <div className="nav-tabs" role="tablist" aria-label="Разделы">
-          <button type="button" role="tab" aria-selected={spotsTab} className={spotsTab ? "on" : ""} onClick={() => setTab("spots")}>
-            Споты
-          </button>
-          <button type="button" role="tab" aria-selected={tab === "stats"} className={tab === "stats" ? "on" : ""} onClick={() => setTab("stats")}>
-            Статистика
-          </button>
-          <button type="button" role="tab" aria-selected={tab === "cafe"} className={tab === "cafe" ? "on" : ""} onClick={() => setTab("cafe")}>
-            Кафе
-          </button>
-          <button type="button" role="tab" aria-selected={tab === "tools"} className={tab === "tools" ? "on" : ""} onClick={() => setTab("tools")}>
-            Полезные функции
-          </button>
-          {user?.role === "admin" && (
-            <button type="button" role="tab" aria-selected={tab === "admin"} className={tab === "admin" ? "on" : ""} onClick={() => setTab("admin")}>
-              Админ
-            </button>
-          )}
-        </div>
+        {!isMobile && (
+          <div className="nav-tabs" role="tablist" aria-label="Разделы">
+            {visibleTabs.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                aria-selected={tab === item.id}
+                className={tab === item.id ? "on" : ""}
+                onClick={() => setTab(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
         <label className="wb-select">
-          Водоём
+          <span>Водоём</span>
           <select value={waterbodyId} onChange={(e) => void setWaterbody(e.target.value)}>
             <option value={ALL_WATERBODIES}>Все водоёмы</option>
             {waterbodies.map((w) => (
@@ -110,7 +121,7 @@ export function Shell() {
             ))}
           </select>
         </label>
-        {!feedOnly && spotsTab && (
+        {!isMobile && !feedOnly && spotsTab && (
           <button type="button" className={`btn ghost ${rulerOn ? "on" : ""}`} onClick={toggleRuler}>
             Линейка
           </button>
@@ -173,6 +184,22 @@ export function Shell() {
           </div>
         )}
       </div>
+      {isMobile && (
+        <nav className="mobile-tabs" role="tablist" aria-label="Разделы">
+          {visibleTabs.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              aria-selected={tab === item.id}
+              className={tab === item.id ? "on" : ""}
+              onClick={() => setTab(item.id)}
+            >
+              {item.short}
+            </button>
+          ))}
+        </nav>
+      )}
       {passwordOpen && <PasswordModal onClose={() => setPasswordOpen(false)} />}
     </div>
   );

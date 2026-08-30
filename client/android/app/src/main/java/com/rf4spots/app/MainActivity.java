@@ -16,6 +16,9 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 
@@ -40,10 +43,15 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     webView = new WebView(this);
     webView.setBackgroundColor(0xFF07131C);
-    setContentView(
+
+    FrameLayout root = new FrameLayout(this);
+    root.setBackgroundColor(0xFF07131C);
+    root.addView(
         webView,
         new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+    setContentView(root);
+    applyWindowInsets(root);
 
     WebViewAssetLoader assetLoader =
         new WebViewAssetLoader.Builder()
@@ -54,11 +62,12 @@ public class MainActivity extends AppCompatActivity {
     WebSettings settings = webView.getSettings();
     settings.setJavaScriptEnabled(true);
     settings.setDomStorageEnabled(true);
-    settings.setSupportZoom(true);
-    settings.setBuiltInZoomControls(true);
+    settings.setSupportZoom(false);
+    settings.setBuiltInZoomControls(false);
     settings.setDisplayZoomControls(false);
     settings.setUseWideViewPort(true);
-    settings.setLoadWithOverviewMode(true);
+    settings.setLoadWithOverviewMode(false);
+    settings.setTextZoom(100);
     settings.setMediaPlaybackRequiresUserGesture(false);
     settings.setAllowFileAccess(true);
     settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -116,6 +125,24 @@ public class MainActivity extends AppCompatActivity {
             });
 
     webView.loadUrl("https://" + ASSET_HOST + "/index.html");
+  }
+
+  /**
+   * Начиная с Android 15 окно всегда рисуется под системными панелями, а клавиатура больше не
+   * ужимает его сама. На более старых версиях декор гасит эти вставки и отступы выходят нулевыми.
+   */
+  private void applyWindowInsets(FrameLayout root) {
+    ViewCompat.setOnApplyWindowInsetsListener(
+        root,
+        (view, windowInsets) -> {
+          Insets bars =
+              windowInsets.getInsets(
+                  WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+          Insets ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime());
+          view.setPadding(bars.left, bars.top, bars.right, Math.max(bars.bottom, ime.bottom));
+          return WindowInsetsCompat.CONSUMED;
+        });
+    ViewCompat.requestApplyInsets(root);
   }
 
   @Override

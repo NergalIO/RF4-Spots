@@ -4,9 +4,11 @@ import L from "leaflet";
 import { fmtCoord } from "@/shared/format";
 import type { CatchType, PostMarker, Waterbody } from "@/types";
 import { useStore } from "@/store";
+import { useIsMobile } from "@/platform";
 
 type Props = {
   onCreate: (coords: { x: number; y: number }) => void;
+  onSelect?: (id: string) => void;
 };
 
 function pin(active: boolean, catchType: CatchType) {
@@ -70,6 +72,24 @@ function FlyToPin({
   return null;
 }
 
+function CenterTracker({
+  wb,
+  onChange,
+}: {
+  wb: Waterbody;
+  onChange: (c: { x: number; y: number }) => void;
+}) {
+  const map = useMapEvents({
+    move() {
+      onChange(pixelToGame(wb, map.getCenter()));
+    },
+  });
+  useEffect(() => {
+    onChange(pixelToGame(wb, map.getCenter()));
+  }, [map, wb, onChange]);
+  return null;
+}
+
 function MapEvents({
   wb,
   rulerOn,
@@ -114,7 +134,7 @@ function MapEvents({
   return null;
 }
 
-export function MapView({ onCreate }: Props) {
+export function MapView({ onCreate, onSelect }: Props) {
   const api = useStore((s) => s.api);
   const waterbodies = useStore((s) => s.waterbodies);
   const waterbodyId = useStore((s) => s.waterbodyId);
@@ -122,13 +142,41 @@ export function MapView({ onCreate }: Props) {
   const selectedId = useStore((s) => s.selectedId);
   const selectPost = useStore((s) => s.selectPost);
   const rulerOn = useStore((s) => s.rulerOn);
+  const toggleRuler = useStore((s) => s.toggleRuler);
+  const isMobile = useIsMobile();
   const wb = waterbodies.find((w) => w.id === waterbodyId);
   const [hover, setHover] = useState<{ x: number; y: number } | null>(null);
+  const [center, setCenter] = useState<{ x: number; y: number } | null>(null);
   const [ruler, setRuler] = useState<{ x: number; y: number }[]>([]);
 
   const bounds = useMemo(
     () => (wb ? L.latLngBounds([0, 0], [wb.imageHeight, wb.imageWidth]) : null),
     [wb],
+  );
+
+  // Держим пины отдельно от состояния HUD: иначе каждое движение карты пересоздаёт их слои.
+  const pins = useMemo(
+    () =>
+      wb
+        ? markers.map((p) => (
+            <Marker
+              key={p.id}
+              position={gameToLatLng(wb, p.coordX, p.coordY)}
+              icon={pin(p.id === selectedId, p.catchType)}
+              eventHandlers={{
+                click: () => {
+                  void selectPost(p.id);
+                  onSelect?.(p.id);
+                },
+              }}
+            >
+              <Tooltip direction="top" offset={[0, -8]}>
+                {p.fishName} · {fmtCoord(p.coordX, p.coordY)}
+              </Tooltip>
+            </Marker>
+          ))
+        : [],
+    [wb, markers, selectedId, selectPost, onSelect],
   );
 
   const flyMarker = markers.find((m) => m.id === selectedId);
@@ -139,9 +187,10 @@ export function MapView({ onCreate }: Props) {
     ruler.length === 2
       ? Math.hypot(ruler[1].x - ruler[0].x, ruler[1].y - ruler[0].y) * wb.metersPerCell
       : null;
+  const readout = isMobile ? center : hover;
 
   return (
-    <div className="map-wrap">
+    <div className={`map-wrap ${isMobile ? "map-touch" : ""}`}>
       <MapContainer
         key={`${wb.id}-${wb.imageWidth}x${wb.imageHeight}-${wb.mapUrl}`}
         crs={L.CRS.Simple}
@@ -160,18 +209,8 @@ export function MapView({ onCreate }: Props) {
         <FlyToPin wb={wb} marker={flyMarker} />
         <ImageOverlay url={api.fileUrl(wb.mapUrl)} bounds={bounds} />
         <MapEvents wb={wb} rulerOn={rulerOn} onHover={setHover} onCreate={onCreate} onRuler={setRuler} />
-        {markers.map((p) => (
-          <Marker
-            key={p.id}
-            position={gameToLatLng(wb, p.coordX, p.coordY)}
-            icon={pin(p.id === selectedId, p.catchType)}
-            eventHandlers={{ click: () => void selectPost(p.id) }}
-          >
-            <Tooltip direction="top" offset={[0, -8]}>
-              {p.fishName} · {fmtCoord(p.coordX, p.coordY)}
-            </Tooltip>
-          </Marker>
-        ))}
+        {isMobile && <CenterTracker wb={wb} onChange={setCenter} />}
+        {pins}
         {ruler.length === 2 && (
           <Polyline
             positions={[gameToLatLng(wb, ruler[0].x, ruler[0].y), gameToLatLng(wb, ruler[1].x, ruler[1].y)]}
@@ -179,15 +218,41 @@ export function MapView({ onCreate }: Props) {
           />
         )}
       </MapContainer>
+      {isMobile && !rulerOn && <span className="map-crosshair" aria-hidden />}
       <div className="map-hud">
-        <span>{hover ? fmtCoord(hover.x, hover.y) : "—:—"}</span>
+        <span>{readout ? fmtCoord(readout.x, readout.y) : "—:—"}</span>
         {rulerOn && (
           <span className="gold">
-            {dist != null ? `${Math.round(dist)} м` : "кликните две точки"}
+            {dist != null
+              ? `${Math.round(dist)} м`
+              : isMobile
+                ? "коснитесь двух точек"
+                : "кликните две точки"}
           </span>
         )}
-        {!rulerOn && <span className="muted">ПКМ — новый пост</span>}
+        {!rulerOn && <span className="muted">{isMobile ? "точка в центре" : "ПКМ — новый пост"}</span>}
       </div>
+      {isMobile && (
+        <div className="map-actions">
+          <button
+            type="button"
+            className={`map-fab ${rulerOn ? "on" : ""}`}
+            onClick={toggleRuler}
+            aria-pressed={rulerOn}
+            aria-label="Линейка"
+          >
+            ↔
+          </button>
+          <button
+            type="button"
+            className="map-fab primary"
+            onClick={() => center && onCreate(center)}
+            aria-label="Новый пост в центре карты"
+          >
+            +
+          </button>
+        </div>
+      )}
     </div>
   );
 }

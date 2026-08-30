@@ -10,9 +10,11 @@ type Props = {
   onEdit: () => void;
   onOpenShots: (shots: Screenshot[], index: number) => void;
   onCollapse?: () => void;
+  onBack?: () => void;
+  onShowMap?: () => void;
 };
 
-export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
+export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap }: Props) {
   const detail = useStore((s) => s.detail);
   const user = useStore((s) => s.user);
   const api = useStore((s) => s.api);
@@ -50,10 +52,17 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
     requestAnimationFrame(fitCommentBox);
   }, [detail?.id]);
 
+  const backButton = onBack && (
+    <button type="button" className="pane-back" onClick={onBack} aria-label="Назад">
+      ‹
+    </button>
+  );
+
   if (!detail) {
     return (
       <aside className="panel right">
         <div className="panel-head">
+          {backButton}
           <h2>Детали</h2>
           {onCollapse && (
             <button type="button" className="pane-toggle" onClick={onCollapse} title="Скрыть панель">
@@ -62,7 +71,11 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
           )}
         </div>
         <p className="empty">
-          {waterbodyId === ALL_WATERBODIES ? "Выберите пост слева" : "Выберите пост слева или точку на карте"}
+          {onBack
+            ? "Загрузка…"
+            : waterbodyId === ALL_WATERBODIES
+              ? "Выберите пост слева"
+              : "Выберите пост слева или точку на карте"}
         </p>
       </aside>
     );
@@ -126,6 +139,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
   return (
     <aside className="panel right">
       <div className="panel-head">
+        {backButton}
         <h2>Детали</h2>
         <div className="head-actions">
           <button
@@ -136,7 +150,14 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse }: Props) {
             ★
           </button>
           {waterbodyId === ALL_WATERBODIES && (
-            <button type="button" className="btn ghost sm" onClick={() => void openOnMap(post)}>
+            <button
+              type="button"
+              className="btn ghost sm"
+              onClick={() => {
+                void openOnMap(post);
+                onShowMap?.();
+              }}
+            >
               На карте
             </button>
           )}
