@@ -374,6 +374,11 @@ async function ensureGradle() {
     }
     throw new Error("Не удалось распаковать Gradle.");
   }
+  try {
+    fs.unlinkSync(archive);
+  } catch {
+    /* keep zip if unlink fails */
+  }
   chmodGradle(bin);
   return bin;
 }
@@ -434,14 +439,22 @@ async function main() {
     gradle,
     [
       "assembleRelease",
+      "--no-daemon",
+      "--project-cache-dir",
+      path.join(process.env.HOME || "/root", ".gradle", "project-cache"),
       `-PappVersion=${version}`,
       `-PappVersionCode=${versionCode(version)}`,
       `-PcompileSdk=${compileSdk}`,
     ],
     { cwd: androidDir, env },
   );
-  if (status !== 0) process.exit(status);
+  if (status !== 0) {
+    removePath(path.join(androidDir, "app", "build"));
+    process.exit(status);
+  }
   publishApk(version);
+  removePath(path.join(androidDir, "app", "build"));
+  removePath(path.join(androidDir, ".gradle"));
 }
 
 main().catch((err) => {

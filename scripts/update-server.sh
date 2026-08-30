@@ -236,7 +236,13 @@ pack_win() {
     -v rf4spots-electron-builder-cache:/root/.cache/electron-builder \
     -w /project/client \
     "$WINE_IMAGE" \
-    bash -lc 'npm ci && node scripts/pack-win.cjs'
+    bash -lc 'npm ci && node scripts/pack-win.cjs' || return 1
+  local version
+  version="$(cd "$ROOT/client" && node -p "require('./package.json').version" 2>/dev/null || true)"
+  if [[ -n "$version" && ! -f "$ROOT/server/updates/RF4Spots-Setup-${version}.exe" ]]; then
+    echo "$(LOG_PREFIX) Windows-установщик не появился в server/updates" >&2
+    return 1
+  fi
   cleanup_old_installers
   echo "$(LOG_PREFIX) Windows: файлы в server/updates (отдаются как /updates/installer)"
 }
@@ -253,11 +259,18 @@ pack_apk() {
     -e PACK_ON_SERVER=1 \
     -e "VITE_SERVER_URL=${vite_url}" \
     -e VITE_ALLOWED_SERVERS="${VITE_ALLOWED_SERVERS:-}" \
+    -e TMPDIR=/root/.gradle/tmp \
     -v "$ROOT":/project \
     -v rf4spots-gradle-cache:/root/.gradle \
     -w /project/client \
     "$ANDROID_IMAGE" \
-    bash -lc 'yes | sdkmanager --licenses >/dev/null 2>&1 || true; npm ci && node scripts/pack-apk.cjs'
+    bash -lc 'mkdir -p /root/.gradle/tmp; yes | sdkmanager --licenses >/dev/null 2>&1 || true; npm ci && node scripts/pack-apk.cjs' || return 1
+  local version
+  version="$(cd "$ROOT/client" && node -p "require('./package.json').version" 2>/dev/null || true)"
+  if [[ -z "$version" || ! -f "$ROOT/server/updates/RF4Spots-${version}.apk" ]]; then
+    echo "$(LOG_PREFIX) APK не появился в server/updates" >&2
+    return 1
+  fi
   cleanup_old_installers
   echo "$(LOG_PREFIX) APK: файл в server/updates (отдаётся как /updates/apk)"
 }
