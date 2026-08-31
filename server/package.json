@@ -1,6 +1,6 @@
 {
   "name": "rf4-spots-server",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "node dist/index.js",
     "create-admin": "tsx src/cli/create-admin.ts",
     "create-user": "tsx src/cli/create-admin.ts --role player",
+    "set-password": "tsx src/cli/set-password.ts",
     "uploads:sweep": "tsx src/cli/sweep-uploads.ts",
     "test": "vitest run",
     "db:migrate": "prisma migrate deploy",

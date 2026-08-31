@@ -57,6 +57,8 @@ docker compose exec api npm run create-admin -- --nickname Nergal --password "с
 
 Открытую регистрацию на публичном сервере лучше выключить (`ALLOW_REGISTER=false`) и выдавать приглашения во вкладке «Админ» либо аккаунты: `docker compose exec api npm run create-user -- --nickname NAME --password SECRET`. Использованный код приглашения не возвращается, даже если игрока потом удалили.
 
+Забытый пароль меняется из командной строки: `docker compose exec api npm run set-password -- --nickname NAME`. Пароль спросят с клавиатуры без эха, поэтому он не попадёт ни в историю оболочки, ни в список процессов; в скриптах можно передать его сразу (`--password SECRET`) или через stdin (`printf '%s' SECRET | docker compose exec -T api npm run set-password -- --nickname NAME`). Прежние сессии этого игрока сбрасываются. Без Docker — то же самое в каталоге `server`.
+
 После смены `JWT_SECRET` все сессии сбрасываются — нужен повторный вход.
 
 Справочники после деплоя: `docker compose exec api npm run db:seed` (на каждый старт контейнера seed больше не выполняется). Лишние файлы в `uploads`: `docker compose exec api npm run uploads:sweep`.
