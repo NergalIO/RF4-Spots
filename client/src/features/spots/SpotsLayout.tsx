@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ALL_WATERBODIES } from "@/constants";
 import { MapView } from "./MapView";
 import { PostDetail } from "./PostDetail";
@@ -25,6 +25,9 @@ export function SpotsLayout({ visible, panels }: { visible: boolean; panels: Pan
   const [detailOpen, setDetailOpen] = useState(false);
   const feedOnly = waterbodyId === ALL_WATERBODIES;
   const showMap = !feedOnly && screen === "map";
+
+  // Ссылка должна быть стабильной: иначе пины на карте пересобираются на каждый рендер.
+  const openDetail = useCallback(() => setDetailOpen(true), []);
 
   function closeDetail() {
     setDetailOpen(false);
@@ -79,9 +82,9 @@ export function SpotsLayout({ visible, panels }: { visible: boolean; panels: Pan
           )}
           <div className="mobile-screen">
             {showMap ? (
-              <MapView onCreate={setCreateAt} onSelect={() => setDetailOpen(true)} />
+              <MapView onCreate={setCreateAt} onSelect={openDetail} />
             ) : (
-              <PostList onSelect={() => setDetailOpen(true)} onShowMap={showOnMap} />
+              <PostList onSelect={openDetail} onShowMap={showOnMap} />
             )}
           </div>
           {detailOpen && (

@@ -11,13 +11,22 @@ type Props = {
   onSelect?: (id: string) => void;
 };
 
+const iconCache = new Map<string, L.DivIcon>();
+
+// Новый объект иконки заставляет react-leaflet пересобрать DOM пина. Если это случается между
+// нажатием и отпусканием, браузер отдаёт click уже не пину, и выбор поста теряется.
 function pin(active: boolean, catchType: CatchType) {
-  return L.divIcon({
+  const classes = `${catchType}${active ? " on" : ""}`;
+  const cached = iconCache.get(classes);
+  if (cached) return cached;
+  const icon = L.divIcon({
     className: "",
     iconSize: [18, 18],
     iconAnchor: [9, 9],
-    html: `<span class="map-pin ${catchType}${active ? " on" : ""}"></span>`,
+    html: `<span class="map-pin ${classes}"></span>`,
   });
+  iconCache.set(classes, icon);
+  return icon;
 }
 
 export function pixelToGame(wb: Waterbody, latlng: L.LatLng) {
@@ -48,27 +57,46 @@ function MapSync({ wb }: { wb: Waterbody }) {
   const map = useMap();
   useEffect(() => {
     const bounds = L.latLngBounds([0, 0], [wb.imageHeight, wb.imageWidth]);
-    map.fitBounds(bounds);
     map.setMaxBounds(bounds.pad(0.08));
+    // Leaflet запоминает размер контейнера и сам за ним не следит. Панели, вкладки и баннер
+    // обновления меняют его без resize окна, и тогда карта с пинами съезжает влево-вверх.
+    // Пока панель скрыта, контейнер нулевой и вписывать границы не во что.
+    let fitted = false;
+    const sync = () => {
+      const box = map.getContainer();
+      if (!box.clientWidth || !box.clientHeight) return;
+      map.invalidateSize({ animate: false });
+      if (!fitted) {
+        fitted = true;
+        map.fitBounds(bounds);
+      }
+    };
+    sync();
+    const observer = new ResizeObserver(sync);
+    observer.observe(map.getContainer());
+    return () => observer.disconnect();
   }, [map, wb]);
   return null;
 }
 
 function FlyToPin({
   wb,
-  marker,
+  markers,
 }: {
   wb: Waterbody;
-  marker: PostMarker | undefined;
+  markers: PostMarker[];
 }) {
   const map = useMap();
   const flyToId = useStore((s) => s.flyToId);
   const clearFlyTo = useStore((s) => s.clearFlyTo);
   useEffect(() => {
-    if (!flyToId || !marker) return;
-    map.panTo(gameToLatLng(wb, marker.coordX, marker.coordY));
+    if (!flyToId || !markers.length) return;
+    const target = markers.find((m) => m.id === flyToId);
+    // Флаг снимаем и когда поста на этой карте нет: иначе он дождётся следующего выбора
+    // точки и уведёт карту к ней.
+    if (target) map.panTo(gameToLatLng(wb, target.coordX, target.coordY));
     clearFlyTo();
-  }, [map, wb, marker, flyToId, clearFlyTo]);
+  }, [map, wb, markers, flyToId, clearFlyTo]);
   return null;
 }
 
@@ -163,6 +191,8 @@ export function MapView({ onCreate, onSelect }: Props) {
               key={p.id}
               position={gameToLatLng(wb, p.coordX, p.coordY)}
               icon={pin(p.id === selectedId, p.catchType)}
+              // Без этого пин получает tabindex, и браузер по фокусу прокручивает к нему контейнер.
+              keyboard={false}
               eventHandlers={{
                 click: () => {
                   void selectPost(p.id);
@@ -178,8 +208,6 @@ export function MapView({ onCreate, onSelect }: Props) {
         : [],
     [wb, markers, selectedId, selectPost, onSelect],
   );
-
-  const flyMarker = markers.find((m) => m.id === selectedId);
 
   if (!wb || !bounds) return <div className="map-empty">Выберите водоём</div>;
 
@@ -206,7 +234,7 @@ export function MapView({ onCreate, onSelect }: Props) {
         attributionControl={false}
       >
         <MapSync wb={wb} />
-        <FlyToPin wb={wb} marker={flyMarker} />
+        <FlyToPin wb={wb} markers={markers} />
         <ImageOverlay url={api.fileUrl(wb.mapUrl)} bounds={bounds} />
         <MapEvents wb={wb} rulerOn={rulerOn} onHover={setHover} onCreate={onCreate} onRuler={setRuler} />
         {isMobile && <CenterTracker wb={wb} onChange={setCenter} />}
