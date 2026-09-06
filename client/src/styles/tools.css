@@ -183,8 +183,28 @@ body.resizing-panels .guide-scroll .col-resizer {
   color: var(--muted);
   font-weight: 500;
   white-space: nowrap;
-  width: 34%;
+  min-width: 110px;
+  width: 1%;
 }
+.compare-table thead th:not(:first-child) {
+  min-width: 128px;
+}
+.compare-col-head {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+.compare-remove {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.compare-remove:hover { color: var(--danger); }
 .compare-table td {
   overflow-wrap: anywhere;
 }

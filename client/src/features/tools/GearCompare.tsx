@@ -15,7 +15,7 @@ type Props = {
 };
 
 const MIN_PANEL = 220;
-const MAX_PANEL = 640;
+const MAX_PANEL = 960;
 const DEFAULT_PANEL = 360;
 const SKIP_BEST = new Set(["name", "notes", "category"]);
 const LOWER_BETTER = new Set(["price", "weight"]);
@@ -68,7 +68,10 @@ function winningIndexes(values: unknown[], field: GuideField): Set<number> {
 
 export function GearCompare({ datasetKey, rows, canEdit, saving, error, selected, onSelect, onSave }: Props) {
   const fields = GUIDE_FIELDS[datasetKey];
-  const picked = selected.map((i) => rows[i]).filter(Boolean);
+  const picked = selected.flatMap((index) => {
+    const row = rows[index];
+    return row ? [{ index, row }] : [];
+  });
   const [panelW, setPanelW] = useState(() => loadPanel(datasetKey));
   const panelRef = useRef(panelW);
   panelRef.current = panelW;
@@ -94,7 +97,7 @@ export function GearCompare({ datasetKey, rows, canEdit, saving, error, selected
   const diff = useMemo(() => {
     if (picked.length < 2) return [];
     return specFields.map((field) => {
-      const values = picked.map((row) => row[field.key]);
+      const values = picked.map((item) => item.row[field.key]);
       return {
         key: field.key,
         label: field.label,
@@ -138,9 +141,9 @@ export function GearCompare({ datasetKey, rows, canEdit, saving, error, selected
         onSave={onSave}
         selected={selected}
         onSelect={onSelect}
-        selectHint="Выберите две строки для сравнения"
+        selectHint="Отметьте две или больше строк для сравнения"
       />
-      {picked.length === 2 && (
+      {picked.length >= 2 && (
         <div className="compare-dock" style={{ width: panelW }}>
           <div
             className="resize-handle"
@@ -153,8 +156,19 @@ export function GearCompare({ datasetKey, rows, canEdit, saving, error, selected
               <thead>
                 <tr>
                   <th>Параметр</th>
-                  {picked.map((row, i) => (
-                    <th key={i}>{asText(row.name) || `Вариант ${i + 1}`}</th>
+                  {picked.map((item, i) => (
+                    <th key={item.index}>
+                      <div className="compare-col-head">
+                        <span>{asText(item.row.name) || `Вариант ${i + 1}`}</span>
+                        <button
+                          type="button"
+                          className="compare-remove"
+                          onClick={() => onSelect(item.index)}
+                        >
+                          Убрать из сравнения
+                        </button>
+                      </div>
+                    </th>
                   ))}
                 </tr>
               </thead>

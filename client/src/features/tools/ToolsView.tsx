@@ -56,7 +56,7 @@ export function ToolsView({ active }: { active: boolean }) {
 
   function togglePick(list: number[], index: number, set: (v: number[]) => void) {
     if (list.includes(index)) set(list.filter((i) => i !== index));
-    else set([...list, index].slice(-2));
+    else if (list.length < 12) set([...list, index]);
   }
 
   const body = renderTool(tool, {
