@@ -80,6 +80,19 @@ def main() -> None:
         y_top, y_bot = float(lt[1]), float(rb[1])
         wb.update(
             {
+                "imageFile": fname,
+                "imageWidth": w,
+                "imageHeight": h,
+                "rf4MapSiteId": rec["id"],
+                "sourceImage": src,
+            }
+        )
+        # Границы, выверенные вручную по игровому скриншоту, точнее данных сайта: не трогаем.
+        if wb.get("manualCalibration"):
+            print("  manual calibration kept")
+            continue
+        wb.update(
+            {
                 "xMin": round(float(lt[0]), 4),
                 "xMax": round(float(rb[0]), 4),
                 "yMin": round(min(y_top, y_bot), 4),
@@ -90,12 +103,7 @@ def main() -> None:
                 "padRight": 0,
                 "padBottom": 0,
                 "metersPerCell": float(rec.get("distance_scale") or wb.get("metersPerCell") or 5),
-                "imageFile": fname,
-                "imageWidth": w,
-                "imageHeight": h,
                 "cellPx": round(min(w, h) / 10),
-                "rf4MapSiteId": rec["id"],
-                "sourceImage": src,
             }
         )
 

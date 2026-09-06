@@ -25,6 +25,10 @@ for wb in waterbodies:
     if not rec:
         print(f"skip bounds {wb['id']}")
         continue
+    # Границы, выверенные вручную по игровому скриншоту, точнее данных RF4MAP: не трогаем.
+    if wb.get("manualCalibration"):
+        print(f"keep manual {wb['id']}")
+        continue
     x0, x1 = rec["startPositionX"], rec["endPositionX"]
     y0, y1 = rec["startPositionY"], rec["endPositionY"]
     wb["xMin"] = x0
