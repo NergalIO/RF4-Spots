@@ -73,6 +73,9 @@ export type Post = {
   commentsMeta: { id: string; createdAt: string; userId: string }[];
   comments?: CommentItem[];
   favorited: boolean;
+  likesCount: number;
+  dislikesCount: number;
+  userReaction: "like" | "dislike" | null;
 };
 
 export type GuideValue = string | number | null;

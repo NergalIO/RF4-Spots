@@ -31,6 +31,16 @@ export function postsApi(http: Http) {
       http.req<{ ok: boolean; favorited: boolean }>(`/posts/${id}/favorite`, {
         method: on ? "POST" : "DELETE",
       }),
+    setPostVote: (id: string, value: "like" | "dislike" | null) =>
+      http.req<{
+        ok: boolean;
+        userReaction: "like" | "dislike" | null;
+        likesCount: number;
+        dislikesCount: number;
+      }>(`/posts/${id}/vote`, {
+        method: "PUT",
+        body: JSON.stringify({ value }),
+      }),
     addComment: (postId: string, fd: FormData) =>
       http.req<{ comment: CommentItem }>(`/posts/${postId}/comments`, { method: "POST", body: fd }),
     deleteComment: (id: string) => http.req<{ ok: boolean }>(`/comments/${id}`, { method: "DELETE" }),

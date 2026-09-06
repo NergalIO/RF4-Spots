@@ -34,6 +34,7 @@ export type Store = {
   refreshDetail: (opts?: { skipList?: boolean }) => Promise<void>;
   openOnMap: (post: Post) => Promise<void>;
   toggleFavorite: (post: Post) => Promise<void>;
+  toggleVote: (post: Post, value: "like" | "dislike") => Promise<void>;
   markSeen: (post: Post) => void;
   toggleRuler: () => void;
   setError: (msg: string) => void;

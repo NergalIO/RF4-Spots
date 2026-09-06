@@ -7,6 +7,7 @@ import { useStore } from "@/store";
 import type { CatchType } from "@/types";
 import { loadFilterSlots, saveFilterSlots, type FilterKey } from "@/persist";
 import { ruNewComments, unreadOf } from "@/unread";
+import { VoteButtons } from "./VoteButtons";
 
 const FILTER_OPTIONS: { id: FilterKey; label: string }[] = [
   { id: "search", label: "Поиск" },
@@ -36,6 +37,7 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
   const selectPost = useStore((s) => s.selectPost);
   const openOnMap = useStore((s) => s.openOnMap);
   const toggleFavorite = useStore((s) => s.toggleFavorite);
+  const toggleVote = useStore((s) => s.toggleVote);
   const waterbodyId = useStore((s) => s.waterbodyId);
   const user = useStore((s) => s.user);
   const seen = useStore((s) => s.seen);
@@ -277,6 +279,7 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
                   </span>
                 )}
               </button>
+              <VoteButtons post={p} onVote={(value) => void toggleVote(p, value)} />
               {allMaps && (
                 <div className="spot-card-actions">
                   <button

@@ -1,9 +1,10 @@
 import { z } from "zod";
-import type { CatchType, Prisma } from "@prisma/client";
+import type { CatchType, PostVoteValue, Prisma } from "@prisma/client";
 import { prisma } from "./prisma.js";
 import { CATCH_TYPES } from "./catchTypes.js";
 import { iso, screenshotUrl } from "./serialize.js";
 import { replaceScreenshots } from "./screenshots.js";
+import { tallyVotes } from "./votes.js";
 
 export const postBody = z.object({
   waterbodyId: z.string().min(1),
@@ -39,14 +40,16 @@ export type MappedPostInput = {
   comments?: { id: string; createdAt: Date; userId: string }[];
   _count?: { comments: number; favorites?: number };
   favorites?: { userId: string }[];
+  votes?: { userId: string; value: PostVoteValue }[];
 };
 
-export function mapPost(post: MappedPostInput) {
+export function mapPost(post: MappedPostInput, viewerId = "") {
   const commentsMeta = (post.comments ?? []).map((c) => ({
     id: c.id,
     createdAt: iso(c.createdAt),
     userId: c.userId,
   }));
+  const { likesCount, dislikesCount, userReaction } = tallyVotes(post.votes ?? [], viewerId);
   return {
     id: post.id,
     coordX: post.coordX,
@@ -67,6 +70,9 @@ export function mapPost(post: MappedPostInput) {
     commentsCount: post._count?.comments ?? post.comments?.length ?? 0,
     commentsMeta,
     favorited: Boolean(post.favorites?.length),
+    likesCount,
+    dislikesCount,
+    userReaction,
   };
 }
 
@@ -87,6 +93,7 @@ export const favoriteInclude = (userId: string) =>
   ({
     ...includeList,
     favorites: { where: { userId }, select: { userId: true }, take: 1 },
+    votes: { select: { userId: true, value: true } },
   }) satisfies Prisma.PostInclude;
 
 type QueryBag = Record<string, unknown>;

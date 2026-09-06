@@ -85,6 +85,9 @@ export class Api {
   setFavorite(id: string, on: boolean) {
     return this.postsClient.setFavorite(id, on);
   }
+  setPostVote(id: string, value: "like" | "dislike" | null) {
+    return this.postsClient.setPostVote(id, value);
+  }
   addComment(postId: string, fd: FormData) {
     return this.postsClient.addComment(postId, fd);
   }

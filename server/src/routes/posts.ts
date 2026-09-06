@@ -19,13 +19,13 @@ import {
   applyListCursor,
   createPostRecord,
   favoriteInclude,
-  includeList,
   livePosts,
   mapPost,
   postBody,
   postsListWhere,
   updatePostRecord,
 } from "../lib/posts.js";
+import { setPostVote, VOTE_VALUES } from "../lib/votes.js";
 
 export const postsRouter = Router();
 
@@ -68,15 +68,14 @@ postsRouter.get("/", requireAuth, async (req: AuthedRequest, res) => {
   const nextCursor = rows.length > listed.take ? rows[listed.take - 1]?.id ?? null : null;
   const page = rows.slice(0, listed.take);
   res.setHeader("Cache-Control", "no-store");
-  res.json({ posts: page.map(mapPost), nextCursor });
+  res.json({ posts: page.map((p) => mapPost(p, req.user!.id)), nextCursor });
 });
 
 postsRouter.get("/:id", requireAuth, async (req: AuthedRequest, res) => {
   const post = await prisma.post.findUnique({
     where: { id: paramId(req.params.id) },
     include: {
-      ...includeList,
-      favorites: { where: { userId: req.user!.id }, select: { userId: true }, take: 1 },
+      ...favoriteInclude(req.user!.id),
       comments: {
         where: { deletedAt: null },
         include: {
@@ -93,7 +92,7 @@ postsRouter.get("/:id", requireAuth, async (req: AuthedRequest, res) => {
   }
   res.json({
     post: {
-      ...mapPost(post),
+      ...mapPost(post, req.user!.id),
       comments: post.comments.map((c) => ({
         id: c.id,
         text: c.text,
@@ -133,7 +132,7 @@ postsRouter.post(
       return;
     }
     const post = await createPostRecord(req.user!.id, data, uploadedFiles(req));
-    res.status(201).json({ post: mapPost(post) });
+    res.status(201).json({ post: mapPost(post, req.user!.id) });
   },
 );
 
@@ -173,7 +172,7 @@ postsRouter.patch(
       return;
     }
     const post = await updatePostRecord(existing, req.user!.id, parsed.data, files, keepParsed.ids);
-    res.json({ post: mapPost(post) });
+    res.json({ post: mapPost(post, req.user!.id) });
   },
 );
 
@@ -210,6 +209,24 @@ postsRouter.delete("/:id/favorite", requireAuth, async (req: AuthedRequest, res)
   const postId = paramId(req.params.id);
   await prisma.favorite.deleteMany({ where: { userId: req.user!.id, postId } });
   res.json({ ok: true, favorited: false });
+});
+
+postsRouter.put("/:id/vote", requireAuth, async (req: AuthedRequest, res) => {
+  const parsed = z
+    .object({ value: z.enum(VOTE_VALUES).nullable() })
+    .safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: zodError(parsed.error) });
+    return;
+  }
+  const postId = paramId(req.params.id);
+  const post = await prisma.post.findUnique({ where: { id: postId } });
+  if (!post || post.deletedAt) {
+    res.status(404).json({ error: "Пост не найден" });
+    return;
+  }
+  const result = await setPostVote(req.user!.id, postId, parsed.data.value);
+  res.json({ ok: true, ...result });
 });
 
 postsRouter.post(

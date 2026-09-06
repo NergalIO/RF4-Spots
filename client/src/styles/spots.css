@@ -203,6 +203,38 @@
   flex-shrink: 0;
   padding: 2px 8px;
 }
+.vote-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+.vote-btn svg { display: block; }
+.vote-btn:hover { color: var(--gold); background: #1b3a48; }
+.vote-btn.like.on {
+  color: #8fd08a;
+  border-color: #3d6b3f;
+  background: #16321c;
+}
+.vote-btn.dislike.on {
+  color: #e08a8a;
+  border-color: #6b3d3d;
+  background: #321616;
+}
+.detail-body > .vote-bar { margin: 2px 0 10px; }
 .spot-card-main {
   display: grid;
   gap: 4px;

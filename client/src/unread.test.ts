@@ -21,6 +21,9 @@ function post(partial: Partial<Post> = {}): Post {
     commentsCount: 0,
     commentsMeta: [],
     favorited: false,
+    likesCount: 0,
+    dislikesCount: 0,
+    userReaction: null,
     ...partial,
   };
 }

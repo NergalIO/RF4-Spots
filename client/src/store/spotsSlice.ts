@@ -28,6 +28,7 @@ export type SpotsSlice = Pick<
   | "refreshDetail"
   | "openOnMap"
   | "toggleFavorite"
+  | "toggleVote"
   | "markSeen"
   | "toggleRuler"
   | "clearFlyTo"
@@ -158,5 +159,16 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
       detail: get().detail?.id === post.id ? { ...get().detail!, favorited } : get().detail,
     });
     if (get().filters.favorite && !favorited) await get().refreshPosts();
+  },
+
+  toggleVote: async (post, value) => {
+    const { api } = get();
+    const next = post.userReaction === value ? null : value;
+    const { userReaction, likesCount, dislikesCount } = await api.setPostVote(post.id, next);
+    const patch = { userReaction, likesCount, dislikesCount };
+    set({
+      posts: get().posts.map((p) => (p.id === post.id ? { ...p, ...patch } : p)),
+      detail: get().detail?.id === post.id ? { ...get().detail!, ...patch } : get().detail,
+    });
   },
 });

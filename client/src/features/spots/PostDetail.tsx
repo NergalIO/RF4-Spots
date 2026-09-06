@@ -5,6 +5,7 @@ import { useStore } from "@/store";
 import type { Screenshot } from "@/types";
 import { ShotPicker } from "./ShotPicker";
 import { DropdownMenu } from "@/shared/DropdownMenu";
+import { VoteButtons } from "./VoteButtons";
 
 type Props = {
   onEdit: () => void;
@@ -23,6 +24,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
   const refreshDetail = useStore((s) => s.refreshDetail);
   const refreshMarkers = useStore((s) => s.refreshMarkers);
   const toggleFavorite = useStore((s) => s.toggleFavorite);
+  const toggleVote = useStore((s) => s.toggleVote);
   const openOnMap = useStore((s) => s.openOnMap);
   const waterbodyId = useStore((s) => s.waterbodyId);
   const [text, setText] = useState("");
@@ -226,6 +228,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
       </div>
       <div className="detail-body">
         <h3>{detail.fish.name}</h3>
+        <VoteButtons post={post} onVote={(value) => void toggleVote(post, value)} />
         <dl className="facts">
           <div>
             <dt>Место</dt>
