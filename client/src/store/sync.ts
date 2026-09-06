@@ -1,5 +1,6 @@
 import type { StoreApi } from "zustand";
 import { ALL_WATERBODIES } from "../constants";
+import { processActivity, resetNotifyCursor } from "../notify/tick";
 import { saveWaterbodyId } from "../persist";
 import type { Store } from "./types";
 
@@ -10,6 +11,7 @@ let store: StoreApi<Store>;
 let pollTimer: ReturnType<typeof setInterval> | null = null;
 let beatTimer: ReturnType<typeof setInterval> | null = null;
 let pollBusy = false;
+let skippedUi = false;
 
 export function bindSync(api: StoreApi<Store>) {
   store = api;
@@ -25,18 +27,30 @@ async function tickPresence() {
   }
 }
 
+async function refreshVisible() {
+  skippedUi = false;
+  await store.getState().refreshPosts();
+  await store.getState().refreshMarkers();
+  if (store.getState().selectedId) await store.getState().refreshDetail({ skipList: true });
+}
+
 async function tickSync() {
-  if (pollBusy || document.hidden) return;
+  if (pollBusy) return;
   const { api, user, syncStamp } = store.getState();
   if (!user) return;
   pollBusy = true;
   try {
     const { stamp } = await api.sync();
-    if (stamp === syncStamp) return;
-    store.setState({ syncStamp: stamp });
-    await store.getState().refreshPosts();
-    await store.getState().refreshMarkers();
-    if (store.getState().selectedId) await store.getState().refreshDetail({ skipList: true });
+    const stampChanged = stamp !== syncStamp;
+    if (stampChanged) {
+      store.setState({ syncStamp: stamp });
+      await processActivity(store);
+    }
+    if (document.hidden) {
+      if (stampChanged) skippedUi = true;
+      return;
+    }
+    if (stampChanged || skippedUi) await refreshVisible();
   } catch {
     /* offline / stale token */
   } finally {
@@ -48,7 +62,7 @@ function onVisibility() {
   if (!document.hidden) void tickSync();
 }
 
-export function stopPoll() {
+function clearPoll() {
   if (pollTimer) {
     clearInterval(pollTimer);
     pollTimer = null;
@@ -60,8 +74,14 @@ export function stopPoll() {
   document.removeEventListener("visibilitychange", onVisibility);
 }
 
+export function stopPoll() {
+  clearPoll();
+  resetNotifyCursor();
+  skippedUi = false;
+}
+
 export function startPoll() {
-  stopPoll();
+  clearPoll();
   pollTimer = setInterval(() => void tickSync(), POLL_MS);
   beatTimer = setInterval(() => void tickPresence(), HEARTBEAT_MS);
   document.addEventListener("visibilitychange", onVisibility);
@@ -81,5 +101,6 @@ export async function loadCatalogAndPosts() {
   saveWaterbodyId(nextId);
   store.setState({ fish, waterbodies, waterbodyId: nextId, syncStamp: stamp });
   await Promise.all([store.getState().refreshPosts(), store.getState().refreshMarkers()]);
+  resetNotifyCursor();
   startPoll();
 }

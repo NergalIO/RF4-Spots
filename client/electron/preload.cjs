@@ -10,4 +10,11 @@ contextBridge.exposeInMainWorld("rf4", {
     ipcRenderer.on("updater:ready", listener);
     return () => ipcRenderer.removeListener("updater:ready", listener);
   },
+  showNotify: (payload) => ipcRenderer.invoke("notify:show", payload),
+  onNotifyClick: (cb) => {
+    const listener = (_event, payload) => cb(payload || { postId: "" });
+    ipcRenderer.on("notify:click", listener);
+    return () => ipcRenderer.removeListener("notify:click", listener);
+  },
+  focusApp: () => ipcRenderer.invoke("notify:focus"),
 });

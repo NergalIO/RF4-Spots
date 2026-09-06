@@ -53,6 +53,7 @@ function createWindow(openMain) {
       contextIsolation: true,
       nodeIntegration: false,
       webviewTag: true,
+      backgroundThrottling: false,
     },
   });
   state.mainWindow.setMenuBarVisibility(false);

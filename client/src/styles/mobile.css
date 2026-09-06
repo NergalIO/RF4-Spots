@@ -71,6 +71,18 @@ html[data-platform="android"] .role-pill {
   white-space: nowrap;
   padding: 8px 10px;
 }
+html[data-platform="android"] .notify-btn {
+  width: 32px;
+  height: 32px;
+}
+html[data-platform="android"] .notify-panel {
+  position: fixed;
+  top: 56px;
+  right: 8px;
+  left: 8px;
+  width: auto;
+  max-width: none;
+}
 
 html[data-platform="android"] .mobile-tabs {
   display: flex;

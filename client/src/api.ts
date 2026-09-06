@@ -64,6 +64,9 @@ export class Api {
   sync() {
     return this.catalog.sync();
   }
+  activity(since: string) {
+    return this.catalog.activity(since);
+  }
   posts(params: Record<string, string>) {
     return this.postsClient.posts(params);
   }

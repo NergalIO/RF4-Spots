@@ -19,6 +19,9 @@ interface Window {
     updateStatus?: () => Promise<{ ready: boolean; version: string }>;
     installUpdate?: () => Promise<boolean>;
     onUpdateReady?: (cb: (info: { version: string }) => void) => () => void;
+    showNotify?: (payload: { title: string; body: string; postId: string }) => Promise<boolean>;
+    onNotifyClick?: (cb: (payload: { postId: string }) => void) => () => void;
+    focusApp?: () => Promise<boolean>;
   };
 }
 

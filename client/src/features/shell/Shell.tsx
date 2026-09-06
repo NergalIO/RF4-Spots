@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { cafeUrlForWaterbody, waterbodyIdFromCafeUrl } from "@/cafe";
 import { ALL_WATERBODIES } from "@/constants";
 import { GameClock } from "./GameClock";
+import { NotifyMenu } from "./NotifyMenu";
 import { SiteEmbed } from "./SiteEmbed";
 import { ToolsView } from "../tools/ToolsView";
 import { AdminView } from "../admin/AdminView";
@@ -12,6 +13,7 @@ import { useResizablePanels } from "@/useResizablePanels";
 import { usePersistedTab } from "@/shared/usePersistedTab";
 import { useBackGuard } from "@/shared/useBackGuard";
 import { DropdownMenu } from "@/shared/DropdownMenu";
+import { OPEN_POST_EVENT } from "@/notify/show";
 import { SpotsLayout } from "../spots/SpotsLayout";
 
 const TAB_KEY = "rf4spots-main-tab";
@@ -82,6 +84,15 @@ export function Shell() {
     if (tab === "admin" && user?.role !== "admin") setTab("spots");
   }, [tab, user?.role, setTab]);
 
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const postId = (e as CustomEvent<{ postId?: string }>).detail?.postId;
+      if (postId) void openPostFromAdmin(postId);
+    };
+    window.addEventListener(OPEN_POST_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_POST_EVENT, onOpen);
+  }, [openPostFromAdmin]);
+
   useBackGuard(passwordOpen, () => setPasswordOpen(false));
 
   return (
@@ -127,6 +138,7 @@ export function Shell() {
           </button>
         )}
         <div className="spacer" />
+        <NotifyMenu />
         <GameClock />
         <DropdownMenu
           open={userMenuOpen}
