@@ -228,7 +228,6 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
       </div>
       <div className="detail-body">
         <h3>{detail.fish.name}</h3>
-        <VoteButtons post={post} onVote={(value) => void toggleVote(post, value)} />
         <dl className="facts">
           <div>
             <dt>Место</dt>
@@ -245,9 +244,12 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
               {fmtWhen(detail.catchDate)} · {CATCH_LABEL[detail.catchType]}
             </dd>
           </div>
-          <div>
+          <div className="fact-player">
             <dt>Игрок</dt>
-            <dd>{detail.author.nickname}</dd>
+            <dd>
+              <span>{detail.author.nickname}</span>
+              <VoteButtons post={post} onVote={(value) => void toggleVote(post, value)} />
+            </dd>
           </div>
         </dl>
         {detail.comment && <p className="author-comment">{detail.comment}</p>}

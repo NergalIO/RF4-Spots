@@ -183,8 +183,8 @@ html[data-platform="android"] .fav-btn {
   padding: 6px 12px;
 }
 html[data-platform="android"] .vote-btn {
-  padding: 8px 12px;
-  font-size: 13px;
+  padding: 4px 6px;
+  font-size: 12px;
 }
 html[data-platform="android"] .filters-toggle {
   padding: 12px 14px;

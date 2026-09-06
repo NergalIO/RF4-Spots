@@ -270,16 +270,24 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
                 </span>
                 <span className="meta" title={p.catchDate}>{fmtWhen(p.catchDate)}</span>
                 {p.comment && <p className="excerpt">{p.comment}</p>}
-                <span className="nick">{p.author.nickname}</span>
-                {unread.kind === "post" && <span className="unread-line unread-post-label">Новый пост</span>}
-                {unread.kind === "comments" && (
-                  <span className="unread-line unread-comments-label">
-                    <span className="unread-count">{unread.count}</span>
-                    {ruNewComments(unread.count)}
-                  </span>
-                )}
               </button>
-              <VoteButtons post={p} onVote={(value) => void toggleVote(p, value)} />
+              <div className="spot-card-nickrow">
+                <button type="button" className="nick" onClick={() => openPost(p.id)}>
+                  {p.author.nickname}
+                </button>
+                <VoteButtons post={p} onVote={(value) => void toggleVote(p, value)} />
+              </div>
+              {unread.kind !== "none" && (
+                <button type="button" className="spot-card-main" onClick={() => openPost(p.id)}>
+                  {unread.kind === "post" && <span className="unread-line unread-post-label">Новый пост</span>}
+                  {unread.kind === "comments" && (
+                    <span className="unread-line unread-comments-label">
+                      <span className="unread-count">{unread.count}</span>
+                      {ruNewComments(unread.count)}
+                    </span>
+                  )}
+                </button>
+              )}
               {allMaps && (
                 <div className="spot-card-actions">
                   <button
