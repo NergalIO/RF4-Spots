@@ -1,11 +1,12 @@
 import { useMemo, useState } from "react";
-import { MapContainer, ImageOverlay, Marker, Polyline, Tooltip } from "react-leaflet";
+import { MapContainer, ImageOverlay, Polyline } from "react-leaflet";
 import L from "leaflet";
 import { fmtCoord } from "@/shared/format";
 import { useStore } from "@/store";
 import { useIsMobile } from "@/shared/platform";
 import { gameToLatLng } from "./mapCoords";
-import { pin } from "./mapPin";
+import { groupMarkersByCoord } from "./mapMarkerGroups";
+import { MapPins } from "./MapPins";
 import { CenterTracker, FlyToPin, MapEvents, MapSync } from "./MapViewInternals";
 
 type Props = {
@@ -33,33 +34,7 @@ export function MapView({ onCreate, onSelect }: Props) {
     [wb],
   );
 
-  const pins = useMemo(
-    () =>
-      wb
-        ? markers.map((p) => {
-            const pos = gameToLatLng(wb, p.coordX, p.coordY);
-            return (
-              <Marker
-                key={p.id}
-                position={[pos.lat, pos.lng]}
-                icon={pin(p.id === selectedId, p.catchType)}
-                keyboard={false}
-                eventHandlers={{
-                  click: () => {
-                    void selectPost(p.id);
-                    onSelect?.(p.id);
-                  },
-                }}
-              >
-                <Tooltip direction="top" offset={[0, -8]}>
-                  {p.fishName} · {fmtCoord(p.coordX, p.coordY)}
-                </Tooltip>
-              </Marker>
-            );
-          })
-        : [],
-    [wb, markers, selectedId, selectPost, onSelect],
-  );
+  const groups = useMemo(() => groupMarkersByCoord(markers), [markers]);
 
   if (!wb || !bounds) return <div className="map-empty">Выберите водоём</div>;
 
@@ -90,7 +65,16 @@ export function MapView({ onCreate, onSelect }: Props) {
         <ImageOverlay url={api.fileUrl(wb.mapUrl)} bounds={bounds} />
         <MapEvents wb={wb} rulerOn={rulerOn} onHover={setHover} onCreate={onCreate} onRuler={setRuler} />
         {isMobile && <CenterTracker wb={wb} onChange={setCenter} />}
-        {pins}
+        <MapPins
+          wb={wb}
+          groups={groups}
+          selectedId={selectedId}
+          isMobile={isMobile}
+          onPick={(id) => {
+            void selectPost(id);
+            onSelect?.(id);
+          }}
+        />
         {a && b && (
           <Polyline
             className="map-ruler"
