@@ -14,7 +14,7 @@ export function PasswordModal({ onClose }: { onClose: () => void }) {
     setBusy(true);
     setError("");
     try {
-      const res = await api.changePassword(current, next);
+      const res = await api.auth.changePassword(current, next);
       await setToken(res.token, res.user);
       onClose();
     } catch (err) {

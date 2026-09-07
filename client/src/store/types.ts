@@ -1,6 +1,6 @@
 import type { Api } from "../api";
 import type { Filters, Fish, Post, PostMarker, User, Waterbody } from "../types";
-import type { SeenMap } from "../unread";
+import type { SeenMap } from "../features/spots/unread";
 
 export type Store = {
   ready: boolean;

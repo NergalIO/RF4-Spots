@@ -51,7 +51,7 @@
   border-radius: 8px;
   color: var(--muted);
 }
-.tabs button.on { background: #1b3a48; color: var(--gold); }
+.tabs button.on { background: var(--surface-hover); color: var(--gold); }
 
 label { display: grid; gap: 6px; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
 input, select, textarea {
@@ -68,7 +68,7 @@ input:focus, select:focus, textarea:focus {
   border: 1px solid transparent;
   border-radius: 10px;
   padding: 10px 14px;
-  background: #1b3a48;
+  background: var(--surface-hover);
 }
 .btn.primary {
   width: 100%;
@@ -81,7 +81,21 @@ input:focus, select:focus, textarea:focus {
   border-color: var(--line);
   color: var(--gold);
 }
-.btn.ghost.on, .btn.ghost:hover { background: #1b3a48; }
+.btn.ghost.on, .btn.ghost:hover { background: var(--surface-hover); }
 .btn.danger { background: transparent; border-color: var(--danger); color: var(--danger); }
 .btn.sm { padding: 6px 10px; font-size: 12px; }
 .form-error { color: var(--danger); font-size: 13px; }
+
+html[data-platform="android"] .auth-wrap {
+  align-content: start;
+  padding: 28px 14px;
+}
+html[data-platform="android"] .auth-card {
+  padding: 22px 18px;
+}
+
+@media (hover: none) {
+  html[data-platform="android"] .btn.ghost:hover:not(.on) {
+    background: transparent;
+  }
+}

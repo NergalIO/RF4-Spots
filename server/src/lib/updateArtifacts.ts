@@ -3,7 +3,7 @@ import { basename } from "node:path";
 export const INSTALLER_NAME_RE = /^RF4Spots-Setup-.+\.exe$/i;
 export const APK_NAME_RE = /^RF4Spots-\d+\.\d+\.\d+\.apk$/i;
 
-export type NamedStamp = { name: string; mtime: number };
+type NamedStamp = { name: string; mtime: number };
 
 export function installerNameFromYml(text: string) {
   const raw = (text.match(/^path:\s*(\S+)/m)?.[1] || text.match(/^\s+-\s+url:\s*(\S+)/m)?.[1] || "").trim();

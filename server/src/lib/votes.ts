@@ -2,7 +2,7 @@ import type { PostVoteValue } from "@prisma/client";
 import { prisma } from "./prisma.js";
 
 export const VOTE_VALUES = ["like", "dislike"] as const;
-export type VoteValue = (typeof VOTE_VALUES)[number];
+type VoteValue = (typeof VOTE_VALUES)[number];
 
 export function tallyVotes(
   votes: { userId: string; value: PostVoteValue | VoteValue }[],

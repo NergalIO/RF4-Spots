@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { formatGameTime, gameTimeFromReal } from "@/gameTime";
+import { formatGameTime, gameTimeFromReal } from "@/features/shell/gameTime";
 
 const TICK_MS = 250;
 

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Response } from "express";
 import { z } from "zod";
 import { prisma } from "../../lib/prisma.js";
 import { publicUser } from "../../lib/auth.js";
@@ -8,7 +8,6 @@ import { unlinkFilenames } from "../../lib/upload.js";
 import { iso, isoOrNull } from "../../lib/serialize.js";
 import { zodError } from "../../lib/httpErrors.js";
 import type { AuthedRequest } from "../../middleware/auth.js";
-import { enabledAdminCount, latest } from "./helpers.js";
 
 export const usersRouter = Router();
 
@@ -16,6 +15,34 @@ const userPatch = z.object({
   role: z.enum(["player", "admin"]).optional(),
   disabled: z.boolean().optional(),
 });
+
+async function enabledAdminCount(exceptId?: string) {
+  return prisma.user.count({
+    where: {
+      role: "admin",
+      disabledAt: null,
+      ...(exceptId ? { id: { not: exceptId } } : {}),
+    },
+  });
+}
+
+function latest(...values: (Date | null | undefined)[]) {
+  let max: Date | null = null;
+  for (const value of values) {
+    if (!value) continue;
+    if (!max || value > max) max = value;
+  }
+  return max;
+}
+
+async function rejectIfLastAdmin(res: Response, exceptId: string, message: string) {
+  const others = await enabledAdminCount(exceptId);
+  if (others < 1) {
+    res.status(400).json({ error: message });
+    return true;
+  }
+  return false;
+}
 
 usersRouter.get("/", async (_req, res) => {
   const users = await prisma.user.findMany({
@@ -70,12 +97,8 @@ usersRouter.patch("/:id", async (req: AuthedRequest, res) => {
   }
   const nextRole = parsed.data.role ?? target.role;
   const leavingAdmin = target.role === "admin" && (nextRole !== "admin" || parsed.data.disabled === true);
-  if (leavingAdmin) {
-    const others = await enabledAdminCount(target.id);
-    if (others < 1) {
-      res.status(400).json({ error: "Нельзя снять последнего администратора" });
-      return;
-    }
+  if (leavingAdmin && (await rejectIfLastAdmin(res, target.id, "Нельзя снять последнего администратора"))) {
+    return;
   }
   const data: {
     role?: "player" | "admin";
@@ -110,12 +133,8 @@ usersRouter.delete("/:id", async (req: AuthedRequest, res) => {
     res.status(404).json({ error: "Пользователь не найден" });
     return;
   }
-  if (target.role === "admin") {
-    const others = await enabledAdminCount(target.id);
-    if (others < 1) {
-      res.status(400).json({ error: "Нельзя удалить последнего администратора" });
-      return;
-    }
+  if (target.role === "admin" && (await rejectIfLastAdmin(res, target.id, "Нельзя удалить последнего администратора"))) {
+    return;
   }
   const posts = await prisma.post.findMany({
     where: { userId: id },

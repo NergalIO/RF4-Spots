@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { createAuthSlice } from "./store/authSlice";
-import { createSpotsSlice } from "./store/spotsSlice";
-import { bindSync } from "./store/sync";
-import type { Store } from "./store/types";
+import { createAuthSlice } from "./authSlice";
+import { createSpotsSlice } from "./spotsSlice";
+import { bindSync } from "./sync";
+import type { Store } from "./types";
 
 export const useStore = create<Store>()((...a) => ({
   ...createAuthSlice(...a),

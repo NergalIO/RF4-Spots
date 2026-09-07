@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { GuideRow } from "@/types";
-import { asNum, asText } from "@/guideSchema";
-import { convertRetrieve } from "@/wear";
+import { asNum, asText } from "@/features/tools/guideSchema";
+import { convertRetrieve } from "@/features/tools/wear";
 
 type Props = { reels: GuideRow[] };
 

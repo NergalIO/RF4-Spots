@@ -1,4 +1,4 @@
-import { defaultServerUrl, resolveServerUrl } from "@/serverUrl";
+import { defaultServerUrl, resolveServerUrl } from "@/features/auth/serverUrl";
 
 const LS_KEY = "rf4spots-session";
 

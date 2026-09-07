@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 import { Api } from "../api";
-import { DEFAULT_SERVER_URL, loadSession, saveSession } from "../session";
-import { resolveServerUrl } from "../serverUrl";
+import { DEFAULT_SERVER_URL, loadSession, saveSession } from "../features/auth/session";
+import { resolveServerUrl } from "../features/auth/serverUrl";
 import { loadCatalogAndPosts, stopPoll } from "./sync";
 import type { Store } from "./types";
 
@@ -25,7 +25,7 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get
     }
     const api = new Api(session.serverUrl, session.token);
     try {
-      const { user } = await api.me();
+      const { user } = await api.auth.me();
       set({ api, user, ready: true });
     } catch {
       stopPoll();
@@ -42,7 +42,7 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get
 
   login: async (nickname, password, serverUrl) => {
     const api = new Api(resolveServerUrl(serverUrl), "");
-    const { token, user } = await api.login(nickname, password);
+    const { token, user } = await api.auth.login(nickname, password);
     const authed = new Api(api.baseUrl, token);
     await saveSession({ serverUrl: api.baseUrl, token });
     set({ api: authed, user, error: "" });
@@ -51,7 +51,7 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get
 
   register: async (nickname, password, serverUrl, invite) => {
     const api = new Api(resolveServerUrl(serverUrl), "");
-    const { token, user } = await api.register(nickname, password, invite);
+    const { token, user } = await api.auth.register(nickname, password, invite);
     const authed = new Api(api.baseUrl, token);
     await saveSession({ serverUrl: api.baseUrl, token });
     set({ api: authed, user, error: "" });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useIsMobile } from "@/platform";
+import { useIsMobile } from "@/shared/platform";
 import { useStore } from "@/store";
 
 const APK_CHECK_MS = 5 * 60 * 1000;
@@ -48,7 +48,7 @@ export function UpdateBanner() {
     let dead = false;
     const check = async () => {
       try {
-        const { apk } = await api.clientDownloads();
+        const { apk } = await api.auth.clientDownloads();
         const latest = apk ? apkVersion(apk.name) : "";
         if (dead || !latest || !isNewer(latest, __APP_VERSION__)) return;
         setVersion(latest);

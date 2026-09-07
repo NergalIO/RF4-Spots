@@ -34,7 +34,7 @@ export async function processActivity(store: StoreApi<Store>) {
     return;
   }
   try {
-    const feed = await api.activity(sinceIso);
+    const feed = await api.catalog.activity(sinceIso);
     advanceSince(feed);
     const items = planNotifications(feed, settings, {
       selectedId,

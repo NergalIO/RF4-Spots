@@ -1,6 +1,6 @@
-import type { GuideKey } from "@/guideSchema";
+import type { GuideKey } from "@/features/tools/guideSchema";
 import type { GuideRow } from "@/types";
-import { GUIDE_FIELDS } from "@/guideSchema";
+import { GUIDE_FIELDS } from "@/features/tools/guideSchema";
 import { EarningsCalc } from "./EarningsCalc";
 import { GearCompare } from "./GearCompare";
 import { GuideTable } from "./GuideTable";

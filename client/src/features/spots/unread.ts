@@ -1,4 +1,4 @@
-import type { Post } from "./types";
+import type { Post } from "../../types";
 
 export type SeenMap = Record<string, string>;
 

@@ -1,18 +1,14 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { FormEvent, useCallback, useRef, useState } from "react";
 import { useStore } from "@/store";
-import type { AdminStats, AdminUser, Invite, ModerationReport } from "@/types";
 import { AdminDashboard, type AdminTabId } from "./AdminDashboard";
-import { usePersistedTab } from "@/shared/usePersistedTab";
 import { useDismissible } from "@/shared/useDismissible";
 import { AdminUsers } from "./AdminUsers";
 import { AdminInvites } from "./AdminInvites";
-import { AdminReports, REPORT_STATUSES, type ReportStatusFilter } from "./AdminReports";
-
-const TAB_KEY = "rf4spots-admin-tab";
-const REPORT_FILTER_KEY = "rf4spots-admin-reports";
-const ADMIN_TABS = ["dashboard", "users", "invites", "reports"] as const;
-type AdminTab = (typeof ADMIN_TABS)[number];
+import { AdminReports } from "./AdminReports";
+import { useAdminData } from "./useAdminData";
+import { createInvite, deleteUser, patchUser, reopenReport, resolveReport } from "./adminMutations";
+import { AdminUserContextMenu, type UserMenu } from "./AdminUserContextMenu";
+import type { AdminUser } from "@/types";
 
 async function copyText(value: string) {
   try {
@@ -22,8 +18,6 @@ async function copyText(value: string) {
   }
 }
 
-type UserMenu = { user: AdminUser; top: number; left: number };
-
 type Props = {
   onOpenPost?: (postId: string) => void;
 };
@@ -31,56 +25,13 @@ type Props = {
 export function AdminView({ onOpenPost }: Props) {
   const api = useStore((s) => s.api);
   const me = useStore((s) => s.user);
-  const [tab, setTab] = usePersistedTab(TAB_KEY, ADMIN_TABS, "dashboard" as AdminTab);
-  const [reportStatus, setReportStatus] = usePersistedTab(
-    REPORT_FILTER_KEY,
-    REPORT_STATUSES,
-    "open" as ReportStatusFilter,
-  );
-  const [users, setUsers] = useState<AdminUser[]>([]);
-  const [invites, setInvites] = useState<Invite[]>([]);
-  const [openReports, setOpenReports] = useState<ModerationReport[]>([]);
-  const [reports, setReports] = useState<ModerationReport[]>([]);
-  const [stats, setStats] = useState<AdminStats | null>(null);
-  const [error, setError] = useState("");
+  const data = useAdminData(api);
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState("");
   const [menu, setMenu] = useState<UserMenu | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const closeMenu = useCallback(() => setMenu(null), []);
   useDismissible(Boolean(menu), closeMenu, menuRef);
-
-  const reload = useCallback(async () => {
-    setError("");
-    try {
-      const extra =
-        reportStatus === "open" ? Promise.resolve(null) : api.adminReports(reportStatus);
-      const [u, i, open, s, listed] = await Promise.all([
-        api.adminUsers(),
-        api.adminInvites(),
-        api.adminReports("open"),
-        api.adminStats(),
-        extra,
-      ]);
-      setUsers(u.users);
-      setInvites(i.invites);
-      setOpenReports(open.reports);
-      setReports(listed ? listed.reports : open.reports);
-      setStats(s.stats);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Ошибка загрузки");
-    }
-  }, [api, reportStatus]);
-
-  useEffect(() => {
-    void reload();
-  }, [reload]);
-
-  useEffect(() => {
-    if (tab !== "users" && tab !== "dashboard") return;
-    const id = window.setInterval(() => void reload(), 15_000);
-    return () => window.clearInterval(id);
-  }, [tab, reload]);
 
   function openMenu(user: AdminUser, x: number, y: number) {
     const width = 200;
@@ -89,65 +40,12 @@ export function AdminView({ onOpenPost }: Props) {
     setMenu({ user, top, left: Math.max(8, left) });
   }
 
-  async function patchUser(id: string, body: { role?: "player" | "admin"; disabled?: boolean }) {
-    setMenu(null);
+  async function run(action: () => Promise<void>) {
     setBusy(true);
     try {
-      await api.adminPatchUser(id, body);
-      await reload();
+      await action();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Не удалось сохранить");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function deleteUser(id: string, nickname: string) {
-    setMenu(null);
-    if (!window.confirm(`Удалить игрока «${nickname}» и все его посты?`)) return;
-    setBusy(true);
-    try {
-      await api.adminDeleteUser(id);
-      await reload();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Не удалось удалить");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function createInvite(e: FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    try {
-      const { invite } = await api.adminCreateInvite();
-      setInvites((prev) => [invite, ...prev]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Не удалось создать приглашение");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function resolveReport(id: string, hide: boolean) {
-    setBusy(true);
-    try {
-      await api.adminPatchReport(id, { status: "resolved", hide });
-      await reload();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Не удалось обработать жалобу");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function reopenReport(id: string) {
-    setBusy(true);
-    try {
-      await api.adminPatchReport(id, { status: "open" });
-      await reload();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Не удалось вернуть жалобу");
+      data.setError(err instanceof Error ? err.message : "Ошибка");
     } finally {
       setBusy(false);
     }
@@ -159,109 +57,82 @@ export function AdminView({ onOpenPost }: Props) {
     window.setTimeout(() => setCopied((cur) => (cur === code ? "" : cur)), 1600);
   }
 
-  function goTab(next: AdminTabId) {
-    setTab(next);
-  }
-
-  const menuUser = menu?.user;
-
   return (
     <div className="tools-host">
       <nav className="tools-nav" aria-label="Админка">
-        <button type="button" className={tab === "dashboard" ? "on" : ""} onClick={() => setTab("dashboard")}>
+        <button type="button" className={data.tab === "dashboard" ? "on" : ""} onClick={() => data.setTab("dashboard")}>
           Dashboard
         </button>
-        <button type="button" className={tab === "users" ? "on" : ""} onClick={() => setTab("users")}>
+        <button type="button" className={data.tab === "users" ? "on" : ""} onClick={() => data.setTab("users")}>
           Игроки
         </button>
-        <button type="button" className={tab === "invites" ? "on" : ""} onClick={() => setTab("invites")}>
+        <button type="button" className={data.tab === "invites" ? "on" : ""} onClick={() => data.setTab("invites")}>
           Приглашения
         </button>
-        <button type="button" className={tab === "reports" ? "on" : ""} onClick={() => setTab("reports")}>
-          Жалобы{openReports.length ? ` (${openReports.length})` : ""}
+        <button type="button" className={data.tab === "reports" ? "on" : ""} onClick={() => data.setTab("reports")}>
+          Жалобы{data.openReports.length ? ` (${data.openReports.length})` : ""}
         </button>
       </nav>
       <div className="tools-body">
-        {error && <p className="form-error">{error}</p>}
-        {tab === "dashboard" && (
+        {data.error && <p className="form-error">{data.error}</p>}
+        {data.tab === "dashboard" && (
           <AdminDashboard
-            stats={stats}
-            users={users}
-            openReports={openReports}
-            onOpenTab={goTab}
+            stats={data.stats}
+            users={data.users}
+            openReports={data.openReports}
+            onOpenTab={(tab: AdminTabId) => data.setTab(tab)}
             onOpenPost={onOpenPost}
           />
         )}
-        {tab === "users" && (
-          <AdminUsers
-            users={users}
-            meId={me?.id}
-            busy={busy}
-            menuUserId={menuUser?.id}
-            onOpenMenu={openMenu}
-          />
+        {data.tab === "users" && (
+          <AdminUsers users={data.users} meId={me?.id} busy={busy} menuUserId={menu?.user.id} onOpenMenu={openMenu} />
         )}
-        {tab === "invites" && (
+        {data.tab === "invites" && (
           <AdminInvites
-            invites={invites}
+            invites={data.invites}
             busy={busy}
             copied={copied}
-            onCreate={(e) => void createInvite(e)}
+            onCreate={(e: FormEvent) =>
+              void run(async () => {
+                const invite = await createInvite(api, e);
+                data.setInvites((prev) => [invite, ...prev]);
+              })
+            }
             onCopy={(code) => void copyCode(code)}
           />
         )}
-        {tab === "reports" && (
+        {data.tab === "reports" && (
           <AdminReports
-            status={reportStatus}
-            onStatus={(id) => setReportStatus(id)}
-            reports={reports}
+            status={data.reportStatus}
+            onStatus={(id) => data.setReportStatus(id)}
+            reports={data.reports}
             busy={busy}
-            onResolve={(id, hide) => void resolveReport(id, hide)}
-            onReopen={(id) => void reopenReport(id)}
+            onResolve={(id, hide) => void run(async () => { await resolveReport(api, id, hide); await data.reload(); })}
+            onReopen={(id) => void run(async () => { await reopenReport(api, id); await data.reload(); })}
             onOpenPost={onOpenPost}
           />
         )}
       </div>
-      {menu &&
-        createPortal(
-          <div
-            ref={menuRef}
-            className="user-menu-list admin-ctx"
-            role="menu"
-            style={{ top: menu.top, left: menu.left }}
-          >
-            {menu.user.role !== "admin" && (
-              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { role: "admin" })}>
-                Сделать админом
-              </button>
-            )}
-            {menu.user.role === "admin" && (
-              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { role: "player" })}>
-                Снять админа
-              </button>
-            )}
-            {!menu.user.disabledAt && (
-              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { disabled: true })}>
-                Отключить
-              </button>
-            )}
-            {menu.user.disabledAt && (
-              <button type="button" role="menuitem" disabled={busy} onClick={() => void patchUser(menu.user.id, { disabled: false })}>
-                Включить
-              </button>
-            )}
-            <button
-              type="button"
-              role="menuitem"
-              className="danger"
-              disabled={busy}
-              onClick={() => void deleteUser(menu.user.id, menu.user.nickname)}
-            >
-              Удалить
-            </button>
-          </div>,
-          document.body,
-        )}
+      {menu && (
+        <AdminUserContextMenu
+          menu={menu}
+          menuRef={menuRef}
+          busy={busy}
+          onPatch={(id, body) =>
+            void run(async () => {
+              setMenu(null);
+              await patchUser(api, id, body);
+              await data.reload();
+            })
+          }
+          onDelete={(id, nickname) =>
+            void run(async () => {
+              setMenu(null);
+              if (await deleteUser(api, id, nickname)) await data.reload();
+            })
+          }
+        />
+      )}
     </div>
   );
 }

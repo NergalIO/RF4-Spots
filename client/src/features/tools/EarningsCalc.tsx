@@ -10,7 +10,7 @@ import {
   todayYmd,
   type EarningsOp,
   type OpKind,
-} from "@/earnings";
+} from "@/features/tools/earnings";
 
 function patchOp(list: EarningsOp[], id: string, patch: Partial<EarningsOp>) {
   return list.map((row) => (row.id === id ? { ...row, ...patch } : row));

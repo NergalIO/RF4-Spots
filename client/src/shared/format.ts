@@ -14,4 +14,4 @@ export function fmtCoord(x: number, y: number) {
   return `${roundCoord(x)}:${roundCoord(y)}`;
 }
 
-export { fmtDateTime, fmtWhen } from "../time";
+export { fmtDateTime, fmtWhen } from "./time";

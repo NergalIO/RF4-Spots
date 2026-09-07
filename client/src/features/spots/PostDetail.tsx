@@ -1,11 +1,14 @@
 import { FormEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { CATCH_LABEL, fmtCoord, fmtWhen } from "@/shared/format";
-import { ALL_WATERBODIES } from "@/constants";
+import { ALL_WATERBODIES } from "@/shared/constants";
 import { useStore } from "@/store";
 import type { Screenshot } from "@/types";
 import { ShotPicker } from "./ShotPicker";
-import { DropdownMenu } from "@/shared/DropdownMenu";
 import { VoteButtons } from "./VoteButtons";
+import { CommentThread } from "./CommentThread";
+import { PostDetailHeader } from "./PostDetailHeader";
+import { ReportForm } from "./ReportForm";
+import { copyCoords, removePost, sendComment, sendReport } from "./postDetailApi";
 
 type Props = {
   onEdit: () => void;
@@ -63,15 +66,20 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
   if (!detail) {
     return (
       <aside className="panel right">
-        <div className="panel-head">
-          {backButton}
-          <h2>Детали</h2>
-          {onCollapse && (
-            <button type="button" className="pane-toggle" onClick={onCollapse} title="Скрыть панель">
-              ›
-            </button>
-          )}
-        </div>
+        <PostDetailHeader
+          post={null}
+          user={user}
+          waterbodyId={waterbodyId}
+          actOpen={false}
+          onToggleAct={() => {}}
+          onCloseAct={() => {}}
+          onFavorite={() => {}}
+          onEdit={() => {}}
+          onDelete={() => {}}
+          onReport={() => {}}
+          onCollapse={onCollapse}
+          backButton={backButton}
+        />
         <p className="empty">
           {onBack
             ? "Загрузка…"
@@ -84,34 +92,22 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
   }
 
   const post = detail;
-  const canMod = user?.role === "admin" || user?.id === post.author.id;
 
-  async function copyCoords() {
-    try {
-      await navigator.clipboard.writeText(fmtCoord(post.coordX, post.coordY));
-    } catch {
-      /* ignore */
-    }
+  async function onRemove() {
+    await removePost(api, post, async () => {
+      await selectPost(null);
+      await refreshPosts();
+      await refreshMarkers();
+    });
   }
 
-  async function removePost() {
-    if (!confirm("Скрыть этот пост?")) return;
-    await api.deletePost(post.id);
-    await selectPost(null);
-    await refreshPosts();
-    await refreshMarkers();
-  }
-
-  async function sendComment(e: FormEvent) {
+  async function onSendComment(e: FormEvent) {
     e.preventDefault();
     if (!text.trim()) return;
     setBusy(true);
     setError("");
-    const fd = new FormData();
-    fd.set("text", text.trim());
-    for (const f of files) fd.append("screenshots", f);
     try {
-      await api.addComment(post.id, fd);
+      await sendComment(api, post.id, text, files);
       setText("");
       setFiles([]);
       requestAnimationFrame(fitCommentBox);
@@ -123,12 +119,12 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
     }
   }
 
-  async function sendReport(e: FormEvent) {
+  async function onSendReport(e: FormEvent) {
     e.preventDefault();
     if (!reportFor || reportReason.trim().length < 3) return;
     setBusy(true);
     try {
-      await api.report({ ...reportFor, reason: reportReason.trim() });
+      await sendReport(api, reportFor, reportReason);
       setReportFor(null);
       setReportReason("");
     } catch (err) {
@@ -140,92 +136,33 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
 
   return (
     <aside className="panel right">
-      <div className="panel-head">
-        {backButton}
-        <h2>Детали</h2>
-        <div className="head-actions">
-          <button
-            type="button"
-            className={`btn ghost sm ${post.favorited ? "on" : ""}`}
-            onClick={() => void toggleFavorite(post)}
-          >
-            ★
-          </button>
-          {waterbodyId === ALL_WATERBODIES && (
-            <button
-              type="button"
-              className="btn ghost sm"
-              onClick={() => {
-                void openOnMap(post);
-                onShowMap?.();
-              }}
-            >
-              На карте
-            </button>
-          )}
-          {(canMod || (user && user.id !== post.author.id)) && (
-            <DropdownMenu
-              open={actOpen}
-              onClose={closeAct}
-              trigger={
-                <button
-                  type="button"
-                  className={`btn ghost sm ${actOpen ? "on" : ""}`}
-                  aria-haspopup="menu"
-                  aria-expanded={actOpen}
-                  aria-label="Действия"
-                  onClick={() => setActOpen((v) => !v)}
-                >
-                  ⋮
-                </button>
-              }
-            >
-                  {canMod && (
-                    <button
-                      type="button"
-                      role="menuitem"
-                      onClick={() => {
-                        closeAct();
-                        onEdit();
-                      }}
-                    >
-                      Изменить
-                    </button>
-                  )}
-                  {canMod && (
-                    <button
-                      type="button"
-                      role="menuitem"
-                      className="danger"
-                      onClick={() => {
-                        closeAct();
-                        void removePost();
-                      }}
-                    >
-                      Удалить
-                    </button>
-                  )}
-                  {user && user.id !== post.author.id && (
-                    <button
-                      type="button"
-                      role="menuitem"
-                      onClick={() => {
-                        closeAct();
-                        setReportFor({ postId: post.id });
-                      }}
-                    >
-                      Жалоба
-                    </button>
-                  )}
-            </DropdownMenu>
-          )}
-          {onCollapse && (
-            <button type="button" className="pane-toggle" onClick={onCollapse} title="Скрыть панель">
-              ›
-            </button>
-          )}
-        </div>
-      </div>
+      <PostDetailHeader
+        post={post}
+        user={user}
+        waterbodyId={waterbodyId}
+        actOpen={actOpen}
+        onToggleAct={() => setActOpen((v) => !v)}
+        onCloseAct={closeAct}
+        onFavorite={() => void toggleFavorite(post)}
+        onShowMap={() => {
+          void openOnMap(post);
+          onShowMap?.();
+        }}
+        onEdit={() => {
+          closeAct();
+          onEdit();
+        }}
+        onDelete={() => {
+          closeAct();
+          void onRemove();
+        }}
+        onReport={() => {
+          closeAct();
+          setReportFor({ postId: post.id });
+        }}
+        onCollapse={onCollapse}
+        backButton={backButton}
+      />
       <div className="detail-body">
         <h3>{detail.fish.name}</h3>
         <dl className="facts">
@@ -233,7 +170,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
             <dt>Место</dt>
             <dd>
               {detail.waterbody.name}, {fmtCoord(detail.coordX, detail.coordY)}{" "}
-              <button type="button" className="linkish" onClick={() => void copyCoords()}>
+              <button type="button" className="linkish" onClick={() => void copyCoords(post.coordX, post.coordY)}>
                 копировать
               </button>
             </dd>
@@ -263,65 +200,28 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
           </div>
         )}
         {reportFor && (
-          <form className="comment-form" onSubmit={(e) => void sendReport(e)}>
-            <textarea
-              rows={3}
-              placeholder="Почему жалоба"
-              value={reportReason}
-              onChange={(e) => setReportReason(e.target.value)}
-            />
-            <div className="row-actions">
-              <button type="button" className="btn ghost sm" onClick={() => setReportFor(null)}>
-                Отмена
-              </button>
-              <button className="btn danger sm" disabled={busy || reportReason.trim().length < 3} type="submit">
-                Отправить жалобу
-              </button>
-            </div>
-          </form>
+          <ReportForm
+            reason={reportReason}
+            busy={busy}
+            onReason={setReportReason}
+            onCancel={() => setReportFor(null)}
+            onSubmit={(e) => void onSendReport(e)}
+          />
         )}
-        <section className="thread">
-          <h4>Комментарии</h4>
-          {detail.comments?.length === 0 && <p className="empty">Пока тихо — напишите первым</p>}
-          {detail.comments?.map((c) => (
-            <article key={c.id} className="comment">
-              <header>
-                <strong>{c.author.nickname}</strong>
-                <time title={c.createdAt}>{fmtWhen(c.createdAt)}</time>
-                {(user?.role === "admin" || user?.id === c.author.id) && (
-                  <button
-                    type="button"
-                    className="linkish"
-                    onClick={async () => {
-                      if (!confirm("Скрыть комментарий?")) return;
-                      await api.deleteComment(c.id);
-                      await refreshDetail();
-                    }}
-                  >
-                    удалить
-                  </button>
-                )}
-                {user && user.id !== c.author.id && (
-                  <button type="button" className="linkish" onClick={() => setReportFor({ commentId: c.id })}>
-                    жалоба
-                  </button>
-                )}
-              </header>
-              <p>{c.text}</p>
-              {c.screenshots.length > 0 && (
-                <div className="thumbs sm">
-                  {c.screenshots.map((s, i) => (
-                    <button key={s.id} type="button" onClick={() => onOpenShots(c.screenshots, i)}>
-                      <img src={api.fileUrl(s.url)} alt="" />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </article>
-          ))}
-        </section>
+        <CommentThread
+          comments={detail.comments}
+          user={user}
+          fileUrl={(url) => api.fileUrl(url)}
+          onDelete={async (id) => {
+            if (!confirm("Скрыть комментарий?")) return;
+            await api.comments.remove(id);
+            await refreshDetail();
+          }}
+          onReport={(id) => setReportFor({ commentId: id })}
+          onOpenShots={onOpenShots}
+        />
       </div>
-      <form className="comment-form detail-composer" onSubmit={(e) => void sendComment(e)}>
+      <form className="comment-form detail-composer" onSubmit={(e) => void onSendComment(e)}>
         {error && <p className="form-error">{error}</p>}
         <ShotPicker files={files} onChange={setFiles} onlyWhenFocused>
           <textarea
@@ -339,13 +239,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
               e.currentTarget.form?.requestSubmit();
             }}
           />
-          <button
-            className="composer-send"
-            disabled={busy || !text.trim()}
-            type="submit"
-            aria-label="Отправить"
-            title="Отправить"
-          >
+          <button className="composer-send" disabled={busy || !text.trim()} type="submit" aria-label="Отправить" title="Отправить">
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden>
               <path
                 fill="currentColor"

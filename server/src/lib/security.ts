@@ -19,7 +19,7 @@ export function corsOrigins() {
   return android;
 }
 
-export function isLoopbackAddress(value: string | undefined) {
+function isLoopbackAddress(value: string | undefined) {
   const ip = (value || "").replace(/^::ffff:/, "");
   return ip === "127.0.0.1" || ip === "::1" || ip === "localhost";
 }

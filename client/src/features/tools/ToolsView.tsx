@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@/store";
-import type { GuideKey } from "@/guideSchema";
+import type { GuideKey } from "@/features/tools/guideSchema";
 import type { GuideRow } from "@/types";
 import { usePersistedTab } from "@/shared/usePersistedTab";
 import { renderTool, TOOLS, type ToolId } from "./registry";
@@ -22,8 +22,8 @@ export function ToolsView({ active }: { active: boolean }) {
   useEffect(() => {
     if (!active) return;
     let dead = false;
-    void api
-      .guides()
+    void api.guides
+      .list()
       .then(({ datasets }) => {
         if (dead) return;
         const next: Partial<Record<GuideKey, GuideRow[]>> = {};
@@ -43,7 +43,7 @@ export function ToolsView({ active }: { active: boolean }) {
     setSaving(true);
     setError("");
     try {
-      const saved = await api.saveGuide(key, rows);
+      const saved = await api.guides.save(key, rows);
       setData((prev) => ({ ...prev, [key]: saved.rows }));
     } catch (err) {
       const message = err instanceof Error ? err.message : "Не удалось сохранить";

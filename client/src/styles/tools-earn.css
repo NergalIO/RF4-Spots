@@ -1,0 +1,57 @@
+.earn-calc {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.earn-calc h3 { margin: 0 0 8px; font-size: 15px; color: var(--gold); }
+.earn-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.earn-head h3 { margin: 0; }
+.earn-date-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.earn-date-pick input { width: auto; padding: 6px 8px; }
+.earn-table input,
+.earn-table select { padding: 6px 8px; border-radius: 8px; }
+.earn-table .earn-kind { width: 132px; }
+.earn-table .earn-money { width: 120px; }
+.earn-table tr.earn-in td:nth-child(1) { color: #b7ebc6; }
+.earn-table tr.earn-out td:nth-child(1) { color: #f2c0c0; }
+.earn-table td.earn-neg { color: #f2c0c0; }
+.earn-table tr.earn-total td.earn-neg { color: #f2c0c0; }
+.earn-add {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 600;
+}
+.earn-table thead th:last-child {
+  width: 1%;
+  text-align: right;
+}
+.earn-hint { margin: 10px 0 0; font-size: 12px; }
+.earn-table tr.earn-cash th { color: var(--gold); }
+.earn-table tr.earn-cash th,
+.earn-table tr.earn-cash td { background: rgba(232, 215, 163, 0.06); }
+.earn-table tr.earn-total th,
+.earn-table tr.earn-total td {
+  color: var(--gold);
+  background: rgba(232, 215, 163, 0.08);
+  font-weight: 700;
+}

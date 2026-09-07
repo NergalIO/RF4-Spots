@@ -24,7 +24,7 @@
   color: var(--muted);
   white-space: nowrap;
 }
-.status-pill.admin { border-color: #3aa8a0; color: #9ee7e1; }
+.status-pill.admin { border-color: var(--teal); color: #9ee7e1; }
 .status-pill.on { color: var(--gold); }
 .status-pill.off { border-color: var(--danger); color: var(--danger); }
 .status-pill.live {
@@ -43,7 +43,7 @@
   border: 1px solid var(--line);
   color: var(--gold);
 }
-.invite-code:hover { background: #1b3a48; }
+.invite-code:hover { background: var(--surface-hover); }
 .admin-actions {
   display: flex;
   flex-wrap: wrap;
@@ -139,7 +139,7 @@
   padding: 4px 10px;
   font-size: 13px;
 }
-.dash-nick:hover { background: #1b3a48; }
+.dash-nick:hover { background: var(--surface-hover); }
 .dash-queue { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .dash-queue li {
   display: grid;
@@ -175,7 +175,7 @@
   font-size: 12px;
 }
 .reports-seg button.on,
-.reports-seg button:hover { color: var(--gold); background: #1b3a48; }
+.reports-seg button:hover { color: var(--gold); background: var(--surface-hover); }
 .dash-block {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -228,4 +228,33 @@
   background: linear-gradient(180deg, #dcc58a, #8d6a22);
 }
 .dash-col span { font-size: 9px; color: var(--muted); white-space: nowrap; }
-.dash-col b { font-size: 10px; font-weight: 650; font-variant-numeric: tabular-nums; color: var(--gold); }
+
+html[data-platform="android"] .report-list {
+  max-width: none;
+}
+html[data-platform="android"] .dash-kpis {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+html[data-platform="android"] .dash-series {
+  grid-template-columns: repeat(auto-fit, minmax(28px, 1fr));
+}
+html[data-platform="android"] .dash-col span {
+  font-size: 10px;
+}
+html[data-platform="android"] .admin-actions {
+  justify-content: flex-start;
+}
+
+@media (hover: none) {
+  html[data-platform="android"] .reports-seg button:hover:not(.on) {
+    background: transparent;
+    color: var(--muted);
+  }
+  html[data-platform="android"] .dash-nick:hover,
+  html[data-platform="android"] .invite-code:hover {
+    background: transparent;
+  }
+  html[data-platform="android"] .dash-kpi-btn:hover {
+    border-color: var(--line);
+  }
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { unreadOf, ruNewComments } from "./unread";
-import type { Post } from "./types";
+import type { Post } from "../../types";
 
 function post(partial: Partial<Post> = {}): Post {
   return {

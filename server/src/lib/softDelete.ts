@@ -1,5 +1,6 @@
 import { prisma } from "./prisma.js";
 import { unlinkFilenames } from "./upload.js";
+import { clearAdminStatsCache } from "./adminStats.js";
 
 export async function softDeletePost(postId: string, deletedById: string) {
   const post = await prisma.post.findUnique({
@@ -28,6 +29,7 @@ export async function softDeletePost(postId: string, deletedById: string) {
     });
   });
   unlinkFilenames(files);
+  clearAdminStatsCache();
   return post;
 }
 
@@ -46,5 +48,6 @@ export async function softDeleteComment(commentId: string, deletedById: string) 
     });
   });
   unlinkFilenames(files);
+  clearAdminStatsCache();
   return comment;
 }

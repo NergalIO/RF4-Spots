@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isAndroidApp } from "@/platform";
+import { isAndroidApp } from "@/shared/platform";
 
 type Layer = { close: () => void };
 

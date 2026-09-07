@@ -6,7 +6,7 @@ import {
   usesRangeFilter,
   usesSearchFilter,
   type GuideField,
-} from "@/guideSchema";
+} from "@/features/tools/guideSchema";
 
 export const PICK_W = 44;
 export const DEL_W = 40;

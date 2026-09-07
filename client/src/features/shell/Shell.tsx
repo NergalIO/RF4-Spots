@@ -1,40 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import { cafeUrlForWaterbody, waterbodyIdFromCafeUrl } from "@/cafe";
-import { ALL_WATERBODIES } from "@/constants";
-import { GameClock } from "./GameClock";
-import { NotifyMenu } from "./NotifyMenu";
+import { cafeUrlForWaterbody, waterbodyIdFromCafeUrl } from "@/features/shell/cafe";
+import { ALL_WATERBODIES } from "@/shared/constants";
 import { SiteEmbed } from "./SiteEmbed";
 import { ToolsView } from "../tools/ToolsView";
 import { AdminView } from "../admin/AdminView";
 import { PasswordModal } from "../auth/PasswordModal";
 import { useStore } from "@/store";
-import { useIsMobile } from "@/platform";
-import { useResizablePanels } from "@/useResizablePanels";
+import { useIsMobile } from "@/shared/platform";
+import { useResizablePanels } from "@/shared/useResizablePanels";
 import { usePersistedTab } from "@/shared/usePersistedTab";
 import { useBackGuard } from "@/shared/useBackGuard";
-import { DropdownMenu } from "@/shared/DropdownMenu";
 import { OPEN_POST_EVENT } from "@/notify/show";
 import { SpotsLayout } from "../spots/SpotsLayout";
+import { MAIN_TABS, TAB_ITEMS, type MainTab } from "./shellTabs";
+import { ShellTopbar } from "./ShellTopbar";
 
 const TAB_KEY = "rf4spots-main-tab";
-const MAIN_TABS = ["spots", "stats", "cafe", "tools", "admin"] as const;
-type MainTab = (typeof MAIN_TABS)[number];
-
-const TAB_ITEMS: { id: MainTab; label: string; short: string }[] = [
-  { id: "spots", label: "Споты", short: "Споты" },
-  { id: "stats", label: "Статистика", short: "Стата" },
-  { id: "cafe", label: "Кафе", short: "Кафе" },
-  { id: "tools", label: "Полезные функции", short: "Функции" },
-  { id: "admin", label: "Админ", short: "Админ" },
-];
-
-function tabCaption(tab: MainTab) {
-  if (tab === "stats") return "статистика улова";
-  if (tab === "cafe") return "заказы кафе";
-  if (tab === "tools") return "полезные функции";
-  if (tab === "admin") return "админка";
-  return "точки ловли";
-}
 
 export function Shell() {
   const user = useStore((s) => s.user);
@@ -55,7 +36,6 @@ export function Shell() {
   const spotsTab = tab === "spots";
   const cafeUrl = cafeUrlForWaterbody(waterbodyId);
   const visibleTabs = TAB_ITEMS.filter((item) => item.id !== "admin" || user?.role === "admin");
-
   const openOnMap = useStore((s) => s.openOnMap);
 
   const onCafeNavigate = useCallback(
@@ -71,7 +51,7 @@ export function Shell() {
     async (postId: string) => {
       setTab("spots");
       try {
-        const { post } = await useStore.getState().api.post(postId);
+        const { post } = await useStore.getState().api.posts.get(postId);
         await openOnMap(post);
       } catch {
         /* hidden or missing */
@@ -97,86 +77,23 @@ export function Shell() {
 
   return (
     <div className="app-shell">
-      <header className="topbar">
-        <div className="brand">
-          <span className="logo">RF4</span>
-          <div>
-            <strong>Spots</strong>
-            <small>{tabCaption(tab)}</small>
-          </div>
-        </div>
-        {!isMobile && (
-          <div className="nav-tabs" role="tablist" aria-label="Разделы">
-            {visibleTabs.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                role="tab"
-                aria-selected={tab === item.id}
-                className={tab === item.id ? "on" : ""}
-                onClick={() => setTab(item.id)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        )}
-        <label className="wb-select">
-          <span>Водоём</span>
-          <select value={waterbodyId} onChange={(e) => void setWaterbody(e.target.value)}>
-            <option value={ALL_WATERBODIES}>Все водоёмы</option>
-            {waterbodies.map((w) => (
-              <option key={w.id} value={w.id}>
-                {w.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        {!isMobile && !feedOnly && spotsTab && (
-          <button type="button" className={`btn ghost ${rulerOn ? "on" : ""}`} onClick={toggleRuler}>
-            Линейка
-          </button>
-        )}
-        <div className="spacer" />
-        <NotifyMenu />
-        <GameClock />
-        <DropdownMenu
-          open={userMenuOpen}
-          onClose={() => setUserMenuOpen(false)}
-          trigger={
-            <button
-              type="button"
-              className={`role-pill ${user?.role ?? ""} ${userMenuOpen ? "open" : ""}`}
-              aria-haspopup="menu"
-              aria-expanded={userMenuOpen}
-              onClick={() => setUserMenuOpen((v) => !v)}
-            >
-              {user?.nickname} · {user?.role === "admin" ? "админ" : "игрок"}
-            </button>
-          }
-        >
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => {
-              setUserMenuOpen(false);
-              setPasswordOpen(true);
-            }}
-          >
-            Пароль
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => {
-              setUserMenuOpen(false);
-              void logout();
-            }}
-          >
-            Выход
-          </button>
-        </DropdownMenu>
-      </header>
+      <ShellTopbar
+        user={user}
+        tab={tab}
+        setTab={setTab}
+        isMobile={isMobile}
+        waterbodyId={waterbodyId}
+        waterbodies={waterbodies}
+        setWaterbody={(id) => void setWaterbody(id)}
+        rulerOn={rulerOn}
+        toggleRuler={toggleRuler}
+        feedOnly={feedOnly}
+        spotsTab={spotsTab}
+        userMenuOpen={userMenuOpen}
+        setUserMenuOpen={setUserMenuOpen}
+        onPassword={() => setPasswordOpen(true)}
+        onLogout={() => void logout()}
+      />
       <div className="app-main">
         <SpotsLayout visible={spotsTab} panels={panels} />
         <div className="site-host" hidden={tab !== "stats"}>

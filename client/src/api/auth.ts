@@ -3,7 +3,7 @@ import type { Http } from "./http";
 
 export function authApi(http: Http) {
   return {
-    authConfig: () => http.req<{ allowRegister: boolean; invites: boolean }>("/auth/config"),
+    config: () => http.req<{ allowRegister: boolean; invites: boolean }>("/auth/config"),
     clientDownloads: () =>
       http.req<{
         installer: { name: string; url: string } | null;

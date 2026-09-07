@@ -1,0 +1,37 @@
+.update-banner {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  color: var(--text);
+}
+.update-banner p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.update-banner-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.update-banner .btn.primary { width: auto; }
+
+html[data-platform="android"] .update-banner {
+  order: -1;
+  gap: 10px;
+  padding: 10px 12px;
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+}
+html[data-platform="android"] .update-banner p {
+  font-size: 12px;
+}
+html[data-platform="android"] .update-banner .btn.sm {
+  padding: 8px 12px;
+}
+html[data-platform="android"] .update-banner a.btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}

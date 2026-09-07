@@ -1,6 +1,6 @@
 # RF4 Spots
 
-Десктопный клиент и API для точек ловли в Russian Fishing 4: карта водоёма, посты со скриншотами, комментарии, калькуляторы и админка. Клиент и API — версия **3.0.0**.
+Десктопный клиент и API для точек ловли в Russian Fishing 4: карта водоёма, посты со скриншотами, комментарии, калькуляторы и админка. Версии — в `client/package.json` и `server/package.json`.
 
 ## Состав
 
@@ -8,7 +8,7 @@
 - `client` — Electron / браузер (Vite + React)
 - `docker-compose.yml` — Postgres + API
 
-Карты — оригинальные схемы с сеткой [Potryasov Game](https://potryasovgame.ru) (`server/assets/maps/*.png`). Координаты `X:Y` калибруются под сетку карты. Справочник видов — снимок таблицы [Potryasov](https://potryasovgame.ru/page119730056.html). Повторно скачать карты: `python server/scripts/download_potryasov_maps.py`.
+Карты — оригинальные схемы с сеткой [Potryasov Game](https://potryasovgame.ru) (`server/assets/maps/*.png`). Координаты `X:Y` калибруются под сетку карты. Справочник видов — снимок таблицы [Potryasov](https://potryasovgame.ru/page119730056.html). Обновление карт и сидов — в разделе ниже.
 
 Клиент: `client/src/features/` (spots, admin, tools, auth, shell), общее — `client/src/shared/`, HTTP — `client/src/api/`. Сервер: тонкие роутеры в `server/src/routes/`, общее — `server/src/lib/`.
 
@@ -87,9 +87,25 @@ npm run pack:apk
 
 При первом запуске укажите ник, пароль и адрес сервера. Дальше клиент входит сам.
 
+## Обновление карт и справочников
+
+Скрипты в `server/scripts/` пишут в `server/assets/maps` и `server/prisma/seeds`. Нужен Python 3:
+
+```bash
+pip install -r server/scripts/requirements.txt
+```
+
+- `download_potryasov_maps.py` — карты с сеткой Potryasov Game и калибровка `waterbodies.json`
+- `fetch_rf4map_bounds.py` — границы локаций RF4MAP → `prisma/seeds/rf4map_bounds.json`
+- `apply_rf4map_bounds.py` — накладывает эти границы на `waterbodies.json` (водоёмы с `manualCalibration` не трогает)
+- `apply_rf4_map_site.py` — карты и калибровка с [rf4-map.ru](https://rf4-map.ru/map/)
+- `fetch_potryasov_guides.py` — таблицы гайдов → `prisma/seeds/guides/`
+
+После правок сидов: `cd server && npm run db:seed`.
+
 ## Проверки
 
 ```bash
-cd server && npx tsc --noEmit && npm test
-cd client && npx tsc --noEmit && npm test
+cd server && npx prisma validate && npx tsc --noEmit && npm test && npm run build
+cd client && npx tsc --noEmit && npm test && npm run build
 ```

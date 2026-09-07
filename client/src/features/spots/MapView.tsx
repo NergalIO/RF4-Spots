@@ -1,166 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { MapContainer, ImageOverlay, Marker, Polyline, Tooltip, useMap, useMapEvents } from "react-leaflet";
+import { useMemo, useState } from "react";
+import { MapContainer, ImageOverlay, Marker, Polyline, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import { fmtCoord } from "@/shared/format";
-import type { CatchType, PostMarker, Waterbody } from "@/types";
 import { useStore } from "@/store";
-import { useIsMobile } from "@/platform";
+import { useIsMobile } from "@/shared/platform";
+import { gameToLatLng } from "./mapCoords";
+import { pin } from "./mapPin";
+import { CenterTracker, FlyToPin, MapEvents, MapSync } from "./MapViewInternals";
 
 type Props = {
   onCreate: (coords: { x: number; y: number }) => void;
   onSelect?: (id: string) => void;
 };
-
-const iconCache = new Map<string, L.DivIcon>();
-
-// Новый объект иконки заставляет react-leaflet пересобрать DOM пина. Если это случается между
-// нажатием и отпусканием, браузер отдаёт click уже не пину, и выбор поста теряется.
-function pin(active: boolean, catchType: CatchType) {
-  const classes = `${catchType}${active ? " on" : ""}`;
-  const cached = iconCache.get(classes);
-  if (cached) return cached;
-  const icon = L.divIcon({
-    className: "",
-    iconSize: [18, 18],
-    iconAnchor: [9, 9],
-    html: `<span class="map-pin ${classes}"></span>`,
-  });
-  iconCache.set(classes, icon);
-  return icon;
-}
-
-export function pixelToGame(wb: Waterbody, latlng: L.LatLng) {
-  const px = latlng.lng;
-  const pyFromTop = wb.imageHeight - latlng.lat;
-  const innerW = wb.imageWidth - wb.padLeft - wb.padRight;
-  const innerH = wb.imageHeight - wb.padTop - wb.padBottom;
-  const relX = (px - wb.padLeft) / innerW;
-  const relY = (pyFromTop - wb.padTop) / innerH;
-  const x = wb.xMin + relX * (wb.xMax - wb.xMin);
-  const y = wb.yFlipped ? wb.yMax - relY * (wb.yMax - wb.yMin) : wb.yMin + relY * (wb.yMax - wb.yMin);
-  return { x, y };
-}
-
-export function gameToLatLng(wb: Waterbody, x: number, y: number) {
-  const innerW = wb.imageWidth - wb.padLeft - wb.padRight;
-  const innerH = wb.imageHeight - wb.padTop - wb.padBottom;
-  const relX = (x - wb.xMin) / (wb.xMax - wb.xMin);
-  const relY = wb.yFlipped
-    ? (wb.yMax - y) / (wb.yMax - wb.yMin)
-    : (y - wb.yMin) / (wb.yMax - wb.yMin);
-  const px = wb.padLeft + relX * innerW;
-  const pyFromTop = wb.padTop + relY * innerH;
-  return L.latLng(wb.imageHeight - pyFromTop, px);
-}
-
-function MapSync({ wb }: { wb: Waterbody }) {
-  const map = useMap();
-  useEffect(() => {
-    const bounds = L.latLngBounds([0, 0], [wb.imageHeight, wb.imageWidth]);
-    map.setMaxBounds(bounds.pad(0.08));
-    // Leaflet запоминает размер контейнера и сам за ним не следит. Панели, вкладки и баннер
-    // обновления меняют его без resize окна, и тогда карта с пинами съезжает влево-вверх.
-    // Пока панель скрыта, контейнер нулевой и вписывать границы не во что.
-    let fitted = false;
-    const sync = () => {
-      const box = map.getContainer();
-      if (!box.clientWidth || !box.clientHeight) return;
-      map.invalidateSize({ animate: false });
-      if (!fitted) {
-        fitted = true;
-        map.fitBounds(bounds);
-      }
-    };
-    sync();
-    const observer = new ResizeObserver(sync);
-    observer.observe(map.getContainer());
-    return () => observer.disconnect();
-  }, [map, wb]);
-  return null;
-}
-
-function FlyToPin({
-  wb,
-  markers,
-}: {
-  wb: Waterbody;
-  markers: PostMarker[];
-}) {
-  const map = useMap();
-  const flyToId = useStore((s) => s.flyToId);
-  const clearFlyTo = useStore((s) => s.clearFlyTo);
-  useEffect(() => {
-    if (!flyToId || !markers.length) return;
-    const target = markers.find((m) => m.id === flyToId);
-    // Флаг снимаем и когда поста на этой карте нет: иначе он дождётся следующего выбора
-    // точки и уведёт карту к ней.
-    if (target) map.panTo(gameToLatLng(wb, target.coordX, target.coordY));
-    clearFlyTo();
-  }, [map, wb, markers, flyToId, clearFlyTo]);
-  return null;
-}
-
-function CenterTracker({
-  wb,
-  onChange,
-}: {
-  wb: Waterbody;
-  onChange: (c: { x: number; y: number }) => void;
-}) {
-  const map = useMapEvents({
-    move() {
-      onChange(pixelToGame(wb, map.getCenter()));
-    },
-  });
-  useEffect(() => {
-    onChange(pixelToGame(wb, map.getCenter()));
-  }, [map, wb, onChange]);
-  return null;
-}
-
-function MapEvents({
-  wb,
-  rulerOn,
-  onHover,
-  onCreate,
-  onRuler,
-}: {
-  wb: Waterbody;
-  rulerOn: boolean;
-  onHover: (c: { x: number; y: number } | null) => void;
-  onCreate: (c: { x: number; y: number }) => void;
-  onRuler: (pts: { x: number; y: number }[]) => void;
-}) {
-  const ptsRef = useRef<{ x: number; y: number }[]>([]);
-  useMapEvents({
-    mousemove(e) {
-      onHover(pixelToGame(wb, e.latlng));
-    },
-    mouseout() {
-      onHover(null);
-    },
-    contextmenu(e) {
-      e.originalEvent.preventDefault();
-      if (rulerOn) return;
-      onCreate(pixelToGame(wb, e.latlng));
-    },
-    click(e) {
-      if (!rulerOn) return;
-      const p = pixelToGame(wb, e.latlng);
-      const prev = ptsRef.current;
-      const next = prev.length >= 2 ? [p] : [...prev, p];
-      ptsRef.current = next;
-      onRuler(next);
-    },
-  });
-  useEffect(() => {
-    if (!rulerOn) {
-      ptsRef.current = [];
-      onRuler([]);
-    }
-  }, [rulerOn, onRuler]);
-  return null;
-}
 
 export function MapView({ onCreate, onSelect }: Props) {
   const api = useStore((s) => s.api);
@@ -182,29 +33,30 @@ export function MapView({ onCreate, onSelect }: Props) {
     [wb],
   );
 
-  // Держим пины отдельно от состояния HUD: иначе каждое движение карты пересоздаёт их слои.
   const pins = useMemo(
     () =>
       wb
-        ? markers.map((p) => (
-            <Marker
-              key={p.id}
-              position={gameToLatLng(wb, p.coordX, p.coordY)}
-              icon={pin(p.id === selectedId, p.catchType)}
-              // Без этого пин получает tabindex, и браузер по фокусу прокручивает к нему контейнер.
-              keyboard={false}
-              eventHandlers={{
-                click: () => {
-                  void selectPost(p.id);
-                  onSelect?.(p.id);
-                },
-              }}
-            >
-              <Tooltip direction="top" offset={[0, -8]}>
-                {p.fishName} · {fmtCoord(p.coordX, p.coordY)}
-              </Tooltip>
-            </Marker>
-          ))
+        ? markers.map((p) => {
+            const pos = gameToLatLng(wb, p.coordX, p.coordY);
+            return (
+              <Marker
+                key={p.id}
+                position={[pos.lat, pos.lng]}
+                icon={pin(p.id === selectedId, p.catchType)}
+                keyboard={false}
+                eventHandlers={{
+                  click: () => {
+                    void selectPost(p.id);
+                    onSelect?.(p.id);
+                  },
+                }}
+              >
+                <Tooltip direction="top" offset={[0, -8]}>
+                  {p.fishName} · {fmtCoord(p.coordX, p.coordY)}
+                </Tooltip>
+              </Marker>
+            );
+          })
         : [],
     [wb, markers, selectedId, selectPost, onSelect],
   );
@@ -212,10 +64,10 @@ export function MapView({ onCreate, onSelect }: Props) {
   if (!wb || !bounds) return <div className="map-empty">Выберите водоём</div>;
 
   const dist =
-    ruler.length === 2
-      ? Math.hypot(ruler[1].x - ruler[0].x, ruler[1].y - ruler[0].y) * wb.metersPerCell
-      : null;
+    ruler.length === 2 ? Math.hypot(ruler[1].x - ruler[0].x, ruler[1].y - ruler[0].y) * wb.metersPerCell : null;
   const readout = isMobile ? center : hover;
+  const a = ruler[0] ? gameToLatLng(wb, ruler[0].x, ruler[0].y) : null;
+  const b = ruler[1] ? gameToLatLng(wb, ruler[1].x, ruler[1].y) : null;
 
   return (
     <div className={`map-wrap ${isMobile ? "map-touch" : ""}`}>
@@ -239,10 +91,14 @@ export function MapView({ onCreate, onSelect }: Props) {
         <MapEvents wb={wb} rulerOn={rulerOn} onHover={setHover} onCreate={onCreate} onRuler={setRuler} />
         {isMobile && <CenterTracker wb={wb} onChange={setCenter} />}
         {pins}
-        {ruler.length === 2 && (
+        {a && b && (
           <Polyline
-            positions={[gameToLatLng(wb, ruler[0].x, ruler[0].y), gameToLatLng(wb, ruler[1].x, ruler[1].y)]}
-            pathOptions={{ color: "#e8d7a3", weight: 2, dashArray: "6 4" }}
+            className="map-ruler"
+            positions={[
+              [a.lat, a.lng],
+              [b.lat, b.lng],
+            ]}
+            pathOptions={{ weight: 2, dashArray: "6 4" }}
           />
         )}
       </MapContainer>
@@ -251,32 +107,17 @@ export function MapView({ onCreate, onSelect }: Props) {
         <span>{readout ? fmtCoord(readout.x, readout.y) : "—:—"}</span>
         {rulerOn && (
           <span className="gold">
-            {dist != null
-              ? `${Math.round(dist)} м`
-              : isMobile
-                ? "коснитесь двух точек"
-                : "кликните две точки"}
+            {dist != null ? `${Math.round(dist)} м` : isMobile ? "коснитесь двух точек" : "кликните две точки"}
           </span>
         )}
         {!rulerOn && <span className="muted">{isMobile ? "точка в центре" : "ПКМ — новый пост"}</span>}
       </div>
       {isMobile && (
         <div className="map-actions">
-          <button
-            type="button"
-            className={`map-fab ${rulerOn ? "on" : ""}`}
-            onClick={toggleRuler}
-            aria-pressed={rulerOn}
-            aria-label="Линейка"
-          >
+          <button type="button" className={`map-fab ${rulerOn ? "on" : ""}`} onClick={toggleRuler} aria-pressed={rulerOn} aria-label="Линейка">
             ↔
           </button>
-          <button
-            type="button"
-            className="map-fab primary"
-            onClick={() => center && onCreate(center)}
-            aria-label="Новый пост в центре карты"
-          >
+          <button type="button" className="map-fab primary" onClick={() => center && onCreate(center)} aria-label="Новый пост в центре карты">
             +
           </button>
         </div>

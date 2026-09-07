@@ -1,0 +1,63 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+.app-frame {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.app-frame-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.app-frame-body > * { height: 100%; min-height: 0; }
+html { color-scheme: dark; }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1a2c36 transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #16242c;
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #24363f;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+body { background: radial-gradient(1200px 700px at 10% -10%, #143246, var(--bg)); }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+button { cursor: pointer; }
+
+html[data-platform="android"] {
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-platform="android"] body {
+  overscroll-behavior: none;
+}
+html[data-platform="android"] input,
+html[data-platform="android"] select,
+html[data-platform="android"] textarea {
+  font-size: 16px; /* меньше 16px WebView компенсирует автозумом поля */
+  padding: 11px 12px;
+}
+html[data-platform="android"] .btn {
+  padding: 12px 16px;
+}
+html[data-platform="android"] .btn.sm {
+  padding: 9px 12px;
+  font-size: 13px;
+}

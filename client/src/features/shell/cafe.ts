@@ -1,4 +1,4 @@
-import { ALL_WATERBODIES } from "./constants";
+import { ALL_WATERBODIES } from "../../shared/constants";
 
 const CAFE_ORIGIN = "https://rf4-cafe.ru";
 

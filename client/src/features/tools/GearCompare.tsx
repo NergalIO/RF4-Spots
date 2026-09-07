@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { GuideRow } from "@/types";
-import { asText, GUIDE_FIELDS, type GuideField, type GuideKey } from "@/guideSchema";
+import { asText, GUIDE_FIELDS, type GuideField, type GuideKey } from "@/features/tools/guideSchema";
 import { GuideTable } from "./GuideTable";
 
 type Props = {

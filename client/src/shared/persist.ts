@@ -1,5 +1,5 @@
 import { ALL_WATERBODIES } from "./constants";
-import type { Filters } from "./types";
+import type { Filters } from "../types";
 
 const WB_KEY = "rf4spots-waterbody";
 const FILTER_KEY = "rf4spots-filters";

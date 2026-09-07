@@ -9,15 +9,15 @@ export const GUIDE_KEYS = [
 ] as const;
 
 export type GuideKey = (typeof GUIDE_KEYS)[number];
-export type GuideValue = string | number | null;
+type GuideValue = string | number | null;
 export type GuideRow = Record<string, GuideValue>;
 
-export type GuideField = {
+type GuideField = {
   key: string;
   type: "string" | "number";
 };
 
-export const GUIDE_FIELDS: Record<GuideKey, GuideField[]> = {
+const GUIDE_FIELDS: Record<GuideKey, GuideField[]> = {
   reels: [
     { key: "name", type: "string" },
     { key: "category", type: "string" },

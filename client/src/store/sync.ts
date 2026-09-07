@@ -1,7 +1,7 @@
 import type { StoreApi } from "zustand";
-import { ALL_WATERBODIES } from "../constants";
+import { ALL_WATERBODIES } from "../shared/constants";
 import { processActivity, resetNotifyCursor } from "../notify/tick";
-import { saveWaterbodyId } from "../persist";
+import { saveWaterbodyId } from "../shared/persist";
 import type { Store } from "./types";
 
 const POLL_MS = 4000;
@@ -21,7 +21,7 @@ async function tickPresence() {
   const { api, user } = store.getState();
   if (!user) return;
   try {
-    await api.me();
+    await api.auth.me();
   } catch {
     /* offline / stale token */
   }
@@ -40,7 +40,7 @@ async function tickSync() {
   if (!user) return;
   pollBusy = true;
   try {
-    const { stamp } = await api.sync();
+    const { stamp } = await api.catalog.sync();
     const stampChanged = stamp !== syncStamp;
     if (stampChanged) {
       store.setState({ syncStamp: stamp });
@@ -91,9 +91,9 @@ export function startPoll() {
 export async function loadCatalogAndPosts() {
   const { api, waterbodyId } = store.getState();
   const [{ fish }, { waterbodies }, { stamp }] = await Promise.all([
-    api.fish(),
-    api.waterbodies(),
-    api.sync(),
+    api.catalog.fish(),
+    api.catalog.waterbodies(),
+    api.catalog.sync(),
   ]);
   const saved = waterbodyId;
   const nextId =

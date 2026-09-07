@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
-import { CATCH_LABEL, fmtCoord, roundCoord } from "@/shared/format";
-import { toDatetimeLocal } from "@/time";
+import { CATCH_LABEL, roundCoord } from "@/shared/format";
+import { toDatetimeLocal } from "@/shared/time";
 import type { CatchType, Post } from "@/types";
 import { FishCombobox } from "@/shared/ui/FishCombobox";
 import { ShotPicker } from "./ShotPicker";
@@ -34,14 +34,6 @@ export function PostForm({ coords, post, onClose }: Props) {
   const xNum = roundCoord(Number(coordX.replace(",", ".")));
   const yNum = roundCoord(Number(coordY.replace(",", ".")));
 
-  async function copyCoords() {
-    try {
-      await navigator.clipboard.writeText(fmtCoord(xNum, yNum));
-    } catch {
-      /* ignore */
-    }
-  }
-
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!fishId) {
@@ -65,7 +57,7 @@ export function PostForm({ coords, post, onClose }: Props) {
     for (const f of files) fd.append("screenshots", f);
     if (post) fd.set("keepScreenshots", JSON.stringify(keepIds));
     try {
-      const res = post ? await api.updatePost(post.id, fd) : await api.createPost(fd);
+      const res = post ? await api.posts.update(post.id, fd) : await api.posts.create(fd);
       await refreshPosts();
       await refreshMarkers();
       await selectPost(res.post.id);

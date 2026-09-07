@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Api, ApiError } from "@/api";
-import { DEFAULT_SERVER_URL, loadSession } from "@/session";
-import { isServerUrlPinned, resolveServerUrl } from "@/serverUrl";
+import { DEFAULT_SERVER_URL, loadSession } from "@/features/auth/session";
+import { isServerUrlPinned, resolveServerUrl } from "@/features/auth/serverUrl";
 import { useStore } from "@/store";
 
 export function AuthScreen() {
@@ -29,7 +29,7 @@ export function AuthScreen() {
       const url = resolveServerUrl(serverUrl);
       const api = new Api(url, "");
       void api
-        .authConfig()
+        .auth.config()
         .then((cfg) => {
           if (dead) return;
           setAllowRegister(cfg.allowRegister);

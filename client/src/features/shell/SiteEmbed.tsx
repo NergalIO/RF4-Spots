@@ -1,5 +1,5 @@
 import { createElement, useEffect, useRef } from "react";
-import { useIsMobile } from "@/platform";
+import { useIsMobile } from "@/shared/platform";
 
 type WebviewLike = HTMLElement & {
   loadURL?: (url: string) => void;

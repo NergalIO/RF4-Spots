@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
-import { ALL_WATERBODIES } from "../constants";
-import { loadFilters, loadWaterbodyId, saveFilters, saveWaterbodyId } from "../persist";
-import { markPostSeen, seedSeen } from "../unread";
+import { ALL_WATERBODIES } from "../shared/constants";
+import { loadFilters, loadWaterbodyId, saveFilters, saveWaterbodyId } from "../shared/persist";
+import { markPostSeen, seedSeen } from "../features/spots/unread";
 import type { Store } from "./types";
 
 export type SpotsSlice = Pick<
@@ -85,7 +85,7 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
       return;
     }
     const { api } = get();
-    const { post } = await api.post(id);
+    const { post } = await api.posts.get(id);
     set({ detail: post });
     get().markSeen(post);
   },
@@ -93,7 +93,7 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
   refreshPosts: async (opts) => {
     const { api, waterbodyId, filters, selectedId, user, nextCursor } = get();
     if (!waterbodyId) return;
-    const { posts, nextCursor: cursor } = await api.posts({
+    const { posts, nextCursor: cursor } = await api.posts.list({
       waterbodyId: waterbodyId === ALL_WATERBODIES ? "" : waterbodyId,
       fishId: filters.fishId,
       catchType: filters.catchType,
@@ -129,14 +129,14 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
       set({ markers: [] });
       return;
     }
-    const { markers } = await api.markers(waterbodyId);
+    const { markers } = await api.posts.markers(waterbodyId);
     set({ markers });
   },
 
   refreshDetail: async (opts) => {
     const { selectedId, api } = get();
     if (!selectedId) return;
-    const { post } = await api.post(selectedId);
+    const { post } = await api.posts.get(selectedId);
     set({ detail: post });
     get().markSeen(post);
     if (!opts?.skipList) await get().refreshPosts();
@@ -153,7 +153,7 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
 
   toggleFavorite: async (post) => {
     const { api } = get();
-    const { favorited } = await api.setFavorite(post.id, !post.favorited);
+    const { favorited } = await api.posts.setFavorite(post.id, !post.favorited);
     set({
       posts: get().posts.map((p) => (p.id === post.id ? { ...p, favorited } : p)),
       detail: get().detail?.id === post.id ? { ...get().detail!, favorited } : get().detail,
@@ -164,7 +164,7 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
   toggleVote: async (post, value) => {
     const { api } = get();
     const next = post.userReaction === value ? null : value;
-    const { userReaction, likesCount, dislikesCount } = await api.setPostVote(post.id, next);
+    const { userReaction, likesCount, dislikesCount } = await api.posts.setVote(post.id, next);
     const patch = { userReaction, likesCount, dislikesCount };
     set({
       posts: get().posts.map((p) => (p.id === post.id ? { ...p, ...patch } : p)),

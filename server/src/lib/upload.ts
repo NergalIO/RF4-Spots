@@ -4,6 +4,7 @@ import { extname, join } from "node:path";
 import type { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import { prisma } from "./prisma.js";
+import { uploadLimiter } from "./rateLimit.js";
 import type { AuthedRequest } from "../middleware/auth.js";
 
 export const UPLOAD_DIR = join(process.cwd(), "uploads");
@@ -126,3 +127,10 @@ export async function enforceUploadQuota(req: AuthedRequest, res: Response, next
     next(err);
   }
 }
+
+export const uploadScreenshots = [
+  uploadLimiter,
+  upload.array("screenshots", 8),
+  validateUploads,
+  enforceUploadQuota,
+];
