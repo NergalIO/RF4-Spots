@@ -10,7 +10,7 @@
   backdrop-filter: blur(10px);
   flex-wrap: wrap;
   position: relative;
-  z-index: 30;
+  z-index: 1100;
 }
 .brand { display: flex; align-items: center; gap: 10px; }
 .logo {

@@ -330,7 +330,12 @@
   line-height: 1.45;
 }
 
-.map-wrap { position: relative; min-width: 0; min-height: 0; }
+.map-wrap {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  isolation: isolate;
+}
 .leaflet-host, .leaflet-container { height: 100%; width: 100%; background: #071018; }
 .leaflet-host.leaflet-zoom-anim .leaflet-zoom-animated {
   transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
