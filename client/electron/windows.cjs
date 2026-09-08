@@ -2,11 +2,17 @@ const { BrowserWindow } = require("electron");
 const path = require("path");
 const { isDev } = require("./session-store.cjs");
 const state = require("./state.cjs");
-const { clearSplashTimer, sendMain, sendSplash, startPeriodicUpdateChecks } = require("./updater.cjs");
+const { clearSplashTimer, sendMain, sendSplash, startPeriodicUpdateChecks, startUpdateCheck } = require("./updater.cjs");
 
 function closeSplash() {
   if (state.splash && !state.splash.isDestroyed()) state.splash.close();
   state.splash = null;
+}
+
+function showSplash() {
+  if (!state.splash || state.splash.isDestroyed() || state.mainOpened) return;
+  state.splash.setBackgroundColor("#07131c");
+  state.splash.show();
 }
 
 function createSplash(openMain) {
@@ -19,7 +25,8 @@ function createSplash(openMain) {
     fullscreenable: false,
     center: true,
     frame: false,
-    show: true,
+    show: false,
+    transparent: false,
     backgroundColor: "#07131c",
     title: "RF4 Spots",
     webPreferences: {
@@ -29,6 +36,18 @@ function createSplash(openMain) {
     },
   });
   state.splash.setMenuBarVisibility(false);
+  let checkStarted = false;
+  const startCheck = () => {
+    if (checkStarted || state.mainOpened) return;
+    checkStarted = true;
+    startUpdateCheck(openMain);
+  };
+  state.splash.once("ready-to-show", () => {
+    showSplash();
+    startCheck();
+  });
+  state.splash.webContents.once("did-fail-load", startCheck);
+  setTimeout(startCheck, 4000);
   state.splash.loadFile(path.join(__dirname, "splash.html"));
   state.splash.on("close", (e) => {
     if (state.downloading || state.installing) e.preventDefault();

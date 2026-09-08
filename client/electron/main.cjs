@@ -1,7 +1,7 @@
 const { app, ipcMain, session, Notification } = require("electron");
 const { isDev, readStore, writeStore } = require("./session-store.cjs");
 const state = require("./state.cjs");
-const { installDownloadedUpdate, startUpdateCheck } = require("./updater.cjs");
+const { installDownloadedUpdate } = require("./updater.cjs");
 const { createSplash, openMain } = require("./windows.cjs");
 
 app.setAppUserModelId("com.rf4spots.app");
@@ -59,7 +59,6 @@ app.whenReady().then(async () => {
     openMain();
   } else {
     createSplash(openMain);
-    startUpdateCheck(openMain);
   }
 });
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>RF4 Spots</title>
     <style>
-      html, body { height: 100%; margin: 0; }
+      html, body { height: 100%; margin: 0; background: #07131c; }
       body {
         font-family: "Segoe UI", Manrope, sans-serif;
         background: radial-gradient(900px 400px at 10% -20%, #143246, #07131c);
@@ -99,7 +99,7 @@
           bar.classList.remove("indeterminate");
           fill.style.width = Math.max(0, Math.min(100, s.percent)) + "%";
           pct.textContent = Math.round(s.percent) + "%";
-        } else if (s.phase === "check" || s.phase === "launch") {
+        } else if (s.phase === "check" || s.phase === "launch" || s.phase === "none" || s.phase === "error") {
           bar.classList.add("indeterminate");
           bar.classList.remove("on");
           fill.style.width = "36%";
