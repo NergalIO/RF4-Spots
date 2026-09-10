@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { postsListWhere } from "./query.js";
+import { listOrder, postsListWhere } from "./query.js";
 
 const user = "u1";
 
@@ -27,5 +27,15 @@ describe("postsListWhere", () => {
         }),
       ]),
     );
+  });
+});
+
+describe("listOrder", () => {
+  it("defaults to createdAt descending", () => {
+    expect(listOrder({})).toEqual({ sort: "createdAt", dir: "desc" });
+  });
+
+  it("honors catchDate ascending", () => {
+    expect(listOrder({ sort: "catchDate", sortDir: "asc" })).toEqual({ sort: "catchDate", dir: "asc" });
   });
 });

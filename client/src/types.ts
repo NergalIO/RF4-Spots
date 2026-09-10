@@ -109,6 +109,7 @@ export type Filters = {
   uploadedTo: string;
   uploadedDateOp: FilterOp;
   sort: "createdAt" | "catchDate";
+  sortDir: "asc" | "desc";
   mine: boolean | null;
   mineOp: FilterOp;
   favorite: boolean | null;

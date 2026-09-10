@@ -9,10 +9,25 @@
   max-height: min(60vh, 480px);
 }
 .changelog-list h3 {
-  margin: 0 0 6px;
+  margin: 0 0 10px;
   font-size: 14px;
   color: var(--gold);
   font-weight: 650;
+}
+.changelog-section {
+  display: grid;
+  gap: 6px;
+}
+.changelog-section + .changelog-section {
+  margin-top: 10px;
+}
+.changelog-list h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .changelog-list ul {
   margin: 0;

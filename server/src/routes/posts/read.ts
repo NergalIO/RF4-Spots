@@ -12,7 +12,7 @@ readRouter.get("/", requireAuth, async (req: AuthedRequest, res) => {
   const rows = await prisma.post.findMany({
     where: listed.where,
     include: favoriteInclude(req.user!.id),
-    orderBy: [{ [listed.sort]: "desc" }, { id: "desc" }],
+    orderBy: [{ [listed.sort]: listed.dir }, { id: listed.dir }],
     take: listed.take + 1,
   });
   const nextCursor = rows.length > listed.take ? rows[listed.take - 1]?.id ?? null : null;

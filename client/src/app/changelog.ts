@@ -1,10 +1,17 @@
-export type ChangelogEntry = {
-  version: string;
+export type ChangelogSection = {
+  title: string;
   items: string[];
 };
 
+export type ChangelogEntry = {
+  version: string;
+  sections: ChangelogSection[];
+};
+
 const SEEN_KEY = "rf4spots-seen-version";
-const VERSION_RE = /Update client version to (\d+\.\d+\.\d+)/i;
+const VERSION_RE = /^версия\s+(\d+\.\d+\.\d+)\s*$/i;
+const SECTION_RE = /^(.+):\s*$/;
+const ITEM_RE = /^[-•]\s+(.+)$/;
 
 export function compareSemver(a: string, b: string) {
   const left = a.split(".").map((n) => parseInt(n, 10) || 0);
@@ -33,50 +40,37 @@ export function markChangelogSeen(version: string) {
   }
 }
 
-export function commitItems(message: string): string[] {
-  const first = message.split("\n")[0]?.trim() ?? "";
-  let text = first.replace(VERSION_RE, "").replace(/^,?\s*/, "");
-  text = text.replace(/\s*These changes aim to.*$/i, "");
-  text = text.replace(/\s*This update (improves|streamlines).*?$/i, "");
-  const parts = text
-    .split(/\.\s+|;\s+|,\s+and\s+/)
-    .map((part) => part.replace(/\.$/, "").trim())
-    .filter((part) => part.length > 8);
-  const seen = new Set<string>();
-  const items: string[] = [];
-  for (const part of parts) {
-    const key = part.toLowerCase();
-    if (seen.has(key)) continue;
-    seen.add(key);
-    items.push(part.charAt(0).toUpperCase() + part.slice(1));
-  }
-  return items;
-}
-
-export function changelogFromCommits(commits: { message: string }[], current: string): ChangelogEntry[] {
-  const groups = new Map<string, string[]>();
-  const order: string[] = [];
-  const ensure = (version: string) => {
-    if (groups.has(version)) return;
-    groups.set(version, []);
-    order.push(version);
-  };
-  let version = current;
-  ensure(current);
-  for (const commit of commits) {
-    const bump = commit.message.match(VERSION_RE)?.[1];
-    if (bump) version = bump;
-    ensure(version);
-    const items = commitItems(commit.message);
-    const bucket = groups.get(version);
-    if (!bucket) continue;
-    for (const item of items) {
-      if (!bucket.includes(item)) bucket.push(item);
+export function parseChanges(text: string): ChangelogEntry[] {
+  const entries: ChangelogEntry[] = [];
+  let current: ChangelogEntry | null = null;
+  let section: ChangelogSection | null = null;
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const version = line.match(VERSION_RE);
+    if (version) {
+      current = { version: version[1], sections: [] };
+      entries.push(current);
+      section = null;
+      continue;
+    }
+    if (!current) continue;
+    const item = line.match(ITEM_RE);
+    if (item) {
+      if (!section) {
+        section = { title: "", items: [] };
+        current.sections.push(section);
+      }
+      section.items.push(item[1].trim());
+      continue;
+    }
+    const heading = line.match(SECTION_RE);
+    if (heading) {
+      section = { title: heading[1].trim(), items: [] };
+      current.sections.push(section);
     }
   }
-  return order
-    .map((ver) => ({ version: ver, items: groups.get(ver) ?? [] }))
-    .filter((entry) => entry.items.length > 0);
+  return entries.filter((entry) => entry.sections.some((block) => block.items.length));
 }
 
 export function unseenChangelog(current: string, entries: ChangelogEntry[]): ChangelogEntry[] {
@@ -87,4 +81,14 @@ export function unseenChangelog(current: string, entries: ChangelogEntry[]): Cha
 
 export function shouldShowChangelog(current: string, entries: ChangelogEntry[]) {
   return unseenChangelog(current, entries).length > 0;
+}
+
+export async function loadServerChangelog(baseUrl: string): Promise<{ ok: boolean; entries: ChangelogEntry[] }> {
+  try {
+    const res = await fetch(`${baseUrl.replace(/\/$/, "")}/updates/changes`, { cache: "no-store" });
+    if (!res.ok) throw new Error(String(res.status));
+    return { ok: true, entries: parseChanges(await res.text()) };
+  } catch {
+    return { ok: false, entries: [] };
+  }
 }

@@ -5,3 +5,4 @@ uploads/*
 !uploads/.gitkeep
 updates/*
 !updates/.gitkeep
+!updates/changes

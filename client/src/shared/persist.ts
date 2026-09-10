@@ -1,4 +1,4 @@
-import { BOOL_OPS, DATE_OPS, ENUM_OPS, TEXT_OPS, pickOp } from "./filterOps";
+import { BOOL_OPS, DATE_OPS, ENUM_OPS, pickOp } from "./filterOps";
 import { ALL_WATERBODIES } from "./constants";
 import type { FilterOp, Filters } from "../types";
 
@@ -6,16 +6,7 @@ const WB_KEY = "rf4spots-waterbody";
 const FILTER_KEY = "rf4spots-filters";
 const SLOTS_KEY = "rf4spots-filter-slots";
 
-const FILTER_KEYS = [
-  "fish",
-  "catchType",
-  "catchDate",
-  "uploadedDate",
-  "sort",
-  "mine",
-  "favorite",
-  "search",
-] as const;
+const FILTER_KEYS = ["fish", "catchType", "catchDate", "uploadedDate", "mine", "favorite"] as const;
 
 export type FilterKey = (typeof FILTER_KEYS)[number];
 
@@ -32,6 +23,7 @@ export function emptyFilters(): Filters {
     uploadedTo: "",
     uploadedDateOp: "between",
     sort: "createdAt",
+    sortDir: "desc",
     mine: null,
     mineOp: "eq",
     favorite: null,
@@ -83,12 +75,13 @@ export function parseFilters(raw: unknown, slots: FilterKey[] = []): Filters {
     uploadedTo: typeof parsed.uploadedTo === "string" ? parsed.uploadedTo : "",
     uploadedDateOp: pickOp(parsed.uploadedDateOp, DATE_OPS, "between"),
     sort: parsed.sort === "catchDate" ? "catchDate" : "createdAt",
+    sortDir: parsed.sortDir === "asc" ? "asc" : "desc",
     mine: readTriBool(parsed.mine, hasMineOp || slots.includes("mine")),
     mineOp: pickOp(parsed.mineOp, BOOL_OPS, "eq"),
     favorite: readTriBool(parsed.favorite, hasFavOp || slots.includes("favorite")),
     favoriteOp: pickOp(parsed.favoriteOp, BOOL_OPS, "eq"),
-    q: typeof parsed.q === "string" ? parsed.q : "",
-    qOp: pickOp(parsed.qOp, TEXT_OPS, "contains"),
+    q: "",
+    qOp: "contains",
   };
 }
 

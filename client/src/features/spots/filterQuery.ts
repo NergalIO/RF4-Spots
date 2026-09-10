@@ -1,38 +1,37 @@
-import { BOOL_OPS, DATE_OPS, ENUM_OPS, TEXT_OPS, pickOp } from "@/shared/filterOps";
+import { BOOL_OPS, DATE_OPS, ENUM_OPS, pickOp } from "@/shared/filterOps";
 import type { FilterKey } from "@/shared/persist";
 import type { FilterOp, Filters } from "@/types";
 
 export const FILTER_OPTIONS: { id: FilterKey; label: string }[] = [
-  { id: "search", label: "Поиск" },
   { id: "fish", label: "Вид рыбы" },
   { id: "catchType", label: "Тип поимки" },
   { id: "catchDate", label: "Дата поимки" },
   { id: "uploadedDate", label: "Дата загрузки" },
   { id: "mine", label: "Только мои" },
   { id: "favorite", label: "Избранное" },
-  { id: "sort", label: "Сортировка" },
+];
+
+export const SORT_FIELDS: { id: Filters["sort"]; label: string }[] = [
+  { id: "createdAt", label: "Дата загрузки" },
+  { id: "catchDate", label: "Дата поимки" },
 ];
 
 const OPS: Record<FilterKey, FilterOp[]> = {
-  search: TEXT_OPS,
   fish: ENUM_OPS,
   catchType: ENUM_OPS,
   catchDate: DATE_OPS,
   uploadedDate: DATE_OPS,
   mine: BOOL_OPS,
   favorite: BOOL_OPS,
-  sort: ["eq"],
 };
 
 const DEFAULT_OP: Record<FilterKey, FilterOp> = {
-  search: "contains",
   fish: "eq",
   catchType: "eq",
   catchDate: "between",
   uploadedDate: "between",
   mine: "eq",
   favorite: "eq",
-  sort: "eq",
 };
 
 export function opsFor(field: FilterKey): FilterOp[] {
@@ -45,40 +44,33 @@ export function defaultOp(field: FilterKey): FilterOp {
 
 export function defaultsFor(field: FilterKey): Partial<Filters> {
   const op = defaultOp(field);
-  if (field === "search") return { q: "", qOp: op };
   if (field === "fish") return { fishId: "", fishOp: op };
   if (field === "catchType") return { catchType: "", catchTypeOp: op };
   if (field === "catchDate") return { catchFrom: "", catchTo: "", catchDateOp: op };
   if (field === "uploadedDate") return { uploadedFrom: "", uploadedTo: "", uploadedDateOp: op };
   if (field === "mine") return { mine: true, mineOp: op };
-  if (field === "favorite") return { favorite: true, favoriteOp: op };
-  return { sort: "createdAt" };
+  return { favorite: true, favoriteOp: op };
 }
 
 export function clearField(field: FilterKey): Partial<Filters> {
-  if (field === "search") return { q: "" };
   if (field === "fish") return { fishId: "" };
   if (field === "catchType") return { catchType: "" };
   if (field === "catchDate") return { catchFrom: "", catchTo: "" };
   if (field === "uploadedDate") return { uploadedFrom: "", uploadedTo: "" };
   if (field === "mine") return { mine: null };
-  if (field === "favorite") return { favorite: null };
-  return { sort: "createdAt" };
+  return { favorite: null };
 }
 
 export function opOf(filters: Filters, field: FilterKey): FilterOp {
-  if (field === "search") return pickOp(filters.qOp, TEXT_OPS, "contains");
   if (field === "fish") return pickOp(filters.fishOp, ENUM_OPS, "eq");
   if (field === "catchType") return pickOp(filters.catchTypeOp, ENUM_OPS, "eq");
   if (field === "catchDate") return pickOp(filters.catchDateOp, DATE_OPS, "between");
   if (field === "uploadedDate") return pickOp(filters.uploadedDateOp, DATE_OPS, "between");
   if (field === "mine") return pickOp(filters.mineOp, BOOL_OPS, "eq");
-  if (field === "favorite") return pickOp(filters.favoriteOp, BOOL_OPS, "eq");
-  return "eq";
+  return pickOp(filters.favoriteOp, BOOL_OPS, "eq");
 }
 
 export function setOp(field: FilterKey, op: FilterOp): Partial<Filters> {
-  if (field === "search") return { qOp: op };
   if (field === "fish") return { fishOp: op };
   if (field === "catchType") return { catchTypeOp: op };
   if (field === "catchDate") {
@@ -88,19 +80,27 @@ export function setOp(field: FilterKey, op: FilterOp): Partial<Filters> {
     return op === "between" ? { uploadedDateOp: op } : { uploadedDateOp: op, uploadedTo: "" };
   }
   if (field === "mine") return { mineOp: op };
-  if (field === "favorite") return { favoriteOp: op };
-  return {};
+  return { favoriteOp: op };
 }
 
 export function fieldActive(filters: Filters, field: FilterKey) {
-  if (field === "search") return Boolean(filters.q.trim());
   if (field === "fish") return Boolean(filters.fishId);
   if (field === "catchType") return Boolean(filters.catchType);
   if (field === "catchDate") return Boolean(filters.catchFrom || filters.catchTo);
   if (field === "uploadedDate") return Boolean(filters.uploadedFrom || filters.uploadedTo);
   if (field === "mine") return filters.mine != null;
-  if (field === "favorite") return filters.favorite != null;
-  return filters.sort !== "createdAt";
+  return filters.favorite != null;
+}
+
+export function nextPostSort(
+  current: Filters["sort"],
+  currentDir: Filters["sortDir"],
+  field: Filters["sort"],
+): Pick<Filters, "sort" | "sortDir"> {
+  if (current === field) {
+    return { sort: field, sortDir: currentDir === "desc" ? "asc" : "desc" };
+  }
+  return { sort: field, sortDir: "desc" };
 }
 
 export function countActiveFilters(filters: Filters, slots: FilterKey[]) {
@@ -120,8 +120,7 @@ export function filtersToQuery(filters: Filters): Record<string, string> {
     uploadedTo: filters.uploadedTo,
     uploadedDateOp: filters.uploadedFrom || filters.uploadedTo ? opOf(filters, "uploadedDate") : "",
     sort: filters.sort,
-    q: filters.q.trim(),
-    qOp: filters.q.trim() ? opOf(filters, "search") : "",
+    sortDir: filters.sortDir,
     mine: filters.mine == null ? "" : filters.mine ? "1" : "0",
     mineOp: filters.mine == null ? "" : opOf(filters, "mine"),
     favorite: filters.favorite == null ? "" : filters.favorite ? "1" : "0",

@@ -117,24 +117,32 @@ export function postsListWhere(q: QueryBag, userId: string): Prisma.PostWhereInp
   return where;
 }
 
+export function listOrder(q: QueryBag): { sort: "catchDate" | "createdAt"; dir: "asc" | "desc" } {
+  return {
+    sort: qStr(q, "sort") === "catchDate" ? "catchDate" : "createdAt",
+    dir: qStr(q, "sortDir") === "asc" ? "asc" : "desc",
+  };
+}
+
 export async function applyListCursor(
   where: Prisma.PostWhereInput,
   q: QueryBag,
-): Promise<{ where: Prisma.PostWhereInput; sort: "catchDate" | "createdAt"; take: number }> {
-  const sort = qStr(q, "sort") === "catchDate" ? "catchDate" : "createdAt";
+): Promise<{ where: Prisma.PostWhereInput; sort: "catchDate" | "createdAt"; dir: "asc" | "desc"; take: number }> {
+  const { sort, dir } = listOrder(q);
   const take = Math.min(Math.max(Number(q.take) || 50, 1), 100);
   const cursorId = qStr(q, "cursor") ?? "";
-  if (!cursorId) return { where, sort, take };
+  if (!cursorId) return { where, sort, dir, take };
   const cursorPost = await prisma.post.findUnique({
     where: { id: cursorId },
     select: { id: true, createdAt: true, catchDate: true },
   });
-  if (!cursorPost) return { where, sort, take };
+  if (!cursorPost) return { where, sort, dir, take };
   const field = sort === "catchDate" ? cursorPost.catchDate : cursorPost.createdAt;
+  const cmp = dir === "asc" ? "gt" : "lt";
   const extra: Prisma.PostWhereInput = {
-    OR: [{ [sort]: { lt: field } }, { AND: [{ [sort]: field }, { id: { lt: cursorPost.id } }] }],
+    OR: [{ [sort]: { [cmp]: field } }, { AND: [{ [sort]: field }, { id: { [cmp]: cursorPost.id } }] }],
   };
   const prev = where.AND;
   const list = prev ? (Array.isArray(prev) ? prev : [prev]) : [];
-  return { where: { ...where, AND: [...list, extra] }, sort, take };
+  return { where: { ...where, AND: [...list, extra] }, sort, dir, take };
 }

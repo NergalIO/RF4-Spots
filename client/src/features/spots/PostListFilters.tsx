@@ -6,6 +6,7 @@ import { OP_LABELS, dateOpUsesRange } from "@/shared/filterOps";
 import type { CatchType, FilterOp, Filters, Fish } from "@/types";
 import type { FilterKey } from "@/shared/persist";
 import { FILTER_OPTIONS, countActiveFilters, opOf, opsFor, setOp } from "./filterQuery";
+import { PostSortMenu } from "./PostSortMenu";
 
 export { FILTER_OPTIONS };
 
@@ -86,16 +87,8 @@ export function PostListFilters({
           ))}
         </select>
       )}
+      toolbarExtra={<PostSortMenu filters={filters} setFilters={setFilters} />}
       renderControl={(id) => {
-        if (id === "search") {
-          return (
-            <input
-              value={filters.q}
-              onChange={(e) => setFilters({ q: e.target.value })}
-              placeholder="Текст поста или комментария"
-            />
-          );
-        }
         if (id === "fish") {
           return (
             <FishCombobox
@@ -149,21 +142,13 @@ export function PostListFilters({
             </select>
           );
         }
-        if (id === "favorite") {
-          return (
-            <select
-              value={filters.favorite === false ? "0" : "1"}
-              onChange={(e) => setFilters({ favorite: e.target.value === "1" })}
-            >
-              <option value="1">Да</option>
-              <option value="0">Нет</option>
-            </select>
-          );
-        }
         return (
-          <select value={filters.sort} onChange={(e) => setFilters({ sort: e.target.value as "createdAt" | "catchDate" })}>
-            <option value="createdAt">Сначала новые загрузки</option>
-            <option value="catchDate">Сначала свежие поимки</option>
+          <select
+            value={filters.favorite === false ? "0" : "1"}
+            onChange={(e) => setFilters({ favorite: e.target.value === "1" })}
+          >
+            <option value="1">Да</option>
+            <option value="0">Нет</option>
           </select>
         );
       }}

@@ -1,4 +1,5 @@
-import { extname } from "node:path";
+import { extname, join } from "node:path";
+import { existsSync } from "node:fs";
 import express from "express";
 import { clientDownloads, sendLatestApk, sendLatestInstaller } from "./static/clientDownloads.js";
 import { sendDownloadPage } from "./static/downloadPage.js";
@@ -18,6 +19,16 @@ export function mountStaticAssets(app: express.Express, uploadDir: string) {
   app.get("/updates/installer.exe", sendLatestInstaller);
   app.get("/updates/apk", sendLatestApk);
   app.get("/updates/apk.apk", sendLatestApk);
+  app.get("/updates/changes", (_req, res) => {
+    const file = join(dir, "changes");
+    if (!existsSync(file)) {
+      res.status(404).type("text/plain").send("История обновлений пока недоступна");
+      return;
+    }
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.sendFile(file);
+  });
   app.use("/updates", (req, res, next) => {
     const ext = extname(req.path).toLowerCase();
     if (!UPDATE_EXTS.has(ext)) {

@@ -23,8 +23,15 @@
 }
 .head-actions { display: flex; gap: 6px; align-items: center; position: relative; z-index: 5; }
 .filters-block { border-bottom: 1px solid var(--line); }
+.filters-toolbar {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
 .filters-toggle {
-  width: 100%;
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -34,6 +41,48 @@
   color: var(--gold);
   font-size: 13px;
 }
+.sort-menu { position: relative; flex: 0 0 auto; z-index: 30; }
+.sort-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  padding: 8px 14px 10px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--gold);
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.sort-toggle.open { color: var(--gold-2); }
+.sort-toggle-dir { color: var(--muted); }
+.sort-menu-list {
+  position: absolute;
+  right: 8px;
+  top: calc(100% - 2px);
+  z-index: 30;
+  min-width: 188px;
+  padding: 6px;
+  display: grid;
+  gap: 2px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+.sort-menu-list button {
+  text-align: left;
+  background: none;
+  border: 0;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.sort-menu-list button:hover { background: var(--surface-hover); }
+.sort-menu-list button.active { color: var(--gold); }
 .filters-toggle .filters-chevron { margin-left: auto; color: var(--muted); }
 .filters {
   padding: 0 16px 12px;
@@ -456,9 +505,13 @@ html[data-platform="android"] .filter-rule {
 html[data-platform="android"] .filter-rule .filter-value {
   grid-column: 1 / span 2;
 }
-html[data-platform="android"] .filters-toggle {
+html[data-platform="android"] .filters-toggle,
+html[data-platform="android"] .sort-toggle {
   padding: 12px 14px;
   font-size: 14px;
+}
+html[data-platform="android"] .sort-menu-list button {
+  padding: 12px 10px;
 }
 html[data-platform="android"] .filter-remove {
   padding: 4px 8px;

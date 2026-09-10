@@ -13,8 +13,7 @@ import { useBackGuard } from "@/shared/useBackGuard";
 import { OPEN_POST_EVENT } from "@/notify/show";
 import { SpotsLayout } from "../spots/SpotsLayout";
 import { ChangelogModal } from "@/app/ChangelogModal";
-import { markChangelogSeen, shouldShowChangelog, unseenChangelog, type ChangelogEntry } from "@/app/changelog";
-import { loadGithubChangelog } from "@/app/githubChangelog";
+import { loadServerChangelog, markChangelogSeen, shouldShowChangelog, unseenChangelog, type ChangelogEntry } from "@/app/changelog";
 import { MAIN_TABS, TAB_ITEMS, type MainTab } from "./shellTabs";
 import { ShellTopbar } from "./ShellTopbar";
 
@@ -28,6 +27,7 @@ export function Shell() {
   const rulerOn = useStore((s) => s.rulerOn);
   const toggleRuler = useStore((s) => s.toggleRuler);
   const logout = useStore((s) => s.logout);
+  const api = useStore((s) => s.api);
   const [tab, setTab] = usePersistedTab(TAB_KEY, MAIN_TABS, "spots" as MainTab, (v) =>
     v === "session" ? "tools" : undefined,
   );
@@ -87,7 +87,7 @@ export function Shell() {
 
   useEffect(() => {
     let dead = false;
-    void loadGithubChangelog(__APP_VERSION__).then((result) => {
+    void loadServerChangelog(api.baseUrl).then((result) => {
       if (dead) return;
       setChangelogEntries(result.entries);
       setChangelogStatus(result.ok ? "ok" : "error");
@@ -99,7 +99,7 @@ export function Shell() {
     return () => {
       dead = true;
     };
-  }, []);
+  }, [api.baseUrl]);
 
   useBackGuard(passwordOpen, () => setPasswordOpen(false));
   useBackGuard(changelogOpen, closeChangelog);

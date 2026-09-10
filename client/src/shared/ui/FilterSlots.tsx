@@ -16,6 +16,7 @@ type Props<T extends string> = {
   renderField: (id: T) => ReactNode;
   renderOperator: (id: T) => ReactNode;
   renderControl: (id: T) => ReactNode;
+  toolbarExtra?: ReactNode;
 };
 
 export function FilterSlots<T extends string>({
@@ -32,14 +33,18 @@ export function FilterSlots<T extends string>({
   renderField,
   renderOperator,
   renderControl,
+  toolbarExtra,
 }: Props<T>) {
   return (
     <div className="filters-block">
-      <button type="button" className={`filters-toggle ${open ? "open" : ""}`} onClick={onToggle}>
-        <span>Фильтры</span>
-        {activeCount > 0 && <span className="count">{activeCount}</span>}
-        <span className="filters-chevron">{open ? "▾" : "▸"}</span>
-      </button>
+      <div className="filters-toolbar">
+        <button type="button" className={`filters-toggle ${open ? "open" : ""}`} onClick={onToggle}>
+          <span>Фильтры</span>
+          {activeCount > 0 && <span className="count">{activeCount}</span>}
+          <span className="filters-chevron">{open ? "▾" : "▸"}</span>
+        </button>
+        {toolbarExtra}
+      </div>
       {open && (
         <div className="filters">
           {slots.map((id) => (
