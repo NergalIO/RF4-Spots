@@ -12,6 +12,9 @@ import { usePersistedTab } from "@/shared/usePersistedTab";
 import { useBackGuard } from "@/shared/useBackGuard";
 import { OPEN_POST_EVENT } from "@/notify/show";
 import { SpotsLayout } from "../spots/SpotsLayout";
+import { ChangelogModal } from "@/app/ChangelogModal";
+import { markChangelogSeen, shouldShowChangelog, unseenChangelog, type ChangelogEntry } from "@/app/changelog";
+import { loadGithubChangelog } from "@/app/githubChangelog";
 import { MAIN_TABS, TAB_ITEMS, type MainTab } from "./shellTabs";
 import { ShellTopbar } from "./ShellTopbar";
 
@@ -30,6 +33,10 @@ export function Shell() {
   );
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [changelogOpen, setChangelogOpen] = useState(false);
+  const [changelogAll, setChangelogAll] = useState(false);
+  const [changelogEntries, setChangelogEntries] = useState<ChangelogEntry[]>([]);
+  const [changelogStatus, setChangelogStatus] = useState<"loading" | "ok" | "error">("loading");
   const panels = useResizablePanels();
   const isMobile = useIsMobile();
   const feedOnly = waterbodyId === ALL_WATERBODIES;
@@ -73,7 +80,29 @@ export function Shell() {
     return () => window.removeEventListener(OPEN_POST_EVENT, onOpen);
   }, [openPostFromAdmin]);
 
+  const closeChangelog = useCallback(() => {
+    markChangelogSeen(__APP_VERSION__);
+    setChangelogOpen(false);
+  }, []);
+
+  useEffect(() => {
+    let dead = false;
+    void loadGithubChangelog(__APP_VERSION__).then((result) => {
+      if (dead) return;
+      setChangelogEntries(result.entries);
+      setChangelogStatus(result.ok ? "ok" : "error");
+      if (shouldShowChangelog(__APP_VERSION__, result.entries)) {
+        setChangelogAll(false);
+        setChangelogOpen(true);
+      }
+    });
+    return () => {
+      dead = true;
+    };
+  }, []);
+
   useBackGuard(passwordOpen, () => setPasswordOpen(false));
+  useBackGuard(changelogOpen, closeChangelog);
 
   return (
     <div className="app-shell">
@@ -92,6 +121,10 @@ export function Shell() {
         userMenuOpen={userMenuOpen}
         setUserMenuOpen={setUserMenuOpen}
         onPassword={() => setPasswordOpen(true)}
+        onChangelog={() => {
+          setChangelogAll(true);
+          setChangelogOpen(true);
+        }}
         onLogout={() => void logout()}
       />
       <div className="app-main">
@@ -130,6 +163,15 @@ export function Shell() {
         </nav>
       )}
       {passwordOpen && <PasswordModal onClose={() => setPasswordOpen(false)} />}
+      {changelogOpen && (
+        <ChangelogModal
+          title={changelogAll ? "История обновлений" : "Что нового"}
+          entries={changelogAll ? changelogEntries : unseenChangelog(__APP_VERSION__, changelogEntries)}
+          loading={changelogStatus === "loading"}
+          error={changelogStatus === "error"}
+          onClose={closeChangelog}
+        />
+      )}
     </div>
   );
 }

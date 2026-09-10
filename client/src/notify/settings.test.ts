@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeEach } from "vitest";
 import {
   defaultNotifySettings,
+  loadNotifySettings,
   parseNotifySettings,
   planNotifications,
   type ActivityFeed,
@@ -91,6 +92,28 @@ const ctx = { selectedId: null as string | null, focused: false, seenKeys: new S
 describe("parseNotifySettings", () => {
   it("fills defaults for a partial object", () => {
     expect(parseNotifySettings({ sound: false })).toMatchObject({ sound: false, newPosts: true, commentsOwn: true });
+  });
+});
+
+describe("loadNotifySettings android migration", () => {
+  it("turns on system notifications once for the Android WebView", () => {
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: {
+        rf4Android: {
+          notifyPermission: () => "denied",
+          requestNotifyPermission: () => undefined,
+          showNotify: () => true,
+        },
+      },
+    });
+    try {
+      localStorage.setItem("rf4spots-notify:u1", JSON.stringify({ windows: false, sound: true }));
+      expect(loadNotifySettings("u1").windows).toBe(true);
+      expect(JSON.parse(localStorage.getItem("rf4spots-notify:u1") ?? "{}").windows).toBe(true);
+    } finally {
+      delete (globalThis as { window?: unknown }).window;
+    }
   });
 });
 

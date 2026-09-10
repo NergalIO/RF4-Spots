@@ -1,4 +1,6 @@
 import type { GuideRow } from "@/types";
+import type { FilterOp } from "@/types";
+import { NUMBER_OPS, TEXT_OPS, ENUM_OPS, pickOp } from "@/shared/filterOps";
 import {
   asNum,
   asText,
@@ -13,10 +15,23 @@ export const DEL_W = 40;
 export const MIN_COL = 72;
 export const SELECT_MAX = 48;
 
-export type FilterValue = { text: string; from: string; to: string };
+export type FilterValue = { op: FilterOp; text: string; from: string; to: string };
 
-export function emptyFilter(): FilterValue {
-  return { text: "", from: "", to: "" };
+export function opsForGuide(field: GuideField): FilterOp[] {
+  if (usesRangeFilter(field)) return NUMBER_OPS;
+  if (usesSearchFilter(field)) return TEXT_OPS;
+  return [...ENUM_OPS, "contains", "notContains"];
+}
+
+export function defaultGuideOp(field?: GuideField): FilterOp {
+  if (!field) return "eq";
+  if (usesRangeFilter(field)) return "between";
+  if (usesSearchFilter(field)) return "contains";
+  return "eq";
+}
+
+export function emptyFilter(field?: GuideField): FilterValue {
+  return { op: defaultGuideOp(field), text: "", from: "", to: "" };
 }
 
 export function uniqueTexts(rows: GuideRow[], key: string) {
@@ -30,27 +45,52 @@ export function uniqueTexts(rows: GuideRow[], key: string) {
 
 export function filterActive(field: GuideField, value: FilterValue | undefined) {
   if (!value) return false;
-  if (usesRangeFilter(field)) return Boolean(value.from.trim() || value.to.trim());
+  if (usesRangeFilter(field)) {
+    if (value.op === "between") return Boolean(value.from.trim() || value.to.trim());
+    return Boolean(value.from.trim() || value.text.trim());
+  }
   return Boolean(value.text);
 }
 
-export function rowPasses(row: GuideRow, field: GuideField, value: FilterValue) {
-  if (usesRangeFilter(field)) {
-    const from = asNum(value.from);
-    const to = asNum(value.to);
-    if (from == null && to == null) return true;
-    const range = parseNumericRange(row[field.key]);
-    if (!range) return false;
-    if (from != null && range.max < from) return false;
-    if (to != null && range.min > to) return false;
+function numberPasses(range: { min: number; max: number }, op: FilterOp, from: string, to: string, text: string) {
+  if (op === "between") {
+    const min = asNum(from);
+    const max = asNum(to);
+    if (min == null && max == null) return true;
+    if (min != null && range.max < min) return false;
+    if (max != null && range.min > max) return false;
     return true;
   }
-  if (!value.text) return true;
-  const query = value.text.trim().toLowerCase();
-  if (usesSearchFilter(field)) {
-    return asText(row[field.key]).toLowerCase().includes(query);
+  const n = asNum(from || text);
+  if (n == null) return true;
+  if (op === "eq") return range.min === n && range.max === n;
+  if (op === "neq") return range.min !== n || range.max !== n;
+  if (op === "gt") return range.min > n;
+  if (op === "gte") return range.min >= n;
+  if (op === "lt") return range.max < n;
+  if (op === "lte") return range.max <= n;
+  return true;
+}
+
+function textPasses(cell: string, op: FilterOp, query: string) {
+  if (!query) return true;
+  const value = cell.toLowerCase();
+  const q = query.toLowerCase();
+  if (op === "contains") return value.includes(q);
+  if (op === "notContains") return !value.includes(q);
+  if (op === "neq") return cell !== query && value !== q;
+  return cell === query || value === q;
+}
+
+export function rowPasses(row: GuideRow, field: GuideField, value: FilterValue) {
+  const op = pickOp(value.op, opsForGuide(field), defaultGuideOp(field));
+  if (usesRangeFilter(field)) {
+    if (!filterActive(field, value)) return true;
+    const range = parseNumericRange(row[field.key]);
+    if (!range) return false;
+    return numberPasses(range, op, value.from, value.to, value.text);
   }
-  return asText(row[field.key]) === value.text;
+  return textPasses(asText(row[field.key]), op, value.text.trim());
 }
 
 export function cellText(value: unknown) {

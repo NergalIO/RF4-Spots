@@ -1,6 +1,7 @@
 @import "./styles/tokens.css";
 @import "./styles/base.css";
 @import "./app/update-banner.css";
+@import "./app/changelog.css";
 @import "./styles/auth.css";
 @import "./styles/shell.css";
 @import "./styles/spots-list.css";

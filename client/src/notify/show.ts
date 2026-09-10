@@ -19,7 +19,27 @@ function html5Notify(item: NotifyItem) {
   return true;
 }
 
+function androidPermission(): NotificationPermission | "unsupported" {
+  const raw = window.rf4Android?.notifyPermission() ?? "unsupported";
+  if (raw === "granted" || raw === "denied" || raw === "default") return raw;
+  return "unsupported";
+}
+
 export async function requestNotifyPermission(): Promise<NotificationPermission | "unsupported"> {
+  const android = window.rf4Android;
+  if (android) {
+    if (androidPermission() === "granted") return "granted";
+    return await new Promise((resolve) => {
+      const finish = (state: string) => {
+        window.clearTimeout(timer);
+        window.__rf4NotifyPermission = undefined;
+        resolve(state === "granted" ? "granted" : "denied");
+      };
+      const timer = window.setTimeout(() => finish(android.notifyPermission()), 20000);
+      window.__rf4NotifyPermission = finish;
+      android.requestNotifyPermission();
+    });
+  }
   if (window.rf4?.showNotify) return "granted";
   if (typeof Notification === "undefined") return "unsupported";
   if (Notification.permission === "granted" || Notification.permission === "denied") return Notification.permission;
@@ -31,12 +51,22 @@ export async function requestNotifyPermission(): Promise<NotificationPermission 
 }
 
 export function notifyPermission(): NotificationPermission | "unsupported" {
+  if (window.rf4Android) return androidPermission();
   if (window.rf4?.showNotify) return "granted";
   if (typeof Notification === "undefined") return "unsupported";
   return Notification.permission;
 }
 
-export async function showNotifyItem(item: NotifyItem): Promise<boolean> {
+export async function showNotifyItem(item: NotifyItem, opts?: { silent?: boolean }): Promise<boolean> {
+  const silent = opts?.silent ?? true;
+  if (window.rf4Android) {
+    try {
+      if (window.rf4Android.notifyPermission() !== "granted") return false;
+      return window.rf4Android.showNotify(item.title, item.body, item.postId || "", silent);
+    } catch {
+      return false;
+    }
+  }
   if (window.rf4?.showNotify) {
     try {
       const ok = await window.rf4.showNotify({ title: item.title, body: item.body, postId: item.postId });
@@ -49,8 +79,12 @@ export async function showNotifyItem(item: NotifyItem): Promise<boolean> {
 }
 
 export function bindNotifyClicks() {
+  window.__rf4NotifyClicked = (postId) => dispatchOpenPost(postId);
   const unsub = window.rf4?.onNotifyClick?.((payload) => {
     dispatchOpenPost(payload.postId);
   });
-  return () => unsub?.();
+  return () => {
+    window.__rf4NotifyClicked = undefined;
+    unsub?.();
+  };
 }

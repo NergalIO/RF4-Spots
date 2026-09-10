@@ -13,7 +13,8 @@ type Props<T extends string> = {
   onAddOpen: (open: boolean | ((v: boolean) => boolean)) => void;
   onAdd: (id: T) => void;
   onRemove: (id: T) => void;
-  labelOf: (id: T) => string;
+  renderField: (id: T) => ReactNode;
+  renderOperator: (id: T) => ReactNode;
   renderControl: (id: T) => ReactNode;
 };
 
@@ -28,16 +29,13 @@ export function FilterSlots<T extends string>({
   onAddOpen,
   onAdd,
   onRemove,
-  labelOf,
+  renderField,
+  renderOperator,
   renderControl,
 }: Props<T>) {
   return (
     <div className="filters-block">
-      <button
-        type="button"
-        className={`filters-toggle ${open ? "open" : ""}`}
-        onClick={onToggle}
-      >
+      <button type="button" className={`filters-toggle ${open ? "open" : ""}`} onClick={onToggle}>
         <span>Фильтры</span>
         {activeCount > 0 && <span className="count">{activeCount}</span>}
         <span className="filters-chevron">{open ? "▾" : "▸"}</span>
@@ -45,14 +43,13 @@ export function FilterSlots<T extends string>({
       {open && (
         <div className="filters">
           {slots.map((id) => (
-            <div key={id} className="filter-row">
-              <div className="filter-row-head">
-                <span>{labelOf(id)}</span>
-                <button type="button" className="filter-remove" onClick={() => onRemove(id)} aria-label="Убрать">
-                  ×
-                </button>
-              </div>
-              {renderControl(id)}
+            <div key={id} className="filter-row filter-rule">
+              {renderField(id)}
+              {renderOperator(id)}
+              <div className="filter-value">{renderControl(id)}</div>
+              <button type="button" className="filter-remove" onClick={() => onRemove(id)} aria-label="Убрать">
+                ×
+              </button>
             </div>
           ))}
           {unused.length > 0 && (

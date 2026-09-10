@@ -21,6 +21,7 @@ export function ShellTopbar({
   setUserMenuOpen,
   onPassword,
   onLogout,
+  onChangelog,
 }: {
   user: User | null | undefined;
   tab: MainTab;
@@ -37,6 +38,7 @@ export function ShellTopbar({
   setUserMenuOpen: (open: boolean | ((v: boolean) => boolean)) => void;
   onPassword: () => void;
   onLogout: () => void;
+  onChangelog: () => void;
 }) {
   const visibleTabs = TAB_ITEMS.filter((item) => item.id !== "admin" || user?.role === "admin");
   return (
@@ -98,6 +100,16 @@ export function ShellTopbar({
           </button>
         }
       >
+        <button
+          type="button"
+          role="menuitem"
+          onClick={() => {
+            setUserMenuOpen(false);
+            onChangelog();
+          }}
+        >
+          История обновлений
+        </button>
         <button
           type="button"
           role="menuitem"

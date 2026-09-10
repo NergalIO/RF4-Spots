@@ -117,8 +117,9 @@ export function GuideTable({
         setAddOpen={setAddOpen}
         addRef={addRef}
         addSlot={(key) => {
+          const field = fields.find((item) => item.key === key);
           setSlots((prev) => (prev.includes(key) ? prev : [...prev, key]));
-          setValues((prev) => ({ ...prev, [key]: prev[key] ?? emptyFilter() }));
+          setValues((prev) => ({ ...prev, [key]: prev[key] ?? emptyFilter(field) }));
           setAddOpen(false);
           setFilterOpen(true);
         }}
@@ -130,7 +131,21 @@ export function GuideTable({
             return next;
           });
         }}
-        patchFilter={(key, patch) => setValues((prev) => ({ ...prev, [key]: { ...(prev[key] ?? emptyFilter()), ...patch } }))}
+        changeField={(from, to) => {
+          if (from === to) return;
+          const field = fields.find((item) => item.key === to);
+          setSlots((prev) => prev.map((k) => (k === from ? to : k)));
+          setValues((prev) => {
+            const next = { ...prev };
+            delete next[from];
+            next[to] = emptyFilter(field);
+            return next;
+          });
+        }}
+        patchFilter={(key, patch) => {
+          const field = fields.find((item) => item.key === key);
+          setValues((prev) => ({ ...prev, [key]: { ...(prev[key] ?? emptyFilter(field)), ...patch } }));
+        }}
       />
       <div className="guide-toolbar">
         <span className="muted">

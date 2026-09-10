@@ -3,6 +3,7 @@ import type { ActivityFeed } from "./settings";
 import { loadNotifySettings, notifyChannelsOn, notifyEventsOn, planNotifications } from "./settings";
 import { playNotifySound } from "./sound";
 import { showNotifyItem } from "./show";
+import { appIsFocused } from "@/shared/platform";
 import type { Store } from "../store/types";
 
 const seenKeys = new Set<string>();
@@ -38,15 +39,16 @@ export async function processActivity(store: StoreApi<Store>) {
     advanceSince(feed);
     const items = planNotifications(feed, settings, {
       selectedId,
-      focused: document.hasFocus() && !document.hidden,
+      focused: appIsFocused(),
       seenKeys,
     });
     if (!items.length) return;
     remember(items.map((i) => i.key));
     if (settings.windows) {
-      for (const item of items) await showNotifyItem(item);
+      for (const item of items) await showNotifyItem(item, { silent: !settings.sound });
     }
-    if (settings.sound) playNotifySound();
+    const nativeAndroidSound = Boolean(window.rf4Android) && settings.windows;
+    if (settings.sound && !nativeAndroidSound) playNotifySound();
   } catch {
     /* offline / stale token */
   }
@@ -60,7 +62,8 @@ export async function previewNotification(userId: string, postId?: string) {
     title: "RF4 Spots",
     body: "Тестовое уведомление",
   };
-  if (settings.windows) await showNotifyItem(item);
-  if (settings.sound) playNotifySound();
+  if (settings.windows) await showNotifyItem(item, { silent: !settings.sound });
+  const nativeAndroidSound = Boolean(window.rf4Android) && settings.windows;
+  if (settings.sound && !nativeAndroidSound) playNotifySound();
   if (!settings.windows && !settings.sound) await showNotifyItem(item);
 }

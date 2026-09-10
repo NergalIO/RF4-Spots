@@ -2,6 +2,7 @@ import type { StoreApi } from "zustand";
 import { ALL_WATERBODIES } from "../shared/constants";
 import { processActivity, resetNotifyCursor } from "../notify/tick";
 import { saveWaterbodyId } from "../shared/persist";
+import { appIsHidden } from "../shared/platform";
 import type { Store } from "./types";
 
 const POLL_MS = 4000;
@@ -46,7 +47,7 @@ async function tickSync() {
       store.setState({ syncStamp: stamp });
       await processActivity(store);
     }
-    if (document.hidden) {
+    if (appIsHidden()) {
       if (stampChanged) skippedUi = true;
       return;
     }
@@ -59,7 +60,7 @@ async function tickSync() {
 }
 
 function onVisibility() {
-  if (!document.hidden) void tickSync();
+  if (!appIsHidden()) void tickSync();
 }
 
 function clearPoll() {

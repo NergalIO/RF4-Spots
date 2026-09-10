@@ -13,6 +13,14 @@ interface ImportMeta {
 }
 
 interface Window {
+  __rf4AppFocused?: boolean;
+  __rf4NotifyPermission?: (state: string) => void;
+  __rf4NotifyClicked?: (postId: string) => void;
+  rf4Android?: {
+    notifyPermission: () => string;
+    requestNotifyPermission: () => void;
+    showNotify: (title: string, body: string, postId: string, silent: boolean) => boolean;
+  };
   rf4?: {
     storeGet: () => Promise<{ serverUrl?: string; token?: string }>;
     storeSet: (data: { serverUrl: string; token?: string }) => Promise<boolean>;
@@ -24,4 +32,3 @@ interface Window {
     focusApp?: () => Promise<boolean>;
   };
 }
-

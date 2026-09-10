@@ -41,11 +41,11 @@ export type NotifyItem = {
 };
 
 const KEY = (userId: string) => `rf4spots-notify:${userId}`;
+const ANDROID_NOTIFY_FLAG = "rf4spots-android-notify-v1";
 
 export function defaultNotifySettings(): NotifySettings {
-  const electron = typeof window !== "undefined" && Boolean(window.rf4);
   return {
-    windows: electron,
+    windows: typeof window !== "undefined" && Boolean(window.rf4?.showNotify || window.rf4Android),
     sound: true,
     whenFocused: false,
     newPosts: true,
@@ -77,11 +77,26 @@ export function parseNotifySettings(raw: unknown): NotifySettings {
 export function loadNotifySettings(userId: string): NotifySettings {
   try {
     const raw = localStorage.getItem(KEY(userId));
-    if (!raw) return defaultNotifySettings();
-    return parseNotifySettings(JSON.parse(raw) as unknown);
+    const settings = raw ? parseNotifySettings(JSON.parse(raw) as unknown) : defaultNotifySettings();
+    return enableAndroidNotifyOnce(userId, settings);
   } catch {
     return defaultNotifySettings();
   }
+}
+
+/** Старые сохранения держали windows=false: в WebView не было системных уведомлений. */
+function enableAndroidNotifyOnce(userId: string, settings: NotifySettings): NotifySettings {
+  if (typeof window === "undefined" || !window.rf4Android) return settings;
+  try {
+    if (localStorage.getItem(ANDROID_NOTIFY_FLAG)) return settings;
+    localStorage.setItem(ANDROID_NOTIFY_FLAG, "1");
+  } catch {
+    return settings;
+  }
+  if (settings.windows) return settings;
+  const next = { ...settings, windows: true };
+  if (userId) saveNotifySettings(userId, next);
+  return next;
 }
 
 export function saveNotifySettings(userId: string, settings: NotifySettings) {

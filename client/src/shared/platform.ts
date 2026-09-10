@@ -21,3 +21,17 @@ export function applyPlatformFlag() {
 export function useIsMobile() {
   return MOBILE;
 }
+
+export function hasNativeNotify() {
+  return Boolean(typeof window !== "undefined" && (window.rf4?.showNotify || window.rf4Android));
+}
+
+export function appIsHidden() {
+  if (typeof window !== "undefined" && window.__rf4AppFocused === false) return true;
+  return typeof document !== "undefined" && document.hidden;
+}
+
+export function appIsFocused() {
+  if (appIsHidden()) return false;
+  return typeof document === "undefined" || document.hasFocus();
+}

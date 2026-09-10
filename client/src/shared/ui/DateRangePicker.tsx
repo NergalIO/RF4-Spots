@@ -4,6 +4,7 @@ type Props = {
   from: string;
   to: string;
   onChange: (from: string, to: string) => void;
+  mode?: "range" | "single";
 };
 
 const MONTHS = [
@@ -53,7 +54,7 @@ function cellsFor(year: number, month: number) {
   return cells;
 }
 
-export function DateRangePicker({ from, to, onChange }: Props) {
+export function DateRangePicker({ from, to, onChange, mode = "range" }: Props) {
   const box = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const initial = parseYmd(from) ?? parseYmd(to) ?? {
@@ -73,14 +74,23 @@ export function DateRangePicker({ from, to, onChange }: Props) {
 
   const days = useMemo(() => cellsFor(view.y, view.m), [view]);
   const label =
-    from && to
-      ? `${fmtDay(from)} — ${fmtDay(to)}`
-      : from
-        ? `от ${fmtDay(from)}`
-        : "От — до";
+    mode === "single"
+      ? from
+        ? fmtDay(from)
+        : "Дата"
+      : from && to
+        ? `${fmtDay(from)} — ${fmtDay(to)}`
+        : from
+          ? `от ${fmtDay(from)}`
+          : "От — до";
 
   function pick(day: number) {
     const value = toYmd(view.y, view.m, day);
+    if (mode === "single") {
+      onChange(value, "");
+      setOpen(false);
+      return;
+    }
     if (!from || (from && to)) {
       onChange(value, "");
       return;
@@ -123,7 +133,9 @@ export function DateRangePicker({ from, to, onChange }: Props) {
               ›
             </button>
           </div>
-          <p className="range-hint">{from && !to ? "Теперь нажмите дату «до»" : "Сначала «от», затем «до»"}</p>
+          <p className="range-hint">
+            {mode === "single" ? "Нажмите дату" : from && !to ? "Теперь нажмите дату «до»" : "Сначала «от», затем «до»"}
+          </p>
           <div className="range-week">
             {WEEK.map((d) => (
               <span key={d}>{d}</span>

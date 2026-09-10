@@ -1,8 +1,11 @@
 package com.rf4spots.app;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
@@ -16,17 +19,21 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
   private static final String ASSET_HOST = "appassets.androidplatform.net";
 
   private WebView webView;
   private ValueCallback<Uri[]> filePathCallback;
+  private boolean pageLoaded;
+  private String pendingPostId;
 
   private final ActivityResultLauncher<Intent> fileChooser =
       registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -37,10 +44,15 @@ public class MainActivity extends AppCompatActivity {
         }
       });
 
+  private final ActivityResultLauncher<String> notifyPermissionLauncher =
+      registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted ->
+          deliverNotifyPermission(granted ? "granted" : "denied"));
+
   @Override
   @SuppressLint("SetJavaScriptEnabled")
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Rf4Notifier.ensureChannel(this);
     webView = new WebView(this);
     webView.setBackgroundColor(0xFF07131C);
 
@@ -74,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     settings.setUserAgentString(settings.getUserAgentString() + " RF4SpotsAndroid");
     CookieManager.getInstance().setAcceptCookie(true);
     CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
+    webView.addJavascriptInterface(new Rf4JsBridge(this), "rf4Android");
     webView.setDownloadListener(
         (url, userAgent, contentDisposition, mimeType, contentLength) -> openExternally(Uri.parse(url)));
 
@@ -82,6 +95,16 @@ public class MainActivity extends AppCompatActivity {
           @Override
           public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
             return assetLoader.shouldInterceptRequest(request.getUrl());
+          }
+
+          @Override
+          public void onPageFinished(WebView view, String url) {
+            pageLoaded = true;
+            evalJs("window.__rf4AppFocused=true");
+            if (pendingPostId != null) {
+              deliverPostClick(pendingPostId);
+              pendingPostId = null;
+            }
           }
 
           /** WebViewClientCompat сводит все переходы к этой перегрузке. */
@@ -128,7 +151,79 @@ public class MainActivity extends AppCompatActivity {
               }
             });
 
+    queuePostFromIntent(getIntent());
     webView.loadUrl("https://" + ASSET_HOST + "/index.html");
+  }
+
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+    queuePostFromIntent(intent);
+    if (pageLoaded && pendingPostId != null) {
+      deliverPostClick(pendingPostId);
+      pendingPostId = null;
+    }
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    evalJs("window.__rf4AppFocused=false");
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    evalJs("window.__rf4AppFocused=true;document.dispatchEvent(new Event('visibilitychange'))");
+  }
+
+  String notifyPermissionState() {
+    if (Build.VERSION.SDK_INT < 33) return "granted";
+    int check = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS);
+    return check == PackageManager.PERMISSION_GRANTED ? "granted" : "denied";
+  }
+
+  void requestNotifyPermissionFromJs() {
+    if (Build.VERSION.SDK_INT < 33) {
+      deliverNotifyPermission("granted");
+      return;
+    }
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+        == PackageManager.PERMISSION_GRANTED) {
+      deliverNotifyPermission("granted");
+      return;
+    }
+    notifyPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+  }
+
+  boolean postNotification(String title, String body, String postId, boolean silent) {
+    try {
+      return Rf4Notifier.show(this, title, body, postId, silent);
+    } catch (SecurityException e) {
+      return false;
+    }
+  }
+
+  private void deliverNotifyPermission(String state) {
+    evalJs("window.__rf4NotifyPermission && window.__rf4NotifyPermission(" + JSONObject.quote(state) + ")");
+  }
+
+  private void queuePostFromIntent(Intent intent) {
+    if (intent == null) return;
+    String postId = intent.getStringExtra(Rf4Notifier.EXTRA_POST_ID);
+    if (postId == null || postId.isEmpty()) return;
+    intent.removeExtra(Rf4Notifier.EXTRA_POST_ID);
+    pendingPostId = postId;
+  }
+
+  private void deliverPostClick(String postId) {
+    evalJs("window.__rf4NotifyClicked && window.__rf4NotifyClicked(" + JSONObject.quote(postId) + ")");
+  }
+
+  private void evalJs(String js) {
+    if (webView == null) return;
+    runOnUiThread(() -> webView.evaluateJavascript(js, null));
   }
 
   /** Внешние сайты (rf4-cafe.ru, rf4-stat.ru, ссылки на клиенты) уходят в системный браузер. */
@@ -161,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onDestroy() {
     if (webView != null) {
+      webView.removeJavascriptInterface("rf4Android");
       webView.destroy();
     }
     super.onDestroy();

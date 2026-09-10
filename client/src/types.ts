@@ -86,17 +86,35 @@ export type GuideDataset = {
   rows: GuideRow[];
 };
 
+export type FilterOp =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "between"
+  | "contains"
+  | "notContains";
+
 export type Filters = {
   fishId: string;
+  fishOp: FilterOp;
   catchType: "" | CatchType;
+  catchTypeOp: FilterOp;
   catchFrom: string;
   catchTo: string;
+  catchDateOp: FilterOp;
   uploadedFrom: string;
   uploadedTo: string;
+  uploadedDateOp: FilterOp;
   sort: "createdAt" | "catchDate";
-  mine: boolean;
-  favorite: boolean;
+  mine: boolean | null;
+  mineOp: FilterOp;
+  favorite: boolean | null;
+  favoriteOp: FilterOp;
   q: string;
+  qOp: FilterOp;
 };
 
 export type AdminUser = User & {

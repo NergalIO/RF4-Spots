@@ -43,6 +43,20 @@
 .filters label { margin: 0; }
 .filters select { width: 100%; max-width: 100%; min-width: 0; }
 .filter-row { display: grid; gap: 6px; min-width: 0; }
+.filter-rule {
+  grid-template-columns: minmax(108px, 1.05fr) minmax(120px, 1fr) minmax(0, 1.45fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+.filter-rule .filter-field,
+.filter-rule .filter-op,
+.filter-rule .filter-value,
+.filter-rule .filter-value > :not(.range-pick) {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+.filter-rule .range-pick { width: 100%; }
 .filter-row-head {
   display: flex;
   align-items: center;
@@ -435,6 +449,12 @@ html[data-platform="android"] .fav-btn {
 html[data-platform="android"] .vote-btn {
   padding: 4px 6px;
   font-size: 12px;
+}
+html[data-platform="android"] .filter-rule {
+  grid-template-columns: 1fr 1fr auto;
+}
+html[data-platform="android"] .filter-rule .filter-value {
+  grid-column: 1 / span 2;
 }
 html[data-platform="android"] .filters-toggle {
   padding: 12px 14px;

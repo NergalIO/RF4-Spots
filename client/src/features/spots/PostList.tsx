@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ALL_WATERBODIES } from "@/shared/constants";
 import { useStore } from "@/store";
 import { loadFilterSlots, saveFilterSlots, type FilterKey } from "@/shared/persist";
+import { clearField, defaultsFor } from "./filterQuery";
 import { PostListFilters } from "./PostListFilters";
 import { SpotCard } from "./SpotCard";
 
@@ -54,20 +55,18 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
     setSlots((prev) => (prev.includes(id) ? prev : [...prev, id]));
     setAddOpen(false);
     setOpen(true);
-    if (id === "mine") void setFilters({ mine: true });
-    if (id === "favorite") void setFilters({ favorite: true });
+    void setFilters(defaultsFor(id));
   }
 
   function removeSlot(id: FilterKey) {
     setSlots((prev) => prev.filter((k) => k !== id));
-    if (id === "fish") void setFilters({ fishId: "" });
-    if (id === "catchType") void setFilters({ catchType: "" });
-    if (id === "catchDate") void setFilters({ catchFrom: "", catchTo: "" });
-    if (id === "uploadedDate") void setFilters({ uploadedFrom: "", uploadedTo: "" });
-    if (id === "sort") void setFilters({ sort: "createdAt" });
-    if (id === "mine") void setFilters({ mine: false });
-    if (id === "favorite") void setFilters({ favorite: false });
-    if (id === "search") void setFilters({ q: "" });
+    void setFilters(clearField(id));
+  }
+
+  function changeField(from: FilterKey, to: FilterKey) {
+    if (from === to) return;
+    setSlots((prev) => prev.map((k) => (k === from ? to : k)));
+    void setFilters({ ...clearField(from), ...defaultsFor(to) });
   }
 
   return (
@@ -92,6 +91,7 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
         addRef={addRef}
         addSlot={addSlot}
         removeSlot={removeSlot}
+        changeField={changeField}
         filters={filters}
         setFilters={(patch) => void setFilters(patch)}
         fish={fish}

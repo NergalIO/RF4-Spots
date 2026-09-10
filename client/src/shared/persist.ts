@@ -1,22 +1,43 @@
+import { BOOL_OPS, DATE_OPS, ENUM_OPS, TEXT_OPS, pickOp } from "./filterOps";
 import { ALL_WATERBODIES } from "./constants";
-import type { Filters } from "../types";
+import type { FilterOp, Filters } from "../types";
 
 const WB_KEY = "rf4spots-waterbody";
 const FILTER_KEY = "rf4spots-filters";
 const SLOTS_KEY = "rf4spots-filter-slots";
 
+const FILTER_KEYS = [
+  "fish",
+  "catchType",
+  "catchDate",
+  "uploadedDate",
+  "sort",
+  "mine",
+  "favorite",
+  "search",
+] as const;
+
+export type FilterKey = (typeof FILTER_KEYS)[number];
+
 export function emptyFilters(): Filters {
   return {
     fishId: "",
+    fishOp: "eq",
     catchType: "",
+    catchTypeOp: "eq",
     catchFrom: "",
     catchTo: "",
+    catchDateOp: "between",
     uploadedFrom: "",
     uploadedTo: "",
+    uploadedDateOp: "between",
     sort: "createdAt",
-    mine: false,
-    favorite: false,
+    mine: null,
+    mineOp: "eq",
+    favorite: null,
+    favoriteOp: "eq",
     q: "",
+    qOp: "contains",
   };
 }
 
@@ -36,12 +57,46 @@ export function saveWaterbodyId(id: string) {
   }
 }
 
+function readTriBool(value: unknown, enabled: boolean): boolean | null {
+  if (value === true || value === "1") return true;
+  if (value === false || value === "0") return enabled ? false : null;
+  return null;
+}
+
+export function parseFilters(raw: unknown, slots: FilterKey[] = []): Filters {
+  const base = emptyFilters();
+  if (!raw || typeof raw !== "object") return base;
+  const parsed = raw as Partial<Filters> & { mineOp?: FilterOp; favoriteOp?: FilterOp };
+  const hasMineOp = parsed.mineOp != null;
+  const hasFavOp = parsed.favoriteOp != null;
+  return {
+    ...base,
+    ...parsed,
+    fishId: typeof parsed.fishId === "string" ? parsed.fishId : "",
+    fishOp: pickOp(parsed.fishOp, ENUM_OPS, "eq"),
+    catchType: parsed.catchType === "farm" || parsed.catchType === "trophy" || parsed.catchType === "farm_trophy" ? parsed.catchType : "",
+    catchTypeOp: pickOp(parsed.catchTypeOp, ENUM_OPS, "eq"),
+    catchFrom: typeof parsed.catchFrom === "string" ? parsed.catchFrom : "",
+    catchTo: typeof parsed.catchTo === "string" ? parsed.catchTo : "",
+    catchDateOp: pickOp(parsed.catchDateOp, DATE_OPS, "between"),
+    uploadedFrom: typeof parsed.uploadedFrom === "string" ? parsed.uploadedFrom : "",
+    uploadedTo: typeof parsed.uploadedTo === "string" ? parsed.uploadedTo : "",
+    uploadedDateOp: pickOp(parsed.uploadedDateOp, DATE_OPS, "between"),
+    sort: parsed.sort === "catchDate" ? "catchDate" : "createdAt",
+    mine: readTriBool(parsed.mine, hasMineOp || slots.includes("mine")),
+    mineOp: pickOp(parsed.mineOp, BOOL_OPS, "eq"),
+    favorite: readTriBool(parsed.favorite, hasFavOp || slots.includes("favorite")),
+    favoriteOp: pickOp(parsed.favoriteOp, BOOL_OPS, "eq"),
+    q: typeof parsed.q === "string" ? parsed.q : "",
+    qOp: pickOp(parsed.qOp, TEXT_OPS, "contains"),
+  };
+}
+
 export function loadFilters(): Filters {
   try {
     const raw = localStorage.getItem(FILTER_KEY);
     if (!raw) return emptyFilters();
-    const parsed = JSON.parse(raw) as Partial<Filters>;
-    return { ...emptyFilters(), ...parsed, sort: parsed.sort === "catchDate" ? "catchDate" : "createdAt" };
+    return parseFilters(JSON.parse(raw) as unknown, loadFilterSlots());
   } catch {
     return emptyFilters();
   }
@@ -55,15 +110,9 @@ export function saveFilters(filters: Filters) {
   }
 }
 
-export type FilterKey =
-  | "fish"
-  | "catchType"
-  | "catchDate"
-  | "uploadedDate"
-  | "sort"
-  | "mine"
-  | "favorite"
-  | "search";
+export function isFilterKey(id: unknown): id is FilterKey {
+  return typeof id === "string" && (FILTER_KEYS as readonly string[]).includes(id);
+}
 
 export function loadFilterSlots(): FilterKey[] {
   try {
@@ -71,7 +120,7 @@ export function loadFilterSlots(): FilterKey[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((id): id is FilterKey => typeof id === "string");
+    return parsed.filter(isFilterKey);
   } catch {
     return [];
   }

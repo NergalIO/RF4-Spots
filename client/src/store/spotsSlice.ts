@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
 import { ALL_WATERBODIES } from "../shared/constants";
 import { loadFilters, loadWaterbodyId, saveFilters, saveWaterbodyId } from "../shared/persist";
+import { filtersToQuery } from "../features/spots/filterQuery";
 import { markPostSeen, seedSeen } from "../features/spots/unread";
 import type { Store } from "./types";
 
@@ -95,16 +96,7 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
     if (!waterbodyId) return;
     const { posts, nextCursor: cursor } = await api.posts.list({
       waterbodyId: waterbodyId === ALL_WATERBODIES ? "" : waterbodyId,
-      fishId: filters.fishId,
-      catchType: filters.catchType,
-      catchFrom: filters.catchFrom,
-      catchTo: filters.catchTo,
-      uploadedFrom: filters.uploadedFrom,
-      uploadedTo: filters.uploadedTo,
-      sort: filters.sort,
-      mine: filters.mine ? "1" : "",
-      favorite: filters.favorite ? "1" : "",
-      q: filters.q,
+      ...filtersToQuery(filters),
       take: "50",
       cursor: opts?.append && nextCursor ? nextCursor : "",
     });

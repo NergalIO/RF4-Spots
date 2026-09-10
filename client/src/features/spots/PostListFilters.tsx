@@ -2,19 +2,10 @@ import { useMemo, type RefObject } from "react";
 import { FishCombobox } from "@/shared/ui/FishCombobox";
 import { DateRangePicker } from "@/shared/ui/DateRangePicker";
 import { FilterSlots } from "@/shared/ui/FilterSlots";
-import type { CatchType, Filters, Fish } from "@/types";
+import { OP_LABELS, dateOpUsesRange } from "@/shared/filterOps";
+import type { CatchType, FilterOp, Filters, Fish } from "@/types";
 import type { FilterKey } from "@/shared/persist";
-
-const FILTER_OPTIONS: { id: FilterKey; label: string }[] = [
-  { id: "search", label: "Поиск" },
-  { id: "fish", label: "Вид рыбы" },
-  { id: "catchType", label: "Тип поимки" },
-  { id: "catchDate", label: "Дата поимки" },
-  { id: "uploadedDate", label: "Дата загрузки" },
-  { id: "mine", label: "Только мои" },
-  { id: "favorite", label: "Избранное" },
-  { id: "sort", label: "Сортировка" },
-];
+import { FILTER_OPTIONS, countActiveFilters, opOf, opsFor, setOp } from "./filterQuery";
 
 export { FILTER_OPTIONS };
 
@@ -27,6 +18,7 @@ export function PostListFilters({
   addRef,
   addSlot,
   removeSlot,
+  changeField,
   filters,
   setFilters,
   fish,
@@ -41,6 +33,7 @@ export function PostListFilters({
   addRef: RefObject<HTMLDivElement>;
   addSlot: (id: FilterKey) => void;
   removeSlot: (id: FilterKey) => void;
+  changeField: (from: FilterKey, to: FilterKey) => void;
   filters: Filters;
   setFilters: (patch: Partial<Filters>) => void;
   fish: Fish[];
@@ -48,16 +41,7 @@ export function PostListFilters({
   allMaps: boolean;
 }) {
   const unused = useMemo(() => FILTER_OPTIONS.filter((o) => !slots.includes(o.id)), [slots]);
-  const activeCount = [
-    filters.q,
-    filters.fishId,
-    filters.catchType,
-    filters.catchFrom || filters.catchTo,
-    filters.uploadedFrom || filters.uploadedTo,
-    filters.mine ? "1" : "",
-    filters.favorite ? "1" : "",
-    filters.sort !== "createdAt" ? filters.sort : "",
-  ].filter(Boolean).length;
+  const activeCount = countActiveFilters(filters, slots);
 
   return (
     <FilterSlots
@@ -74,11 +58,42 @@ export function PostListFilters({
       onAddOpen={setAddOpen}
       onAdd={addSlot}
       onRemove={removeSlot}
-      labelOf={(id) => FILTER_OPTIONS.find((o) => o.id === id)?.label ?? id}
+      renderField={(id) => (
+        <select
+          className="filter-field"
+          value={id}
+          aria-label="Поле"
+          onChange={(e) => changeField(id, e.target.value as FilterKey)}
+        >
+          {FILTER_OPTIONS.filter((o) => o.id === id || !slots.includes(o.id)).map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      )}
+      renderOperator={(id) => (
+        <select
+          className="filter-op"
+          value={opOf(filters, id)}
+          aria-label="Действие"
+          onChange={(e) => setFilters(setOp(id, e.target.value as FilterOp))}
+        >
+          {opsFor(id).map((op) => (
+            <option key={op} value={op}>
+              {OP_LABELS[op]}
+            </option>
+          ))}
+        </select>
+      )}
       renderControl={(id) => {
         if (id === "search") {
           return (
-            <input value={filters.q} onChange={(e) => setFilters({ q: e.target.value })} placeholder="Текст поста или комментария" />
+            <input
+              value={filters.q}
+              onChange={(e) => setFilters({ q: e.target.value })}
+              placeholder="Текст поста или комментария"
+            />
           );
         }
         if (id === "fish") {
@@ -87,7 +102,7 @@ export function PostListFilters({
               fish={fish}
               value={filters.fishId}
               onChange={(fishId) => setFilters({ fishId })}
-              placeholder="Все виды"
+              placeholder="Выберите вид"
               allowEmpty
               waterbodyId={allMaps ? undefined : waterbodyId}
             />
@@ -96,7 +111,7 @@ export function PostListFilters({
         if (id === "catchType") {
           return (
             <select value={filters.catchType} onChange={(e) => setFilters({ catchType: e.target.value as CatchType | "" })}>
-              <option value="">Все типы</option>
+              <option value="">Выберите тип</option>
               <option value="farm">Фарм</option>
               <option value="trophy">Трофей</option>
               <option value="farm_trophy">Фарм с трофеями</option>
@@ -105,12 +120,18 @@ export function PostListFilters({
         }
         if (id === "catchDate") {
           return (
-            <DateRangePicker from={filters.catchFrom} to={filters.catchTo} onChange={(catchFrom, catchTo) => setFilters({ catchFrom, catchTo })} />
+            <DateRangePicker
+              mode={dateOpUsesRange(opOf(filters, "catchDate")) ? "range" : "single"}
+              from={filters.catchFrom}
+              to={filters.catchTo}
+              onChange={(catchFrom, catchTo) => setFilters({ catchFrom, catchTo })}
+            />
           );
         }
         if (id === "uploadedDate") {
           return (
             <DateRangePicker
+              mode={dateOpUsesRange(opOf(filters, "uploadedDate")) ? "range" : "single"}
               from={filters.uploadedFrom}
               to={filters.uploadedTo}
               onChange={(uploadedFrom, uploadedTo) => setFilters({ uploadedFrom, uploadedTo })}
@@ -119,18 +140,24 @@ export function PostListFilters({
         }
         if (id === "mine") {
           return (
-            <label className="chip">
-              <input type="checkbox" checked={filters.mine} onChange={(e) => setFilters({ mine: e.target.checked })} />
-              Только мои посты
-            </label>
+            <select
+              value={filters.mine === false ? "0" : "1"}
+              onChange={(e) => setFilters({ mine: e.target.value === "1" })}
+            >
+              <option value="1">Да</option>
+              <option value="0">Нет</option>
+            </select>
           );
         }
         if (id === "favorite") {
           return (
-            <label className="chip">
-              <input type="checkbox" checked={filters.favorite} onChange={(e) => setFilters({ favorite: e.target.checked })} />
-              Только избранное
-            </label>
+            <select
+              value={filters.favorite === false ? "0" : "1"}
+              onChange={(e) => setFilters({ favorite: e.target.value === "1" })}
+            >
+              <option value="1">Да</option>
+              <option value="0">Нет</option>
+            </select>
           );
         }
         return (

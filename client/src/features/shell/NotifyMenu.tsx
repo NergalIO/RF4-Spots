@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useBackGuard } from "@/shared/useBackGuard";
 import { useDismissible } from "@/shared/useDismissible";
+import { hasNativeNotify, isAndroidApp } from "@/shared/platform";
 import { useStore } from "@/store";
 import {
   loadNotifySettings,
@@ -13,7 +14,10 @@ import { bindNotifyClicks, notifyPermission, requestNotifyPermission } from "@/n
 import { previewNotification } from "@/notify/tick";
 import { unlockNotifySound } from "@/notify/sound";
 
+let androidNotifyAsked = false;
+
 function windowsLabel() {
+  if (isAndroidApp()) return "Уведомления Android";
   return /Windows/i.test(navigator.userAgent) ? "Уведомления Windows" : "Системные уведомления";
 }
 
@@ -57,6 +61,16 @@ export function NotifyMenu() {
 
   useEffect(() => bindNotifyClicks(), []);
 
+  useEffect(() => {
+    if (!user || !isAndroidApp() || !settings.windows || androidNotifyAsked) return;
+    if (notifyPermission() === "granted") return;
+    androidNotifyAsked = true;
+    void requestNotifyPermission().then((next) => {
+      setPerm(next);
+      if (next === "denied") patch({ windows: false });
+    });
+  }, [settings.windows, user]);
+
   function patch(next: Partial<NotifySettings>) {
     if (!user) return;
     const merged = { ...settings, ...next };
@@ -77,7 +91,7 @@ export function NotifyMenu() {
 
   const muted = !notifyChannelsOn(settings) || !notifyEventsOn(settings);
   const denied = settings.windows && perm === "denied";
-  const unsupported = perm === "unsupported" && !window.rf4?.showNotify;
+  const unsupported = perm === "unsupported" && !hasNativeNotify();
 
   return (
     <div className="notify-menu" ref={ref}>
@@ -111,7 +125,7 @@ export function NotifyMenu() {
           <Toggle
             checked={settings.whenFocused}
             onChange={(v) => patch({ whenFocused: v })}
-            hint="иначе только когда окно свёрнуто или в фоне"
+            hint={isAndroidApp() ? "иначе только когда приложение свёрнуто" : "иначе только когда окно свёрнуто или в фоне"}
           >
             Когда окно открыто
           </Toggle>

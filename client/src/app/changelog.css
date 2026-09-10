@@ -1,0 +1,39 @@
+.changelog-modal {
+  width: min(520px, calc(100% - 32px));
+}
+.changelog-list {
+  display: grid;
+  gap: 16px;
+  margin: 4px 0 18px;
+  overflow-y: auto;
+  max-height: min(60vh, 480px);
+}
+.changelog-list h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 650;
+}
+.changelog-list ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+.changelog-list li {
+  font-size: 14px;
+  line-height: 1.4;
+}
+.changelog-status {
+  margin: 8px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+html[data-platform="android"] .changelog-modal {
+  max-height: 88dvh;
+}
+html[data-platform="android"] .changelog-list li {
+  font-size: 15px;
+}

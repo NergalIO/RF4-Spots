@@ -2,7 +2,9 @@ import type { GuideField } from "@/features/tools/guideSchema";
 import { usesRangeFilter, usesSearchFilter } from "@/features/tools/guideSchema";
 import { ValueCombobox } from "@/shared/ui/ValueCombobox";
 import { FilterSlots } from "@/shared/ui/FilterSlots";
-import { emptyFilter, filterActive, SELECT_MAX, type FilterValue } from "./guideTableLogic";
+import { OP_LABELS, dateOpUsesRange } from "@/shared/filterOps";
+import { emptyFilter, filterActive, opsForGuide, SELECT_MAX, type FilterValue } from "./guideTableLogic";
+import type { FilterOp } from "@/types";
 import type { RefObject } from "react";
 
 type Props = {
@@ -17,6 +19,7 @@ type Props = {
   addRef: RefObject<HTMLDivElement>;
   addSlot: (key: string) => void;
   removeSlot: (key: string) => void;
+  changeField: (from: string, to: string) => void;
   patchFilter: (key: string, patch: Partial<FilterValue>) => void;
 };
 
@@ -32,6 +35,7 @@ export function GuideTableFilters({
   addRef,
   addSlot,
   removeSlot,
+  changeField,
   patchFilter,
 }: Props) {
   const unusedFields = fields.filter((field) => !slots.includes(field.key));
@@ -40,60 +44,82 @@ export function GuideTableFilters({
   function renderFilterControl(key: string) {
     const field = fields.find((item) => item.key === key);
     if (!field) return null;
-    const spec = values[field.key] ?? emptyFilter();
+    const spec = values[field.key] ?? emptyFilter(field);
     if (usesRangeFilter(field)) {
+      if (dateOpUsesRange(spec.op)) {
+        return (
+          <div className="num-range">
+            <input
+              type="number"
+              step="any"
+              value={spec.from}
+              placeholder="От"
+              onChange={(e) => patchFilter(field.key, { from: e.target.value })}
+              aria-label={`${field.label}, от`}
+            />
+            <input
+              type="number"
+              step="any"
+              value={spec.to}
+              placeholder="До"
+              onChange={(e) => patchFilter(field.key, { to: e.target.value })}
+              aria-label={`${field.label}, до`}
+            />
+          </div>
+        );
+      }
       return (
-        <div className="num-range">
-          <input
-            type="number"
-            step="any"
-            value={spec.from}
-            placeholder="От"
-            onChange={(e) => patchFilter(field.key, { from: e.target.value })}
-            aria-label={`${field.label}, от`}
-          />
-          <input
-            type="number"
-            step="any"
-            value={spec.to}
-            placeholder="До"
-            onChange={(e) => patchFilter(field.key, { to: e.target.value })}
-            aria-label={`${field.label}, до`}
-          />
-        </div>
+        <input
+          type="number"
+          step="any"
+          value={spec.from}
+          placeholder="Значение"
+          onChange={(e) => patchFilter(field.key, { from: e.target.value })}
+          aria-label={field.label}
+        />
       );
     }
     if (usesSearchFilter(field)) {
       return (
         <input
           value={spec.text}
-          placeholder="Поиск"
+          placeholder="Значение"
           onChange={(e) => patchFilter(field.key, { text: e.target.value })}
-          aria-label={`${field.label}, поиск`}
+          aria-label={field.label}
         />
       );
     }
     const options = uniqueByField[field.key] ?? [];
-    if (options.length <= SELECT_MAX) {
+    if (spec.op === "contains" || spec.op === "notContains" || options.length > SELECT_MAX) {
+      if (options.length > SELECT_MAX && spec.op !== "contains" && spec.op !== "notContains") {
+        return (
+          <ValueCombobox
+            options={options}
+            value={spec.text}
+            onChange={(text) => patchFilter(field.key, { text })}
+            placeholder="Значение"
+            emptyLabel="Значение"
+          />
+        );
+      }
       return (
-        <select value={spec.text} onChange={(e) => patchFilter(field.key, { text: e.target.value })}>
-          <option value="">Все значения</option>
-          {options.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
+        <input
+          value={spec.text}
+          placeholder="Значение"
+          onChange={(e) => patchFilter(field.key, { text: e.target.value })}
+          aria-label={field.label}
+        />
       );
     }
     return (
-      <ValueCombobox
-        options={options}
-        value={spec.text}
-        onChange={(text) => patchFilter(field.key, { text })}
-        placeholder="Все значения"
-        emptyLabel="Все значения"
-      />
+      <select value={spec.text} onChange={(e) => patchFilter(field.key, { text: e.target.value })}>
+        <option value="">Выберите значение</option>
+        {options.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
+      </select>
     );
   }
 
@@ -112,7 +138,41 @@ export function GuideTableFilters({
       onAddOpen={setAddOpen}
       onAdd={addSlot}
       onRemove={removeSlot}
-      labelOf={(key) => fields.find((field) => field.key === key)?.label ?? key}
+      renderField={(key) => (
+        <select
+          className="filter-field"
+          value={key}
+          aria-label="Поле"
+          onChange={(e) => changeField(key, e.target.value)}
+        >
+          {fields
+            .filter((field) => field.key === key || !slots.includes(field.key))
+            .map((field) => (
+              <option key={field.key} value={field.key}>
+                {field.label}
+              </option>
+            ))}
+        </select>
+      )}
+      renderOperator={(key) => {
+        const field = fields.find((item) => item.key === key);
+        if (!field) return null;
+        const spec = values[field.key] ?? emptyFilter(field);
+        return (
+          <select
+            className="filter-op"
+            value={spec.op}
+            aria-label="Действие"
+            onChange={(e) => patchFilter(field.key, { op: e.target.value as FilterOp, to: e.target.value === "between" ? spec.to : "" })}
+          >
+            {opsForGuide(field).map((op) => (
+              <option key={op} value={op}>
+                {OP_LABELS[op]}
+              </option>
+            ))}
+          </select>
+        );
+      }}
       renderControl={renderFilterControl}
     />
   );
