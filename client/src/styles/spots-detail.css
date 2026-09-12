@@ -2,7 +2,13 @@
 .facts div { display: grid; gap: 2px; }
 .facts dt { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .facts dd { margin: 0; overflow-wrap: anywhere; }
-.detail-body h3 { overflow-wrap: anywhere; }
+.detail-body h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
+}
 .author-comment {
   background: #0a1820;
   border-left: 3px solid var(--gold-2);

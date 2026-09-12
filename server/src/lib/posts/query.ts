@@ -2,6 +2,7 @@ import type { CatchType, Prisma } from "@prisma/client";
 import { prisma } from "../prisma.js";
 import { CATCH_TYPES } from "../catchTypes.js";
 import { livePosts } from "./includes.js";
+import { POST_TAG_BOT } from "./tags.js";
 
 type QueryBag = Record<string, unknown>;
 type CmpOp = "eq" | "neq" | "gt" | "gte" | "lt" | "lte" | "between" | "contains" | "notContains";
@@ -109,6 +110,12 @@ export function postsListWhere(q: QueryBag, userId: string): Prisma.PostWhereInp
   if (favorite != null) {
     const wantFav = qOp(q, "favoriteOp", "eq") === "neq" ? !favorite : favorite;
     where.favorites = wantFav ? { some: { userId } } : { none: { userId } };
+  }
+  const bot = qTri(q, "bot");
+  if (bot != null) {
+    const wantBot = qOp(q, "botOp", "eq") === "neq" ? !bot : bot;
+    if (wantBot) and(where, { tags: { has: POST_TAG_BOT } });
+    else and(where, { NOT: { tags: { has: POST_TAG_BOT } } });
   }
   applyDate(where, "catchDate", qStr(q, "catchFrom"), qStr(q, "catchTo"), qOp(q, "catchDateOp", "between"));
   applyDate(where, "createdAt", qStr(q, "uploadedFrom"), qStr(q, "uploadedTo"), qOp(q, "uploadedDateOp", "between"));

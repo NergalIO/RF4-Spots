@@ -2,7 +2,7 @@ import { Router } from "express";
 import { prisma } from "../../lib/prisma.js";
 import { zodError } from "../../lib/httpErrors.js";
 import { paramId } from "../../lib/params.js";
-import { createPostRecord, loadPost, mapPost, postBody, updatePostRecord, type RequestWithPost } from "../../lib/posts.js";
+import { createPostRecord, findLiveBySourceKey, loadPost, mapPost, postBody, updatePostRecord, type RequestWithPost } from "../../lib/posts.js";
 import { parseKeepScreenshots } from "../../lib/screenshots.js";
 import { softDeletePost } from "../../lib/softDelete.js";
 import { removeUploaded, uploadedFiles, uploadScreenshots } from "../../lib/upload.js";
@@ -25,6 +25,12 @@ writeRouter.post("/", requireAuth, ...uploadScreenshots, async (req: AuthedReque
   if (!fish || !waterbody) {
     removeUploaded(uploadedFiles(req));
     res.status(400).json({ error: "Неизвестный вид или водоём" });
+    return;
+  }
+  const duplicate = await findLiveBySourceKey(data.sourceKey, req.user!.id);
+  if (duplicate) {
+    removeUploaded(uploadedFiles(req));
+    res.json({ post: mapPost(duplicate, req.user!.id), duplicate: true });
     return;
   }
   const post = await createPostRecord(req.user!.id, data, uploadedFiles(req));

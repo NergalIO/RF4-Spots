@@ -1,6 +1,7 @@
 import { CATCH_LABEL, fmtCoord, fmtWhen } from "@/shared/format";
 import type { Post } from "@/types";
 import { ruNewComments, unreadOf, type SeenMap } from "@/features/spots/unread";
+import { PostTags } from "./PostTags";
 import { VoteButtons } from "./VoteButtons";
 
 export function SpotCard({
@@ -31,6 +32,7 @@ export function SpotCard({
       <div className="spot-card-title">
         <button type="button" className="spot-card-name" onClick={onOpen}>
           <strong>{post.fish.name}</strong>
+          <PostTags tags={post.tags ?? []} />
         </button>
         <button
           type="button"

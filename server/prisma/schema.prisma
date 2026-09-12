@@ -149,6 +149,8 @@ model Post {
   comment     String        @default("")
   weightKg    Float?
   bait        String        @default("")
+  tags        String[]      @default([])
+  sourceKey   String?       @unique
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   deletedAt   DateTime?
@@ -165,6 +167,7 @@ model Post {
   @@index([catchDate])
   @@index([userId])
   @@index([deletedAt])
+  @@index([tags], type: Gin)
 }
 
 model Comment {

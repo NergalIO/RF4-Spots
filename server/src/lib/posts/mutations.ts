@@ -4,6 +4,20 @@ import { replaceScreenshots } from "../screenshots.js";
 import { favoriteInclude } from "./includes.js";
 import type { postBody } from "./schema.js";
 
+export async function findLiveBySourceKey(sourceKey: string | undefined, userId: string) {
+  if (!sourceKey) return null;
+  const existing = await prisma.post.findUnique({
+    where: { sourceKey },
+    include: favoriteInclude(userId),
+  });
+  if (!existing) return null;
+  if (existing.deletedAt) {
+    await prisma.post.update({ where: { id: existing.id }, data: { sourceKey: null } });
+    return null;
+  }
+  return existing;
+}
+
 export async function createPostRecord(
   userId: string,
   data: z.infer<typeof postBody>,
@@ -21,6 +35,8 @@ export async function createPostRecord(
       comment: data.comment ?? "",
       bait: data.bait ?? "",
       weightKg: data.weightKg ?? null,
+      tags: data.tags ?? [],
+      sourceKey: data.sourceKey ?? null,
       screenshots: {
         create: files.map((f, i) => ({ filename: f.filename, sortOrder: i })),
       },
@@ -55,6 +71,7 @@ export async function updatePostRecord(
         comment: data.comment,
         bait: data.bait,
         weightKg: data.weightKg === undefined ? undefined : data.weightKg,
+        tags: data.tags,
       },
       include: favoriteInclude(userId),
     });

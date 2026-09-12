@@ -9,6 +9,7 @@ export const FILTER_OPTIONS: { id: FilterKey; label: string }[] = [
   { id: "uploadedDate", label: "Дата загрузки" },
   { id: "mine", label: "Только мои" },
   { id: "favorite", label: "Избранное" },
+  { id: "bot", label: "Бот" },
 ];
 
 export const SORT_FIELDS: { id: Filters["sort"]; label: string }[] = [
@@ -23,6 +24,7 @@ const OPS: Record<FilterKey, FilterOp[]> = {
   uploadedDate: DATE_OPS,
   mine: BOOL_OPS,
   favorite: BOOL_OPS,
+  bot: BOOL_OPS,
 };
 
 const DEFAULT_OP: Record<FilterKey, FilterOp> = {
@@ -32,6 +34,7 @@ const DEFAULT_OP: Record<FilterKey, FilterOp> = {
   uploadedDate: "between",
   mine: "eq",
   favorite: "eq",
+  bot: "eq",
 };
 
 export function opsFor(field: FilterKey): FilterOp[] {
@@ -49,7 +52,8 @@ export function defaultsFor(field: FilterKey): Partial<Filters> {
   if (field === "catchDate") return { catchFrom: "", catchTo: "", catchDateOp: op };
   if (field === "uploadedDate") return { uploadedFrom: "", uploadedTo: "", uploadedDateOp: op };
   if (field === "mine") return { mine: true, mineOp: op };
-  return { favorite: true, favoriteOp: op };
+  if (field === "favorite") return { favorite: true, favoriteOp: op };
+  return { bot: true, botOp: op };
 }
 
 export function clearField(field: FilterKey): Partial<Filters> {
@@ -58,7 +62,8 @@ export function clearField(field: FilterKey): Partial<Filters> {
   if (field === "catchDate") return { catchFrom: "", catchTo: "" };
   if (field === "uploadedDate") return { uploadedFrom: "", uploadedTo: "" };
   if (field === "mine") return { mine: null };
-  return { favorite: null };
+  if (field === "favorite") return { favorite: null };
+  return { bot: null };
 }
 
 export function opOf(filters: Filters, field: FilterKey): FilterOp {
@@ -67,7 +72,8 @@ export function opOf(filters: Filters, field: FilterKey): FilterOp {
   if (field === "catchDate") return pickOp(filters.catchDateOp, DATE_OPS, "between");
   if (field === "uploadedDate") return pickOp(filters.uploadedDateOp, DATE_OPS, "between");
   if (field === "mine") return pickOp(filters.mineOp, BOOL_OPS, "eq");
-  return pickOp(filters.favoriteOp, BOOL_OPS, "eq");
+  if (field === "favorite") return pickOp(filters.favoriteOp, BOOL_OPS, "eq");
+  return pickOp(filters.botOp, BOOL_OPS, "eq");
 }
 
 export function setOp(field: FilterKey, op: FilterOp): Partial<Filters> {
@@ -80,7 +86,8 @@ export function setOp(field: FilterKey, op: FilterOp): Partial<Filters> {
     return op === "between" ? { uploadedDateOp: op } : { uploadedDateOp: op, uploadedTo: "" };
   }
   if (field === "mine") return { mineOp: op };
-  return { favoriteOp: op };
+  if (field === "favorite") return { favoriteOp: op };
+  return { botOp: op };
 }
 
 export function fieldActive(filters: Filters, field: FilterKey) {
@@ -89,7 +96,8 @@ export function fieldActive(filters: Filters, field: FilterKey) {
   if (field === "catchDate") return Boolean(filters.catchFrom || filters.catchTo);
   if (field === "uploadedDate") return Boolean(filters.uploadedFrom || filters.uploadedTo);
   if (field === "mine") return filters.mine != null;
-  return filters.favorite != null;
+  if (field === "favorite") return filters.favorite != null;
+  return filters.bot != null;
 }
 
 export function nextPostSort(
@@ -125,6 +133,8 @@ export function filtersToQuery(filters: Filters): Record<string, string> {
     mineOp: filters.mine == null ? "" : opOf(filters, "mine"),
     favorite: filters.favorite == null ? "" : filters.favorite ? "1" : "0",
     favoriteOp: filters.favorite == null ? "" : opOf(filters, "favorite"),
+    bot: filters.bot == null ? "" : filters.bot ? "1" : "0",
+    botOp: filters.bot == null ? "" : opOf(filters, "bot"),
   };
   return q;
 }

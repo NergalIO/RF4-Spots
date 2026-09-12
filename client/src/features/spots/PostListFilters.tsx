@@ -142,10 +142,21 @@ export function PostListFilters({
             </select>
           );
         }
+        if (id === "favorite") {
+          return (
+            <select
+              value={filters.favorite === false ? "0" : "1"}
+              onChange={(e) => setFilters({ favorite: e.target.value === "1" })}
+            >
+              <option value="1">Да</option>
+              <option value="0">Нет</option>
+            </select>
+          );
+        }
         return (
           <select
-            value={filters.favorite === false ? "0" : "1"}
-            onChange={(e) => setFilters({ favorite: e.target.value === "1" })}
+            value={filters.bot === false ? "0" : "1"}
+            onChange={(e) => setFilters({ bot: e.target.value === "1" })}
           >
             <option value="1">Да</option>
             <option value="0">Нет</option>

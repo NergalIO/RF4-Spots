@@ -107,7 +107,7 @@ export function validateUploads(req: Request, res: Response, next: NextFunction)
 export async function enforceUploadQuota(req: AuthedRequest, res: Response, next: NextFunction) {
   const files = uploadedFiles(req);
   const userId = req.user?.id;
-  if (!files.length || !userId) {
+  if (!files.length || !userId || req.user?.role === "admin") {
     next();
     return;
   }

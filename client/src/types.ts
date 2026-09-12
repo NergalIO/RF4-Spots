@@ -63,6 +63,7 @@ export type Post = {
   comment: string;
   weightKg: number | null;
   bait: string;
+  tags: string[];
   createdAt: string;
   updatedAt: string;
   author: User;
@@ -114,6 +115,8 @@ export type Filters = {
   mineOp: FilterOp;
   favorite: boolean | null;
   favoriteOp: FilterOp;
+  bot: boolean | null;
+  botOp: FilterOp;
   q: string;
   qOp: FilterOp;
 };

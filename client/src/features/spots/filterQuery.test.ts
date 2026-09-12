@@ -18,6 +18,7 @@ describe("filtersToQuery", () => {
     expect(q.fishOp).toBe("neq");
     expect(q.mine).toBe("0");
     expect(q.favorite).toBe("");
+    expect(q.bot).toBe("");
     expect(q.sort).toBe("catchDate");
     expect(q.sortDir).toBe("asc");
   });
@@ -25,6 +26,12 @@ describe("filtersToQuery", () => {
   it("does not send leftover search text", () => {
     expect(parseFilters({ q: "щука" }).q).toBe("");
     expect(filtersToQuery({ ...emptyFilters(), q: "щука" }).q).toBeUndefined();
+  });
+
+  it("sends the bot tag filter when the slot is filled", () => {
+    const q = filtersToQuery({ ...emptyFilters(), bot: true, botOp: "neq" });
+    expect(q.bot).toBe("1");
+    expect(q.botOp).toBe("neq");
   });
 });
 

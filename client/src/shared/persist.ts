@@ -6,7 +6,7 @@ const WB_KEY = "rf4spots-waterbody";
 const FILTER_KEY = "rf4spots-filters";
 const SLOTS_KEY = "rf4spots-filter-slots";
 
-const FILTER_KEYS = ["fish", "catchType", "catchDate", "uploadedDate", "mine", "favorite"] as const;
+const FILTER_KEYS = ["fish", "catchType", "catchDate", "uploadedDate", "mine", "favorite", "bot"] as const;
 
 export type FilterKey = (typeof FILTER_KEYS)[number];
 
@@ -28,6 +28,8 @@ export function emptyFilters(): Filters {
     mineOp: "eq",
     favorite: null,
     favoriteOp: "eq",
+    bot: null,
+    botOp: "eq",
     q: "",
     qOp: "contains",
   };
@@ -58,9 +60,10 @@ function readTriBool(value: unknown, enabled: boolean): boolean | null {
 export function parseFilters(raw: unknown, slots: FilterKey[] = []): Filters {
   const base = emptyFilters();
   if (!raw || typeof raw !== "object") return base;
-  const parsed = raw as Partial<Filters> & { mineOp?: FilterOp; favoriteOp?: FilterOp };
+  const parsed = raw as Partial<Filters> & { mineOp?: FilterOp; favoriteOp?: FilterOp; botOp?: FilterOp };
   const hasMineOp = parsed.mineOp != null;
   const hasFavOp = parsed.favoriteOp != null;
+  const hasBotOp = parsed.botOp != null;
   return {
     ...base,
     ...parsed,
@@ -80,6 +83,8 @@ export function parseFilters(raw: unknown, slots: FilterKey[] = []): Filters {
     mineOp: pickOp(parsed.mineOp, BOOL_OPS, "eq"),
     favorite: readTriBool(parsed.favorite, hasFavOp || slots.includes("favorite")),
     favoriteOp: pickOp(parsed.favoriteOp, BOOL_OPS, "eq"),
+    bot: readTriBool(parsed.bot, hasBotOp || slots.includes("bot")),
+    botOp: pickOp(parsed.botOp, BOOL_OPS, "eq"),
     q: "",
     qOp: "contains",
   };

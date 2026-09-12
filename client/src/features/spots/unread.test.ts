@@ -12,6 +12,7 @@ function post(partial: Partial<Post> = {}): Post {
     comment: "",
     weightKg: null,
     bait: "",
+    tags: [],
     createdAt: "2026-01-01T00:00:00.000Z",
     updatedAt: "2026-01-01T00:00:00.000Z",
     author: { id: "u1", nickname: "A", role: "player" },

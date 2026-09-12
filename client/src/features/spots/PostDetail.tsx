@@ -7,6 +7,7 @@ import { ShotPicker } from "./ShotPicker";
 import { VoteButtons } from "./VoteButtons";
 import { CommentThread } from "./CommentThread";
 import { PostDetailHeader } from "./PostDetailHeader";
+import { PostTags } from "./PostTags";
 import { ReportForm } from "./ReportForm";
 import { copyCoords, removePost, sendComment, sendReport } from "./postDetailApi";
 
@@ -164,7 +165,10 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
         backButton={backButton}
       />
       <div className="detail-body">
-        <h3>{detail.fish.name}</h3>
+        <h3>
+          {detail.fish.name}
+          <PostTags tags={detail.tags ?? []} />
+        </h3>
         <dl className="facts">
           <div>
             <dt>Место</dt>

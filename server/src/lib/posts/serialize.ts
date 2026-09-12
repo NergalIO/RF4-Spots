@@ -11,6 +11,7 @@ type MappedPostInput = {
   comment: string;
   weightKg: number | null;
   bait: string;
+  tags?: string[];
   createdAt: Date;
   updatedAt: Date;
   user: { id: string; nickname: string };
@@ -39,6 +40,7 @@ export function mapPost(post: MappedPostInput, viewerId = "") {
     comment: post.comment,
     weightKg: post.weightKg,
     bait: post.bait,
+    tags: post.tags ?? [],
     createdAt: iso(post.createdAt),
     updatedAt: iso(post.updatedAt),
     author: post.user,

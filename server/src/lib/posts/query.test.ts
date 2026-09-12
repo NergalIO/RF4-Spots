@@ -17,6 +17,15 @@ describe("postsListWhere", () => {
     expect(where.userId).toEqual({ not: user });
   });
 
+  it("filters posts that have or lack the bot tag", () => {
+    const withBot = postsListWhere({ bot: "1" }, user);
+    const withoutBot = postsListWhere({ bot: "0" }, user);
+    expect(withBot.AND).toEqual(expect.arrayContaining([expect.objectContaining({ tags: { has: "Бот" } })]));
+    expect(withoutBot.AND).toEqual(
+      expect.arrayContaining([expect.objectContaining({ NOT: { tags: { has: "Бот" } } })]),
+    );
+  });
+
   it("wraps search contains in AND so it can combine with other clauses", () => {
     const where = postsListWhere({ q: "щука", qOp: "contains" }, user);
     expect(Array.isArray(where.AND)).toBe(true);
