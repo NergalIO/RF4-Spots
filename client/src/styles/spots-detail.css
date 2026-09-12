@@ -14,7 +14,8 @@
   border-left: 3px solid var(--gold-2);
   padding: 10px 12px;
   border-radius: 0 10px 10px 0;
-  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 12px 0; }
 .thumbs.sm { grid-template-columns: repeat(4, 1fr); }
@@ -24,7 +25,7 @@
 .comment { background: #0a1820; border-radius: 10px; padding: 10px; margin-bottom: 8px; }
 .comment header { display: flex; gap: 8px; align-items: baseline; font-size: 12px; color: var(--muted); flex-wrap: wrap; min-width: 0; }
 .comment header strong { color: var(--text); }
-.comment p { margin: 6px 0 0; overflow-wrap: anywhere; }
+.comment p { margin: 6px 0 0; white-space: pre-wrap; overflow-wrap: break-word; }
 .linkish { background: none; border: 0; color: var(--danger); padding: 0; margin-left: auto; }
 .comment-form { display: grid; gap: 8px; margin-top: 10px; min-width: 0; }
 .comment-form textarea,

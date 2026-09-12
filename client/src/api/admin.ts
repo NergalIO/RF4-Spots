@@ -24,5 +24,10 @@ export function adminApi(http: Http) {
         method: "PATCH",
         body: JSON.stringify(body),
       }),
+    bulkPosts: (body: { ids: string[]; action: "hide" }) =>
+      http.req<{ ok: boolean; hidden: number }>("/admin/posts/bulk", {
+        method: "POST",
+        body: JSON.stringify(body),
+      }),
   };
 }

@@ -3,7 +3,9 @@ import { ALL_WATERBODIES } from "@/shared/constants";
 import { useStore } from "@/store";
 import { loadFilterSlots, saveFilterSlots, type FilterKey } from "@/shared/persist";
 import { clearField, defaultsFor } from "./filterQuery";
+import { PostBulkBar } from "./PostBulkBar";
 import { PostListFilters } from "./PostListFilters";
+import { nextPickedIds, ruPosts } from "./pickSet";
 import { SpotCard } from "./SpotCard";
 
 type Props = {
@@ -27,11 +29,20 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
   const waterbodyId = useStore((s) => s.waterbodyId);
   const user = useStore((s) => s.user);
   const seen = useStore((s) => s.seen);
+  const api = useStore((s) => s.api);
+  const refreshPosts = useStore((s) => s.refreshPosts);
+  const refreshMarkers = useStore((s) => s.refreshMarkers);
+  const setError = useStore((s) => s.setError);
   const allMaps = waterbodyId === ALL_WATERBODIES;
+  const isAdmin = user?.role === "admin";
   const [open, setOpen] = useState(false);
   const [slots, setSlots] = useState<FilterKey[]>(() => loadFilterSlots());
   const [addOpen, setAddOpen] = useState(false);
   const addRef = useRef<HTMLDivElement>(null);
+  const [picked, setPicked] = useState<Set<string>>(() => new Set());
+  const [pickAnchor, setPickAnchor] = useState<string | null>(null);
+  const [actOpen, setActOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     saveFilterSlots(slots);
@@ -44,6 +55,12 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+
+  useEffect(() => {
+    setPicked(new Set());
+    setPickAnchor(null);
+    setActOpen(false);
+  }, [waterbodyId, filters]);
 
   function openPost(id: string) {
     const next = id === selectedId ? null : id;
@@ -67,6 +84,43 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
     if (from === to) return;
     setSlots((prev) => prev.map((k) => (k === from ? to : k)));
     void setFilters({ ...clearField(from), ...defaultsFor(to) });
+  }
+
+  function togglePick(id: string, shift: boolean) {
+    const result = nextPickedIds(
+      posts.map((p) => p.id),
+      picked,
+      id,
+      shift,
+      pickAnchor,
+    );
+    setPicked(new Set(result.next));
+    setPickAnchor(result.anchor);
+  }
+
+  function clearPick() {
+    setPicked(new Set());
+    setPickAnchor(null);
+    setActOpen(false);
+  }
+
+  async function hidePicked() {
+    const ids = [...picked];
+    if (!ids.length) return;
+    if (!confirm(`Скрыть ${ids.length} ${ruPosts(ids.length)}?`)) return;
+    setActOpen(false);
+    setBusy(true);
+    try {
+      await api.admin.bulkPosts({ ids, action: "hide" });
+      if (selectedId && picked.has(selectedId)) await selectPost(null);
+      clearPick();
+      await refreshPosts();
+      await refreshMarkers();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Не удалось скрыть посты");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -98,6 +152,22 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
         waterbodyId={waterbodyId}
         allMaps={allMaps}
       />
+      {isAdmin && (
+        <PostBulkBar
+          picked={picked.size}
+          total={posts.length}
+          busy={busy}
+          actOpen={actOpen}
+          onToggleAct={() => setActOpen((v) => !v)}
+          onCloseAct={() => setActOpen(false)}
+          onPickAll={() => {
+            setPicked(new Set(posts.map((p) => p.id)));
+            setPickAnchor(posts[0]?.id ?? null);
+          }}
+          onClear={clearPick}
+          onHide={() => void hidePicked()}
+        />
+      )}
       <div className="card-list">
         {posts.length === 0 && <p className="empty">{allMaps ? "Пока нет постов" : "Пока нет постов на этом водоёме"}</p>}
         {posts.map((p) => (
@@ -108,6 +178,10 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
             allMaps={allMaps}
             seen={seen}
             userId={user?.id}
+            pickable={isAdmin}
+            picked={picked.has(p.id)}
+            pickLocksOpen={picked.size > 0}
+            onTogglePick={(shift) => togglePick(p.id, shift)}
             onOpen={() => openPost(p.id)}
             onFavorite={() => void toggleFavorite(p)}
             onVote={(value) => void toggleVote(p, value)}

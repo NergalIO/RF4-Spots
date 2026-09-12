@@ -2,6 +2,12 @@ import type { CatchType, PostVoteValue } from "@prisma/client";
 import { iso, screenshotUrl } from "../serialize.js";
 import { tallyVotes } from "../votes.js";
 
+const VK_SOURCE_TAIL = /(?:\r?\n)+Источник:\s*https?:\/\/\S+\s*$/;
+
+export function stripImportedSource(comment: string) {
+  return comment.replace(VK_SOURCE_TAIL, "").replace(/[ \t]+$/g, "").replace(/\n+$/, "");
+}
+
 type MappedPostInput = {
   id: string;
   coordX: number;
@@ -37,7 +43,7 @@ export function mapPost(post: MappedPostInput, viewerId = "") {
     coordY: post.coordY,
     catchType: post.catchType,
     catchDate: iso(post.catchDate),
-    comment: post.comment,
+    comment: stripImportedSource(post.comment),
     weightKg: post.weightKg,
     bait: post.bait,
     tags: post.tags ?? [],

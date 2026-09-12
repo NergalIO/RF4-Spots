@@ -23,6 +23,21 @@
 }
 .head-actions { display: flex; gap: 6px; align-items: center; position: relative; z-index: 5; }
 .filters-block { border-bottom: 1px solid var(--line); }
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #0a1820;
+}
+.bulk-count {
+  margin-right: auto;
+  font-size: 13px;
+  color: var(--gold);
+}
+.bulk-actions { position: relative; }
 .filters-toolbar {
   display: flex;
   align-items: stretch;
@@ -284,6 +299,19 @@
   color: var(--gold);
   border: 1px solid rgba(201, 163, 90, 0.38);
 }
+.spot-pick {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+}
+.spot-pick input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--gold-2);
+}
 .fav-btn {
   flex-shrink: 0;
   padding: 2px 8px;
@@ -372,6 +400,9 @@
 }
 .spot-card.unread-post:hover { border-color: #6eb8f0; }
 .spot-card.unread-comments:hover { border-color: #b892f0; }
+.spot-card.picked {
+  border-color: var(--gold-2);
+}
 .spot-card.selected, .spot-card.selected:hover {
   border-color: var(--gold-2);
   box-shadow: none;
@@ -513,6 +544,18 @@ html[data-platform="android"] .spot-card .excerpt,
 html[data-platform="android"] .spot-card .meta,
 html[data-platform="android"] .spot-card .nick {
   font-size: 13px;
+}
+html[data-platform="android"] .bulk-bar {
+  padding: 10px 12px;
+  gap: 6px;
+}
+html[data-platform="android"] .spot-pick {
+  width: 28px;
+  height: 28px;
+}
+html[data-platform="android"] .spot-pick input {
+  width: 20px;
+  height: 20px;
 }
 html[data-platform="android"] .fav-btn {
   padding: 6px 12px;
