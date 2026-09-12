@@ -1,5 +1,6 @@
 import { rateLimit } from "express-rate-limit";
 import { envFlag } from "./env.js";
+import type { AuthedRequest } from "../middleware/auth.js";
 
 function trustForwarded() {
   return envFlag("TRUST_PROXY", false);
@@ -33,6 +34,7 @@ export const uploadLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   validate: { xForwardedForHeader: trustForwarded() },
+  skip: (req) => (req as AuthedRequest).user?.role === "admin",
   handler: (_req, res) => {
     res.status(429).json({ error: "Слишком много загрузок. Подождите." });
   },
