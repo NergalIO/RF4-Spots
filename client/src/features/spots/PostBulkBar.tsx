@@ -25,17 +25,17 @@ export function PostBulkBar({
   if (!picked) return null;
   return (
     <div className="bulk-bar">
-      <span className="bulk-count">
-        {picked} {ruPosts(picked)}
-      </span>
-      {picked < total && (
-        <button type="button" className="btn ghost sm" onClick={onPickAll} disabled={busy}>
+      <div className="bulk-pick">
+        <button type="button" className="btn ghost sm" onClick={onPickAll} disabled={busy || picked >= total}>
           Все
         </button>
-      )}
-      <button type="button" className="btn ghost sm" onClick={onClear} disabled={busy}>
-        Снять
-      </button>
+        <button type="button" className="btn ghost sm" onClick={onClear} disabled={busy}>
+          Снять
+        </button>
+        <span className="bulk-count">
+          {picked} {ruPosts(picked)}
+        </span>
+      </div>
       <DropdownMenu
         open={actOpen}
         onClose={onCloseAct}

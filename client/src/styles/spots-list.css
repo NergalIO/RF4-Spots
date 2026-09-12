@@ -26,18 +26,24 @@
 .bulk-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   flex-shrink: 0;
   padding: 8px 16px;
   border-bottom: 1px solid var(--line);
   background: #0a1820;
 }
+.bulk-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
 .bulk-count {
-  margin-right: auto;
   font-size: 13px;
   color: var(--gold);
 }
-.bulk-actions { position: relative; }
+.bulk-actions { position: relative; flex-shrink: 0; }
 .filters-toolbar {
   display: flex;
   align-items: stretch;
@@ -254,6 +260,7 @@
   margin-bottom: 8px;
   display: grid;
   gap: 8px;
+  user-select: none;
 }
 .spot-card-title {
   display: flex;

@@ -180,7 +180,7 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
             userId={user?.id}
             pickable={isAdmin}
             picked={picked.has(p.id)}
-            pickLocksOpen={picked.size > 0}
+            showPick={picked.size > 0}
             onTogglePick={(shift) => togglePick(p.id, shift)}
             onOpen={() => openPost(p.id)}
             onFavorite={() => void toggleFavorite(p)}
