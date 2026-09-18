@@ -1,6 +1,7 @@
 import { prisma } from "./prisma.js";
 import { unlinkFilenames } from "./upload.js";
 import { clearAdminStatsCache } from "./adminStats.js";
+import { tombstonePost, touchLivePost } from "./syncRev.js";
 
 export async function softDeletePost(postId: string, deletedById: string) {
   const post = await prisma.post.findUnique({
@@ -23,14 +24,23 @@ export async function softDeletePost(postId: string, deletedById: string) {
       where: { postId, deletedAt: null },
       data: { deletedAt: new Date(), deletedById },
     });
-    await tx.post.update({
-      where: { id: postId },
-      data: { deletedAt: new Date(), deletedById },
-    });
+    await tombstonePost(
+      postId,
+      { deletedAt: new Date(), deletedById, commentsCount: 0, lastCommentAt: null },
+      tx,
+    );
   });
   unlinkFilenames(files);
   clearAdminStatsCache();
   return post;
+}
+
+export async function refreshCommentStats(postId: string, tx: Parameters<typeof touchLivePost>[2] = prisma) {
+  const [count, last] = await Promise.all([
+    tx.comment.count({ where: { postId, deletedAt: null } }),
+    tx.comment.aggregate({ where: { postId, deletedAt: null }, _max: { createdAt: true } }),
+  ]);
+  await touchLivePost(postId, { commentsCount: count, lastCommentAt: last._max.createdAt }, tx);
 }
 
 export async function softDeleteComment(commentId: string, deletedById: string) {
@@ -46,6 +56,7 @@ export async function softDeleteComment(commentId: string, deletedById: string) 
       where: { id: commentId },
       data: { deletedAt: new Date(), deletedById },
     });
+    await refreshCommentStats(comment.postId, tx);
   });
   unlinkFilenames(files);
   clearAdminStatsCache();

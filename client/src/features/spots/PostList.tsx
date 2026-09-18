@@ -28,7 +28,6 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
   const toggleVote = useStore((s) => s.toggleVote);
   const waterbodyId = useStore((s) => s.waterbodyId);
   const user = useStore((s) => s.user);
-  const seen = useStore((s) => s.seen);
   const api = useStore((s) => s.api);
   const refreshPosts = useStore((s) => s.refreshPosts);
   const setError = useStore((s) => s.setError);
@@ -174,8 +173,6 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
             post={p}
             selected={p.id === selectedId}
             allMaps={allMaps}
-            seen={seen}
-            userId={user?.id}
             pickable={isAdmin}
             picked={picked.has(p.id)}
             showPick={picked.size > 0}

@@ -7,6 +7,7 @@ import { loginBody, passwordBody } from "../lib/auth/schemas.js";
 import { loginLimiter, registerLimiter } from "../lib/rateLimit.js";
 import { allowRegister } from "../lib/security.js";
 import { requireAuth, type AuthedRequest } from "../middleware/auth.js";
+import { rememberUser, invalidateUser } from "../lib/authCache.js";
 import { zodError } from "../lib/httpErrors.js";
 
 export const authRouter = Router();
@@ -36,6 +37,7 @@ authRouter.post("/login", loginLimiter, async (req, res) => {
     res.status(401).json({ error: "Аккаунт отключён" });
     return;
   }
+  rememberUser(user);
   res.json({
     token: tokenFor(user),
     user: publicUser(user),
@@ -66,6 +68,8 @@ authRouter.patch("/password", requireAuth, async (req: AuthedRequest, res) => {
     where: { id: user.id },
     data: { passwordHash, tokenVersion: { increment: 1 } },
   });
+  invalidateUser(updated.id);
+  rememberUser(updated);
   res.json({
     token: tokenFor(updated),
     user: publicUser(updated),

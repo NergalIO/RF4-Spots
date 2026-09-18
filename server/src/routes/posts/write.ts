@@ -30,11 +30,11 @@ writeRouter.post("/", requireAuth, ...uploadScreenshots, async (req: AuthedReque
   const duplicate = await findLiveBySourceKey(data.sourceKey, req.user!.id);
   if (duplicate) {
     removeUploaded(uploadedFiles(req));
-    res.json({ post: mapPost(duplicate, req.user!.id), duplicate: true });
+    res.json({ post: mapPost(duplicate), duplicate: true });
     return;
   }
   const post = await createPostRecord(req.user!.id, data, uploadedFiles(req));
-  res.status(201).json({ post: mapPost(post, req.user!.id) });
+  res.status(201).json({ post: mapPost(post) });
 });
 
 writeRouter.patch("/:id", requireAuth, ...uploadScreenshots, async (req: AuthedRequest, res) => {
@@ -66,7 +66,7 @@ writeRouter.patch("/:id", requireAuth, ...uploadScreenshots, async (req: AuthedR
     return;
   }
   const post = await updatePostRecord(existing, req.user!.id, parsed.data, files, keepParsed.ids);
-  res.json({ post: mapPost(post, req.user!.id) });
+  res.json({ post: mapPost(post) });
 });
 
 writeRouter.delete("/:id", requireAuth, loadPost, async (req, res) => {

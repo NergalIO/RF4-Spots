@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { commentExcerpt, parseActivitySince } from "../lib/activity.js";
+import { sendJsonWithEtag } from "../lib/etag.js";
 import { prisma } from "../lib/prisma.js";
+import { currentRev } from "../lib/syncRev.js";
+import { notePresence } from "../lib/authCache.js";
 import { requireAuth, type AuthedRequest } from "../middleware/auth.js";
 import { iso } from "../lib/serialize.js";
 
@@ -8,25 +11,10 @@ export const catalogRouter = Router();
 
 const ACTIVITY_TAKE = 20;
 
-catalogRouter.get("/sync", requireAuth, async (_req, res) => {
-  const [posts, comments, votes] = await Promise.all([
-    prisma.post.aggregate({ _count: { _all: true }, _max: { createdAt: true, updatedAt: true } }),
-    prisma.comment.aggregate({ _count: { _all: true }, _max: { createdAt: true, updatedAt: true } }),
-    prisma.postVote.aggregate({ _count: { _all: true }, _max: { updatedAt: true } }),
-  ]);
+catalogRouter.get("/sync", requireAuth, async (req: AuthedRequest, res) => {
+  notePresence(req.user!.id);
   res.setHeader("Cache-Control", "no-store");
-  res.json({
-    stamp: [
-      posts._count._all,
-      comments._count._all,
-      votes._count._all,
-      iso(posts._max.createdAt),
-      iso(posts._max.updatedAt),
-      iso(comments._max.createdAt),
-      iso(comments._max.updatedAt),
-      iso(votes._max.updatedAt),
-    ].join("|"),
-  });
+  res.json({ rev: currentRev() });
 });
 
 catalogRouter.get("/activity", requireAuth, async (req: AuthedRequest, res) => {
@@ -94,22 +82,51 @@ catalogRouter.get("/activity", requireAuth, async (req: AuthedRequest, res) => {
   });
 });
 
-catalogRouter.get("/fish", requireAuth, async (_req, res) => {
+catalogRouter.get("/fish", async (req, res) => {
   const fish = await prisma.fishSpecies.findMany({
     orderBy: { name: "asc" },
     select: { id: true, name: true, waterbodies: true },
   });
-  res.json({ fish });
+  sendJsonWithEtag(req, res, { fish });
 });
 
-catalogRouter.get("/waterbodies", requireAuth, async (_req, res) => {
+catalogRouter.get("/waterbodies", async (req, res) => {
   const waterbodies = await prisma.waterbody.findMany({
     orderBy: { sortOrder: "asc" },
+    select: {
+      id: true,
+      name: true,
+      metersPerCell: true,
+      xMin: true,
+      xMax: true,
+      yMin: true,
+      yMax: true,
+      yFlipped: true,
+      imageFile: true,
+      imageWidth: true,
+      imageHeight: true,
+      padLeft: true,
+      padTop: true,
+      padRight: true,
+      padBottom: true,
+    },
   });
-  res.setHeader("Cache-Control", "no-store");
-  res.json({
+  sendJsonWithEtag(req, res, {
     waterbodies: waterbodies.map((w) => ({
-      ...w,
+      id: w.id,
+      name: w.name,
+      metersPerCell: w.metersPerCell,
+      xMin: w.xMin,
+      xMax: w.xMax,
+      yMin: w.yMin,
+      yMax: w.yMax,
+      yFlipped: w.yFlipped,
+      imageWidth: w.imageWidth,
+      imageHeight: w.imageHeight,
+      padLeft: w.padLeft,
+      padTop: w.padTop,
+      padRight: w.padRight,
+      padBottom: w.padBottom,
       mapUrl: `/maps/${w.imageFile}?v=${w.imageWidth}x${w.imageHeight}`,
     })),
   });

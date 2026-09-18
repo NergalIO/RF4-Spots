@@ -131,6 +131,16 @@ export function listOrder(q: QueryBag): { sort: "catchDate" | "createdAt"; dir: 
   };
 }
 
+export function parseSinceRev(q: QueryBag): number | null {
+  const raw = qStr(q, "sinceRev");
+  if (!raw) return null;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 0) return null;
+  return n;
+}
+
+export const DELTA_LIMIT = 100;
+
 export async function applyListCursor(
   where: Prisma.PostWhereInput,
   q: QueryBag,

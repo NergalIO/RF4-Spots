@@ -6,11 +6,11 @@ import {
   GUIDE_KEYS,
   isGuideKey,
   normalizeGuideRows,
-  type GuideKey,
   type GuideRow,
 } from "../lib/guides.js";
 import { paramId } from "../lib/params.js";
 import { iso } from "../lib/serialize.js";
+import { sendJsonIfMatch } from "../lib/etag.js";
 
 export const guidesRouter = Router();
 
@@ -18,26 +18,16 @@ function asRows(value: unknown): GuideRow[] {
   return Array.isArray(value) ? (value as GuideRow[]) : [];
 }
 
-async function load(key: GuideKey) {
-  const row = await prisma.guideDataset.findUnique({ where: { key } });
-  return {
-    key,
-    updatedAt: iso(row?.updatedAt) || "",
-    rows: asRows(row?.rows),
-  };
-}
-
 guidesRouter.get("/", requireAuth, async (_req, res) => {
   const rows = await prisma.guideDataset.findMany();
   const byKey = Object.fromEntries(rows.map((r) => [r.key, r]));
-  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Cache-Control", "private, max-age=0, must-revalidate");
   res.json({
     datasets: GUIDE_KEYS.map((key) => {
       const row = byKey[key];
       return {
         key,
         updatedAt: iso(row?.updatedAt) || "",
-        rows: asRows(row?.rows),
       };
     }),
   });
@@ -49,8 +39,14 @@ guidesRouter.get("/:key", requireAuth, async (req, res) => {
     res.status(404).json({ error: "Неизвестный справочник" });
     return;
   }
-  res.setHeader("Cache-Control", "no-store");
-  res.json(await load(key));
+  const row = await prisma.guideDataset.findUnique({ where: { key } });
+  const payload = {
+    key,
+    updatedAt: iso(row?.updatedAt) || "",
+    rows: asRows(row?.rows),
+  };
+  const etag = `"${payload.updatedAt || "empty"}"`;
+  sendJsonIfMatch(req, res, etag, payload);
 });
 
 guidesRouter.put("/:key", requireAuth, requireAdmin, async (req: AuthedRequest, res) => {

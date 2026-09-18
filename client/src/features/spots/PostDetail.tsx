@@ -110,7 +110,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
       setText("");
       setFiles([]);
       requestAnimationFrame(fitCommentBox);
-      await refreshDetail();
+      await refreshDetail({ skipList: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Не удалось отправить");
     } finally {
@@ -192,10 +192,10 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
           </div>
         </dl>
         {detail.comment && <p className="author-comment">{detail.comment}</p>}
-        {detail.screenshots.length > 0 && (
+        {detail.screenshots && detail.screenshots.length > 0 && (
           <div className="thumbs">
             {detail.screenshots.map((s, i) => (
-              <button key={s.id} type="button" onClick={() => onOpenShots(detail.screenshots, i)}>
+              <button key={s.id} type="button" onClick={() => onOpenShots(detail.screenshots ?? [], i)}>
                 <img src={api.fileUrl(s.url)} alt="" />
               </button>
             ))}
@@ -217,7 +217,7 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
           onDelete={async (id) => {
             if (!confirm("Скрыть комментарий?")) return;
             await api.comments.remove(id);
-            await refreshDetail();
+            await refreshDetail({ skipList: true });
           }}
           onReport={(id) => setReportFor({ commentId: id })}
           onOpenShots={onOpenShots}

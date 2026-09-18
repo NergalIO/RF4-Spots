@@ -113,9 +113,7 @@ export async function enforceUploadQuota(req: AuthedRequest, res: Response, next
   }
   try {
     const count = await prisma.screenshot.count({
-      where: {
-        OR: [{ post: { userId } }, { comment: { userId } }],
-      },
+      where: { ownerUserId: userId },
     });
     if (count + files.length > MAX_USER_SHOTS) {
       removeUploaded(files);

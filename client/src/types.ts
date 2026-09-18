@@ -22,16 +22,12 @@ export type Waterbody = {
   yMin: number;
   yMax: number;
   yFlipped: boolean;
-  imageFile: string;
   imageWidth: number;
   imageHeight: number;
   padLeft: number;
   padTop: number;
   padRight: number;
   padBottom: number;
-  cellPx: number;
-  rf4mapLocationId: number | null;
-  sortOrder: number;
   mapUrl: string;
 };
 
@@ -60,19 +56,18 @@ export type Post = {
   coordY: number;
   catchType: CatchType;
   catchDate: string;
-  comment: string;
-  weightKg: number | null;
-  bait: string;
-  tags: string[];
   createdAt: string;
-  updatedAt: string;
+  comment: string;
+  tags: string[];
   author: User;
   fish: { id: string; name: string };
   waterbody: { id: string; name: string };
-  screenshots: Screenshot[];
-  commentsCount: number;
-  commentsMeta: { id: string; createdAt: string; userId: string }[];
+  screenshots?: Screenshot[];
   comments?: CommentItem[];
+  commentsCount: number;
+  lastCommentAt: string;
+  unreadComments: number;
+  unseen: boolean;
   favorited: boolean;
   likesCount: number;
   dislikesCount: number;
@@ -187,4 +182,3 @@ export type ModerationReport = {
   post: { id: string; excerpt: string; fishName: string; deleted: boolean } | null;
   comment: { id: string; postId: string; excerpt: string; deleted: boolean } | null;
 };
-

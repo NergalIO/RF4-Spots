@@ -7,6 +7,7 @@ import { ONLINE_WINDOW_MS, clearAdminStatsCache } from "../../lib/adminStats.js"
 import { unlinkFilenames } from "../../lib/upload.js";
 import { iso, isoOrNull } from "../../lib/serialize.js";
 import { zodError } from "../../lib/httpErrors.js";
+import { invalidateUser } from "../../lib/authCache.js";
 import type { AuthedRequest } from "../../middleware/auth.js";
 
 export const usersRouter = Router();
@@ -112,6 +113,7 @@ usersRouter.patch("/:id", async (req: AuthedRequest, res) => {
   }
   if (parsed.data.disabled === false) data.disabledAt = null;
   const updated = await prisma.user.update({ where: { id }, data });
+  invalidateUser(id);
   clearAdminStatsCache();
   res.json({
     user: {
@@ -155,6 +157,7 @@ usersRouter.delete("/:id", async (req: AuthedRequest, res) => {
     ...comments.flatMap((c) => c.screenshots.map((s) => s.filename)),
   ];
   await prisma.user.delete({ where: { id } });
+  invalidateUser(id);
   clearAdminStatsCache();
   unlinkFilenames(files);
   res.json({ ok: true });

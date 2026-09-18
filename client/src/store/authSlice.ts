@@ -30,7 +30,7 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get
     } catch {
       stopPoll();
       await saveSession({ serverUrl: session.serverUrl, token: "" });
-      set({ user: null, api: new Api(session.serverUrl, ""), ready: true, seen: {}, syncStamp: "" });
+      set({ user: null, api: new Api(session.serverUrl, ""), ready: true, syncRev: 0 });
       return;
     }
     try {
@@ -78,8 +78,7 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get
       selectedId: null,
       fish: [],
       waterbodies: [],
-      seen: {},
-      syncStamp: "",
+      syncRev: 0,
       nextCursor: null,
     });
   },

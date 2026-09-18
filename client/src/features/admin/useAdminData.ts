@@ -6,6 +6,7 @@ import { REPORT_STATUSES, type ReportStatusFilter } from "./AdminReports";
 
 const TAB_KEY = "rf4spots-admin-tab";
 const REPORT_FILTER_KEY = "rf4spots-admin-reports";
+const POLL_MS = 30_000;
 export const ADMIN_TABS = ["dashboard", "users", "invites", "reports"] as const;
 export type AdminTab = (typeof ADMIN_TABS)[number];
 
@@ -23,36 +24,58 @@ export function useAdminData(api: Api) {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [error, setError] = useState("");
 
+  const loadDashboard = useCallback(async () => {
+    const [s, u, open] = await Promise.all([api.admin.stats(), api.admin.users(), api.admin.reports("open")]);
+    setStats(s.stats);
+    setUsers(u.users);
+    setOpenReports(open.reports);
+  }, [api]);
+
+  const loadUsers = useCallback(async () => {
+    const u = await api.admin.users();
+    setUsers(u.users);
+  }, [api]);
+
+  const loadInvites = useCallback(async () => {
+    const i = await api.admin.invites();
+    setInvites(i.invites);
+  }, [api]);
+
+  const loadReports = useCallback(
+    async (status: ReportStatusFilter) => {
+      const extra = status === "open" ? Promise.resolve(null) : api.admin.reports(status);
+      const [open, listed] = await Promise.all([api.admin.reports("open"), extra]);
+      setOpenReports(open.reports);
+      setReports(listed ? listed.reports : open.reports);
+    },
+    [api],
+  );
+
   const reload = useCallback(async () => {
     setError("");
     try {
-      const extra = reportStatus === "open" ? Promise.resolve(null) : api.admin.reports(reportStatus);
-      const [u, i, open, s, listed] = await Promise.all([
-        api.admin.users(),
-        api.admin.invites(),
-        api.admin.reports("open"),
-        api.admin.stats(),
-        extra,
-      ]);
-      setUsers(u.users);
-      setInvites(i.invites);
-      setOpenReports(open.reports);
-      setReports(listed ? listed.reports : open.reports);
-      setStats(s.stats);
+      if (tab === "dashboard") await loadDashboard();
+      else if (tab === "users") await loadUsers();
+      else if (tab === "invites") await loadInvites();
+      else await loadReports(reportStatus);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ошибка загрузки");
     }
-  }, [api, reportStatus]);
+  }, [tab, reportStatus, loadDashboard, loadUsers, loadInvites, loadReports]);
 
   useEffect(() => {
     void reload();
   }, [reload]);
 
   useEffect(() => {
-    if (tab !== "users" && tab !== "dashboard") return;
-    const id = window.setInterval(() => void reload(), 15_000);
+    if (tab !== "dashboard" && tab !== "users") return;
+    const id = window.setInterval(() => {
+      void (tab === "dashboard" ? loadDashboard() : loadUsers()).catch((err) => {
+        setError(err instanceof Error ? err.message : "Ошибка загрузки");
+      });
+    }, POLL_MS);
     return () => window.clearInterval(id);
-  }, [tab, reload]);
+  }, [tab, loadDashboard, loadUsers]);
 
   return {
     tab,

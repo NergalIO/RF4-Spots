@@ -5,6 +5,7 @@ import { publicUser, tokenFor } from "../auth.js";
 import { zodError } from "../httpErrors.js";
 import { inviteIsUsable, normalizeInviteCode } from "../invite.js";
 import { allowRegister } from "../security.js";
+import { rememberUser } from "../authCache.js";
 import { registerBody } from "./schemas.js";
 
 export async function registerUser(body: unknown, res: Response) {
@@ -55,6 +56,7 @@ export async function registerUser(body: unknown, res: Response) {
       }
       return created;
     });
+    rememberUser(user);
     res.status(201).json({
       token: tokenFor(user),
       user: publicUser(user),

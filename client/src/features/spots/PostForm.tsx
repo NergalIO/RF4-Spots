@@ -25,11 +25,11 @@ export function PostForm({ coords, post, onClose }: Props) {
   const [coordX, setCoordX] = useState(String(roundCoord(post?.coordX ?? coords.x)));
   const [coordY, setCoordY] = useState(String(roundCoord(post?.coordY ?? coords.y)));
   const [files, setFiles] = useState<File[]>([]);
-  const [keepIds, setKeepIds] = useState<string[]>(post?.screenshots.map((s) => s.id) ?? []);
+  const [keepIds, setKeepIds] = useState<string[]>(post?.screenshots?.map((s) => s.id) ?? []);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const kept = post?.screenshots.filter((s) => keepIds.includes(s.id)) ?? [];
+  const kept = post?.screenshots?.filter((s) => keepIds.includes(s.id)) ?? [];
   const xNum = roundCoord(Number(coordX.replace(",", ".")));
   const yNum = roundCoord(Number(coordY.replace(",", ".")));
 
@@ -57,8 +57,8 @@ export function PostForm({ coords, post, onClose }: Props) {
     if (post) fd.set("keepScreenshots", JSON.stringify(keepIds));
     try {
       const res = post ? await api.posts.update(post.id, fd) : await api.posts.create(fd);
-      await refreshPosts();
-      await selectPost(res.post.id);
+      await refreshPosts({ local: res.post });
+      await selectPost(res.post.id, { reload: true });
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Не удалось сохранить");

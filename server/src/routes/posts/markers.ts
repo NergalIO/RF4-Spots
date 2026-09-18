@@ -1,16 +1,14 @@
 import { Router } from "express";
 import { prisma } from "../../lib/prisma.js";
-import { livePosts } from "../../lib/posts.js";
+import { livePosts, postsListWhere } from "../../lib/posts.js";
 import { requireAuth, type AuthedRequest } from "../../middleware/auth.js";
 
 export const markersRouter = Router();
 
 markersRouter.get("/markers", requireAuth, async (req: AuthedRequest, res) => {
-  const q = req.query;
-  const where = { ...livePosts() } as ReturnType<typeof livePosts> & { waterbodyId?: string };
-  if (typeof q.waterbodyId === "string" && q.waterbodyId) where.waterbodyId = q.waterbodyId;
+  const where = postsListWhere(req.query as Record<string, unknown>, req.user!.id);
   const markers = await prisma.post.findMany({
-    where,
+    where: { ...livePosts(), ...where },
     select: {
       id: true,
       coordX: true,

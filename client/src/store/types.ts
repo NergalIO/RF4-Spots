@@ -1,6 +1,6 @@
 import type { Api } from "../api";
+import type { FeedTouch } from "../features/spots/feedDelta";
 import type { Filters, Fish, Post, PostMarker, User, Waterbody } from "../types";
-import type { SeenMap } from "../features/spots/unread";
 
 export type Store = {
   ready: boolean;
@@ -17,8 +17,7 @@ export type Store = {
   detail: Post | null;
   filters: Filters;
   rulerOn: boolean;
-  seen: SeenMap;
-  syncStamp: string;
+  syncRev: number;
   flyToId: string | null;
   boot: () => Promise<void>;
   login: (nickname: string, password: string, serverUrl: string) => Promise<void>;
@@ -27,8 +26,13 @@ export type Store = {
   setToken: (token: string, user: User) => Promise<void>;
   setWaterbody: (id: string, opts?: { keepPostId?: string }) => Promise<void>;
   setFilters: (patch: Partial<Filters>) => Promise<void>;
-  selectPost: (id: string | null) => Promise<void>;
-  refreshPosts: (opts?: { append?: boolean; extra?: Post | null }) => Promise<void>;
+  selectPost: (id: string | null, opts?: { reload?: boolean }) => Promise<void>;
+  refreshPosts: (opts?: {
+    append?: boolean;
+    extra?: Post | null;
+    sinceRev?: number;
+    local?: Post;
+  }) => Promise<FeedTouch | void>;
   loadMorePosts: () => Promise<void>;
   refreshDetail: (opts?: { skipList?: boolean }) => Promise<void>;
   openOnMap: (post: Post) => Promise<void>;

@@ -36,12 +36,14 @@ model User {
   role          Role      @default(player)
   disabledAt    DateTime?
   lastSeenAt    DateTime?
+  feedSeededAt  DateTime?
   tokenVersion  Int       @default(0)
   createdAt     DateTime  @default(now())
   posts         Post[]
   comments      Comment[]
   favorites     Favorite[]
   votes         PostVote[]
+  seen          UserPostSeen[]
   reports       Report[]           @relation("Reporter")
   resolvedReports Report[]         @relation("ReportResolver")
   invitesCreated Invite[]          @relation("InviteCreator")
@@ -71,6 +73,7 @@ model Favorite {
 
   @@id([userId, postId])
   @@index([postId])
+  @@index([userId])
 }
 
 model PostVote {
@@ -156,17 +159,24 @@ model Post {
   deletedAt   DateTime?
   deletedById String?
   deletedBy   User?         @relation("PostDeletedBy", fields: [deletedById], references: [id], onDelete: SetNull)
-  screenshots Screenshot[]
-  comments    Comment[]
-  favorites   Favorite[]
-  votes       PostVote[]
-  reports     Report[]
+  rev           Int       @default(0)
+  likesCount    Int       @default(0)
+  dislikesCount Int       @default(0)
+  commentsCount Int       @default(0)
+  lastCommentAt DateTime?
+  screenshots   Screenshot[]
+  comments      Comment[]
+  favorites     Favorite[]
+  votes         PostVote[]
+  seenBy        UserPostSeen[]
+  reports       Report[]
 
   @@index([waterbodyId, createdAt])
   @@index([fishId])
   @@index([catchDate])
   @@index([userId])
   @@index([deletedAt])
+  @@index([rev])
   @@index([tags], type: Gin)
 }
 
@@ -187,16 +197,43 @@ model Comment {
 
   @@index([postId, createdAt])
   @@index([deletedAt])
+  @@index([createdAt])
 }
 
 model Screenshot {
-  id        String   @id @default(cuid())
-  postId    String?
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  commentId String?
-  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  filename  String
-  sortOrder Int      @default(0)
+  id          String   @id @default(cuid())
+  postId      String?
+  post        Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId   String?
+  comment     Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  ownerUserId String
+  filename    String
+  sortOrder   Int      @default(0)
+
+  @@index([ownerUserId])
+}
+
+model SyncState {
+  id  Int @id
+  rev Int @default(0)
+}
+
+model PostTombstone {
+  postId String @id
+  rev    Int
+
+  @@index([rev])
+}
+
+model UserPostSeen {
+  userId String
+  postId String
+  seenAt DateTime
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([postId])
 }
 
 model GuideDataset {

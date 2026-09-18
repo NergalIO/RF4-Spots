@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { CATCH_LABEL, fmtCoord, fmtWhen } from "@/shared/format";
 import type { Post } from "@/types";
-import { ruNewComments, unreadOf, type SeenMap } from "@/features/spots/unread";
+import { ruNewComments, unreadOf } from "@/features/spots/unread";
 import { PostTags } from "./PostTags";
 import { VoteButtons } from "./VoteButtons";
 
@@ -9,8 +9,6 @@ export function SpotCard({
   post,
   selected,
   allMaps,
-  seen,
-  userId,
   pickable,
   picked,
   showPick,
@@ -23,8 +21,6 @@ export function SpotCard({
   post: Post;
   selected: boolean;
   allMaps: boolean;
-  seen: SeenMap;
-  userId?: string;
   pickable?: boolean;
   picked?: boolean;
   showPick?: boolean;
@@ -34,7 +30,7 @@ export function SpotCard({
   onVote: (value: "like" | "dislike") => void;
   onShowMap?: () => void;
 }) {
-  const unread = userId ? unreadOf(post, seen, userId) : { kind: "none" as const, count: 0 };
+  const unread = unreadOf(post);
   const unreadClass = unread.kind === "comments" ? " unread-comments" : unread.kind === "post" ? " unread-post" : "";
   const openTimer = useRef<number | null>(null);
 

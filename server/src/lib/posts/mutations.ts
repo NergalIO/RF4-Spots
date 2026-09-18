@@ -1,14 +1,15 @@
 import type { z } from "zod";
 import { prisma } from "../prisma.js";
 import { replaceScreenshots } from "../screenshots.js";
-import { favoriteInclude } from "./includes.js";
+import { bumpRev } from "../syncRev.js";
+import { detailInclude } from "./includes.js";
 import type { postBody } from "./schema.js";
 
 export async function findLiveBySourceKey(sourceKey: string | undefined, userId: string) {
   if (!sourceKey) return null;
   const existing = await prisma.post.findUnique({
     where: { sourceKey },
-    include: favoriteInclude(userId),
+    include: detailInclude(userId),
   });
   if (!existing) return null;
   if (existing.deletedAt) {
@@ -23,25 +24,29 @@ export async function createPostRecord(
   data: z.infer<typeof postBody>,
   files: { filename: string }[],
 ) {
-  return prisma.post.create({
-    data: {
-      userId,
-      waterbodyId: data.waterbodyId,
-      fishId: data.fishId,
-      coordX: data.coordX,
-      coordY: data.coordY,
-      catchType: data.catchType,
-      catchDate: new Date(data.catchDate),
-      comment: data.comment ?? "",
-      bait: data.bait ?? "",
-      weightKg: data.weightKg ?? null,
-      tags: data.tags ?? [],
-      sourceKey: data.sourceKey ?? null,
-      screenshots: {
-        create: files.map((f, i) => ({ filename: f.filename, sortOrder: i })),
+  return prisma.$transaction(async (tx) => {
+    const rev = await bumpRev(tx);
+    return tx.post.create({
+      data: {
+        userId,
+        waterbodyId: data.waterbodyId,
+        fishId: data.fishId,
+        coordX: data.coordX,
+        coordY: data.coordY,
+        catchType: data.catchType,
+        catchDate: new Date(data.catchDate),
+        comment: data.comment ?? "",
+        bait: data.bait ?? "",
+        weightKg: data.weightKg ?? null,
+        tags: data.tags ?? [],
+        sourceKey: data.sourceKey ?? null,
+        rev,
+        screenshots: {
+          create: files.map((f, i) => ({ filename: f.filename, sortOrder: i, ownerUserId: userId })),
+        },
       },
-    },
-    include: favoriteInclude(userId),
+      include: detailInclude(userId),
+    });
   });
 }
 
@@ -55,10 +60,12 @@ export async function updatePostRecord(
   return prisma.$transaction(async (tx) => {
     await replaceScreenshots(tx, {
       owner: { postId: existing.id },
+      ownerUserId: userId,
       existing: existing.screenshots,
       keep,
       files,
     });
+    const rev = await bumpRev(tx);
     return tx.post.update({
       where: { id: existing.id },
       data: {
@@ -72,8 +79,9 @@ export async function updatePostRecord(
         bait: data.bait,
         weightKg: data.weightKg === undefined ? undefined : data.weightKg,
         tags: data.tags,
+        rev,
       },
-      include: favoriteInclude(userId),
+      include: detailInclude(userId),
     });
   });
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@/store";
+import { loadCachedGuide } from "@/api/guides";
 import type { GuideKey } from "@/features/tools/guideSchema";
 import type { GuideRow } from "@/types";
 import { usePersistedTab } from "@/shared/usePersistedTab";
@@ -24,10 +25,21 @@ export function ToolsView({ active }: { active: boolean }) {
     let dead = false;
     void api.guides
       .list()
-      .then(({ datasets }) => {
+      .then(async ({ datasets }) => {
         if (dead) return;
         const next: Partial<Record<GuideKey, GuideRow[]>> = {};
-        for (const ds of datasets) next[ds.key as GuideKey] = ds.rows;
+        await Promise.all(
+          datasets.map(async (ds) => {
+            const cached = loadCachedGuide(ds.key);
+            if (cached && cached.updatedAt === ds.updatedAt) {
+              next[ds.key as GuideKey] = cached.rows;
+              return;
+            }
+            const dataset = await api.guides.get(ds.key);
+            next[ds.key as GuideKey] = dataset.rows;
+          }),
+        );
+        if (dead) return;
         setData(next);
         setError("");
       })

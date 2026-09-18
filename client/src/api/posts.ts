@@ -1,5 +1,14 @@
-import type { Post } from "../types";
+import type { Post, PostMarker } from "../types";
 import type { Http } from "./http";
+
+export type PostsPage = {
+  posts: Post[];
+  nextCursor: string | null;
+  rev: number;
+  reload: boolean;
+  deletedIds: string[];
+  droppedIds: string[];
+};
 
 export function postsApi(http: Http) {
   return {
@@ -8,7 +17,14 @@ export function postsApi(http: Http) {
       for (const [k, v] of Object.entries(params)) {
         if (v) q.set(k, v);
       }
-      return http.req<{ posts: Post[]; nextCursor: string | null }>(`/posts?${q.toString()}`);
+      return http.req<PostsPage>(`/posts?${q.toString()}`);
+    },
+    markers(params: Record<string, string>) {
+      const q = new URLSearchParams();
+      for (const [k, v] of Object.entries(params)) {
+        if (v) q.set(k, v);
+      }
+      return http.req<{ markers: PostMarker[] }>(`/posts/markers?${q.toString()}`);
     },
     get: (id: string) => http.req<{ post: Post }>(`/posts/${id}`),
     create: (fd: FormData) => http.req<{ post: Post }>("/posts", { method: "POST", body: fd }),

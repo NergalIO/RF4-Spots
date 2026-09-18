@@ -26,6 +26,7 @@ export async function replaceScreenshots(
   tx: Prisma.TransactionClient,
   opts: {
     owner: Owner;
+    ownerUserId: string;
     existing: { id: string; filename: string }[];
     keep?: string[];
     files: { filename: string }[];
@@ -48,6 +49,7 @@ export async function replaceScreenshots(
     await tx.screenshot.createMany({
       data: opts.files.map((f, i) => ({
         ...where,
+        ownerUserId: opts.ownerUserId,
         filename: f.filename,
         sortOrder: start + i,
       })),

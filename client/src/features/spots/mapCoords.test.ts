@@ -11,16 +11,12 @@ const wb: Waterbody = {
   yMin: 0,
   yMax: 50,
   yFlipped: false,
-  imageFile: "t.png",
   imageWidth: 200,
   imageHeight: 100,
   padLeft: 0,
   padTop: 0,
   padRight: 0,
   padBottom: 0,
-  cellPx: 1,
-  rf4mapLocationId: null,
-  sortOrder: 0,
   mapUrl: "/maps/t.png",
 };
 

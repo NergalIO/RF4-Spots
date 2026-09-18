@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { listOrder, postsListWhere } from "./query.js";
+import { listOrder, parseSinceRev, postsListWhere } from "./query.js";
 
 const user = "u1";
 
@@ -46,5 +46,13 @@ describe("listOrder", () => {
 
   it("honors catchDate ascending", () => {
     expect(listOrder({ sort: "catchDate", sortDir: "asc" })).toEqual({ sort: "catchDate", dir: "asc" });
+  });
+});
+
+describe("parseSinceRev", () => {
+  it("reads a non-negative integer", () => {
+    expect(parseSinceRev({ sinceRev: "12" })).toBe(12);
+    expect(parseSinceRev({})).toBeNull();
+    expect(parseSinceRev({ sinceRev: "-1" })).toBeNull();
   });
 });

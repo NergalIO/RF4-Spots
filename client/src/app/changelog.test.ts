@@ -2,7 +2,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compareSemver, markChangelogSeen, parseChanges, shouldShowChangelog, unseenChangelog } from "./changelog";
+import { compareSemver, markChangelogSeen, parseChanges, readChangelogCache, shouldShowChangelog, unseenChangelog, writeChangelogCache } from "./changelog";
 
 const mem = new Map<string, string>();
 
@@ -53,7 +53,7 @@ describe("parseChanges", () => {
   it("parses the server updates/changes file", () => {
     const text = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "../../../server/updates/changes"), "utf8");
     const entries = parseChanges(text);
-    expect(entries[0]?.version).toBe("3.5.3");
+    expect(entries[0]?.version).toBe("3.6.1");
     expect(entries.some((e) => e.version === "3.4.8")).toBe(true);
     expect(entries.every((e) => e.sections.some((s) => s.items.length))).toBe(true);
   });
@@ -72,5 +72,14 @@ describe("unseenChangelog", () => {
     markChangelogSeen("3.4.5");
     expect(unseenChangelog("3.5.2", entries).map((e) => e.version)).toEqual(["3.5.2", "3.4.8"]);
     expect(shouldShowChangelog("3.4.5", entries)).toBe(false);
+  });
+});
+
+describe("changelog cache", () => {
+  it("returns parsed entries until the app version or origin changes", () => {
+    writeChangelogCache("http://a", "3.6.1", SAMPLE);
+    expect(readChangelogCache("http://a", "3.6.1")?.map((e) => e.version)).toEqual(["3.5.2", "3.4.8"]);
+    expect(readChangelogCache("http://b", "3.6.1")).toBeNull();
+    expect(readChangelogCache("http://a", "3.6.2")).toBeNull();
   });
 });

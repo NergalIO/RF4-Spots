@@ -20,6 +20,7 @@ import { commentsRouter } from "./routes/comments.js";
 import { guidesRouter } from "./routes/guides.js";
 import { postsRouter } from "./routes/posts.js";
 import { reportsRouter } from "./routes/reports.js";
+import { initSyncRev } from "./lib/syncRev.js";
 
 jwtSecret();
 
@@ -37,7 +38,7 @@ app.use(
     crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 );
-app.use(cors({ origin: corsOriginDelegate }));
+app.use(cors({ origin: corsOriginDelegate, exposedHeaders: ["ETag"] }));
 app.use(express.json({ limit: "2mb" }));
 
 app.use((req, res, next) => {
@@ -85,6 +86,7 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
   res.status(500).json({ error: "Ошибка сервера" });
 });
 
+await initSyncRev();
 app.listen(port, host, () => {
   console.log(`RF4 Spots API http://${host}:${port}`);
 });

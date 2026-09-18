@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import { prisma } from "../lib/prisma.js";
 import { verifyToken } from "../lib/auth.js";
+import { loadCachedUser } from "../lib/authCache.js";
 
 export type AuthedRequest = Request & {
   user?: {
@@ -8,6 +8,7 @@ export type AuthedRequest = Request & {
     nickname: string;
     role: "player" | "admin";
     tokenVersion: number;
+    feedSeededAt: Date | null;
   };
 };
 
@@ -20,7 +21,7 @@ export async function requireAuth(req: AuthedRequest, res: Response, next: NextF
   }
   try {
     const payload = verifyToken(token);
-    const user = await prisma.user.findUnique({ where: { id: payload.userId } });
+    const user = await loadCachedUser(payload.userId);
     if (!user) {
       res.status(401).json({ error: "Пользователь не найден" });
       return;
@@ -33,11 +34,13 @@ export async function requireAuth(req: AuthedRequest, res: Response, next: NextF
       res.status(401).json({ error: "Сессия истекла, войдите снова" });
       return;
     }
-    req.user = { id: user.id, nickname: user.nickname, role: user.role, tokenVersion: user.tokenVersion };
-    const seenAge = user.lastSeenAt ? Date.now() - user.lastSeenAt.getTime() : Number.POSITIVE_INFINITY;
-    if (seenAge > 15_000) {
-      void prisma.user.update({ where: { id: user.id }, data: { lastSeenAt: new Date() } }).catch(() => {});
-    }
+    req.user = {
+      id: user.id,
+      nickname: user.nickname,
+      role: user.role,
+      tokenVersion: user.tokenVersion,
+      feedSeededAt: user.feedSeededAt,
+    };
     next();
   } catch {
     res.status(401).json({ error: "Сессия истекла, войдите снова" });

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useIsMobile } from "@/shared/platform";
 import { useStore } from "@/store";
-
-const APK_CHECK_MS = 5 * 60 * 1000;
+import { APK_CHECK_MS, readCachedApkLatest, rememberApkCheck, shouldFetchApkCheck } from "./apkCheck";
 
 function apkVersion(name: string) {
   return /^RF4Spots-(\d+\.\d+\.\d+)\.apk$/i.exec(name)?.[1] ?? "";
@@ -48,8 +47,17 @@ export function UpdateBanner() {
     let dead = false;
     const check = async () => {
       try {
+        if (!shouldFetchApkCheck()) {
+          const cached = readCachedApkLatest();
+          if (cached && isNewer(cached, __APP_VERSION__)) {
+            setVersion(cached);
+            setReady(true);
+          }
+          return;
+        }
         const { apk } = await api.auth.clientDownloads();
         const latest = apk ? apkVersion(apk.name) : "";
+        rememberApkCheck(latest);
         if (dead || !latest || !isNewer(latest, __APP_VERSION__)) return;
         setVersion(latest);
         setReady(true);

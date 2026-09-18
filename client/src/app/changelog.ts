@@ -9,6 +9,7 @@ export type ChangelogEntry = {
 };
 
 const SEEN_KEY = "rf4spots-seen-version";
+const CHANGELOG_CACHE_KEY = "rf4spots-changes-cache";
 const VERSION_RE = /^версия\s+(\d+\.\d+\.\d+)\s*$/i;
 const SECTION_RE = /^(.+):\s*$/;
 const ITEM_RE = /^[-•]\s+(.+)$/;
@@ -83,11 +84,42 @@ export function shouldShowChangelog(current: string, entries: ChangelogEntry[]) 
   return unseenChangelog(current, entries).length > 0;
 }
 
-export async function loadServerChangelog(baseUrl: string): Promise<{ ok: boolean; entries: ChangelogEntry[] }> {
+type ChangelogCache = { appVersion: string; origin: string; text: string };
+
+export function readChangelogCache(origin: string, appVersion: string): ChangelogEntry[] | null {
   try {
-    const res = await fetch(`${baseUrl.replace(/\/$/, "")}/updates/changes`, { cache: "no-store" });
+    const raw = localStorage.getItem(CHANGELOG_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<ChangelogCache>;
+    if (parsed.appVersion !== appVersion || parsed.origin !== origin.replace(/\/$/, "")) return null;
+    if (typeof parsed.text !== "string") return null;
+    return parseChanges(parsed.text);
+  } catch {
+    return null;
+  }
+}
+
+export function writeChangelogCache(origin: string, appVersion: string, text: string) {
+  try {
+    localStorage.setItem(
+      CHANGELOG_CACHE_KEY,
+      JSON.stringify({ appVersion, origin: origin.replace(/\/$/, ""), text } satisfies ChangelogCache),
+    );
+  } catch {
+    /* ignore */
+  }
+}
+
+export async function loadServerChangelog(baseUrl: string): Promise<{ ok: boolean; entries: ChangelogEntry[] }> {
+  const origin = baseUrl.replace(/\/$/, "");
+  const cached = readChangelogCache(origin, __APP_VERSION__);
+  if (cached) return { ok: true, entries: cached };
+  try {
+    const res = await fetch(`${origin}/updates/changes`);
     if (!res.ok) throw new Error(String(res.status));
-    return { ok: true, entries: parseChanges(await res.text()) };
+    const text = await res.text();
+    writeChangelogCache(origin, __APP_VERSION__, text);
+    return { ok: true, entries: parseChanges(text) };
   } catch {
     return { ok: false, entries: [] };
   }

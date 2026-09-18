@@ -63,9 +63,22 @@ export function mountStaticAssets(app: express.Express, uploadDir: string) {
       etag: true,
       lastModified: true,
       setHeaders(res) {
-        res.setHeader("Cache-Control", "no-store");
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
       },
     }),
   );
-  app.use("/uploads", express.static(uploadDir, { index: false, dotfiles: "deny" }));
+  app.use(
+    "/uploads",
+    express.static(uploadDir, {
+      index: false,
+      dotfiles: "deny",
+      etag: true,
+      lastModified: true,
+      maxAge: 31536000000,
+      immutable: true,
+      setHeaders(res) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      },
+    }),
+  );
 }
