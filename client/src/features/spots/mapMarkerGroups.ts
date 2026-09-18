@@ -1,5 +1,5 @@
 import { roundCoord } from "@/shared/format";
-import type { CatchType, PostMarker } from "@/types";
+import type { CatchType, Post, PostMarker } from "@/types";
 
 export type MarkerGroup = {
   key: string;
@@ -16,6 +16,18 @@ const CATCH_RANK: Record<CatchType, number> = {
 
 export function coordKey(x: number, y: number) {
   return `${roundCoord(x)}:${roundCoord(y)}`;
+}
+
+export function markersFromPosts(
+  posts: Pick<Post, "id" | "coordX" | "coordY" | "catchType" | "fish">[],
+): PostMarker[] {
+  return posts.map((p) => ({
+    id: p.id,
+    coordX: p.coordX,
+    coordY: p.coordY,
+    catchType: p.catchType,
+    fishName: p.fish.name,
+  }));
 }
 
 export function groupMarkersByCoord(markers: PostMarker[]): MarkerGroup[] {

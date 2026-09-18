@@ -23,20 +23,26 @@ type MappedPostInput = {
   user: { id: string; nickname: string };
   fish: { id: string; name: string };
   waterbody: { id: string; name: string };
-  screenshots: { id: string; filename: string; sortOrder: number }[];
+  screenshots?: { id: string; filename: string; sortOrder: number }[];
   comments?: { id: string; createdAt: Date; userId: string }[];
   _count?: { comments: number; favorites?: number };
   favorites?: { userId: string }[];
   votes?: { userId: string; value: PostVoteValue }[];
 };
 
-export function mapPost(post: MappedPostInput, viewerId = "") {
+export type VoteTally = {
+  likesCount: number;
+  dislikesCount: number;
+  userReaction: "like" | "dislike" | null;
+};
+
+export function mapPost(post: MappedPostInput, viewerId = "", votes?: VoteTally) {
   const commentsMeta = (post.comments ?? []).map((c) => ({
     id: c.id,
     createdAt: iso(c.createdAt),
     userId: c.userId,
   }));
-  const { likesCount, dislikesCount, userReaction } = tallyVotes(post.votes ?? [], viewerId);
+  const { likesCount, dislikesCount, userReaction } = votes ?? tallyVotes(post.votes ?? [], viewerId);
   return {
     id: post.id,
     coordX: post.coordX,
@@ -52,7 +58,7 @@ export function mapPost(post: MappedPostInput, viewerId = "") {
     author: post.user,
     fish: post.fish,
     waterbody: post.waterbody,
-    screenshots: post.screenshots
+    screenshots: (post.screenshots ?? [])
       .sort((a, b) => a.sortOrder - b.sortOrder)
       .map((s) => ({ id: s.id, url: screenshotUrl(s.filename) })),
     commentsCount: post._count?.comments ?? post.comments?.length ?? 0,

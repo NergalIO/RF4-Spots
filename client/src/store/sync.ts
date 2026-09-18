@@ -31,7 +31,6 @@ async function tickPresence() {
 async function refreshVisible() {
   skippedUi = false;
   await store.getState().refreshPosts();
-  await store.getState().refreshMarkers();
   if (store.getState().selectedId) await store.getState().refreshDetail({ skipList: true });
 }
 
@@ -101,7 +100,7 @@ export async function loadCatalogAndPosts() {
     saved && (saved === ALL_WATERBODIES || waterbodies.some((w) => w.id === saved)) ? saved : ALL_WATERBODIES;
   saveWaterbodyId(nextId);
   store.setState({ fish, waterbodies, waterbodyId: nextId, syncStamp: stamp });
-  await Promise.all([store.getState().refreshPosts(), store.getState().refreshMarkers()]);
+  await store.getState().refreshPosts();
   resetNotifyCursor();
   startPoll();
 }

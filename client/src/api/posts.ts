@@ -1,4 +1,4 @@
-import type { Post, PostMarker } from "../types";
+import type { Post } from "../types";
 import type { Http } from "./http";
 
 export function postsApi(http: Http) {
@@ -9,11 +9,6 @@ export function postsApi(http: Http) {
         if (v) q.set(k, v);
       }
       return http.req<{ posts: Post[]; nextCursor: string | null }>(`/posts?${q.toString()}`);
-    },
-    markers(waterbodyId: string) {
-      const q = new URLSearchParams();
-      if (waterbodyId) q.set("waterbodyId", waterbodyId);
-      return http.req<{ markers: PostMarker[] }>(`/posts/markers?${q.toString()}`);
     },
     get: (id: string) => http.req<{ post: Post }>(`/posts/${id}`),
     create: (fd: FormData) => http.req<{ post: Post }>("/posts", { method: "POST", body: fd }),

@@ -17,7 +17,6 @@ export function PostForm({ coords, post, onClose }: Props) {
   const waterbodyId = useStore((s) => s.waterbodyId);
   const api = useStore((s) => s.api);
   const refreshPosts = useStore((s) => s.refreshPosts);
-  const refreshMarkers = useStore((s) => s.refreshMarkers);
   const selectPost = useStore((s) => s.selectPost);
   const [fishId, setFishId] = useState(post?.fish.id ?? "");
   const [catchType, setCatchType] = useState<CatchType>(post?.catchType ?? "farm");
@@ -59,7 +58,6 @@ export function PostForm({ coords, post, onClose }: Props) {
     try {
       const res = post ? await api.posts.update(post.id, fd) : await api.posts.create(fd);
       await refreshPosts();
-      await refreshMarkers();
       await selectPost(res.post.id);
       onClose();
     } catch (err) {

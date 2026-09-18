@@ -31,7 +31,6 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
   const seen = useStore((s) => s.seen);
   const api = useStore((s) => s.api);
   const refreshPosts = useStore((s) => s.refreshPosts);
-  const refreshMarkers = useStore((s) => s.refreshMarkers);
   const setError = useStore((s) => s.setError);
   const allMaps = waterbodyId === ALL_WATERBODIES;
   const isAdmin = user?.role === "admin";
@@ -115,7 +114,6 @@ export function PostList({ onCollapse, onSelect, onShowMap }: Props) {
       if (selectedId && picked.has(selectedId)) await selectPost(null);
       clearPick();
       await refreshPosts();
-      await refreshMarkers();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Не удалось скрыть посты");
     } finally {

@@ -5,6 +5,7 @@ import {
   groupCatchType,
   groupMarkersByCoord,
   groupTooltip,
+  markersFromPosts,
   postsLabel,
 } from "./mapMarkerGroups";
 
@@ -19,6 +20,20 @@ function marker(partial: Partial<PostMarker> & Pick<PostMarker, "id">): PostMark
 }
 
 describe("mapMarkerGroups", () => {
+  it("builds map pins from loaded posts", () => {
+    expect(
+      markersFromPosts([
+        {
+          id: "p1",
+          coordX: 12.4,
+          coordY: 8.1,
+          catchType: "trophy",
+          fish: { id: "f", name: "Щука" },
+        },
+      ]),
+    ).toEqual([{ id: "p1", coordX: 12.4, coordY: 8.1, catchType: "trophy", fishName: "Щука" }]);
+  });
+
   it("groups posts that round to the same 0.1 coordinate", () => {
     const groups = groupMarkersByCoord([
       marker({ id: "a", coordX: 12.41, coordY: 8.39 }),

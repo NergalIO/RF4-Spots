@@ -19,6 +19,17 @@ export function tallyVotes(
   return { likesCount, dislikesCount, userReaction };
 }
 
+export function collectVoteCounts(groups: { postId: string; value: PostVoteValue; _count: { _all: number } }[]) {
+  const map = new Map<string, { likesCount: number; dislikesCount: number }>();
+  for (const group of groups) {
+    const cur = map.get(group.postId) ?? { likesCount: 0, dislikesCount: 0 };
+    if (group.value === "like") cur.likesCount = group._count._all;
+    else cur.dislikesCount = group._count._all;
+    map.set(group.postId, cur);
+  }
+  return map;
+}
+
 export async function setPostVote(userId: string, postId: string, value: VoteValue | null) {
   if (value == null) {
     await prisma.postVote.deleteMany({ where: { userId, postId } });

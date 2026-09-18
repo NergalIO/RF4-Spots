@@ -26,7 +26,6 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
   const selectPost = useStore((s) => s.selectPost);
   const refreshPosts = useStore((s) => s.refreshPosts);
   const refreshDetail = useStore((s) => s.refreshDetail);
-  const refreshMarkers = useStore((s) => s.refreshMarkers);
   const toggleFavorite = useStore((s) => s.toggleFavorite);
   const toggleVote = useStore((s) => s.toggleVote);
   const openOnMap = useStore((s) => s.openOnMap);
@@ -98,7 +97,6 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
     await removePost(api, post, async () => {
       await selectPost(null);
       await refreshPosts();
-      await refreshMarkers();
     });
   }
 

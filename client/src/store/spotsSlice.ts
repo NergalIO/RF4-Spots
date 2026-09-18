@@ -2,8 +2,35 @@ import type { StateCreator } from "zustand";
 import { ALL_WATERBODIES } from "../shared/constants";
 import { loadFilters, loadWaterbodyId, saveFilters, saveWaterbodyId } from "../shared/persist";
 import { filtersToQuery } from "../features/spots/filterQuery";
+import { markersFromPosts } from "../features/spots/mapMarkerGroups";
 import { markPostSeen, seedSeen } from "../features/spots/unread";
+import type { Post } from "../types";
 import type { Store } from "./types";
+
+let listGen = 0;
+
+function extraFromSelection(waterbodyId: string, posts: Post[], selectedId: string | null, detail: Post | null) {
+  if (!selectedId || !detail || detail.id !== selectedId) return null;
+  if (detail.waterbody.id !== waterbodyId) return null;
+  if (posts.some((p) => p.id === selectedId)) return null;
+  return detail;
+}
+
+function feedMarkers(waterbodyId: string, posts: Post[], extra?: Post | null) {
+  if (!waterbodyId || waterbodyId === ALL_WATERBODIES) return [];
+  const markers = markersFromPosts(posts);
+  if (extra && extra.waterbody.id === waterbodyId && !markers.some((m) => m.id === extra.id)) {
+    return [...markers, ...markersFromPosts([extra])];
+  }
+  return markers;
+}
+
+function pinIfMissing(waterbodyId: string, markers: ReturnType<typeof feedMarkers>, post: Post) {
+  if (!waterbodyId || waterbodyId === ALL_WATERBODIES) return null;
+  if (post.waterbody.id !== waterbodyId) return null;
+  if (markers.some((m) => m.id === post.id)) return null;
+  return [...markers, ...markersFromPosts([post])];
+}
 
 export type SpotsSlice = Pick<
   Store,
@@ -25,7 +52,6 @@ export type SpotsSlice = Pick<
   | "selectPost"
   | "refreshPosts"
   | "loadMorePosts"
-  | "refreshMarkers"
   | "refreshDetail"
   | "openOnMap"
   | "toggleFavorite"
@@ -60,22 +86,24 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
 
   setWaterbody: async (id, opts) => {
     saveWaterbodyId(id);
+    const extra = opts?.keepPostId ? get().detail : null;
     set({
       waterbodyId: id,
       selectedId: opts?.keepPostId ?? null,
-      detail: opts?.keepPostId ? get().detail : null,
+      detail: extra,
       rulerOn: id === ALL_WATERBODIES ? false : get().rulerOn,
       posts: [],
+      markers: [],
       nextCursor: null,
     });
-    await Promise.all([get().refreshPosts(), get().refreshMarkers()]);
+    await get().refreshPosts({ extra });
     if (opts?.keepPostId) await get().selectPost(opts.keepPostId);
   },
 
   setFilters: async (patch) => {
     const filters = { ...get().filters, ...patch };
     saveFilters(filters);
-    set({ filters, posts: [], nextCursor: null });
+    set({ filters, nextCursor: null });
     await get().refreshPosts();
   },
 
@@ -94,35 +122,30 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
   refreshPosts: async (opts) => {
     const { api, waterbodyId, filters, selectedId, user, nextCursor } = get();
     if (!waterbodyId) return;
+    const gen = opts?.append ? listGen : ++listGen;
     const { posts, nextCursor: cursor } = await api.posts.list({
       waterbodyId: waterbodyId === ALL_WATERBODIES ? "" : waterbodyId,
       ...filtersToQuery(filters),
       take: "50",
       cursor: opts?.append && nextCursor ? nextCursor : "",
     });
+    if (gen !== listGen || get().waterbodyId !== waterbodyId || !get().user) return;
     const merged = opts?.append ? [...get().posts, ...posts] : posts;
     let seen = user ? seedSeen(user.id, merged) : get().seen;
     const selected = selectedId ? merged.find((p) => p.id === selectedId) : undefined;
     if (user && selected) seen = markPostSeen(user.id, selected);
-    set({ posts: merged, nextCursor: cursor, seen });
-    if (selectedId && !opts?.append && !merged.some((p) => p.id === selectedId) && get().detail?.id !== selectedId) {
-      /* keep detail if opened from map marker not yet in this page */
-    }
+    const extra = opts?.extra ?? (opts?.append ? extraFromSelection(waterbodyId, merged, selectedId, get().detail) : null);
+    set({
+      posts: merged,
+      nextCursor: cursor,
+      seen,
+      markers: feedMarkers(waterbodyId, merged, extra),
+    });
   },
 
   loadMorePosts: async () => {
     if (!get().nextCursor) return;
     await get().refreshPosts({ append: true });
-  },
-
-  refreshMarkers: async () => {
-    const { api, waterbodyId } = get();
-    if (!waterbodyId || waterbodyId === ALL_WATERBODIES) {
-      set({ markers: [] });
-      return;
-    }
-    const { markers } = await api.posts.markers(waterbodyId);
-    set({ markers });
   },
 
   refreshDetail: async (opts) => {
@@ -135,12 +158,15 @@ export const createSpotsSlice: StateCreator<Store, [], [], SpotsSlice> = (set, g
   },
 
   openOnMap: async (post) => {
-    set({ flyToId: post.id });
     if (get().waterbodyId !== post.waterbody.id) {
+      set({ detail: post, selectedId: post.id });
       await get().setWaterbody(post.waterbody.id, { keepPostId: post.id });
     } else {
+      const nextMarkers = pinIfMissing(get().waterbodyId, get().markers, post);
+      if (nextMarkers) set({ markers: nextMarkers });
       await get().selectPost(post.id);
     }
+    set({ flyToId: post.id });
   },
 
   toggleFavorite: async (post) => {
