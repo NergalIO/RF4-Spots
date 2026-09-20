@@ -6,3 +6,5 @@ uploads/*
 updates/*
 !updates/.gitkeep
 !updates/changes
+web/*
+!web/.gitkeep

@@ -82,6 +82,29 @@ input:focus, select:focus, textarea:focus {
   color: var(--gold);
 }
 .btn.ghost.on, .btn.ghost:hover { background: var(--surface-hover); }
+.auth-download {
+  margin-top: 12px;
+  width: 100%;
+}
+.auth-download > .btn {
+  width: 100%;
+}
+.auth-download .user-menu-list {
+  left: 0;
+  right: 0;
+  min-width: 0;
+}
+.auth-download .user-menu-list a {
+  display: block;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+.auth-download .user-menu-list a:hover {
+  background: rgba(232, 215, 163, 0.08);
+}
 .btn.danger { background: transparent; border-color: var(--danger); color: var(--danger); }
 .btn.sm { padding: 6px 10px; font-size: 12px; }
 .form-error { color: var(--danger); font-size: 13px; }

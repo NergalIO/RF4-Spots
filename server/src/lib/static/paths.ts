@@ -22,3 +22,17 @@ export function mapsDir(): string {
     ? join(process.cwd(), "assets", "maps")
     : join(here, "..", "..", "..", "assets", "maps");
 }
+
+export function webDir(): string {
+  const cwd = join(process.cwd(), "web");
+  if (existsSync(join(cwd, "index.html"))) return cwd;
+  return join(here, "..", "..", "..", "web");
+}
+
+export function webIndexPath() {
+  return join(webDir(), "index.html");
+}
+
+export function hasWebApp() {
+  return existsSync(webIndexPath());
+}

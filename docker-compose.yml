@@ -34,6 +34,7 @@ services:
       - ./server/assets/maps:/app/assets/maps:ro
       - ./server/prisma/seeds:/app/prisma/seeds:ro
       - ./server/updates:/app/updates
+      - ./server/web:/app/web:ro
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3780/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 15s

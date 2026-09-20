@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useIsMobile } from "@/shared/platform";
+import { isAndroidApp } from "@/shared/platform";
 import { useStore } from "@/store";
 import { APK_CHECK_MS, readCachedApkLatest, rememberApkCheck, shouldFetchApkCheck } from "./apkCheck";
 
@@ -19,7 +19,7 @@ function isNewer(candidate: string, current: string) {
 }
 
 export function UpdateBanner() {
-  const isMobile = useIsMobile();
+  const android = isAndroidApp();
   const api = useStore((s) => s.api);
   const user = useStore((s) => s.user);
   const [version, setVersion] = useState("");
@@ -27,7 +27,7 @@ export function UpdateBanner() {
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (android) return;
     const rf4 = window.rf4;
     if (!rf4?.onUpdateReady) return;
     const show = (info: { version?: string }) => {
@@ -39,11 +39,11 @@ export function UpdateBanner() {
       if (status?.ready) show(status);
     });
     return off;
-  }, [isMobile]);
+  }, [android]);
 
   // В APK нет автообновления: сравниваем свою версию с последним APK на сервере.
   useEffect(() => {
-    if (!isMobile || !user) return;
+    if (!android || !user) return;
     let dead = false;
     const check = async () => {
       try {
@@ -71,11 +71,11 @@ export function UpdateBanner() {
       dead = true;
       clearInterval(timer);
     };
-  }, [isMobile, api, user]);
+  }, [android, api, user]);
 
   if (!ready || dismissed) return null;
 
-  const text = isMobile
+  const text = android
     ? `Доступна версия ${version}. Скачайте новый APK и установите поверх текущего.`
     : version
       ? `Доступна версия ${version}. Перезапустите приложение, чтобы установить обновление.`
@@ -88,7 +88,7 @@ export function UpdateBanner() {
         <button className="btn ghost sm" type="button" onClick={() => setDismissed(true)}>
           Позже
         </button>
-        {isMobile ? (
+        {android ? (
           <a
             className="btn primary sm"
             href={api.fileUrl("/updates/apk")}

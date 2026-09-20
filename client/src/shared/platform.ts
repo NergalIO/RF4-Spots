@@ -1,8 +1,9 @@
-const MOBILE = detect();
+import { useEffect, useState } from "react";
 
-function detect() {
-  if (typeof navigator === "undefined") return false;
-  if (/RF4SpotsAndroid/.test(navigator.userAgent)) return true;
+const MOBILE_MQ = "(max-width: 860px)";
+
+function queryWantsMobile() {
+  if (typeof location === "undefined") return false;
   try {
     return new URLSearchParams(location.search).has("mobile");
   } catch {
@@ -11,15 +12,46 @@ function detect() {
 }
 
 export function isAndroidApp() {
-  return MOBILE;
+  return typeof navigator !== "undefined" && /RF4SpotsAndroid/.test(navigator.userAgent);
+}
+
+export function isBrowserClient() {
+  return typeof window !== "undefined" && !window.rf4 && !window.rf4Android;
+}
+
+export function isMobileLayout() {
+  if (isAndroidApp() || queryWantsMobile()) return true;
+  if (typeof window !== "undefined" && isBrowserClient()) {
+    return window.matchMedia(MOBILE_MQ).matches;
+  }
+  return false;
 }
 
 export function applyPlatformFlag() {
-  if (MOBILE) document.documentElement.dataset.platform = "android";
+  const apply = () => {
+    if (typeof document === "undefined") return;
+    if (isMobileLayout()) document.documentElement.dataset.platform = "android";
+    else delete document.documentElement.dataset.platform;
+  };
+  apply();
+  if (typeof window === "undefined" || !isBrowserClient()) return;
+  window.matchMedia(MOBILE_MQ).addEventListener("change", apply);
 }
 
 export function useIsMobile() {
-  return MOBILE;
+  const [mobile, setMobile] = useState(isMobileLayout);
+  useEffect(() => {
+    if (!isBrowserClient()) {
+      setMobile(isMobileLayout());
+      return;
+    }
+    const mq = window.matchMedia(MOBILE_MQ);
+    const onChange = () => setMobile(isMobileLayout());
+    mq.addEventListener("change", onChange);
+    onChange();
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return mobile;
 }
 
 export function hasNativeNotify() {

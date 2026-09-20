@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { Api, ApiError } from "@/api";
 import { DEFAULT_SERVER_URL, loadSession } from "@/features/auth/session";
 import { isServerUrlPinned, resolveServerUrl } from "@/features/auth/serverUrl";
+import { AuthDownload } from "@/features/auth/AuthDownload";
 import { useStore } from "@/store";
 
 export function AuthScreen() {
@@ -116,6 +117,7 @@ export function AuthScreen() {
             {busy ? "…" : mode === "login" ? "Войти" : "Создать аккаунт"}
           </button>
         </form>
+        <AuthDownload />
         <p className="hint">
           {mode === "register"
             ? invites && !allowRegister

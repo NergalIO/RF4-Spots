@@ -53,7 +53,7 @@ describe("parseChanges", () => {
   it("parses the server updates/changes file", () => {
     const text = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "../../../server/updates/changes"), "utf8");
     const entries = parseChanges(text);
-    expect(entries[0]?.version).toBe("3.6.1");
+    expect(entries[0]?.version).toBe("3.6.2");
     expect(entries.some((e) => e.version === "3.4.8")).toBe(true);
     expect(entries.every((e) => e.sections.some((s) => s.items.length))).toBe(true);
   });

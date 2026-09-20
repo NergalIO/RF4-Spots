@@ -54,8 +54,30 @@ function matchesAllow(url: URL, allowed: string[]) {
   });
 }
 
+type PageWindow = {
+  rf4?: unknown;
+  rf4Android?: unknown;
+  location?: { origin?: string };
+};
+
+export function pageOrigin(win: PageWindow | undefined = typeof window === "undefined" ? undefined : window) {
+  if (!win || win.rf4 || win.rf4Android) return "";
+  const origin = win.location?.origin;
+  return origin ? trimSlash(origin) : "";
+}
+
+export function allowResolvedUrl(parsed: URL, allowed: string[], origin: string) {
+  if (allowed.length) return matchesAllow(parsed, allowed);
+  if (origin && trimSlash(parsed.origin) === origin) return true;
+  return isLoopbackHost(parsed.hostname);
+}
+
+export function pickDefaultServerUrl(pinned: string, origin: string, prod: boolean) {
+  return pinned || (prod ? origin : "") || "http://127.0.0.1:3780";
+}
+
 export function defaultServerUrl() {
-  return pinnedFromEnv() || "http://127.0.0.1:3780";
+  return pickDefaultServerUrl(pinnedFromEnv(), pageOrigin(), Boolean(import.meta.env.PROD));
 }
 
 export function isServerUrlPinned() {
@@ -70,14 +92,8 @@ export function resolveServerUrl(input: string): string {
   const parsed = parseHttpUrl(url);
   const allowed = allowedFromEnv();
 
-  if (import.meta.env.PROD) {
-    if (allowed.length) {
-      if (!matchesAllow(parsed, allowed)) throw new Error("Недопустимый адрес сервера");
-      return url;
-    }
-    if (!isLoopbackHost(parsed.hostname)) {
-      throw new Error("Адрес сервера не задан при сборке клиента");
-    }
+  if (import.meta.env.PROD && !allowResolvedUrl(parsed, allowed, pageOrigin())) {
+    throw new Error(allowed.length ? "Недопустимый адрес сервера" : "Адрес сервера не задан при сборке клиента");
   }
   return url;
 }

@@ -1,16 +1,15 @@
-import { extname, join } from "node:path";
+import { extname, join, sep } from "node:path";
 import { existsSync } from "node:fs";
 import express from "express";
 import { clientDownloads, sendLatestApk, sendLatestInstaller } from "./static/clientDownloads.js";
 import { sendDownloadPage } from "./static/downloadPage.js";
-import { mapsDir, updatesDir } from "./static/paths.js";
+import { hasWebApp, mapsDir, updatesDir, webDir, webIndexPath } from "./static/paths.js";
 
 const UPDATE_EXTS = new Set([".exe", ".yml", ".yaml", ".blockmap", ".zip", ".apk"]);
 
 export function mountStaticAssets(app: express.Express, uploadDir: string) {
   const dir = updatesDir();
   const maps = mapsDir();
-  app.get("/", sendDownloadPage);
   app.get("/updates/latest", (_req, res) => {
     res.setHeader("Cache-Control", "no-store");
     res.json(clientDownloads());
@@ -78,6 +77,36 @@ export function mountStaticAssets(app: express.Express, uploadDir: string) {
       immutable: true,
       setHeaders(res) {
         res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      },
+    }),
+  );
+}
+
+export function mountWebApp(app: express.Express) {
+  app.get("/", (req, res) => {
+    if (hasWebApp()) {
+      res.setHeader("Cache-Control", "no-store");
+      res.sendFile(webIndexPath());
+      return;
+    }
+    sendDownloadPage(req, res);
+  });
+  if (!hasWebApp()) {
+    app.get("/index.html", sendDownloadPage);
+    return;
+  }
+  app.use(
+    express.static(webDir(), {
+      index: false,
+      dotfiles: "deny",
+      fallthrough: true,
+      setHeaders(res, filePath) {
+        if (filePath.endsWith(`${sep}index.html`)) {
+          res.setHeader("Cache-Control", "no-store");
+        }
+        if (filePath.includes(`${sep}assets${sep}`)) {
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        }
       },
     }),
   );

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Проверяет git и пересобирает API, Windows-клиент и Android APK.
+# Проверяет git и пересобирает API, веб-клиент, Windows-клиент и Android APK.
 # На Linux: Windows — Docker-образ с Wine (NSIS .exe).
 # APK — тонкий образ client/android/Dockerfile (JDK + SDK 36, без NDK).
 #
@@ -95,7 +95,7 @@ fingerprint_client() {
   (
     cd "$ROOT"
     hash_files client/package.json client/package-lock.json client/tsconfig.json \
-      client/vite.config.ts client/index.html client/scripts/pack-win.cjs
+      client/vite.config.ts client/index.html client/scripts/pack-win.cjs client/scripts/pack-web.cjs
     find client/src client/electron -type f \
       ! -path '*/node_modules/*' \
       2>/dev/null | sort | xargs -r sha256sum
@@ -219,6 +219,26 @@ cleanup_old_installers() {
   fi
 }
 
+pack_web() {
+  echo "$(LOG_PREFIX) клиент: веб-сборка в server/web"
+  local vite_url
+  vite_url="$(client_vite_url)"
+  (
+    cd "$ROOT/client"
+    export VITE_SERVER_URL="$vite_url"
+    export VITE_ALLOWED_SERVERS="${VITE_ALLOWED_SERVERS:-}"
+    if [[ ! -d node_modules ]]; then
+      npm ci
+    fi
+    node scripts/pack-web.cjs
+  ) || return 1
+  if [[ ! -f "$ROOT/server/web/index.html" ]]; then
+    echo "$(LOG_PREFIX) веб-клиент не появился в server/web" >&2
+    return 1
+  fi
+  echo "$(LOG_PREFIX) веб: файлы в server/web (отдаются с /)"
+}
+
 pack_win() {
   echo "$(LOG_PREFIX) клиент: сборка Windows-установщика через ${WINE_IMAGE}"
   if ! docker info >/dev/null 2>&1; then
@@ -303,9 +323,20 @@ once() {
     echo "$(LOG_PREFIX) api без изменений"
   fi
 
+  if [[ "$FORCE" == 1 || "$FORCE_CLIENT" == 1 ]] || changed "$client_now" "$STAMP_CLIENT"; then
+    if pack_web; then
+      :
+    else
+      echo "$(LOG_PREFIX) сборка веб-клиента не удалась, повтор при следующем запуске" >&2
+      failed=1
+    fi
+  else
+    echo "$(LOG_PREFIX) веб-клиент без изменений"
+  fi
+
   if [[ "$DO_CLIENT" != 1 ]]; then
-    echo "$(LOG_PREFIX) сборка клиента отключена"
-    return 0
+    echo "$(LOG_PREFIX) сборка Windows и APK отключена"
+    return "$failed"
   fi
 
   if [[ "$FORCE" == 1 || "$FORCE_CLIENT" == 1 ]] || changed "$client_now" "$STAMP_CLIENT"; then

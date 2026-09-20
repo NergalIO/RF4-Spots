@@ -12,7 +12,7 @@ import {
 } from "./lib/security.js";
 import { prisma } from "./lib/prisma.js";
 import { isMulterError, UPLOAD_DIR } from "./lib/upload.js";
-import { mountStaticAssets } from "./lib/staticAssets.js";
+import { mountStaticAssets, mountWebApp } from "./lib/staticAssets.js";
 import { adminRouter } from "./routes/admin/index.js";
 import { authRouter } from "./routes/auth.js";
 import { catalogRouter } from "./routes/catalog.js";
@@ -71,6 +71,8 @@ app.use(catalogRouter);
 app.use("/posts", postsRouter);
 app.use(commentsRouter);
 app.use(reportsRouter);
+
+mountWebApp(app);
 
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err);
