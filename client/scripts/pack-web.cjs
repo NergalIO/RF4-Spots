@@ -36,4 +36,9 @@ emptyWebDir();
 for (const name of fs.readdirSync(distDir)) {
   fs.cpSync(path.join(distDir, name), path.join(webDir, name), { recursive: true });
 }
+
+const indexPath = path.join(webDir, "index.html");
+const html = fs.readFileSync(indexPath, "utf8").replaceAll("=\"./assets/", "=\"/assets/");
+fs.writeFileSync(indexPath, html);
+
 console.log(`Веб-клиент скопирован в ${path.relative(path.join(clientDir, ".."), webDir)}`);

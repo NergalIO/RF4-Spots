@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import express from "express";
 import { clientDownloads, sendLatestApk, sendLatestInstaller } from "./static/clientDownloads.js";
 import { sendDownloadPage } from "./static/downloadPage.js";
-import { hasWebApp, mapsDir, updatesDir, webDir, webIndexPath } from "./static/paths.js";
+import { mapsDir, updatesDir, webDir } from "./static/paths.js";
 
 const UPDATE_EXTS = new Set([".exe", ".yml", ".yaml", ".blockmap", ".zip", ".apk"]);
 
@@ -82,21 +82,20 @@ export function mountStaticAssets(app: express.Express, uploadDir: string) {
   );
 }
 
-export function mountWebApp(app: express.Express) {
-  app.get("/", (req, res) => {
-    if (hasWebApp()) {
+export function mountWebApp(app: express.Express, dir = webDir()) {
+  const sendSpa: express.RequestHandler = (req, res) => {
+    const index = join(dir, "index.html");
+    if (existsSync(index)) {
       res.setHeader("Cache-Control", "no-store");
-      res.sendFile(webIndexPath());
+      res.sendFile(index);
       return;
     }
     sendDownloadPage(req, res);
-  });
-  if (!hasWebApp()) {
-    app.get("/index.html", sendDownloadPage);
-    return;
-  }
+  };
+  app.get("/", sendSpa);
+  app.get("/index.html", sendSpa);
   app.use(
-    express.static(webDir(), {
+    express.static(dir, {
       index: false,
       dotfiles: "deny",
       fallthrough: true,

@@ -25,7 +25,7 @@ export function mapsDir(): string {
 
 export function webDir(): string {
   const cwd = join(process.cwd(), "web");
-  if (existsSync(join(cwd, "index.html"))) return cwd;
+  if (existsSync(cwd)) return cwd;
   return join(here, "..", "..", "..", "web");
 }
 
