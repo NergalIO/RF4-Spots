@@ -36,8 +36,8 @@ for arg in "$@"; do
       echo "Usage: $0 [--watch] [--force] [--reset] [--client] [--no-client] [--apk] [--no-apk]"
       echo "  --watch     каждые ${INTERVAL} с (INTERVAL=сек)"
       echo "  --force     пересобрать API и клиент даже без изменений"
-      echo "  --client    пересобрать Windows и APK даже без изменений клиента"
-      echo "  --no-client не трогать Windows и APK"
+      echo "  --client    пересобрать веб, Windows и APK даже без изменений клиента"
+      echo "  --no-client не трогать Windows и APK (веб всё равно соберётся)"
       echo "  --apk       пересобрать только APK даже без изменений"
       echo "  --no-apk    не собирать APK"
       echo "  --reset     git reset --hard к origin"
@@ -53,12 +53,15 @@ for arg in "$@"; do
   esac
 done
 
+ARGS=("$@")
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 LOCK="$ROOT/.update.lock"
 STAMP_API="$ROOT/.update-stamp"
 STAMP_CLIENT="$ROOT/.update-stamp-client"
+STAMP_WEB="$ROOT/.update-stamp-web"
 STAMP_APK="$ROOT/.update-stamp-apk"
 LOG_PREFIX() { echo "[$(date -Iseconds)]"; }
 
@@ -230,7 +233,7 @@ pack_web() {
     if [[ ! -d node_modules ]]; then
       npm ci
     fi
-    node scripts/pack-web.cjs
+    npm run pack:web
   ) || return 1
   if [[ ! -f "$ROOT/server/web/index.html" ]]; then
     echo "$(LOG_PREFIX) веб-клиент не появился в server/web" >&2
@@ -250,6 +253,7 @@ pack_win() {
   docker run --rm \
     -e CSC_IDENTITY_AUTO_DISCOVERY=false \
     -e PACK_ON_SERVER=1 \
+    -e PACK_RELEASE_DIR=/tmp/rf4-win-release \
     -e "VITE_SERVER_URL=${vite_url}" \
     -e VITE_ALLOWED_SERVERS="${VITE_ALLOWED_SERVERS:-}" \
     -v "$ROOT":/project \
@@ -257,7 +261,7 @@ pack_win() {
     -v rf4spots-electron-builder-cache:/root/.cache/electron-builder \
     -w /project/client \
     "$WINE_IMAGE" \
-    bash -lc 'npm ci && node scripts/pack-win.cjs' || return 1
+    bash -lc 'mkdir -p /tmp/rf4-win-release && npm ci && node scripts/pack-win.cjs' || return 1
   local version
   version="$(cd "$ROOT/client" && node -p "require('./package.json').version" 2>/dev/null || true)"
   if [[ -n "$version" && ! -f "$ROOT/server/updates/RF4Spots-Setup-${version}.exe" ]]; then
@@ -309,7 +313,12 @@ pack_apk() {
 }
 
 once() {
-  git_update || true
+  if git_update; then
+    if [[ "$WATCH" == 1 ]]; then
+      echo "$(LOG_PREFIX) git: перезапуск скрипта после pull"
+      exec bash "$ROOT/scripts/update-server.sh" "${ARGS[@]}"
+    fi
+  fi
 
   local api_now client_now apk_now failed=0
   api_now="$(fingerprint_api)"
@@ -323,9 +332,9 @@ once() {
     echo "$(LOG_PREFIX) api без изменений"
   fi
 
-  if [[ "$FORCE" == 1 || "$FORCE_CLIENT" == 1 ]] || changed "$client_now" "$STAMP_CLIENT"; then
+  if [[ "$FORCE" == 1 || "$FORCE_CLIENT" == 1 ]] || changed "$client_now" "$STAMP_WEB" || [[ ! -f "$ROOT/server/web/index.html" ]]; then
     if pack_web; then
-      :
+      echo "$client_now" >"$STAMP_WEB"
     else
       echo "$(LOG_PREFIX) сборка веб-клиента не удалась, повтор при следующем запуске" >&2
       failed=1

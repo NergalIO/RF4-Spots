@@ -4,7 +4,10 @@ const fs = require("fs");
 const path = require("path");
 
 const clientDir = path.join(__dirname, "..");
-const releaseDir = path.join(clientDir, "release");
+const releaseDir = path.resolve(
+  process.env.PACK_RELEASE_DIR ||
+    (process.env.PACK_ON_SERVER ? "/tmp/rf4-win-release" : path.join(clientDir, "release")),
+);
 
 function sleep(ms) {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
@@ -66,6 +69,7 @@ function run(command, args) {
   return result.status ?? 1;
 }
 
+fs.mkdirSync(releaseDir, { recursive: true });
 cleanRelease();
 
 if (!process.env.VITE_SERVER_URL && !process.env.VITE_ALLOWED_SERVERS) {
@@ -143,14 +147,17 @@ function publishUpdates() {
   );
 }
 
+const builderArgs = ["electron-builder", "--win", "nsis"];
+if (process.platform === "win32") {
+  builderArgs.push("-c.electronDist=node_modules/electron/dist");
+}
+if (releaseDir !== path.join(clientDir, "release")) {
+  builderArgs.push(`-c.directories.output=${releaseDir}`);
+}
+
 let packStatus = 1;
 for (let attempt = 1; attempt <= 4; attempt++) {
-  packStatus = run(
-    "npx",
-    process.platform === "win32"
-      ? ["electron-builder", "--win", "nsis", "-c.electronDist=node_modules/electron/dist"]
-      : ["electron-builder", "--win", "nsis"],
-  );
+  packStatus = run("npx", builderArgs);
   if (packStatus === 0) break;
   console.warn(`\nelectron-builder не смог упаковать приложение (попытка ${attempt}/4). Жду и пробую снова...\n`);
   cleanRelease();

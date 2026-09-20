@@ -71,7 +71,7 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "differentialPackage": true
+      "differentialPackage": false
     },
     "publish": {
       "provider": "generic",
