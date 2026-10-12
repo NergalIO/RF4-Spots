@@ -1,19 +1,20 @@
 import { randomUUID } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, unlinkSync } from "node:fs";
+import { existsSync, unlinkSync } from "node:fs";
 import { extname, join } from "node:path";
 import type { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import { prisma } from "./prisma.js";
 import { uploadLimiter } from "./rateLimit.js";
+import { contentTypeForExt, deleteObjects, putObject, shotObjectKey } from "./s3.js";
 import type { AuthedRequest } from "../middleware/auth.js";
 
+/** Local dir used only by storage:migrate / legacy cleanup */
 export const UPLOAD_DIR = join(process.cwd(), "uploads");
+
 const MAX_USER_SHOTS = 500;
 const allowed = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
 
-if (!existsSync(UPLOAD_DIR)) {
-  mkdirSync(UPLOAD_DIR, { recursive: true });
-}
+export type UploadedShot = { objectKey: string };
 
 export function sniffImage(buf: Buffer): "jpeg" | "png" | "gif" | "webp" | null {
   if (buf.length >= 3 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "jpeg";
@@ -44,24 +45,41 @@ export function uploadedFiles(req: Request): Express.Multer.File[] {
   return (req.files as Express.Multer.File[] | undefined) ?? [];
 }
 
+/** Local unlink for migrate --cleanup-local */
 export function unlinkFilenames(filenames: string[]) {
   for (const name of filenames) {
     if (!name || name.includes("..") || name.includes("/") || name.includes("\\")) continue;
     try {
-      unlinkSync(join(UPLOAD_DIR, name));
+      const path = join(UPLOAD_DIR, name);
+      if (existsSync(path)) unlinkSync(path);
     } catch {
       /* already gone */
     }
   }
 }
 
-export function removeUploaded(files: Express.Multer.File[]) {
-  for (const file of files) {
-    try {
-      unlinkSync(file.path);
-    } catch {
-      /* ignore */
+export function removeUploaded(_files: Express.Multer.File[]) {
+  /* memory storage — nothing on disk */
+}
+
+export async function discardUploadedShots(shots: UploadedShot[]) {
+  await deleteObjects(shots.map((s) => s.objectKey));
+}
+
+export async function persistUploadedShots(files: Express.Multer.File[]): Promise<UploadedShot[]> {
+  const shots: UploadedShot[] = [];
+  try {
+    for (const file of files) {
+      const ext = extname(file.originalname).toLowerCase();
+      const safeExt = allowed.has(ext) ? (ext === ".jpeg" ? ".jpg" : ext) : ".jpg";
+      const objectKey = shotObjectKey(`${randomUUID()}${safeExt}`);
+      await putObject(objectKey, file.buffer, contentTypeForExt(safeExt));
+      shots.push({ objectKey });
     }
+    return shots;
+  } catch (err) {
+    await discardUploadedShots(shots);
+    throw err;
   }
 }
 
@@ -70,13 +88,7 @@ export function isMulterError(err: unknown): err is multer.MulterError {
 }
 
 export const upload = multer({
-  storage: multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
-    filename: (_req, file, cb) => {
-      const ext = extname(file.originalname).toLowerCase();
-      cb(null, `${randomUUID()}${allowed.has(ext) ? ext : ".jpg"}`);
-    },
-  }),
+  storage: multer.memoryStorage(),
   limits: { fileSize: 8 * 1024 * 1024, files: 8 },
   fileFilter: (_req, file, cb) => {
     const ext = extname(file.originalname).toLowerCase();
@@ -88,15 +100,10 @@ export const upload = multer({
 export function validateUploads(req: Request, res: Response, next: NextFunction) {
   const files = uploadedFiles(req);
   for (const file of files) {
-    let kind: ReturnType<typeof sniffImage> = null;
-    try {
-      kind = sniffImage(readFileSync(file.path).subarray(0, 16));
-    } catch {
-      kind = null;
-    }
-    const ext = extname(file.filename).toLowerCase();
+    const buf = file.buffer?.subarray(0, 16) ?? Buffer.alloc(0);
+    const kind = sniffImage(buf);
+    const ext = extname(file.originalname).toLowerCase();
     if (!kind || !extMatchesKind(ext, kind)) {
-      removeUploaded(files);
       res.status(400).json({ error: "Можно только изображения JPEG, PNG, WebP или GIF" });
       return;
     }
@@ -116,7 +123,6 @@ export async function enforceUploadQuota(req: AuthedRequest, res: Response, next
       where: { ownerUserId: userId },
     });
     if (count + files.length > MAX_USER_SHOTS) {
-      removeUploaded(files);
       res.status(429).json({ error: "Слишком много загрузок для этого аккаунта" });
       return;
     }

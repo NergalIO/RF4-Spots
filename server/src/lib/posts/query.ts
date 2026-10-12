@@ -72,13 +72,13 @@ function applyDate(where: Prisma.PostWhereInput, field: "catchDate" | "createdAt
 
 function searchClause(search: string, op: CmpOp): Prisma.PostWhereInput {
   const contains = [
-    { comment: { contains: search, mode: "insensitive" as const } },
+    { commentExcerpt: { contains: search, mode: "insensitive" as const } },
     { comments: { some: { deletedAt: null, text: { contains: search, mode: "insensitive" as const } } } },
     { fish: { name: { contains: search, mode: "insensitive" as const } } },
     { bait: { contains: search, mode: "insensitive" as const } },
   ];
   const equals = [
-    { comment: { equals: search, mode: "insensitive" as const } },
+    { commentExcerpt: { equals: search, mode: "insensitive" as const } },
     { fish: { name: { equals: search, mode: "insensitive" as const } } },
     { bait: { equals: search, mode: "insensitive" as const } },
   ];

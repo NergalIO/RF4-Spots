@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { Prisma } from "@prisma/client";
-import { unlinkFilenames } from "./upload.js";
+import { deleteObjects } from "./s3.js";
 
 const keepIds = z.array(z.string().min(1).max(64)).max(32);
 
@@ -27,18 +27,19 @@ export async function replaceScreenshots(
   opts: {
     owner: Owner;
     ownerUserId: string;
-    existing: { id: string; filename: string }[];
+    existing: { id: string; objectKey: string }[];
     keep?: string[];
-    files: { filename: string }[];
+    files: { objectKey: string }[];
   },
-) {
+): Promise<string[]> {
   const where = "postId" in opts.owner ? { postId: opts.owner.postId } : { commentId: opts.owner.commentId };
+  const removedKeys: string[] = [];
   if (opts.keep) {
     const removed = opts.existing.filter((s) => !opts.keep!.includes(s.id));
+    removedKeys.push(...removed.map((s) => s.objectKey));
     await tx.screenshot.deleteMany({
       where: { ...where, id: { notIn: opts.keep } },
     });
-    unlinkFilenames(removed.map((s) => s.filename));
   }
   const maxOrder = await tx.screenshot.aggregate({
     where,
@@ -50,9 +51,14 @@ export async function replaceScreenshots(
       data: opts.files.map((f, i) => ({
         ...where,
         ownerUserId: opts.ownerUserId,
-        filename: f.filename,
+        objectKey: f.objectKey,
         sortOrder: start + i,
       })),
     });
   }
+  return removedKeys;
+}
+
+export async function deleteRemovedShotKeys(keys: string[]) {
+  await deleteObjects(keys);
 }

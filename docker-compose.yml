@@ -29,8 +29,14 @@ services:
       TRUST_PROXY: ${TRUST_PROXY:-0}
       REQUIRE_HTTPS: ${REQUIRE_HTTPS:-0}
       CORS_ORIGINS: ${CORS_ORIGINS:-}
+      S3_ENDPOINT: ${S3_ENDPOINT:-https://s3.ru1.storage.beget.cloud}
+      S3_REGION: ${S3_REGION:-ru1}
+      S3_BUCKET: ${S3_BUCKET:?Set S3_BUCKET in .env}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:?Set S3_ACCESS_KEY in .env}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:?Set S3_SECRET_KEY in .env}
+      S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
+      S3_SIGNED_URL_TTL: ${S3_SIGNED_URL_TTL:-3600}
     volumes:
-      - uploads:/app/uploads
       - ./server/assets/maps:/app/assets/maps:ro
       - ./server/prisma/seeds:/app/prisma/seeds:ro
       - ./server/updates:/app/updates
@@ -67,6 +73,5 @@ services:
 
 volumes:
   pgdata:
-  uploads:
   caddy_data:
   caddy_config:

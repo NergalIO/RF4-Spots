@@ -26,7 +26,7 @@ reportsAdminRouter.get("/", async (req, res) => {
     include: {
       reporter: { select: { id: true, nickname: true, role: true } },
       resolvedBy: { select: { id: true, nickname: true, role: true } },
-      post: { select: { id: true, comment: true, deletedAt: true, fish: { select: { name: true } } } },
+      post: { select: { id: true, commentExcerpt: true, deletedAt: true, fish: { select: { name: true } } } },
       comment: { select: { id: true, text: true, deletedAt: true, postId: true } },
     },
   });
@@ -42,7 +42,7 @@ reportsAdminRouter.get("/", async (req, res) => {
       post: r.post
         ? {
             id: r.post.id,
-            excerpt: r.post.comment,
+            excerpt: r.post.commentExcerpt,
             fishName: r.post.fish.name,
             deleted: Boolean(r.post.deletedAt),
           }

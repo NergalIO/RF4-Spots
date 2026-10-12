@@ -61,7 +61,7 @@ docker compose exec api npm run create-admin -- --nickname Nergal --password "с
 
 После смены `JWT_SECRET` все сессии сбрасываются — нужен повторный вход.
 
-Справочники после деплоя: `docker compose exec api npm run db:seed` (на каждый старт контейнера seed больше не выполняется). Лишние файлы в `uploads`: `docker compose exec api npm run uploads:sweep`.
+Справочники после деплоя: `docker compose exec api npm run db:seed` (на каждый старт контейнера seed больше не выполняется). Медиа в Beget S3 (`S3_*` в `.env`); миграция локальных `uploads` и CORS — в [deploy/README.md](deploy/README.md). Сироты в бакете: `docker compose exec api npm run storage:sweep -- --dry`.
 
 ## Клиент
 

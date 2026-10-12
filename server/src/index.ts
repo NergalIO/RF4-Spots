@@ -11,7 +11,7 @@ import {
   requireHttps,
 } from "./lib/security.js";
 import { prisma } from "./lib/prisma.js";
-import { isMulterError, UPLOAD_DIR } from "./lib/upload.js";
+import { isMulterError } from "./lib/upload.js";
 import { mountStaticAssets, mountWebApp } from "./lib/staticAssets.js";
 import { adminRouter } from "./routes/admin/index.js";
 import { authRouter } from "./routes/auth.js";
@@ -53,7 +53,7 @@ app.use((req, res, next) => {
   res.status(403).json({ error: "Нужен HTTPS" });
 });
 
-mountStaticAssets(app, UPLOAD_DIR);
+mountStaticAssets(app);
 
 app.get("/health", async (_req, res) => {
   try {

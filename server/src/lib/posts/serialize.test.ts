@@ -1,4 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("../s3.js", () => ({
+  presignGet: vi.fn(async (key: string) => `https://s3.example/${key}?sig=1`),
+  s3SignedTtlSec: () => 3600,
+}));
+
 import { excerptComment, mapDetailPost, mapListPost, stripImportedSource } from "./serialize.js";
 
 describe("stripImportedSource", () => {
@@ -32,7 +38,7 @@ describe("mapListPost", () => {
     coordY: 2,
     catchType: "farm" as const,
     catchDate: new Date("2026-01-01T00:00:00.000Z"),
-    comment: "клёв",
+    commentExcerpt: "клёв",
     tags: [],
     createdAt: new Date("2026-01-02T00:00:00.000Z"),
     commentsCount: 3,
@@ -48,6 +54,7 @@ describe("mapListPost", () => {
   it("maps a list row without screenshots", () => {
     const mapped = mapListPost(row, { unreadComments: 2, unseen: true });
     expect(mapped).not.toHaveProperty("screenshots");
+    expect(mapped.comment).toBe("клёв");
     expect(mapped.likesCount).toBe(4);
     expect(mapped.dislikesCount).toBe(1);
     expect(mapped.userReaction).toBe("like");
@@ -57,12 +64,16 @@ describe("mapListPost", () => {
     expect(mapped.commentsCount).toBe(3);
   });
 
-  it("maps detail screenshots and full comment", () => {
-    const mapped = mapDetailPost({
-      ...row,
-      screenshots: [{ id: "s1", filename: "a.jpg", sortOrder: 0 }],
-    });
-    expect(mapped.screenshots).toEqual([{ id: "s1", url: "/uploads/a.jpg" }]);
+  it("maps detail screenshots and full comment", async () => {
+    const mapped = await mapDetailPost(
+      {
+        ...row,
+        screenshots: [{ id: "s1", objectKey: "shots/a.jpg", sortOrder: 0 }],
+      },
+      "полный текст",
+    );
+    expect(mapped.screenshots).toEqual([{ id: "s1", url: "https://s3.example/shots/a.jpg?sig=1" }]);
+    expect(mapped.comment).toBe("полный текст");
     expect(mapped.unreadComments).toBe(0);
   });
 });

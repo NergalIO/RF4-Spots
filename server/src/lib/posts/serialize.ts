@@ -1,5 +1,5 @@
 import type { CatchType, PostVoteValue } from "@prisma/client";
-import { iso, screenshotUrl } from "../serialize.js";
+import { iso, mapShotUrls } from "../serialize.js";
 
 const VK_SOURCE_TAIL = /(?:\r?\n)+Источник:\s*https?:\/\/\S+\s*$/;
 export const LIST_COMMENT_EXCERPT = 240;
@@ -21,7 +21,7 @@ type MappedPostInput = {
   coordY: number;
   catchType: CatchType;
   catchDate: Date;
-  comment: string;
+  commentExcerpt: string;
   tags?: string[];
   createdAt: Date;
   commentsCount: number;
@@ -31,7 +31,7 @@ type MappedPostInput = {
   user: { id: string; nickname: string };
   fish: { id: string; name: string };
   waterbody: { id: string; name: string };
-  screenshots?: { id: string; filename: string; sortOrder: number }[];
+  screenshots?: { id: string; objectKey: string; sortOrder: number }[];
   favorites?: { userId: string }[];
   votes?: { value: PostVoteValue }[];
 };
@@ -66,16 +66,29 @@ function mapBase(post: MappedPostInput, comment: string, unread: UnreadFlags) {
 }
 
 export function mapListPost(post: MappedPostInput, unread: UnreadFlags) {
-  return mapBase(post, excerptComment(post.comment), unread);
+  return mapBase(post, post.commentExcerpt, unread);
 }
 
-export function mapDetailPost(post: MappedPostInput, unread: UnreadFlags = { unreadComments: 0, unseen: false }) {
+export async function mapDetailPost(
+  post: MappedPostInput,
+  fullComment: string,
+  unread: UnreadFlags = { unreadComments: 0, unseen: false },
+) {
   return {
-    ...mapBase(post, stripImportedSource(post.comment), unread),
-    screenshots: (post.screenshots ?? [])
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map((s) => ({ id: s.id, url: screenshotUrl(s.filename) })),
+    ...mapBase(post, stripImportedSource(fullComment), unread),
+    screenshots: await mapShotUrls(post.screenshots ?? []),
   };
 }
 
-export const mapPost = mapDetailPost;
+/** Sync helper when payload already loaded and shots already signed */
+export function mapDetailPostSync(
+  post: MappedPostInput,
+  fullComment: string,
+  screenshots: { id: string; url: string }[],
+  unread: UnreadFlags = { unreadComments: 0, unseen: false },
+) {
+  return {
+    ...mapBase(post, stripImportedSource(fullComment), unread),
+    screenshots,
+  };
+}

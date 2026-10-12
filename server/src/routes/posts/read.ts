@@ -12,6 +12,7 @@ import {
   parseSinceRev,
   postsListWhere,
 } from "../../lib/posts.js";
+import { getPostPayload } from "../../lib/s3.js";
 import { currentRev } from "../../lib/syncRev.js";
 import { ensureFeedSeeded, isUnseenPost, markPostSeen, unreadCounts } from "../../lib/unread.js";
 import { requireAuth, type AuthedRequest } from "../../middleware/auth.js";
@@ -118,11 +119,20 @@ readRouter.get("/:id", requireAuth, async (req: AuthedRequest, res) => {
     res.status(404).json({ error: "Пост не найден" });
     return;
   }
+  let payload;
+  try {
+    payload = await getPostPayload(post.id);
+  } catch (err) {
+    console.error("S3 getPostPayload", post.id, err);
+    res.status(503).json({ error: "Хранилище недоступно" });
+    return;
+  }
   await markPostSeen(userId, post.id);
+  const comments = await Promise.all(post.comments.map((c) => mapComment(c)));
   res.json({
     post: {
-      ...mapDetailPost(post),
-      comments: post.comments.map((c) => mapComment(c)),
+      ...(await mapDetailPost(post, payload.comment)),
+      comments,
     },
   });
 });

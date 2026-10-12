@@ -2,10 +2,25 @@ import { Router } from "express";
 import { prisma } from "../../lib/prisma.js";
 import { zodError } from "../../lib/httpErrors.js";
 import { paramId } from "../../lib/params.js";
-import { createPostRecord, findLiveBySourceKey, loadPost, mapPost, postBody, updatePostRecord, type RequestWithPost } from "../../lib/posts.js";
+import {
+  createPostRecord,
+  findLiveBySourceKey,
+  loadPost,
+  mapDetailPost,
+  postBody,
+  updatePostRecord,
+  type RequestWithPost,
+} from "../../lib/posts.js";
+import { getPostPayload } from "../../lib/s3.js";
 import { parseKeepScreenshots } from "../../lib/screenshots.js";
 import { softDeletePost } from "../../lib/softDelete.js";
-import { removeUploaded, uploadedFiles, uploadScreenshots } from "../../lib/upload.js";
+import {
+  discardUploadedShots,
+  persistUploadedShots,
+  removeUploaded,
+  uploadedFiles,
+  uploadScreenshots,
+} from "../../lib/upload.js";
 import { canEditPost, requireAuth, type AuthedRequest } from "../../middleware/auth.js";
 
 export const writeRouter = Router();
@@ -30,11 +45,26 @@ writeRouter.post("/", requireAuth, ...uploadScreenshots, async (req: AuthedReque
   const duplicate = await findLiveBySourceKey(data.sourceKey, req.user!.id);
   if (duplicate) {
     removeUploaded(uploadedFiles(req));
-    res.json({ post: mapPost(duplicate), duplicate: true });
+    try {
+      const payload = await getPostPayload(duplicate.id);
+      res.json({
+        post: await mapDetailPost(duplicate, payload.comment),
+        duplicate: true,
+      });
+    } catch {
+      res.status(503).json({ error: "Хранилище недоступно" });
+    }
     return;
   }
-  const post = await createPostRecord(req.user!.id, data, uploadedFiles(req));
-  res.status(201).json({ post: mapPost(post) });
+  let shots: Awaited<ReturnType<typeof persistUploadedShots>> = [];
+  try {
+    shots = await persistUploadedShots(uploadedFiles(req));
+    const { post, comment } = await createPostRecord(req.user!.id, data, shots);
+    res.status(201).json({ post: await mapDetailPost(post, comment) });
+  } catch (err) {
+    await discardUploadedShots(shots);
+    throw err;
+  }
 });
 
 writeRouter.patch("/:id", requireAuth, ...uploadScreenshots, async (req: AuthedRequest, res) => {
@@ -65,8 +95,29 @@ writeRouter.patch("/:id", requireAuth, ...uploadScreenshots, async (req: AuthedR
     res.status(400).json({ error: "Некорректный список скриншотов" });
     return;
   }
-  const post = await updatePostRecord(existing, req.user!.id, parsed.data, files, keepParsed.ids);
-  res.json({ post: mapPost(post) });
+  let prevPayload: { comment: string; weightKg: number | null } | undefined;
+  try {
+    const p = await getPostPayload(existing.id);
+    prevPayload = { comment: p.comment, weightKg: p.weightKg };
+  } catch {
+    prevPayload = { comment: existing.commentExcerpt, weightKg: null };
+  }
+  let shots: Awaited<ReturnType<typeof persistUploadedShots>> = [];
+  try {
+    shots = await persistUploadedShots(files);
+    const { post, comment } = await updatePostRecord(
+      existing,
+      req.user!.id,
+      parsed.data,
+      shots,
+      keepParsed.ids,
+      prevPayload,
+    );
+    res.json({ post: await mapDetailPost(post, comment) });
+  } catch (err) {
+    await discardUploadedShots(shots);
+    throw err;
+  }
 });
 
 writeRouter.delete("/:id", requireAuth, loadPost, async (req, res) => {

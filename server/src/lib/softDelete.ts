@@ -1,5 +1,5 @@
+import { removePostStorage, removeShotKeys } from "./postPayload.js";
 import { prisma } from "./prisma.js";
-import { unlinkFilenames } from "./upload.js";
 import { clearAdminStatsCache } from "./adminStats.js";
 import { tombstonePost, touchLivePost } from "./syncRev.js";
 
@@ -7,14 +7,14 @@ export async function softDeletePost(postId: string, deletedById: string) {
   const post = await prisma.post.findUnique({
     where: { id: postId },
     include: {
-      screenshots: { select: { filename: true } },
-      comments: { include: { screenshots: { select: { filename: true } } } },
+      screenshots: { select: { objectKey: true } },
+      comments: { include: { screenshots: { select: { objectKey: true } } } },
     },
   });
   if (!post || post.deletedAt) return post;
-  const files = [
-    ...post.screenshots.map((s) => s.filename),
-    ...post.comments.flatMap((c) => c.screenshots.map((s) => s.filename)),
+  const keys = [
+    ...post.screenshots.map((s) => s.objectKey),
+    ...post.comments.flatMap((c) => c.screenshots.map((s) => s.objectKey)),
   ];
   await prisma.$transaction(async (tx) => {
     await tx.screenshot.deleteMany({
@@ -30,7 +30,7 @@ export async function softDeletePost(postId: string, deletedById: string) {
       tx,
     );
   });
-  unlinkFilenames(files);
+  await removePostStorage(postId, keys);
   clearAdminStatsCache();
   return post;
 }
@@ -46,10 +46,10 @@ export async function refreshCommentStats(postId: string, tx: Parameters<typeof 
 export async function softDeleteComment(commentId: string, deletedById: string) {
   const comment = await prisma.comment.findUnique({
     where: { id: commentId },
-    include: { screenshots: { select: { filename: true } } },
+    include: { screenshots: { select: { objectKey: true } } },
   });
   if (!comment || comment.deletedAt) return comment;
-  const files = comment.screenshots.map((s) => s.filename);
+  const keys = comment.screenshots.map((s) => s.objectKey);
   await prisma.$transaction(async (tx) => {
     await tx.screenshot.deleteMany({ where: { commentId } });
     await tx.comment.update({
@@ -58,7 +58,7 @@ export async function softDeleteComment(commentId: string, deletedById: string) 
     });
     await refreshCommentStats(comment.postId, tx);
   });
-  unlinkFilenames(files);
+  await removeShotKeys(keys);
   clearAdminStatsCache();
   return comment;
 }

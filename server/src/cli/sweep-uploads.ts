@@ -1,30 +1,33 @@
 import "../lib/loadEnv.js";
-import { existsSync, readdirSync } from "node:fs";
-import { join } from "node:path";
 import { prisma } from "../lib/prisma.js";
-import { UPLOAD_DIR, unlinkFilenames } from "../lib/upload.js";
+import { deleteObjects, listAllKeys, postPayloadKey } from "../lib/s3.js";
 
 async function main() {
-  if (!existsSync(UPLOAD_DIR)) {
-    console.log("Папка uploads пуста.");
-    return;
-  }
-  const onDisk = readdirSync(UPLOAD_DIR).filter((name) => !name.startsWith("."));
-  const rows = await prisma.screenshot.findMany({ select: { filename: true } });
-  const keep = new Set(rows.map((r) => r.filename));
-  const orphan = onDisk.filter((name) => !keep.has(name));
-  if (!orphan.length) {
-    console.log(`Лишних файлов нет (${onDisk.length} на диске).`);
-    return;
-  }
   const dry = process.argv.includes("--dry");
+  const shotKeys = await listAllKeys("shots/");
+  const postKeys = await listAllKeys("posts/");
+  const rows = await prisma.screenshot.findMany({ select: { objectKey: true } });
+  const keepShots = new Set(rows.map((r) => r.objectKey));
+  const posts = await prisma.post.findMany({ select: { id: true } });
+  const keepPosts = new Set(posts.map((p) => postPayloadKey(p.id)));
+
+  const orphanShots = shotKeys.filter((k) => !keepShots.has(k));
+  const orphanPosts = postKeys.filter((k) => !keepPosts.has(k));
+  const orphan = [...orphanShots, ...orphanPosts];
+
+  if (!orphan.length) {
+    console.log(`Лишних объектов нет (shots=${shotKeys.length}, posts=${postKeys.length}).`);
+    return;
+  }
+
   if (dry) {
     console.log(`К удалению (${orphan.length}):`);
-    for (const name of orphan) console.log(join(UPLOAD_DIR, name));
+    for (const key of orphan) console.log(key);
     return;
   }
-  unlinkFilenames(orphan);
-  console.log(`Удалено файлов без записи в БД: ${orphan.length}`);
+
+  await deleteObjects(orphan);
+  console.log(`Удалено объектов без записи в БД: ${orphan.length}`);
 }
 
 main()

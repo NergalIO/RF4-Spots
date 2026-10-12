@@ -7,7 +7,7 @@ import { mapsDir, updatesDir, webDir } from "./static/paths.js";
 
 const UPDATE_EXTS = new Set([".exe", ".yml", ".yaml", ".blockmap", ".zip", ".apk"]);
 
-export function mountStaticAssets(app: express.Express, uploadDir: string) {
+export function mountStaticAssets(app: express.Express) {
   const dir = updatesDir();
   const maps = mapsDir();
   app.get("/updates/latest", (_req, res) => {
@@ -61,20 +61,6 @@ export function mountStaticAssets(app: express.Express, uploadDir: string) {
       dotfiles: "deny",
       etag: true,
       lastModified: true,
-      setHeaders(res) {
-        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-      },
-    }),
-  );
-  app.use(
-    "/uploads",
-    express.static(uploadDir, {
-      index: false,
-      dotfiles: "deny",
-      etag: true,
-      lastModified: true,
-      maxAge: 31536000000,
-      immutable: true,
       setHeaders(res) {
         res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
       },

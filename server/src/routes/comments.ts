@@ -6,8 +6,14 @@ import { loadPost, type RequestWithPost } from "../lib/posts.js";
 import { paramId } from "../lib/params.js";
 import { softDeleteComment } from "../lib/softDelete.js";
 import { zodError } from "../lib/httpErrors.js";
-import { parseKeepScreenshots, replaceScreenshots } from "../lib/screenshots.js";
-import { removeUploaded, uploadedFiles, uploadScreenshots } from "../lib/upload.js";
+import { deleteRemovedShotKeys, parseKeepScreenshots, replaceScreenshots } from "../lib/screenshots.js";
+import {
+  discardUploadedShots,
+  persistUploadedShots,
+  removeUploaded,
+  uploadedFiles,
+  uploadScreenshots,
+} from "../lib/upload.js";
 import { touchLivePost } from "../lib/syncRev.js";
 
 export const commentsRouter = Router();
@@ -25,26 +31,40 @@ commentsRouter.post(
       return;
     }
     const { livePost, user } = req as RequestWithPost;
-    const files = uploadedFiles(req);
-    const comment = await prisma.$transaction(async (tx) => {
-      const created = await tx.comment.create({
-        data: {
-          postId: livePost.id,
-          userId: user!.id,
-          text: text.data,
-          screenshots: {
-            create: files.map((f, i) => ({ filename: f.filename, sortOrder: i, ownerUserId: user!.id })),
+    let shots: Awaited<ReturnType<typeof persistUploadedShots>> = [];
+    try {
+      shots = await persistUploadedShots(uploadedFiles(req));
+      const comment = await prisma.$transaction(async (tx) => {
+        const created = await tx.comment.create({
+          data: {
+            postId: livePost.id,
+            userId: user!.id,
+            text: text.data,
+            screenshots: {
+              create: shots.map((f, i) => ({
+                objectKey: f.objectKey,
+                sortOrder: i,
+                ownerUserId: user!.id,
+              })),
+            },
           },
-        },
-        include: {
-          user: { select: { id: true, nickname: true } },
-          screenshots: true,
-        },
+          include: {
+            user: { select: { id: true, nickname: true } },
+            screenshots: true,
+          },
+        });
+        await touchLivePost(
+          livePost.id,
+          { commentsCount: { increment: 1 }, lastCommentAt: created.createdAt },
+          tx,
+        );
+        return created;
       });
-      await touchLivePost(livePost.id, { commentsCount: { increment: 1 }, lastCommentAt: created.createdAt }, tx);
-      return created;
-    });
-    res.status(201).json({ comment: mapComment(comment) });
+      res.status(201).json({ comment: await mapComment(comment) });
+    } catch (err) {
+      await discardUploadedShots(shots);
+      throw err;
+    }
   },
 );
 
@@ -76,26 +96,34 @@ commentsRouter.patch("/comments/:id", requireAuth, ...uploadScreenshots, async (
     res.status(400).json({ error: "Некорректный список скриншотов" });
     return;
   }
-  const comment = await prisma.$transaction(async (tx) => {
-    await replaceScreenshots(tx, {
-      owner: { commentId: existing.id },
-      ownerUserId: existing.userId,
-      existing: existing.screenshots,
-      keep: keepParsed.ids,
-      files,
+  let shots: Awaited<ReturnType<typeof persistUploadedShots>> = [];
+  try {
+    shots = await persistUploadedShots(files);
+    const { comment, removedKeys } = await prisma.$transaction(async (tx) => {
+      const removed = await replaceScreenshots(tx, {
+        owner: { commentId: existing.id },
+        ownerUserId: existing.userId,
+        existing: existing.screenshots,
+        keep: keepParsed.ids,
+        files: shots,
+      });
+      const updated = await tx.comment.update({
+        where: { id: existing.id },
+        data: { text: parsed.data.text },
+        include: {
+          user: { select: { id: true, nickname: true } },
+          screenshots: true,
+        },
+      });
+      await touchLivePost(existing.postId, {}, tx);
+      return { comment: updated, removedKeys: removed };
     });
-    const updated = await tx.comment.update({
-      where: { id: existing.id },
-      data: { text: parsed.data.text },
-      include: {
-        user: { select: { id: true, nickname: true } },
-        screenshots: true,
-      },
-    });
-    await touchLivePost(existing.postId, {}, tx);
-    return updated;
-  });
-  res.json({ comment: mapComment(comment) });
+    await deleteRemovedShotKeys(removedKeys);
+    res.json({ comment: await mapComment(comment) });
+  } catch (err) {
+    await discardUploadedShots(shots);
+    throw err;
+  }
 });
 
 commentsRouter.delete("/comments/:id", requireAuth, async (req: AuthedRequest, res) => {

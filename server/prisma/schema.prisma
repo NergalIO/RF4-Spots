@@ -147,29 +147,29 @@ model Post {
   fish        FishSpecies   @relation(fields: [fishId], references: [id])
   coordX      Float
   coordY      Float
-  catchType   CatchType
-  catchDate   DateTime
-  comment     String        @default("")
-  weightKg    Float?
-  bait        String        @default("")
-  tags        String[]      @default([])
-  sourceKey   String?       @unique
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  deletedAt   DateTime?
-  deletedById String?
-  deletedBy   User?         @relation("PostDeletedBy", fields: [deletedById], references: [id], onDelete: SetNull)
-  rev           Int       @default(0)
-  likesCount    Int       @default(0)
-  dislikesCount Int       @default(0)
-  commentsCount Int       @default(0)
-  lastCommentAt DateTime?
-  screenshots   Screenshot[]
-  comments      Comment[]
-  favorites     Favorite[]
-  votes         PostVote[]
-  seenBy        UserPostSeen[]
-  reports       Report[]
+  catchType      CatchType
+  catchDate      DateTime
+  /// Full text lives in S3 posts/{id}.json; this is for list + q search.
+  commentExcerpt String        @default("")
+  bait           String        @default("")
+  tags           String[]      @default([])
+  sourceKey      String?       @unique
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+  deletedById    String?
+  deletedBy      User?         @relation("PostDeletedBy", fields: [deletedById], references: [id], onDelete: SetNull)
+  rev            Int           @default(0)
+  likesCount     Int           @default(0)
+  dislikesCount  Int           @default(0)
+  commentsCount  Int           @default(0)
+  lastCommentAt  DateTime?
+  screenshots    Screenshot[]
+  comments       Comment[]
+  favorites      Favorite[]
+  votes          PostVote[]
+  seenBy         UserPostSeen[]
+  reports        Report[]
 
   @@index([waterbodyId, createdAt])
   @@index([fishId])
@@ -207,10 +207,11 @@ model Screenshot {
   commentId   String?
   comment     Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   ownerUserId String
-  filename    String
+  objectKey   String
   sortOrder   Int      @default(0)
 
   @@index([ownerUserId])
+  @@index([objectKey])
 }
 
 model SyncState {

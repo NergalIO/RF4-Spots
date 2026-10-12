@@ -1,6 +1,7 @@
 import type { z } from "zod";
+import { syncPostPayload, toCommentExcerpt } from "../postPayload.js";
 import { prisma } from "../prisma.js";
-import { replaceScreenshots } from "../screenshots.js";
+import { deleteRemovedShotKeys, replaceScreenshots } from "../screenshots.js";
 import { bumpRev } from "../syncRev.js";
 import { detailInclude } from "./includes.js";
 import type { postBody } from "./schema.js";
@@ -22,9 +23,12 @@ export async function findLiveBySourceKey(sourceKey: string | undefined, userId:
 export async function createPostRecord(
   userId: string,
   data: z.infer<typeof postBody>,
-  files: { filename: string }[],
+  files: { objectKey: string }[],
 ) {
-  return prisma.$transaction(async (tx) => {
+  const comment = data.comment ?? "";
+  const bait = data.bait ?? "";
+  const weightKg = data.weightKg ?? null;
+  const post = await prisma.$transaction(async (tx) => {
     const rev = await bumpRev(tx);
     return tx.post.create({
       data: {
@@ -35,30 +39,39 @@ export async function createPostRecord(
         coordY: data.coordY,
         catchType: data.catchType,
         catchDate: new Date(data.catchDate),
-        comment: data.comment ?? "",
-        bait: data.bait ?? "",
-        weightKg: data.weightKg ?? null,
+        commentExcerpt: toCommentExcerpt(comment),
+        bait,
         tags: data.tags ?? [],
         sourceKey: data.sourceKey ?? null,
         rev,
         screenshots: {
-          create: files.map((f, i) => ({ filename: f.filename, sortOrder: i, ownerUserId: userId })),
+          create: files.map((f, i) => ({ objectKey: f.objectKey, sortOrder: i, ownerUserId: userId })),
         },
       },
       include: detailInclude(userId),
     });
   });
+  await syncPostPayload({
+    id: post.id,
+    comment,
+    bait,
+    weightKg,
+    screenshots: post.screenshots,
+    updatedAt: post.updatedAt,
+  });
+  return { post, comment, weightKg };
 }
 
 export async function updatePostRecord(
-  existing: { id: string; screenshots: { id: string; filename: string }[] },
+  existing: { id: string; screenshots: { id: string; objectKey: string }[]; bait: string },
   userId: string,
   data: Partial<z.infer<typeof postBody>>,
-  files: { filename: string }[],
+  files: { objectKey: string }[],
   keep?: string[],
+  prevPayload?: { comment: string; weightKg: number | null },
 ) {
-  return prisma.$transaction(async (tx) => {
-    await replaceScreenshots(tx, {
+  const removedKeys = await prisma.$transaction(async (tx) => {
+    const keys = await replaceScreenshots(tx, {
       owner: { postId: existing.id },
       ownerUserId: userId,
       existing: existing.screenshots,
@@ -66,7 +79,9 @@ export async function updatePostRecord(
       files,
     });
     const rev = await bumpRev(tx);
-    return tx.post.update({
+    const excerpt =
+      data.comment !== undefined ? toCommentExcerpt(data.comment) : undefined;
+    await tx.post.update({
       where: { id: existing.id },
       data: {
         waterbodyId: data.waterbodyId,
@@ -75,13 +90,31 @@ export async function updatePostRecord(
         coordY: data.coordY,
         catchType: data.catchType,
         catchDate: data.catchDate ? new Date(data.catchDate) : undefined,
-        comment: data.comment,
+        commentExcerpt: excerpt,
         bait: data.bait,
-        weightKg: data.weightKg === undefined ? undefined : data.weightKg,
         tags: data.tags,
         rev,
       },
-      include: detailInclude(userId),
     });
+    return keys;
   });
+  await deleteRemovedShotKeys(removedKeys);
+
+  const post = await prisma.post.findUniqueOrThrow({
+    where: { id: existing.id },
+    include: detailInclude(userId),
+  });
+  const comment = data.comment ?? prevPayload?.comment ?? "";
+  const bait = data.bait ?? existing.bait;
+  const weightKg =
+    data.weightKg !== undefined ? (data.weightKg ?? null) : (prevPayload?.weightKg ?? null);
+  await syncPostPayload({
+    id: post.id,
+    comment,
+    bait,
+    weightKg,
+    screenshots: post.screenshots,
+    updatedAt: post.updatedAt,
+  });
+  return { post, comment, weightKg };
 }

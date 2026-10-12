@@ -32,7 +32,7 @@ describe("postsListWhere", () => {
     expect(where.AND).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          OR: expect.arrayContaining([expect.objectContaining({ comment: expect.anything() })]),
+          OR: expect.arrayContaining([expect.objectContaining({ commentExcerpt: expect.anything() })]),
         }),
       ]),
     );

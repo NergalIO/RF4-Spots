@@ -4,8 +4,8 @@ import { prisma } from "../../lib/prisma.js";
 import { publicUser } from "../../lib/auth.js";
 import { paramId } from "../../lib/params.js";
 import { ONLINE_WINDOW_MS, clearAdminStatsCache } from "../../lib/adminStats.js";
-import { unlinkFilenames } from "../../lib/upload.js";
 import { iso, isoOrNull } from "../../lib/serialize.js";
+import { deleteObjects, postPayloadKey } from "../../lib/s3.js";
 import { zodError } from "../../lib/httpErrors.js";
 import { invalidateUser } from "../../lib/authCache.js";
 import type { AuthedRequest } from "../../middleware/auth.js";
@@ -141,24 +141,25 @@ usersRouter.delete("/:id", async (req: AuthedRequest, res) => {
   const posts = await prisma.post.findMany({
     where: { userId: id },
     include: {
-      screenshots: { select: { filename: true } },
-      comments: { include: { screenshots: { select: { filename: true } } } },
+      screenshots: { select: { objectKey: true } },
+      comments: { include: { screenshots: { select: { objectKey: true } } } },
     },
   });
   const comments = await prisma.comment.findMany({
     where: { userId: id },
-    include: { screenshots: { select: { filename: true } } },
+    include: { screenshots: { select: { objectKey: true } } },
   });
-  const files = [
+  const keys = [
     ...posts.flatMap((p) => [
-      ...p.screenshots.map((s) => s.filename),
-      ...p.comments.flatMap((c) => c.screenshots.map((s) => s.filename)),
+      postPayloadKey(p.id),
+      ...p.screenshots.map((s) => s.objectKey),
+      ...p.comments.flatMap((c) => c.screenshots.map((s) => s.objectKey)),
     ]),
-    ...comments.flatMap((c) => c.screenshots.map((s) => s.filename)),
+    ...comments.flatMap((c) => c.screenshots.map((s) => s.objectKey)),
   ];
   await prisma.user.delete({ where: { id } });
   invalidateUser(id);
   clearAdminStatsCache();
-  unlinkFilenames(files);
+  await deleteObjects(keys);
   res.json({ ok: true });
 });

@@ -36,15 +36,36 @@ Existing JWTs become invalid after you rotate `JWT_SECRET`. Users sign in again.
 Postgres password in `.env` is applied only on first volume create. To rotate later, change
 the role inside Postgres or recreate the `pgdata` volume (this wipes data).
 
+## Beget S3
+
+Posts body JSON (`posts/{id}.json`) and screenshots (`shots/…`) live in a **private** Beget bucket.
+Set `S3_*` in the root `.env` (see `.env.example`). In the Beget panel configure bucket CORS:
+
+- Methods: `GET`, `HEAD`
+- Origins: your `DOMAIN` (https) plus entries from `CORS_ORIGINS`
+- Upload goes only through the API (no browser PUT)
+
+### Migrate existing local `uploads/`
+
+1. Deploy with S3 env + `npx prisma migrate deploy` (adds `commentExcerpt`, renames `objectKey`).
+2. Keep the old uploads volume mounted once (or copy files into the container) and run:
+
+```bash
+docker compose exec api npm run storage:migrate -- --verify
+docker compose exec api npm run storage:migrate -- --cleanup-local --finalize
+```
+
+`--finalize` drops legacy `Post.comment` / `Post.weightKg` after payloads are in S3.
+Orphan objects later: `docker compose exec api npm run storage:sweep -- --dry`.
+
 ## Backups
 
-Postgres data is the `pgdata` Docker volume; screenshots are the `uploads` volume.
+Postgres data is the `pgdata` Docker volume. Media is in Beget S3 (use panel versioning / lifecycle if needed).
 
 ```bash
 docker compose exec db pg_dump -U rf4 rf4spots > backup.sql
-docker run --rm -v rf4spots_uploads:/data -v "$PWD":/backup alpine tar czf /backup/uploads.tgz -C /data .
 ```
 
-Restore with `psql` / extract the tarball into the uploads volume. After a restore run `npx prisma migrate deploy` if the schema might be behind.
+Restore with `psql`. After a restore run `npx prisma migrate deploy` if the schema might be behind.
 
 Seed guide tables only when you want it: `docker compose exec api npm run db:seed`.
