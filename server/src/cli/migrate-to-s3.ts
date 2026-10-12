@@ -63,18 +63,32 @@ async function main() {
 
   console.log(`S3 migrate (dry=${dry}, verify=${verify}, cleanup=${cleanupLocal}, finalize=${finalize})`);
   console.log(`Локальная папка: ${dir}`);
+  console.log(
+    `S3: endpoint=${process.env.S3_ENDPOINT || "https://s3.ru1.storage.beget.cloud"} bucket=${process.env.S3_BUCKET || "?"} pathStyle=${process.env.S3_FORCE_PATH_STYLE ?? "true"}`,
+  );
 
+  const localCount = existsSync(dir)
+    ? readdirSync(dir).filter((n) => !n.startsWith(".") && statSync(join(dir, n)).isFile()).length
+    : 0;
+  console.log(`Файлов в локальной папке: ${localCount}`);
+
+  console.log("Читаю Screenshot из БД…");
   const shots = await prisma.screenshot.findMany({
     select: { id: true, objectKey: true, postId: true, commentId: true, sortOrder: true },
   });
+  console.log(`Записей Screenshot: ${shots.length}`);
 
   let uploaded = 0;
   let skipped = 0;
   const missingLocal: string[] = [];
 
-  for (const shot of shots) {
+  for (let i = 0; i < shots.length; i++) {
+    const shot = shots[i]!;
     const localName = shot.objectKey.replace(/^shots\//, "");
     const localPath = join(dir, localName);
+    if ((i + 1) % 25 === 0 || i === 0) {
+      console.log(`shots ${i + 1}/${shots.length}…`);
+    }
     if (!existsSync(localPath)) {
       if (verify) {
         try {
@@ -96,6 +110,7 @@ async function main() {
     }
     const ext = extname(localName).toLowerCase() || ".jpg";
     const body = readFileSync(localPath);
+    console.log(`upload ${shot.objectKey} (${body.length} B)`);
     await putObject(shot.objectKey, body, contentTypeForExt(ext));
     uploaded += 1;
   }

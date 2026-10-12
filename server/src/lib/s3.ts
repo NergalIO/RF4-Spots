@@ -7,6 +7,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { NodeHttpHandler } from "@smithy/node-http-handler";
 import { envFlag } from "./env.js";
 
 export type PostPayloadShot = { id: string; key: string; sortOrder: number };
@@ -42,6 +43,7 @@ export function getS3() {
   if (client) return client;
   const endpoint = (process.env.S3_ENDPOINT || "https://s3.ru1.storage.beget.cloud").trim();
   const region = (process.env.S3_REGION || "ru1").trim();
+  const timeoutMs = Number(process.env.S3_REQUEST_TIMEOUT_MS || 30_000);
   client = new S3Client({
     region,
     endpoint,
@@ -50,6 +52,10 @@ export function getS3() {
       accessKeyId: required("S3_ACCESS_KEY"),
       secretAccessKey: required("S3_SECRET_KEY"),
     },
+    requestHandler: new NodeHttpHandler({
+      connectionTimeout: 10_000,
+      requestTimeout: Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 30_000,
+    }),
   });
   return client;
 }
