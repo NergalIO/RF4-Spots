@@ -126,9 +126,24 @@
   color: var(--gold);
   background: transparent;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .role-pill.admin { border-color: var(--teal); color: #9ee7e1; }
 .role-pill.open { border-color: var(--gold-2); }
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.verified-badge.is-on { color: #3d9a5f; }
+.verified-badge.is-off { color: var(--danger); }
+.verification-modal .verification-form { display: grid; gap: 10px; margin: 12px 0; }
+.verification-modal .modal-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.verification-request-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.verification-request-list li { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; }
 .user-menu-list {
   position: absolute;
   right: 0;

@@ -9,6 +9,7 @@ export type SpotsLightbox = { shots: Screenshot[]; index: number };
 export function useSpotsDialogs() {
   const detail = useStore((s) => s.detail);
   const selectPost = useStore((s) => s.selectPost);
+  const user = useStore((s) => s.user);
   const isMobile = useIsMobile();
   const [createAt, setCreateAt] = useState<{ x: number; y: number } | null>(null);
   const [edit, setEdit] = useState<Post | null>(null);
@@ -28,6 +29,18 @@ export function useSpotsDialogs() {
     setScreen("map");
   }
 
+  function requestCreate(coords: { x: number; y: number } | null) {
+    if (!coords) {
+      setCreateAt(null);
+      return;
+    }
+    if (user && !user.verified) {
+      window.alert("Чтобы добавлять посты, подтвердите профиль (меню ника).");
+      return;
+    }
+    setCreateAt(coords);
+  }
+
   useBackGuard(isMobile && detailOpen, closeDetail);
   useBackGuard(Boolean(lb), () => setLb(null));
   useBackGuard(Boolean(createAt), () => setCreateAt(null));
@@ -36,7 +49,7 @@ export function useSpotsDialogs() {
   return {
     detail,
     createAt,
-    setCreateAt,
+    setCreateAt: requestCreate,
     edit,
     setEdit,
     lb,

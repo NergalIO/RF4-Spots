@@ -1,7 +1,9 @@
 import { ALL_WATERBODIES } from "@/shared/constants";
 import { GameClock } from "./GameClock";
 import { NotifyMenu } from "./NotifyMenu";
+import { AppDownloadMenu } from "./AppDownloadMenu";
 import { DropdownMenu } from "@/shared/DropdownMenu";
+import { VerifiedBadge } from "@/features/auth/VerifiedBadge";
 import type { User, Waterbody } from "@/types";
 import { TAB_ITEMS, tabCaption, type MainTab } from "./shellTabs";
 
@@ -22,6 +24,8 @@ export function ShellTopbar({
   onPassword,
   onLogout,
   onChangelog,
+  onVerify,
+  onMyRequests,
 }: {
   user: User | null | undefined;
   tab: MainTab;
@@ -39,8 +43,11 @@ export function ShellTopbar({
   onPassword: () => void;
   onLogout: () => void;
   onChangelog: () => void;
+  onVerify: () => void;
+  onMyRequests: () => void;
 }) {
   const visibleTabs = TAB_ITEMS.filter((item) => item.id !== "admin" || user?.role === "admin");
+  const verified = Boolean(user?.verified);
   return (
     <header className="topbar">
       <div className="brand">
@@ -83,6 +90,7 @@ export function ShellTopbar({
         </button>
       )}
       <div className="spacer" />
+      <AppDownloadMenu />
       <NotifyMenu />
       <GameClock />
       <DropdownMenu
@@ -96,10 +104,33 @@ export function ShellTopbar({
             aria-expanded={userMenuOpen}
             onClick={() => setUserMenuOpen((v) => !v)}
           >
-            {user?.nickname} · {user?.role === "admin" ? "админ" : "игрок"}
+            <span>{user?.nickname}</span>
+            <VerifiedBadge verified={verified} />
           </button>
         }
       >
+        {!verified && (
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              setUserMenuOpen(false);
+              onVerify();
+            }}
+          >
+            Подтвердить профиль…
+          </button>
+        )}
+        <button
+          type="button"
+          role="menuitem"
+          onClick={() => {
+            setUserMenuOpen(false);
+            onMyRequests();
+          }}
+        >
+          Мои запросы на подтверждение
+        </button>
         <button
           type="button"
           role="menuitem"

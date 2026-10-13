@@ -5,6 +5,7 @@ export type User = {
   id: string;
   nickname: string;
   role: Role;
+  verified: boolean;
 };
 
 export type Fish = {
@@ -59,6 +60,7 @@ export type Post = {
   createdAt: string;
   comment: string;
   tags: string[];
+  sourceUrl?: string | null;
   author: User;
   fish: { id: string; name: string };
   waterbody: { id: string; name: string };
@@ -161,14 +163,31 @@ export type AdminStats = {
   months: { date: string; count: number }[];
 };
 
+export type InviteStatus = "active" | "expired" | "exhausted";
+
 export type Invite = {
   id: string;
   code: string;
   createdAt: string;
   expiresAt: string | null;
   usedAt: string | null;
+  maxUses: number;
+  usesCount: number;
+  status: InviteStatus;
   createdBy: User;
-  usedBy: User | null;
+  redemptions?: { nickname: string; createdAt: string }[];
+};
+
+export type VerificationRequestStatus = "pending" | "approved" | "rejected";
+
+export type VerificationRequest = {
+  id: string;
+  status: VerificationRequestStatus;
+  message: string;
+  adminNote: string;
+  createdAt: string;
+  resolvedAt: string | null;
+  user?: User;
 };
 
 export type ModerationReport = {

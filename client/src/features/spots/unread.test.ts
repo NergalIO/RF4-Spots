@@ -12,7 +12,7 @@ function post(partial: Partial<Post> = {}): Post {
     createdAt: "2026-01-01T00:00:00.000Z",
     comment: "",
     tags: [],
-    author: { id: "u1", nickname: "A", role: "player" },
+    author: { id: "u1", nickname: "A", role: "player", verified: true },
     fish: { id: "f", name: "Щука" },
     waterbody: { id: "w", name: "Озеро" },
     commentsCount: 0,

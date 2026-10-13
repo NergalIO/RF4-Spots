@@ -24,4 +24,8 @@ export const postBody = z.object({
     if (v == null || v === "") return undefined;
     return typeof v === "string" ? v.trim() : v;
   }, z.string().max(200).regex(/^[\w:.-]+$/).optional()),
+  sourceUrl: z.preprocess((v) => {
+    if (v == null || v === "") return undefined;
+    return typeof v === "string" ? v.trim() : v;
+  }, z.string().url().max(2000).optional()),
 });

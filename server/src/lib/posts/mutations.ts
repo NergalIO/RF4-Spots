@@ -5,6 +5,7 @@ import { deleteRemovedShotKeys, replaceScreenshots } from "../screenshots.js";
 import { bumpRev } from "../syncRev.js";
 import { detailInclude } from "./includes.js";
 import type { postBody } from "./schema.js";
+import { extractImportedSourceUrl } from "./serialize.js";
 
 export async function findLiveBySourceKey(sourceKey: string | undefined, userId: string) {
   if (!sourceKey) return null;
@@ -28,6 +29,7 @@ export async function createPostRecord(
   const comment = data.comment ?? "";
   const bait = data.bait ?? "";
   const weightKg = data.weightKg ?? null;
+  const sourceUrl = data.sourceUrl ?? extractImportedSourceUrl(comment);
   const post = await prisma.$transaction(async (tx) => {
     const rev = await bumpRev(tx);
     return tx.post.create({
@@ -43,6 +45,7 @@ export async function createPostRecord(
         bait,
         tags: data.tags ?? [],
         sourceKey: data.sourceKey ?? null,
+        sourceUrl,
         rev,
         screenshots: {
           create: files.map((f, i) => ({ objectKey: f.objectKey, sortOrder: i, ownerUserId: userId })),
@@ -81,6 +84,13 @@ export async function updatePostRecord(
     const rev = await bumpRev(tx);
     const excerpt =
       data.comment !== undefined ? toCommentExcerpt(data.comment) : undefined;
+    const nextComment = data.comment ?? prevPayload?.comment;
+    const sourceUrl =
+      data.sourceUrl !== undefined
+        ? data.sourceUrl
+        : nextComment != null
+          ? (extractImportedSourceUrl(nextComment) ?? undefined)
+          : undefined;
     await tx.post.update({
       where: { id: existing.id },
       data: {
@@ -93,6 +103,7 @@ export async function updatePostRecord(
         commentExcerpt: excerpt,
         bait: data.bait,
         tags: data.tags,
+        ...(sourceUrl !== undefined ? { sourceUrl } : {}),
         rev,
       },
     });

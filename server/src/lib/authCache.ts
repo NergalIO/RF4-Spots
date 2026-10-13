@@ -10,6 +10,7 @@ export type CachedUser = {
   tokenVersion: number;
   disabledAt: Date | null;
   feedSeededAt: Date | null;
+  verifiedAt: Date | null;
   at: number;
 };
 
@@ -23,6 +24,7 @@ function toCached(user: {
   tokenVersion: number;
   disabledAt: Date | null;
   feedSeededAt: Date | null;
+  verifiedAt: Date | null;
 }): CachedUser {
   return {
     id: user.id,
@@ -31,6 +33,7 @@ function toCached(user: {
     tokenVersion: user.tokenVersion,
     disabledAt: user.disabledAt,
     feedSeededAt: user.feedSeededAt,
+    verifiedAt: user.verifiedAt,
     at: Date.now(),
   };
 }
@@ -42,14 +45,21 @@ export function rememberUser(user: {
   tokenVersion: number;
   disabledAt: Date | null;
   feedSeededAt: Date | null;
+  verifiedAt?: Date | null;
 }) {
-  cache.set(user.id, toCached(user));
+  cache.set(
+    user.id,
+    toCached({
+      ...user,
+      verifiedAt: user.verifiedAt ?? null,
+    }),
+  );
 }
 
 export function patchCachedUser(userId: string, patch: Partial<Omit<CachedUser, "id" | "at">>) {
   const hit = cache.get(userId);
   if (!hit) return;
-  cache.set(userId, { ...hit, ...patch });
+  cache.set(userId, { ...hit, ...patch, at: Date.now() });
 }
 
 export function invalidateUser(userId: string) {
@@ -69,6 +79,7 @@ export async function loadCachedUser(userId: string): Promise<CachedUser | null>
       tokenVersion: true,
       disabledAt: true,
       feedSeededAt: true,
+      verifiedAt: true,
     },
   });
   if (!user) {

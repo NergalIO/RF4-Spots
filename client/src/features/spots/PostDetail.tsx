@@ -190,6 +190,16 @@ export function PostDetail({ onEdit, onOpenShots, onCollapse, onBack, onShowMap 
               <VoteButtons post={post} onVote={(value) => void toggleVote(post, value)} />
             </dd>
           </div>
+          {detail.sourceUrl && (
+            <div>
+              <dt>Источник</dt>
+              <dd>
+                <a className="post-source-link" href={detail.sourceUrl} target="_blank" rel="noreferrer">
+                  {detail.sourceUrl}
+                </a>
+              </dd>
+            </div>
+          )}
         </dl>
         {detail.comment && <p className="author-comment">{detail.comment}</p>}
         {detail.screenshots && detail.screenshots.length > 0 && (

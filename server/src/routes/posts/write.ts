@@ -21,11 +21,11 @@ import {
   uploadedFiles,
   uploadScreenshots,
 } from "../../lib/upload.js";
-import { canEditPost, requireAuth, type AuthedRequest } from "../../middleware/auth.js";
+import { canEditPost, requireAuth, requireVerified, type AuthedRequest } from "../../middleware/auth.js";
 
 export const writeRouter = Router();
 
-writeRouter.post("/", requireAuth, ...uploadScreenshots, async (req: AuthedRequest, res) => {
+writeRouter.post("/", requireAuth, requireVerified, ...uploadScreenshots, async (req: AuthedRequest, res) => {
   const parsed = postBody.safeParse(req.body);
   if (!parsed.success) {
     removeUploaded(uploadedFiles(req));

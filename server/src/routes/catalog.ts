@@ -20,7 +20,7 @@ catalogRouter.get("/sync", requireAuth, async (req: AuthedRequest, res) => {
 catalogRouter.get("/activity", requireAuth, async (req: AuthedRequest, res) => {
   const userId = req.user!.id;
   const since = parseActivitySince(req.query.since);
-  const [posts, comments] = await Promise.all([
+  const [posts, comments, verifications] = await Promise.all([
     prisma.post.findMany({
       where: { deletedAt: null, createdAt: { gt: since }, userId: { not: userId } },
       orderBy: { createdAt: "desc" },
@@ -58,6 +58,21 @@ catalogRouter.get("/activity", requireAuth, async (req: AuthedRequest, res) => {
         },
       },
     }),
+    prisma.verificationRequest.findMany({
+      where: {
+        userId,
+        status: { in: ["approved", "rejected"] },
+        resolvedAt: { gt: since },
+      },
+      orderBy: { resolvedAt: "desc" },
+      take: ACTIVITY_TAKE,
+      select: {
+        id: true,
+        status: true,
+        adminNote: true,
+        resolvedAt: true,
+      },
+    }),
   ]);
   res.setHeader("Cache-Control", "no-store");
   res.json({
@@ -78,6 +93,12 @@ catalogRouter.get("/activity", requireAuth, async (req: AuthedRequest, res) => {
       favorited: Boolean(c.post.favorites.length),
       fishName: c.post.fish.name,
       waterbodyName: c.post.waterbody.name,
+    })),
+    verifications: verifications.reverse().map((v) => ({
+      id: v.id,
+      status: v.status,
+      adminNote: v.adminNote,
+      resolvedAt: iso(v.resolvedAt),
     })),
   });
 });

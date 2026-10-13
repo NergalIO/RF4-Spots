@@ -1,6 +1,6 @@
 import type { StoreApi } from "zustand";
 import type { ActivityFeed } from "./settings";
-import { loadNotifySettings, notifyChannelsOn, notifyEventsOn, planNotifications } from "./settings";
+import { loadNotifySettings, notifyChannelsOn, planNotifications } from "./settings";
 import { playNotifySound } from "./sound";
 import { showNotifyItem } from "./show";
 import { appIsFocused } from "@/shared/platform";
@@ -20,7 +20,12 @@ function remember(keys: string[]) {
 }
 
 function advanceSince(feed: ActivityFeed) {
-  const times = [sinceIso, ...feed.posts.map((p) => p.createdAt), ...feed.comments.map((c) => c.createdAt)];
+  const times = [
+    sinceIso,
+    ...feed.posts.map((p) => p.createdAt),
+    ...feed.comments.map((c) => c.createdAt),
+    ...(feed.verifications ?? []).map((v) => v.resolvedAt),
+  ];
   times.sort();
   sinceIso = times[times.length - 1] || new Date().toISOString();
 }
@@ -30,7 +35,7 @@ export async function processActivity(store: StoreApi<Store>) {
   if (!user) return;
   if (!sinceIso) resetNotifyCursor();
   const settings = loadNotifySettings(user.id);
-  if (!notifyChannelsOn(settings) || !notifyEventsOn(settings)) {
+  if (!notifyChannelsOn(settings)) {
     sinceIso = new Date().toISOString();
     return;
   }

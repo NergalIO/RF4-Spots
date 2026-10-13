@@ -15,6 +15,7 @@ export const usersRouter = Router();
 const userPatch = z.object({
   role: z.enum(["player", "admin"]).optional(),
   disabled: z.boolean().optional(),
+  verified: z.boolean().optional(),
 });
 
 async function enabledAdminCount(exceptId?: string) {
@@ -52,6 +53,7 @@ usersRouter.get("/", async (_req, res) => {
       id: true,
       nickname: true,
       role: true,
+      verifiedAt: true,
       createdAt: true,
       disabledAt: true,
       lastSeenAt: true,
@@ -104,6 +106,7 @@ usersRouter.patch("/:id", async (req: AuthedRequest, res) => {
   const data: {
     role?: "player" | "admin";
     disabledAt?: Date | null;
+    verifiedAt?: Date | null;
     tokenVersion?: { increment: number };
   } = {};
   if (parsed.data.role) data.role = parsed.data.role;
@@ -112,6 +115,8 @@ usersRouter.patch("/:id", async (req: AuthedRequest, res) => {
     data.tokenVersion = { increment: 1 };
   }
   if (parsed.data.disabled === false) data.disabledAt = null;
+  if (parsed.data.verified === true) data.verifiedAt = target.verifiedAt ?? new Date();
+  if (parsed.data.verified === false) data.verifiedAt = null;
   const updated = await prisma.user.update({ where: { id }, data });
   invalidateUser(id);
   clearAdminStatsCache();

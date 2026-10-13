@@ -42,8 +42,18 @@ export function verifyToken(token: string): TokenPayload {
   };
 }
 
-export function publicUser(user: { id: string; nickname: string; role: Role }) {
-  return { id: user.id, nickname: user.nickname, role: user.role };
+export function publicUser(user: {
+  id: string;
+  nickname: string;
+  role: Role;
+  verifiedAt?: Date | null;
+}) {
+  return {
+    id: user.id,
+    nickname: user.nickname,
+    role: user.role,
+    verified: Boolean(user.verifiedAt) || user.role === "admin",
+  };
 }
 
 export function tokenFor(user: { id: string; nickname: string; role: Role; tokenVersion: number }) {

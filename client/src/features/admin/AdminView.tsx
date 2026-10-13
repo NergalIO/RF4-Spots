@@ -5,10 +5,11 @@ import { useDismissible } from "@/shared/useDismissible";
 import { AdminUsers } from "./AdminUsers";
 import { AdminInvites } from "./AdminInvites";
 import { AdminReports } from "./AdminReports";
+import { AdminVerificationRequests } from "./AdminVerificationRequests";
 import { useAdminData } from "./useAdminData";
-import { createInvite, deleteUser, patchUser, reopenReport, resolveReport } from "./adminMutations";
+import { createInvite, deleteUser, patchUser, reopenReport, resolveReport, reviewVerification } from "./adminMutations";
 import { AdminUserContextMenu, type UserMenu } from "./AdminUserContextMenu";
-import type { AdminUser } from "@/types";
+import type { AdminUser, Invite } from "@/types";
 
 async function copyText(value: string) {
   try {
@@ -29,6 +30,8 @@ export function AdminView({ onOpenPost }: Props) {
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState("");
   const [menu, setMenu] = useState<UserMenu | null>(null);
+  const [inviteDetail, setInviteDetail] = useState<Invite | null>(null);
+  const [inviteDetailLoading, setInviteDetailLoading] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const closeMenu = useCallback(() => setMenu(null), []);
   useDismissible(Boolean(menu), closeMenu, menuRef);
@@ -57,6 +60,19 @@ export function AdminView({ onOpenPost }: Props) {
     window.setTimeout(() => setCopied((cur) => (cur === code ? "" : cur)), 1600);
   }
 
+  async function openInvite(id: string) {
+    setInviteDetailLoading(true);
+    setInviteDetail(null);
+    try {
+      const { invite } = await api.admin.invite(id);
+      setInviteDetail(invite);
+    } catch (err) {
+      data.setError(err instanceof Error ? err.message : "Ошибка");
+    } finally {
+      setInviteDetailLoading(false);
+    }
+  }
+
   return (
     <div className="tools-host">
       <nav className="tools-nav" aria-label="Админка">
@@ -66,8 +82,15 @@ export function AdminView({ onOpenPost }: Props) {
         <button type="button" className={data.tab === "users" ? "on" : ""} onClick={() => data.setTab("users")}>
           Игроки
         </button>
-        <button type="button" className={data.tab === "invites" ? "on" : ""} onClick={() => data.setTab("invites")}>
-          Приглашения
+        <button
+          type="button"
+          className={data.tab === "invites" ? "on" : ""}
+          onClick={() => {
+            data.setTab("invites");
+            setInviteDetail(null);
+          }}
+        >
+          Коды подтверждения
         </button>
         <button type="button" className={data.tab === "reports" ? "on" : ""} onClick={() => data.setTab("reports")}>
           Жалобы{data.openReports.length ? ` (${data.openReports.length})` : ""}
@@ -85,19 +108,61 @@ export function AdminView({ onOpenPost }: Props) {
           />
         )}
         {data.tab === "users" && (
-          <AdminUsers users={data.users} meId={me?.id} busy={busy} menuUserId={menu?.user.id} onOpenMenu={openMenu} />
+          <>
+            <div className="admin-subnav" role="tablist" aria-label="Игроки">
+              <button
+                type="button"
+                className={data.usersSub === "list" ? "on" : ""}
+                onClick={() => data.setUsersSub("list")}
+              >
+                Список
+              </button>
+              <button
+                type="button"
+                className={data.usersSub === "verification" ? "on" : ""}
+                onClick={() => data.setUsersSub("verification")}
+              >
+                Запросы на подтверждение профиля
+                {data.verificationRequests.length ? ` (${data.verificationRequests.length})` : ""}
+              </button>
+            </div>
+            {data.usersSub === "list" ? (
+              <AdminUsers
+                users={data.users}
+                meId={me?.id}
+                busy={busy}
+                menuUserId={menu?.user.id}
+                onOpenMenu={openMenu}
+              />
+            ) : (
+              <AdminVerificationRequests
+                requests={data.verificationRequests}
+                busy={busy}
+                onReview={(id, status, adminNote) =>
+                  void run(async () => {
+                    await reviewVerification(api, id, status, adminNote);
+                    await data.reload();
+                  })
+                }
+              />
+            )}
+          </>
         )}
         {data.tab === "invites" && (
           <AdminInvites
             invites={data.invites}
             busy={busy}
             copied={copied}
-            onCreate={(e: FormEvent) =>
+            detail={inviteDetail}
+            detailLoading={inviteDetailLoading}
+            onCreate={(e: FormEvent, opts) =>
               void run(async () => {
-                const invite = await createInvite(api, e);
+                const invite = await createInvite(api, e, opts);
                 data.setInvites((prev) => [invite, ...prev]);
               })
             }
+            onOpen={(id) => void openInvite(id)}
+            onCloseDetail={() => setInviteDetail(null)}
             onCopy={(code) => void copyCode(code)}
           />
         )}
@@ -107,8 +172,18 @@ export function AdminView({ onOpenPost }: Props) {
             onStatus={(id) => data.setReportStatus(id)}
             reports={data.reports}
             busy={busy}
-            onResolve={(id, hide) => void run(async () => { await resolveReport(api, id, hide); await data.reload(); })}
-            onReopen={(id) => void run(async () => { await reopenReport(api, id); await data.reload(); })}
+            onResolve={(id, hide) =>
+              void run(async () => {
+                await resolveReport(api, id, hide);
+                await data.reload();
+              })
+            }
+            onReopen={(id) =>
+              void run(async () => {
+                await reopenReport(api, id);
+                await data.reload();
+              })
+            }
             onOpenPost={onOpenPost}
           />
         )}
@@ -118,7 +193,7 @@ export function AdminView({ onOpenPost }: Props) {
           menu={menu}
           menuRef={menuRef}
           busy={busy}
-          onPatch={(id, body) =>
+          onPatch={(id, body: { role?: "player" | "admin"; disabled?: boolean; verified?: boolean }) =>
             void run(async () => {
               setMenu(null);
               await patchUser(api, id, body);

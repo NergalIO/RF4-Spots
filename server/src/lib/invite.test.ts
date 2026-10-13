@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { generateInviteCode, inviteIsUsable, normalizeInviteCode } from "./invite.js";
+import { generateInviteCode, inviteIsUsable, inviteStatus, normalizeInviteCode } from "./invite.js";
 
 describe("invite", () => {
   it("normalizes code", () => {
@@ -13,9 +13,11 @@ describe("invite", () => {
     expect(a).not.toBe(b);
   });
 
-  it("rejects used or expired invites", () => {
-    expect(inviteIsUsable({ usedAt: new Date(), expiresAt: null })).toBe(false);
-    expect(inviteIsUsable({ usedAt: null, expiresAt: new Date(Date.now() - 1000) })).toBe(false);
-    expect(inviteIsUsable({ usedAt: null, expiresAt: null })).toBe(true);
+  it("rejects exhausted or expired invites", () => {
+    expect(inviteIsUsable({ usesCount: 1, maxUses: 1, expiresAt: null })).toBe(false);
+    expect(inviteIsUsable({ usesCount: 0, maxUses: 1, expiresAt: new Date(Date.now() - 1000) })).toBe(false);
+    expect(inviteIsUsable({ usesCount: 0, maxUses: 3, expiresAt: null })).toBe(true);
+    expect(inviteStatus({ usesCount: 3, maxUses: 3, expiresAt: null })).toBe("exhausted");
+    expect(inviteStatus({ usesCount: 0, maxUses: 1, expiresAt: new Date(Date.now() - 1) })).toBe("expired");
   });
 });

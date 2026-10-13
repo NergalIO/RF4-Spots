@@ -14,11 +14,21 @@ export function AdminUserContextMenu({
   menu: UserMenu;
   menuRef: RefObject<HTMLDivElement>;
   busy: boolean;
-  onPatch: (id: string, body: { role?: "player" | "admin"; disabled?: boolean }) => void;
+  onPatch: (id: string, body: { role?: "player" | "admin"; disabled?: boolean; verified?: boolean }) => void;
   onDelete: (id: string, nickname: string) => void;
 }) {
   return createPortal(
     <div ref={menuRef} className="user-menu-list admin-ctx" role="menu" style={{ top: menu.top, left: menu.left }}>
+      {!menu.user.verified && (
+        <button
+          type="button"
+          role="menuitem"
+          disabled={busy}
+          onClick={() => onPatch(menu.user.id, { verified: true })}
+        >
+          Подтвердить профиль
+        </button>
+      )}
       {menu.user.role !== "admin" && (
         <button type="button" role="menuitem" disabled={busy} onClick={() => onPatch(menu.user.id, { role: "admin" })}>
           Сделать админом

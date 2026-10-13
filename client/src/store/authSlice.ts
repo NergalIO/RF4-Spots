@@ -7,7 +7,7 @@ import type { Store } from "./types";
 
 export type AuthSlice = Pick<
   Store,
-  "ready" | "api" | "user" | "error" | "boot" | "login" | "register" | "logout" | "setToken" | "setError"
+  "ready" | "api" | "user" | "error" | "boot" | "login" | "register" | "logout" | "setToken" | "setUser" | "setError"
 >;
 
 export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get) => ({
@@ -49,9 +49,9 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get
     await loadCatalogAndPosts();
   },
 
-  register: async (nickname, password, serverUrl, invite) => {
+  register: async (nickname, password, serverUrl) => {
     const api = new Api(resolveServerUrl(serverUrl), "");
-    const { token, user } = await api.auth.register(nickname, password, invite);
+    const { token, user } = await api.auth.register(nickname, password);
     const authed = new Api(api.baseUrl, token);
     await saveSession({ serverUrl: api.baseUrl, token });
     set({ api: authed, user, error: "" });
@@ -64,6 +64,8 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (set, get
     await saveSession({ serverUrl: api.baseUrl, token });
     set({ api: authed, user });
   },
+
+  setUser: (user) => set({ user }),
 
   logout: async () => {
     const { api } = get();

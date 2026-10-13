@@ -1,3 +1,57 @@
+.admin-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.admin-subnav button {
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.admin-subnav button.on {
+  color: var(--gold);
+  border-color: var(--gold-2);
+}
+.invite-create {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: end;
+}
+.invite-create label {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.invite-create input {
+  font: inherit;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: inherit;
+}
+.invite-detail { display: grid; gap: 6px; }
+.clickable-row { cursor: pointer; }
+.clickable-row:hover td { background: var(--surface-hover); }
+.admin-note-input {
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: inherit;
+  min-width: 100px;
+  margin-right: 6px;
+}
 .admin-panel {
   flex: 1;
   min-height: 0;

@@ -17,7 +17,7 @@ function post(partial: Partial<Post> & Pick<Post, "id" | "createdAt">): Post {
     catchDate: partial.createdAt,
     comment: "",
     tags: [],
-    author: { id: "u1", nickname: "A", role: "player" },
+    author: { id: "u1", nickname: "A", role: "player", verified: true },
     fish: { id: "f", name: "Щука" },
     waterbody: { id: "w", name: "Озеро" },
     commentsCount: 0,

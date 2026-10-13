@@ -21,7 +21,8 @@ export type Store = {
   flyToId: string | null;
   boot: () => Promise<void>;
   login: (nickname: string, password: string, serverUrl: string) => Promise<void>;
-  register: (nickname: string, password: string, serverUrl: string, invite?: string) => Promise<void>;
+  register: (nickname: string, password: string, serverUrl: string) => Promise<void>;
+  setUser: (user: Store["user"]) => void;
   logout: () => Promise<void>;
   setToken: (token: string, user: User) => Promise<void>;
   setWaterbody: (id: string, opts?: { keepPostId?: string }) => Promise<void>;

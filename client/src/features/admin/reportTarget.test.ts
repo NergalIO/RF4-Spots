@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { reportCaption, reportPostId } from "./reportTarget";
 import type { ModerationReport } from "@/types";
 
-const user = { id: "u1", nickname: "n", role: "player" as const };
+const user = { id: "u1", nickname: "n", role: "player" as const, verified: true };
 
 function base(patch: Partial<ModerationReport> = {}): ModerationReport {
   return {

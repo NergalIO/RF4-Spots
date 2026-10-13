@@ -9,8 +9,14 @@ export type AuthedRequest = Request & {
     role: "player" | "admin";
     tokenVersion: number;
     feedSeededAt: Date | null;
+    verifiedAt: Date | null;
   };
 };
+
+export function userIsVerified(user: AuthedRequest["user"]): boolean {
+  if (!user) return false;
+  return user.role === "admin" || Boolean(user.verifiedAt);
+}
 
 export async function requireAuth(req: AuthedRequest, res: Response, next: NextFunction) {
   const header = req.headers.authorization;
@@ -40,6 +46,7 @@ export async function requireAuth(req: AuthedRequest, res: Response, next: NextF
       role: user.role,
       tokenVersion: user.tokenVersion,
       feedSeededAt: user.feedSeededAt,
+      verifiedAt: user.verifiedAt,
     };
     next();
   } catch {
@@ -50,6 +57,14 @@ export async function requireAuth(req: AuthedRequest, res: Response, next: NextF
 export function requireAdmin(req: AuthedRequest, res: Response, next: NextFunction) {
   if (req.user?.role !== "admin") {
     res.status(403).json({ error: "Только для администратора" });
+    return;
+  }
+  next();
+}
+
+export function requireVerified(req: AuthedRequest, res: Response, next: NextFunction) {
+  if (!userIsVerified(req.user)) {
+    res.status(403).json({ error: "Нужно подтвердить профиль" });
     return;
   }
   next();

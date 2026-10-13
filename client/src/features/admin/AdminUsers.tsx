@@ -1,5 +1,6 @@
 import type { AdminUser } from "../../types";
 import { fmtDateTime, fmtWhen } from "../../shared/format";
+import { VerifiedBadge } from "@/features/auth/VerifiedBadge";
 
 type Props = {
   users: AdminUser[];
@@ -13,7 +14,7 @@ export function AdminUsers({ users, meId, busy, menuUserId, onOpenMenu }: Props)
   return (
     <section className="admin-panel">
       <div className="earn-head">
-        <h3>Игроки</h3>
+        <h3>Список игроков</h3>
         {users.length > 0 && <p className="muted">{users.length}</p>}
       </div>
       <div className="wear-scroll">
@@ -21,6 +22,7 @@ export function AdminUsers({ users, meId, busy, menuUserId, onOpenMenu }: Props)
           <thead>
             <tr>
               <th>Ник</th>
+              <th>Профиль</th>
               <th>Роль</th>
               <th>Статус</th>
               <th>Активность</th>
@@ -30,7 +32,7 @@ export function AdminUsers({ users, meId, busy, menuUserId, onOpenMenu }: Props)
           <tbody>
             {users.length === 0 && (
               <tr>
-                <td className="empty" colSpan={5}>
+                <td className="empty" colSpan={6}>
                   Игроков пока нет
                 </td>
               </tr>
@@ -50,12 +52,17 @@ export function AdminUsers({ users, meId, busy, menuUserId, onOpenMenu }: Props)
                   {u.id === meId && <span className="muted"> · вы</span>}
                 </td>
                 <td>
+                  <VerifiedBadge verified={u.verified} />
+                </td>
+                <td>
                   <span className={`status-pill ${u.role === "admin" ? "admin" : ""}`}>
                     {u.role === "admin" ? "админ" : "игрок"}
                   </span>
                 </td>
                 <td>
-                  <span className={`status-pill ${u.disabledAt ? "off" : "on"}`}>{u.disabledAt ? "отключён" : "включён"}</span>
+                  <span className={`status-pill ${u.disabledAt ? "off" : "on"}`}>
+                    {u.disabledAt ? "отключён" : "включён"}
+                  </span>
                 </td>
                 <td>
                   {u.online && !u.disabledAt ? (

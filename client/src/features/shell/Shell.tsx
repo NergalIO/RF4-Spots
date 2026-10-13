@@ -5,6 +5,7 @@ import { SiteEmbed } from "./SiteEmbed";
 import { ToolsView } from "../tools/ToolsView";
 import { AdminView } from "../admin/AdminView";
 import { PasswordModal } from "../auth/PasswordModal";
+import { VerificationDialog } from "../auth/VerificationDialog";
 import { useStore } from "@/store";
 import { useIsMobile } from "@/shared/platform";
 import { useResizablePanels } from "@/shared/useResizablePanels";
@@ -18,6 +19,7 @@ import { MAIN_TABS, TAB_ITEMS, type MainTab } from "./shellTabs";
 import { ShellTopbar } from "./ShellTopbar";
 
 const TAB_KEY = "rf4spots-main-tab";
+const VERIFY_PROMPT_KEY = "rf4spots-verify-prompted";
 
 export function Shell() {
   const user = useStore((s) => s.user);
@@ -33,6 +35,8 @@ export function Shell() {
   );
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [verifyOpen, setVerifyOpen] = useState(false);
+  const [verifyMode, setVerifyMode] = useState<"form" | "requests">("form");
   const [changelogOpen, setChangelogOpen] = useState(false);
   const [changelogAll, setChangelogAll] = useState(false);
   const [changelogEntries, setChangelogEntries] = useState<ChangelogEntry[]>([]);
@@ -101,8 +105,18 @@ export function Shell() {
     };
   }, [api.baseUrl]);
 
+  useEffect(() => {
+    if (!user || user.verified) return;
+    const key = `${VERIFY_PROMPT_KEY}:${user.id}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    setVerifyMode("form");
+    setVerifyOpen(true);
+  }, [user]);
+
   useBackGuard(passwordOpen, () => setPasswordOpen(false));
   useBackGuard(changelogOpen, closeChangelog);
+  useBackGuard(verifyOpen, () => setVerifyOpen(false));
 
   return (
     <div className="app-shell">
@@ -124,6 +138,14 @@ export function Shell() {
         onChangelog={() => {
           setChangelogAll(true);
           setChangelogOpen(true);
+        }}
+        onVerify={() => {
+          setVerifyMode("form");
+          setVerifyOpen(true);
+        }}
+        onMyRequests={() => {
+          setVerifyMode("requests");
+          setVerifyOpen(true);
         }}
         onLogout={() => void logout()}
       />
@@ -163,6 +185,7 @@ export function Shell() {
         </nav>
       )}
       {passwordOpen && <PasswordModal onClose={() => setPasswordOpen(false)} />}
+      <VerificationDialog open={verifyOpen} initialMode={verifyMode} onClose={() => setVerifyOpen(false)} />
       {changelogOpen && (
         <ChangelogModal
           title={changelogAll ? "История обновлений" : "Что нового"}

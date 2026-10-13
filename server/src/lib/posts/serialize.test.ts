@@ -5,7 +5,13 @@ vi.mock("../s3.js", () => ({
   s3SignedTtlSec: () => 3600,
 }));
 
-import { excerptComment, mapDetailPost, mapListPost, stripImportedSource } from "./serialize.js";
+import {
+  excerptComment,
+  extractImportedSourceUrl,
+  mapDetailPost,
+  mapListPost,
+  stripImportedSource,
+} from "./serialize.js";
 
 describe("stripImportedSource", () => {
   it("drops the trailing VK source line and keeps inner breaks", () => {
@@ -14,6 +20,16 @@ describe("stripImportedSource", () => {
 
   it("leaves a normal comment untouched", () => {
     expect(stripImportedSource("клипса 20\nтемпература нормальная")).toBe("клипса 20\nтемпература нормальная");
+  });
+});
+
+describe("extractImportedSourceUrl", () => {
+  it("reads the trailing VK source URL", () => {
+    expect(extractImportedSourceUrl("текст\n\nИсточник: https://vk.com/wall-1_2")).toBe("https://vk.com/wall-1_2");
+  });
+
+  it("returns null when there is no source line", () => {
+    expect(extractImportedSourceUrl("просто комментарий")).toBeNull();
   });
 });
 
@@ -75,5 +91,14 @@ describe("mapListPost", () => {
     expect(mapped.screenshots).toEqual([{ id: "s1", url: "https://s3.example/shots/a.jpg?sig=1" }]);
     expect(mapped.comment).toBe("полный текст");
     expect(mapped.unreadComments).toBe(0);
+    expect(mapped.sourceUrl).toBeNull();
+  });
+
+  it("exposes sourceUrl from comment or stored field", async () => {
+    const fromComment = await mapDetailPost(row, "клёв\n\nИсточник: https://vk.com/wall-9_9");
+    expect(fromComment.sourceUrl).toBe("https://vk.com/wall-9_9");
+    expect(fromComment.comment).toBe("клёв");
+    const fromField = await mapDetailPost({ ...row, sourceUrl: "https://vk.com/wall-1_1" }, "клёв");
+    expect(fromField.sourceUrl).toBe("https://vk.com/wall-1_1");
   });
 });

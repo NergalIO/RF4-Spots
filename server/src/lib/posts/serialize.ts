@@ -1,8 +1,13 @@
 import type { CatchType, PostVoteValue } from "@prisma/client";
 import { iso, mapShotUrls } from "../serialize.js";
 
-const VK_SOURCE_TAIL = /(?:\r?\n)+Источник:\s*https?:\/\/\S+\s*$/;
+const VK_SOURCE_TAIL = /(?:\r?\n)+Источник:\s*(https?:\/\/\S+)\s*$/;
 export const LIST_COMMENT_EXCERPT = 240;
+
+export function extractImportedSourceUrl(comment: string): string | null {
+  const m = comment.match(VK_SOURCE_TAIL);
+  return m?.[1] ?? null;
+}
 
 export function stripImportedSource(comment: string) {
   return comment.replace(VK_SOURCE_TAIL, "").replace(/[ \t]+$/g, "").replace(/\n+$/, "");
@@ -23,6 +28,7 @@ type MappedPostInput = {
   catchDate: Date;
   commentExcerpt: string;
   tags?: string[];
+  sourceUrl?: string | null;
   createdAt: Date;
   commentsCount: number;
   lastCommentAt: Date | null;
@@ -41,7 +47,7 @@ export type UnreadFlags = {
   unseen: boolean;
 };
 
-function mapBase(post: MappedPostInput, comment: string, unread: UnreadFlags) {
+function mapBase(post: MappedPostInput, comment: string, unread: UnreadFlags, sourceUrl?: string | null) {
   return {
     id: post.id,
     coordX: post.coordX,
@@ -51,6 +57,7 @@ function mapBase(post: MappedPostInput, comment: string, unread: UnreadFlags) {
     createdAt: iso(post.createdAt),
     comment,
     tags: post.tags ?? [],
+    sourceUrl: sourceUrl ?? post.sourceUrl ?? null,
     author: post.user,
     fish: post.fish,
     waterbody: post.waterbody,
@@ -74,8 +81,9 @@ export async function mapDetailPost(
   fullComment: string,
   unread: UnreadFlags = { unreadComments: 0, unseen: false },
 ) {
+  const sourceUrl = post.sourceUrl ?? extractImportedSourceUrl(fullComment);
   return {
-    ...mapBase(post, stripImportedSource(fullComment), unread),
+    ...mapBase(post, stripImportedSource(fullComment), unread, sourceUrl),
     screenshots: await mapShotUrls(post.screenshots ?? []),
   };
 }
@@ -87,8 +95,9 @@ export function mapDetailPostSync(
   screenshots: { id: string; url: string }[],
   unread: UnreadFlags = { unreadComments: 0, unseen: false },
 ) {
+  const sourceUrl = post.sourceUrl ?? extractImportedSourceUrl(fullComment);
   return {
-    ...mapBase(post, stripImportedSource(fullComment), unread),
+    ...mapBase(post, stripImportedSource(fullComment), unread, sourceUrl),
     screenshots,
   };
 }

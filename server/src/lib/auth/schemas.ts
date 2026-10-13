@@ -15,7 +15,19 @@ export const loginBody = z.object({
 export const registerBody = z.object({
   nickname,
   password: z.string().min(8, "Пароль от 8 символов").max(72),
-  invite: z.string().trim().max(32).optional().default(""),
+});
+
+export const verifyCodeBody = z.object({
+  code: z.string().trim().min(1, "Введите код").max(32),
+});
+
+export const verificationRequestBody = z.object({
+  message: z.string().trim().max(500).optional().default(""),
+});
+
+export const verificationReviewBody = z.object({
+  status: z.enum(["approved", "rejected"]),
+  adminNote: z.string().trim().max(500).optional().default(""),
 });
 
 export const passwordBody = z.object({

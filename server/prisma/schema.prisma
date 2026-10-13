@@ -29,11 +29,18 @@ enum PostVoteValue {
   dislike
 }
 
+enum VerificationRequestStatus {
+  pending
+  approved
+  rejected
+}
+
 model User {
   id            String    @id @default(cuid())
   nickname      String    @unique
   passwordHash  String
   role          Role      @default(player)
+  verifiedAt    DateTime?
   disabledAt    DateTime?
   lastSeenAt    DateTime?
   feedSeededAt  DateTime?
@@ -47,7 +54,9 @@ model User {
   reports       Report[]           @relation("Reporter")
   resolvedReports Report[]         @relation("ReportResolver")
   invitesCreated Invite[]          @relation("InviteCreator")
-  inviteUsed    Invite?            @relation("InviteUsedBy")
+  inviteRedemptions InviteRedemption[]
+  verificationRequests VerificationRequest[] @relation("VerificationRequester")
+  verificationReviews  VerificationRequest[] @relation("VerificationReviewer")
   deletedPosts  Post[]             @relation("PostDeletedBy")
   deletedComments Comment[]        @relation("CommentDeletedBy")
 }
@@ -57,11 +66,40 @@ model Invite {
   code        String    @unique
   createdById String
   createdBy   User      @relation("InviteCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  maxUses     Int       @default(1)
+  usesCount   Int       @default(0)
   usedAt      DateTime?
-  usedById    String?   @unique
-  usedBy      User?     @relation("InviteUsedBy", fields: [usedById], references: [id], onDelete: SetNull)
   expiresAt   DateTime?
   createdAt   DateTime  @default(now())
+  redemptions InviteRedemption[]
+}
+
+model InviteRedemption {
+  id        String   @id @default(cuid())
+  inviteId  String
+  invite    Invite   @relation(fields: [inviteId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([inviteId, userId])
+  @@index([userId])
+}
+
+model VerificationRequest {
+  id           String                     @id @default(cuid())
+  userId       String
+  user         User                       @relation("VerificationRequester", fields: [userId], references: [id], onDelete: Cascade)
+  status       VerificationRequestStatus  @default(pending)
+  message      String                     @default("")
+  adminNote    String                     @default("")
+  reviewedById String?
+  reviewedBy   User?                      @relation("VerificationReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  createdAt    DateTime                   @default(now())
+  resolvedAt   DateTime?
+
+  @@index([userId, status])
+  @@index([status, createdAt])
 }
 
 model Favorite {
@@ -154,6 +192,8 @@ model Post {
   bait           String        @default("")
   tags           String[]      @default([])
   sourceKey      String?       @unique
+  /// External link for bot/imported posts (e.g. VK wall URL).
+  sourceUrl      String?
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   deletedAt      DateTime?

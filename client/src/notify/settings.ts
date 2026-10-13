@@ -18,9 +18,17 @@ export type ActivityComment = {
   waterbodyName: string;
 };
 
+export type ActivityVerification = {
+  id: string;
+  status: "approved" | "rejected";
+  adminNote: string;
+  resolvedAt: string;
+};
+
 export type ActivityFeed = {
   posts: ActivityPost[];
   comments: ActivityComment[];
+  verifications?: ActivityVerification[];
 };
 
 export type NotifySettings = {
@@ -152,7 +160,7 @@ export function planNotifications(
   settings: NotifySettings,
   opts: { selectedId: string | null; focused: boolean; seenKeys: Set<string> },
 ): NotifyItem[] {
-  if (!notifyChannelsOn(settings) || !notifyEventsOn(settings)) return [];
+  if (!notifyChannelsOn(settings)) return [];
   if (opts.focused && !settings.whenFocused) return [];
 
   const items: NotifyItem[] = [];
@@ -169,6 +177,16 @@ export function planNotifications(
     const key = `c:${c.id}`;
     if (opts.seenKeys.has(key)) continue;
     items.push({ key, postId: c.postId, title: commentTitle(c), body: commentBody(c) });
+  }
+  for (const v of feed.verifications ?? []) {
+    const key = `v:${v.id}`;
+    if (opts.seenKeys.has(key)) continue;
+    items.push({
+      key,
+      postId: "",
+      title: v.status === "approved" ? "Профиль подтверждён" : "Запрос на подтверждение отклонён",
+      body: v.adminNote || (v.status === "approved" ? "Можно публиковать посты" : "См. детали в меню профиля"),
+    });
   }
 
   if (items.length <= MAX_TOASTS) return items;

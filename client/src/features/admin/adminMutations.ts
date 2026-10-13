@@ -2,7 +2,11 @@ import type { FormEvent } from "react";
 import type { Api } from "@/api";
 import type { Invite } from "@/types";
 
-export async function patchUser(api: Api, id: string, body: { role?: "player" | "admin"; disabled?: boolean }) {
+export async function patchUser(
+  api: Api,
+  id: string,
+  body: { role?: "player" | "admin"; disabled?: boolean; verified?: boolean },
+) {
   await api.admin.patchUser(id, body);
 }
 
@@ -12,9 +16,16 @@ export async function deleteUser(api: Api, id: string, nickname: string) {
   return true;
 }
 
-export async function createInvite(api: Api, e: FormEvent) {
+export async function createInvite(
+  api: Api,
+  e: FormEvent,
+  opts: { expiresAt?: string; maxUses: number },
+) {
   e.preventDefault();
-  const { invite } = await api.admin.createInvite();
+  const { invite } = await api.admin.createInvite({
+    expiresAt: opts.expiresAt,
+    maxUses: opts.maxUses,
+  });
   return invite as Invite;
 }
 
@@ -24,4 +35,13 @@ export async function resolveReport(api: Api, id: string, hide: boolean) {
 
 export async function reopenReport(api: Api, id: string) {
   await api.admin.patchReport(id, { status: "open" });
+}
+
+export async function reviewVerification(
+  api: Api,
+  id: string,
+  status: "approved" | "rejected",
+  adminNote: string,
+) {
+  await api.admin.patchVerificationRequest(id, { status, adminNote });
 }

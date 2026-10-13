@@ -9,13 +9,15 @@ import { allowRegister } from "../lib/security.js";
 import { requireAuth, type AuthedRequest } from "../middleware/auth.js";
 import { rememberUser, invalidateUser } from "../lib/authCache.js";
 import { zodError } from "../lib/httpErrors.js";
+import { verificationRouter } from "./auth/verification.js";
 
 export const authRouter = Router();
 
 authRouter.get("/config", (_req, res) => {
-  const open = allowRegister();
-  res.json({ allowRegister: open, invites: !open });
+  res.json({ allowRegister: allowRegister() });
 });
+
+authRouter.use(verificationRouter);
 
 authRouter.post("/register", registerLimiter, async (req, res) => {
   await registerUser(req.body, res);

@@ -1,10 +1,10 @@
-import type { AdminStats, AdminUser, Invite, ModerationReport } from "../types";
+import type { AdminStats, AdminUser, Invite, ModerationReport, VerificationRequest } from "../types";
 import type { Http } from "./http";
 
 export function adminApi(http: Http) {
   return {
     users: () => http.req<{ users: AdminUser[] }>("/admin/users"),
-    patchUser: (id: string, body: { role?: "player" | "admin"; disabled?: boolean }) =>
+    patchUser: (id: string, body: { role?: "player" | "admin"; disabled?: boolean; verified?: boolean }) =>
       http.req<{ user: AdminUser }>(`/admin/users/${id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
@@ -12,10 +12,20 @@ export function adminApi(http: Http) {
     deleteUser: (id: string) => http.req<{ ok: boolean }>(`/admin/users/${id}`, { method: "DELETE" }),
     stats: () => http.req<{ stats: AdminStats }>("/admin/stats"),
     invites: () => http.req<{ invites: Invite[] }>("/admin/invites"),
-    createInvite: (expiresAt?: string) =>
+    invite: (id: string) => http.req<{ invite: Invite }>(`/admin/invites/${id}`),
+    createInvite: (body?: { expiresAt?: string; maxUses?: number }) =>
       http.req<{ invite: Invite }>("/admin/invites", {
         method: "POST",
-        body: JSON.stringify(expiresAt ? { expiresAt } : {}),
+        body: JSON.stringify(body ?? {}),
+      }),
+    verificationRequests: (status = "pending") =>
+      http.req<{ requests: VerificationRequest[] }>(
+        `/admin/verification-requests?status=${encodeURIComponent(status)}`,
+      ),
+    patchVerificationRequest: (id: string, body: { status: "approved" | "rejected"; adminNote?: string }) =>
+      http.req<{ request: VerificationRequest }>(`/admin/verification-requests/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(body),
       }),
     reports: (status = "open") =>
       http.req<{ reports: ModerationReport[] }>(`/admin/reports?status=${encodeURIComponent(status)}`),
