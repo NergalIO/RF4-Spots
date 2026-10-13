@@ -110,17 +110,6 @@ export function SpotCard({
         </span>
         {post.comment && <p className="excerpt">{post.comment}</p>}
       </button>
-      {post.sourceUrl && (
-        <a
-          className="spot-card-source"
-          href={post.sourceUrl}
-          target="_blank"
-          rel="noreferrer"
-          onClick={(e) => e.stopPropagation()}
-        >
-          Источник
-        </a>
-      )}
       <div className="spot-card-nickrow">
         <button type="button" className="nick" onClick={onCardClick} onDoubleClick={(e) => onCardDblClick(e.shiftKey)}>
           {post.author.nickname}
